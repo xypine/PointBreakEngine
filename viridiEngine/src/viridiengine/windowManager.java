@@ -27,6 +27,9 @@ public class windowManager extends JFrame implements Runnable, ActionListener {
     Renderer lM = new Renderer();
     JTextArea area;
     
+    //Input:
+    Input input;
+    
     //GAMEOBJECTS:
     Player go = new Player();
     
@@ -39,6 +42,7 @@ public class windowManager extends JFrame implements Runnable, ActionListener {
     public void run() {
         timer.setRepeats(true);
         timer.start();
+        input = new Input();
         int yd = 25;
         int xd = 43;
         this.setTitle("Viridi Engine");
@@ -79,8 +83,8 @@ public class windowManager extends JFrame implements Runnable, ActionListener {
     @Override
     public void actionPerformed(ActionEvent e) {
         this.number = Integer.parseInt(Integer.toString(tickC).substring(0, 1));
-        System.out.print("another [" + this.number + "] tick passed! (");
-        System.out.println(tickC + ")");
+//        System.out.print("another [" + this.number + "] tick passed! (");
+//        System.out.println(tickC + ")");
         
         //Do updates
         tick();
