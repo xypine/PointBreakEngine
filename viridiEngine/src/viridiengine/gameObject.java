@@ -16,4 +16,6 @@ public class gameObject {
     
     private int y;
     private int x;
+    
+    
 }

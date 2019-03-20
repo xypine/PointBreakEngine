@@ -16,25 +16,30 @@ public class logicManager {
     private int a;
     private int b;
     private String[][] space;
+    private int y;
+    private int x;
+    
     
     public void init(int y, int x){
+        this.y = y;
+        this.x = x;
         this.space = new String[y][x];
         this.a = (space.length);
         this.b = (space[0].length);
-        fill(y, x, "-", this.space);
+        fill("-");
     }
     
     public String[][] gets(){return(this.space);}
     
-    void fill(int y, int x, String goal, String[][] s){
+    void fill(String goal){
         String[][] tmp;
-        tmp = s;
-        for(int c = 0; c < y; c++){
-            for(int u = 0; u < x; u++){
-                s[c][u] = goal;
+        tmp = this.space;
+        for(int c = 0; c < this.y; c++){
+            for(int u = 0; u < this.x; u++){
+                this.space[c][u] = goal;
             }
         }
-        this.space = tmp;
+//        this.space = tmp;
     }
     
     
