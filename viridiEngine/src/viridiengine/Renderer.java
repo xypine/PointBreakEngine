@@ -12,7 +12,7 @@ import java.util.Arrays;
  *
  * @author Jonnelafin
  */
-public class logicManager {
+public class Renderer {
     private int a;
     private int b;
     private String[][] space;
@@ -26,7 +26,7 @@ public class logicManager {
         this.space = new String[y][x];
         this.a = (space.length);
         this.b = (space[0].length);
-        fill("-");
+        fill(" . ");
     }
     
     public String[][] gets(){return(this.space);}
@@ -41,6 +41,11 @@ public class logicManager {
         }
 //        this.space = tmp;
     }
+    void change(int locy,int locx,String to){
+        this.space[locy][locx] = to;
+    }
+    public int sizey(){return(this.y);}
+    public int sizex(){return(this.x);}
     
     
     

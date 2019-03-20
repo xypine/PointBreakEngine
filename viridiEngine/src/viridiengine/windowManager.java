@@ -24,20 +24,28 @@ public class windowManager extends JFrame implements Runnable, ActionListener {
     int number;
     String screen;
     String[][] tmp;
-    logicManager lM = new logicManager();
+    Renderer lM = new Renderer();
     JTextArea area;
+    
+    //GAMEOBJECTS:
+    Player go = new Player();
+    
+    //VARIABLES FOR TICK:
+    int tx;
+    int ty;
+    String ta;
 //    
     @Override
     public void run() {
         timer.setRepeats(true);
         timer.start();
-        int yd = 800;
-        int xd = 800;
+        int yd = 25;
+        int xd = 40;
         this.setTitle("Viridi Engine");
-        this.setSize(yd, xd);
+        this.getContentPane().setSize(yd * 100, xd* 100);
         this.setDefaultCloseOperation(EXIT_ON_CLOSE);
         
-        lM.init(yd * 10 / 175, xd * 100 / 421);
+        lM.init(yd, xd);
         tmp = lM.gets();
         
         screen = "";
@@ -61,6 +69,10 @@ public class windowManager extends JFrame implements Runnable, ActionListener {
         this.add(area);
         
         this.setVisible(true);
+        
+        //SUMMON TEST
+        
+        go.summon(0, 0, "test", "-");
     }
     
 
@@ -77,11 +89,24 @@ public class windowManager extends JFrame implements Runnable, ActionListener {
         tickC++;
     }
     void tick(){
-        lM.fill(Integer.toString(number));
+        //UPDATE ARRAY
+        lM.change(ty, tx, " . ");
+        this.tx = go.getX();
+        this.ty = go.getY();
+        String ta = go.gAppereance();
+        go.update(lM);
+        
+        lM.change(ty, tx, ta);
+        //RENDER
+//        lM.fill(Integer.toString(number));
+        
         area.setText(fetch(lM));
     }
-    String fetch(logicManager logic){
-        tmp = logic.gets();
+    String fetch(Renderer render){
+        
+        
+        //RENDER
+        tmp = render.gets();
         
         screen = "";
         
