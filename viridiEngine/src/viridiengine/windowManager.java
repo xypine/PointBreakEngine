@@ -6,6 +6,7 @@
 
 package viridiengine;
 
+import java.awt.Color;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.Arrays;
@@ -18,11 +19,14 @@ import javax.swing.Timer;
  * @author Jonnelafin
  */
 public class windowManager extends JFrame implements Runnable, ActionListener {
-    Timer ajastin = new Timer(100, this);
-    ajastin.setRepeats(true);
-    ajastin.start();
+    Timer timer = new Timer(60, this);
+    int tickC = 0;
+    
+//    
     @Override
     public void run() {
+        timer.setRepeats(true);
+        timer.start();
         int yd = 800;
         int xd = 800;
         this.setTitle("Viridi Engine");
@@ -48,14 +52,30 @@ public class windowManager extends JFrame implements Runnable, ActionListener {
         
         JTextArea area = new JTextArea(screen);
         area.setEditable(false);
+        area.setForeground(Color.white);
+        area.setBackground(Color.black);
         this.add(area);
         
         this.setVisible(true);
     }
+    
 
     @Override
     public void actionPerformed(ActionEvent e) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        int number = Integer.parseInt(Integer.toString(tickC).substring(0, 1));
+        System.out.print("another [" + number + "] tick passed! (");
+        System.out.println(tickC + ")");
+        
+        //Do updates
+        tick();
+        
+        
+        tickC++;
     }
-
+    void tick(){
+        
+        
+    }
+    
+    
 }
