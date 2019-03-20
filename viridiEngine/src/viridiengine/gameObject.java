@@ -13,19 +13,20 @@ package viridiengine;
 public class gameObject {
 //    Renderer re = new Renderer();
     
-    private int vely = 1;
-    private int velx = 1;
+    private float vely = 1;
+    private float velx = 3;
     
-    private int y = 0;
-    private int x = 0;
+    private float y = 0;
+    private float x = 0;
+    
     
     private String tag;
     private String appereance;
     
-    public int getY(){return(this.y);}
-    public int getX(){return(this.x);}
-    public int getVY(){return(this.vely);}
-    public int getVX(){return(this.velx);}
+    public float getY(){return(Math.round(this.y));}
+    public float getX(){return(Math.round(this.x));}
+    public float getVY(){return(this.vely);}
+    public float getVX(){return(this.velx);}
     
     public String gAppereance(){return(this.appereance);}
     
@@ -43,6 +44,15 @@ public class gameObject {
         }
         if(this.x > re.sizex() - 1){
             this.x = re.sizex() - 1;
+            this.velx = this.velx * -0.5F;
         }
+        if(this.y < 0){
+            this.y = 0;
+        }
+        if(this.x < 0){
+            this.x = 0;
+            this.velx = this.velx * -0.5F;
+        }
+        if(velx >= 0){velx = velx * 0.99F;}
     }
 }

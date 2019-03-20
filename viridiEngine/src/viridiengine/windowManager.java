@@ -40,7 +40,7 @@ public class windowManager extends JFrame implements Runnable, ActionListener {
         timer.setRepeats(true);
         timer.start();
         int yd = 25;
-        int xd = 40;
+        int xd = 43;
         this.setTitle("Viridi Engine");
         this.getContentPane().setSize(yd * 100, xd* 100);
         this.setDefaultCloseOperation(EXIT_ON_CLOSE);
@@ -72,7 +72,7 @@ public class windowManager extends JFrame implements Runnable, ActionListener {
         
         //SUMMON TEST
         
-        go.summon(0, 0, "test", "-");
+        go.summon(0, 0, "test", " - ");
     }
     
 
@@ -91,8 +91,8 @@ public class windowManager extends JFrame implements Runnable, ActionListener {
     void tick(){
         //UPDATE ARRAY
         lM.change(ty, tx, " . ");
-        this.tx = go.getX();
-        this.ty = go.getY();
+        this.tx = (int) go.getX();
+        this.ty = (int) go.getY();
         String ta = go.gAppereance();
         go.update(lM);
         

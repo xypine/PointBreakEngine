@@ -42,7 +42,12 @@ public class Renderer {
 //        this.space = tmp;
     }
     void change(int locy,int locx,String to){
-        this.space[locy][locx] = to;
+        try{
+            this.space[locy][locx] = to;
+        }
+        catch (Exception e){
+            System.out.println("Tried writing out of bounds: y(" + locy + "), x(" +locx + ")");
+        }
     }
     public int sizey(){return(this.y);}
     public int sizex(){return(this.x);}
