@@ -1,2 +1,3 @@
 # Viridi
-A text-graphics game engine,
+A text-graphics game engine, made in java.
+
