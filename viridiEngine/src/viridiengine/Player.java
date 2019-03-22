@@ -11,5 +11,10 @@ package viridiengine;
  * @author Jonnelafin
  */
 public class Player extends gameObject{
-    
+    public void checkInput(Input in){
+        System.out.println("VELX, VELY: " + velx + " , " + vely + "     " + "up, down, left, right: " + in.up() + " " + in.down() + " " + in.right() + " " + in.left());
+        this.vely = this.vely + (in.up() + in.down()) * 10.4F;
+        this.velx = in.right() + in.left();
+        
+    }
 }

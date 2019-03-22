@@ -13,8 +13,8 @@ package viridiengine;
 public class gameObject {
 //    Renderer re = new Renderer();
     
-    private float vely = 1;
-    private float velx = 3;
+    float vely = 0;
+    float velx = 0;
     
     private float y = 0;
     private float x = 0;
@@ -54,5 +54,7 @@ public class gameObject {
             this.velx = this.velx * -0.5F;
         }
         if(velx >= 0){velx = velx * 0.99F;}
+        if(vely > -10F){vely = vely * 1.2F;}
+        else{vely = -10.1F;}
     }
 }

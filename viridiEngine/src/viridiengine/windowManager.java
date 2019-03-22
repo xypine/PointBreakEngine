@@ -9,6 +9,9 @@ package viridiengine;
 import java.awt.Color;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
+import java.beans.EventHandler;
 import java.util.Arrays;
 import javax.swing.JFrame;
 import javax.swing.JTextArea;
@@ -28,7 +31,7 @@ public class windowManager extends JFrame implements Runnable, ActionListener {
     JTextArea area;
     
     //Input:
-    Input input;
+    Input input = new Input();
     
     //GAMEOBJECTS:
     Player go = new Player();
@@ -40,9 +43,11 @@ public class windowManager extends JFrame implements Runnable, ActionListener {
 //    
     @Override
     public void run() {
+        
+        
         timer.setRepeats(true);
         timer.start();
-        input = new Input();
+        
         int yd = 25;
         int xd = 43;
         this.setTitle("Viridi Engine");
@@ -71,7 +76,8 @@ public class windowManager extends JFrame implements Runnable, ActionListener {
         area.setForeground(Color.white);
         area.setBackground(Color.black);
         this.add(area);
-        
+        area.requestFocusInWindow();
+        area.addKeyListener(input);
         this.setVisible(true);
         
         //SUMMON TEST
@@ -95,6 +101,7 @@ public class windowManager extends JFrame implements Runnable, ActionListener {
     void tick(){
         //UPDATE ARRAY
         lM.change(ty, tx, " . ");
+        go.checkInput(input);
         this.tx = (int) go.getX();
         this.ty = (int) go.getY();
         String ta = go.gAppereance();
@@ -126,5 +133,7 @@ public class windowManager extends JFrame implements Runnable, ActionListener {
         }
         return(screen);
     }
+
+    
     
 }
