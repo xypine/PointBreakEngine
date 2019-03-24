@@ -12,8 +12,8 @@ package viridiengine;
  */
 public class Player extends gameObject{
     public void checkInput(Input in){
-        System.out.println("VELX, VELY: " + velx + " , " + vely + "     " + "up, down, left, right: " + in.up() + " " + in.down() + " " + in.right() + " " + in.left());
-        this.vely = this.vely + (in.up() + in.down()) * 10.4F;
+        System.out.println("VELX, VELY: " + velx + " , " + vely + "     " + "up, down, left, right: " + in.up() + " " + in.down() + " " + in.right() + " " + in.left() + "      " + "x, y, drag: " + this.getX() + " , " + this.getY());
+        this.vely = this.vely + (in.up() + in.down()) * 1.9F;
         this.velx = in.right() + in.left();
         
     }

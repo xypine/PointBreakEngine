@@ -16,6 +16,8 @@ public class gameObject {
     float vely = 0;
     float velx = 0;
     
+    private float drag = 0.1F;
+    
     private float y = 0;
     private float x = 0;
     
@@ -54,7 +56,7 @@ public class gameObject {
             this.velx = this.velx * -0.5F;
         }
         if(velx >= 0){velx = velx * 0.99F;}
-        if(vely > -10F){vely = vely * 1.2F;}
-        else{vely = -10.1F;}
+        if(vely > 3F){vely = 3.1F;}
+        else{vely = vely + 0.1F;}
     }
 }
