@@ -13,7 +13,7 @@ package viridiengine;
 public class Player extends gameObject{
     boolean canjump = true;
     public void checkInput(Input in){
-        System.out.println("VELX, VELY: " + velx + " , " + vely + "     " + "up, down, left, right: " + in.up() + " " + in.down() + " " + in.right() + " " + in.left() + "      " + "x, y, input: " + this.getX() + " , " + this.getY());
+        //System.out.println("VELX, VELY: " + velx + " , " + vely + "     " + "up, down, left, right: " + in.up() + " " + in.down() + " " + in.right() + " " + in.left() + "      " + "x, y, input: " + this.getX() + " , " + this.getY());
         
         if(this.vely < -0.5F)
         {
