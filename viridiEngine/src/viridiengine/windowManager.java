@@ -81,7 +81,7 @@ public class windowManager extends JFrame implements Runnable, ActionListener {
         this.requestFocusInWindow();
         this.addKeyListener(input);
         this.setVisible(true);
-        
+        getContentPane().setBackground( Color.black );
         //SUMMON TEST
         
         go.summon(0, 0, "test", " - ");
