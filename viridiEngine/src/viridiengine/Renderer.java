@@ -23,7 +23,7 @@ public class Renderer {
     public void init(int y, int x){
         this.y = y;
         this.x = x;
-        this.space = new String[y][x];
+        this.space = new String[x][y];
         this.a = (space.length);
         this.b = (space[0].length);
         fill(" . ");
@@ -34,23 +34,26 @@ public class Renderer {
     void fill(String goal){
         String[][] tmp;
         tmp = this.space;
-        for(int c = 0; c < this.y; c++){
-            for(int u = 0; u < this.x; u++){
+        for(int c = 0; c < this.x; c++){
+            for(int u = 0; u < this.y; u++){
                 this.space[c][u] = goal;
             }
         }
 //        this.space = tmp;
     }
+    void scan(int fx,int fy,int tx,int ty){
+        
+    }
     void change(int locy,int locx,String to){
         try{
-            this.space[locy][locx] = to;
+            this.space[locx][locy] = to;
         }
         catch (Exception e){
             System.out.println("Tried writing out of bounds: y(" + locy + "), x(" +locx + ")");
         }
     }
-    public int sizey(){return(this.y);}
-    public int sizex(){return(this.x);}
+    public int sizey(){return(this.x);}
+    public int sizex(){return(this.y);}
     
     
     

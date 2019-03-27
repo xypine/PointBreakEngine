@@ -18,8 +18,8 @@ public class gameObject {
     
     private float drag = 0.1F;
     
-    private float y = 0;
-    private float x = 0;
+    private float y = 1;
+    private float x = 1;
     
     
     private String tag;
@@ -59,4 +59,5 @@ public class gameObject {
         if(vely > 3F){vely = 3.1F;}
         else{vely = vely + 0.1F;}
     }
+    
 }

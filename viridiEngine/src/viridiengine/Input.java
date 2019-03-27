@@ -29,8 +29,8 @@ public class Input implements KeyListener {
     @Override
     public void keyPressed(KeyEvent e) {
         char ke = e.getKeyChar();
-        System.out.println(ke);
-        if(e.getKeyChar() == 'w'){
+//        System.out.print(ke);
+        if(ke == 'w'){
             up = 1;
         }
         if(ke == 's'){

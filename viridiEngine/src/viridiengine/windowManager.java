@@ -54,14 +54,14 @@ public class windowManager extends JFrame implements Runnable, ActionListener {
         this.getContentPane().setSize(yd * 100, xd* 100);
         this.setDefaultCloseOperation(EXIT_ON_CLOSE);
         
-        lM.init(yd, xd);
+        lM.init(xd, yd);
         tmp = lM.gets();
         
         screen = "";
         
-        for (String[] x : tmp)
+        for (String[] y : tmp)
         {  
-            for (String y : x)
+            for (String x : y)
             {
 //                System.out.print(y);
                 screen = screen + y;
@@ -100,14 +100,14 @@ public class windowManager extends JFrame implements Runnable, ActionListener {
     }
     void tick(){
         //UPDATE ARRAY
-        lM.change(ty, tx, " . ");
+        lM.change(tx, ty, " . ");
         go.checkInput(input);
         this.tx = (int) go.getX();
         this.ty = (int) go.getY();
         String ta = go.gAppereance();
         go.update(lM);
         
-        lM.change(ty, tx, ta);
+        lM.change(tx, ty, ta);
         //RENDER
 //        lM.fill(Integer.toString(number));
         
