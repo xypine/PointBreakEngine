@@ -21,7 +21,6 @@ public class colorParser {
         String tmp = "<font color=" + "rgb(" + r + ","+ g + "," + b + ")>" + content + "</font>";
 //        R = R + c.toString().toCharArray()[17] + c.toString().toCharArray()[18] + c.toString().toCharArray()[19];
 
-
         return(tmp);
     }
 }

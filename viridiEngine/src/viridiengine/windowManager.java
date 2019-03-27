@@ -51,7 +51,7 @@ public class windowManager extends JFrame implements Runnable, ActionListener {
         timer.start();
         
         int yd = 25;
-        int xd = 43;
+        int xd = 67;
         this.setTitle("Viridi Engine");
         this.setSize(500, 500);
         this.setDefaultCloseOperation(EXIT_ON_CLOSE);
@@ -102,7 +102,7 @@ public class windowManager extends JFrame implements Runnable, ActionListener {
     }
     void tick(){
         //UPDATE ARRAY
-        lM.change(tx, ty, " . ", Color.WHITE);
+        lM.change(tx, ty, "   ", Color.WHITE);
         go.checkInput(input);
         this.tx = (int) go.getX();
         this.ty = (int) go.getY();
