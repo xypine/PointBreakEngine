@@ -14,6 +14,7 @@ import java.awt.event.KeyListener;
 import java.beans.EventHandler;
 import java.util.Arrays;
 import javax.swing.JFrame;
+import javax.swing.JLabel;
 import javax.swing.JTextArea;
 import javax.swing.Timer;
 
@@ -22,13 +23,14 @@ import javax.swing.Timer;
  * @author Jonnelafin
  */
 public class windowManager extends JFrame implements Runnable, ActionListener {
+    colorParser cP = new colorParser();
     Timer timer = new Timer(60, this);
     int tickC = 0;
     int number;
     String screen;
     String[][] tmp;
     Renderer lM = new Renderer();
-    JTextArea area;
+    JLabel area;
     
     //Input:
     Input input = new Input();
@@ -51,7 +53,7 @@ public class windowManager extends JFrame implements Runnable, ActionListener {
         int yd = 25;
         int xd = 43;
         this.setTitle("Viridi Engine");
-        this.getContentPane().setSize(yd * 100, xd* 100);
+        this.setSize(500, 500);
         this.setDefaultCloseOperation(EXIT_ON_CLOSE);
         
         lM.init(xd, yd);
@@ -71,13 +73,13 @@ public class windowManager extends JFrame implements Runnable, ActionListener {
         }
         
         
-        area = new JTextArea(screen);
-        area.setEditable(false);
+        area = new JLabel(screen);
+//        area.setEditable(false);
         area.setForeground(Color.white);
         area.setBackground(Color.black);
         this.add(area);
-        area.requestFocusInWindow();
-        area.addKeyListener(input);
+        this.requestFocusInWindow();
+        this.addKeyListener(input);
         this.setVisible(true);
         
         //SUMMON TEST
@@ -100,37 +102,50 @@ public class windowManager extends JFrame implements Runnable, ActionListener {
     }
     void tick(){
         //UPDATE ARRAY
-        lM.change(tx, ty, " . ");
+        lM.change(tx, ty, " . ", Color.WHITE);
         go.checkInput(input);
         this.tx = (int) go.getX();
         this.ty = (int) go.getY();
         String ta = go.gAppereance();
         go.update(lM);
         
-        lM.change(tx, ty, ta);
+        lM.change(tx, ty, ta, Color.RED);
         //RENDER
 //        lM.fill(Integer.toString(number));
         
         area.setText(fetch(lM));
     }
     String fetch(Renderer render){
-        
+        int cx = 0;
+        int cy = 0;
         
         //RENDER
         tmp = render.gets();
+        Color[][] colors = render.getc();
         
-        screen = "";
+        screen = "<html>";
         
         for (String[] x : tmp)
         {  
+            screen = screen + "<p>";
             for (String y : x)
             {
 //                System.out.print(y);
-                screen = screen + y;
+                try{
+                    screen = screen + cP.parse(y, colors[cx][cy]);
+                }
+                catch(Exception e){
+                    System.out.println("error happened");
+                    }
             }
+                cy++;
+            }
+            screen = screen + "</p>";
 //            System.out.println();
-            screen = screen + "\n";
-        }
+            cx++;
+            
+        
+        screen = screen + "</html>";
         return(screen);
     }
 

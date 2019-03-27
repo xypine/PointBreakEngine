@@ -6,6 +6,7 @@
 
 package viridiengine;
 
+import java.awt.Color;
 import java.util.Arrays;
 
 /**
@@ -16,6 +17,7 @@ public class Renderer {
     private int a;
     private int b;
     private String[][] space;
+    private Color[][] colors;
     private int y;
     private int x;
     
@@ -24,12 +26,15 @@ public class Renderer {
         this.y = y;
         this.x = x;
         this.space = new String[x][y];
+        this.colors = new Color[x][y];
         this.a = (space.length);
         this.b = (space[0].length);
+        colorFill(Color.white);
         fill(" . ");
     }
     
     public String[][] gets(){return(this.space);}
+    public Color[][] getc(){return(this.colors);}
     
     void fill(String goal){
         String[][] tmp;
@@ -41,12 +46,22 @@ public class Renderer {
         }
 //        this.space = tmp;
     }
+    void colorFill(Color goal){
+        Color[][] tmp;
+        tmp = this.colors;
+        for(int c = 0; c < this.x; c++){
+            for(int u = 0; u < this.y; u++){
+                this.colors[c][u] = goal;
+            }
+        }
+    }
     void scan(int fx,int fy,int tx,int ty){
         
     }
-    void change(int locy,int locx,String to){
+    void change(int locy,int locx,String to, Color c){
         try{
             this.space[locx][locy] = to;
+            colors[locx][locy] = c;
         }
         catch (Exception e){
             System.out.println("Tried writing out of bounds: y(" + locy + "), x(" +locx + ")");

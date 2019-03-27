@@ -31,10 +31,10 @@ public class Input implements KeyListener {
         char ke = e.getKeyChar();
 //        System.out.print(ke);
         if(ke == 'w'){
-            up = 1;
+            up = -1;
         }
         if(ke == 's'){
-            down = -1;
+            down = 1;
         }
         if(ke == 'a'){
             left = -1;
