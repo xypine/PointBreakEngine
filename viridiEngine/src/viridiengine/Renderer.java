@@ -20,9 +20,10 @@ public class Renderer {
     private Color[][] colors;
     private int y;
     private int x;
-    
+    colorParser cP;
     
     public void init(int y, int x){
+        cP = new colorParser();
         this.y = y;
         this.x = x;
         this.space = new String[x][y];
@@ -30,7 +31,7 @@ public class Renderer {
         this.a = (space.length);
         this.b = (space[0].length);
         colorFill(Color.white);
-        fill("   ");
+        fill(" . ");
     }
     
     public String[][] gets(){return(this.space);}
@@ -60,11 +61,12 @@ public class Renderer {
     }
     void change(int locy,int locx,String to, Color c){
         try{
-            this.space[locx][locy] = to;
-            colors[locx][locy] = c;
+            this.space[locx][locy] = cP.parse(to,  c);
+            
+            this.colors[locx][locy] = c;
         }
         catch (Exception e){
-            System.out.println("Tried writing out of bounds: y(" + locy + "), x(" +locx + ")");
+            System.out.println("Tried writing out of bounds: y(" + locy + "), x(" + locx + ")");
         }
     }
     public int sizey(){return(this.x);}

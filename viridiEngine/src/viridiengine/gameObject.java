@@ -30,7 +30,7 @@ public class gameObject {
     public float getVY(){return(this.vely);}
     public float getVX(){return(this.velx);}
     
-    public String gAppereance(){return(this.appereance);}
+    public String gAppearance(){return(this.appereance);}
     
     public void summon(int ypos, int xpos, String tag, String ap){
         this.y = ypos;

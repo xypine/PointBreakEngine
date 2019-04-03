@@ -51,7 +51,7 @@ public class windowManager extends JFrame implements Runnable, ActionListener {
         timer.start();
         
         int yd = 25;
-        int xd = 67;
+        int xd = 46;
         this.setTitle("Viridi Engine");
         this.setSize(500, 500);
         this.setDefaultCloseOperation(EXIT_ON_CLOSE);
@@ -84,7 +84,7 @@ public class windowManager extends JFrame implements Runnable, ActionListener {
         getContentPane().setBackground( Color.black );
         //SUMMON TEST
         
-        go.summon(0, 0, "test", " - ");
+        go.summon(0, 0, "test", "-");
     }
     
 
@@ -102,20 +102,22 @@ public class windowManager extends JFrame implements Runnable, ActionListener {
     }
     void tick(){
         //UPDATE ARRAY
-        lM.change(tx, ty, "   ", Color.WHITE);
+        lM.change(tx, ty, " . ", Color.cyan);
         go.checkInput(input);
         this.tx = (int) go.getX();
         this.ty = (int) go.getY();
-        String ta = go.gAppereance();
+        String ta = go.gAppearance();
         go.update(lM);
         
+//        System.out.println("pelaaja: x:" + tx + " y:" + ty);
         lM.change(tx, ty, ta, Color.RED);
         //RENDER
 //        lM.fill(Integer.toString(number));
         
         area.setText(fetch(lM));
     }
-    String fetch(Renderer render){
+    String fetch(Renderer render)
+    {
         int cx = 0;
         int cy = 0;
         
@@ -125,27 +127,34 @@ public class windowManager extends JFrame implements Runnable, ActionListener {
         
         screen = "<html>";
         
-        for (String[] x : tmp)
+        for (String[] y : tmp)
         {  
+            
             screen = screen + "<p>";
-            for (String y : x)
+            for (String x : y)
             {
+                
 //                System.out.print(y);
-                try{
-                    screen = screen + cP.parse(y, colors[cx][cy]);
+                System.out.println(x);
+                try
+                {
+                    
+                    screen += x;
                 }
-                catch(Exception e){
-                    System.out.println("error happened");
-                    }
+                catch(Exception e)
+                {
+                    System.out.println("failed to fetch screen at: " + cx + " " + cy);
+                }
             }
-                cy++;
-            }
-            screen = screen + "</p>";
-//            System.out.println();
             cx++;
+        }
+        screen = screen + "</p>";
+//            System.out.println();
+        cy++;
             
         
         screen = screen + "</html>";
+//        System.out.println(colors);
         return(screen);
     }
 
