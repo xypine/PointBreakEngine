@@ -24,7 +24,7 @@ import javax.swing.Timer;
  */
 public class windowManager extends JFrame implements Runnable, ActionListener {
     colorParser cP = new colorParser();
-    Timer timer = new Timer(60, this);
+    Timer timer = new Timer(15, this);
     int tickC = 0;
     int number;
     String screen;
@@ -53,7 +53,7 @@ public class windowManager extends JFrame implements Runnable, ActionListener {
         int yd = 25;
         int xd = 46;
         this.setTitle("Viridi Engine");
-        this.setSize(500, 500);
+        this.setSize(750, 500);
         this.setDefaultCloseOperation(EXIT_ON_CLOSE);
         
         lM.init(xd, yd);
@@ -107,10 +107,11 @@ public class windowManager extends JFrame implements Runnable, ActionListener {
         this.tx = (int) go.getX();
         this.ty = (int) go.getY();
         String ta = go.gAppearance();
+        Color tc = go.getColor();
         go.update(lM);
         
 //        System.out.println("pelaaja: x:" + tx + " y:" + ty);
-        lM.change(tx, ty, ta, Color.RED);
+        lM.change(tx, ty, ta, tc);
         //RENDER
 //        lM.fill(Integer.toString(number));
         

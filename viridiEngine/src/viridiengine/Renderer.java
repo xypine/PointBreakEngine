@@ -31,18 +31,19 @@ public class Renderer {
         this.a = (space.length);
         this.b = (space[0].length);
         colorFill(Color.white);
-        fill("█");
+        fill("█", Color.WHITE);
     }
     
     public String[][] gets(){return(this.space);}
     public Color[][] getc(){return(this.colors);}
     
-    void fill(String goal){
+    void fill(String goal, Color gc){
         String[][] tmp;
         tmp = this.space;
         for(int c = 0; c < this.x; c++){
             for(int u = 0; u < this.y; u++){
-                this.space[c][u] = goal;
+                this.space[c][u] = cP.parse("█",  gc);
+                
             }
         }
 //        this.space = tmp;
@@ -67,6 +68,7 @@ public class Renderer {
         }
         catch (Exception e){
             System.out.println("Tried writing out of bounds: y(" + locy + "), x(" + locx + ")");
+            System.out.println(e);
         }
     }
     public int sizey(){return(this.x);}

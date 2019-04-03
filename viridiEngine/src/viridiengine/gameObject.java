@@ -6,6 +6,9 @@
 
 package viridiengine;
 
+import java.awt.Color;
+import static java.lang.Math.round;
+
 /**
  *
  * @author Jonnelafin
@@ -24,11 +27,21 @@ public class gameObject {
     
     private String tag;
     private String appereance;
+    private Color acolor = Color.RED;
     
     public float getY(){return(Math.round(this.y));}
     public float getX(){return(Math.round(this.x));}
     public float getVY(){return(this.vely);}
     public float getVX(){return(this.velx);}
+    public Color getColor(){return(this.acolor);}
+    public void setColor(Color cat){this.acolor = cat;}
+    
+    public float getDistance(int ty, int tx){
+        float ry = this.y - ty;
+        float rx = this.x - tx;
+        float finish = (ry + rx) * 0.5F;
+        return(finish);
+    }
     
     public String gAppearance(){return(this.appereance);}
     
@@ -43,6 +56,7 @@ public class gameObject {
         this.x = this.x + this.velx;
         if(this.y > re.sizey() - 1){
             this.y = re.sizey() - 1;
+            this.vely = this.vely * -0.55F;
         }
         if(this.x > re.sizex() - 1){
             this.x = re.sizex() - 1;
@@ -50,14 +64,16 @@ public class gameObject {
         }
         if(this.y < 0){
             this.y = 0;
+            this.vely = this.vely * -0.55F;
         }
         if(this.x < 0){
             this.x = 0;
             this.velx = this.velx * -0.5F;
         }
-        if(velx >= 0 && this.y == 24){velx = velx * 0.95F;}
+        if(velx != 0 && Math.round(this.y) > 23.7F){velx = velx * 0.65F;}
         if(vely > 3F){vely = 3.1F;}
         else{vely = vely + 0.1F;}
+        
     }
     
 }
