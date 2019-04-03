@@ -84,7 +84,7 @@ public class windowManager extends JFrame implements Runnable, ActionListener {
         getContentPane().setBackground( Color.black );
         //SUMMON TEST
         
-        go.summon(0, 0, "test", "-");
+        go.summon(0, 0, "test", "█");
     }
     
 
@@ -102,7 +102,7 @@ public class windowManager extends JFrame implements Runnable, ActionListener {
     }
     void tick(){
         //UPDATE ARRAY
-        lM.change(tx, ty, " . ", Color.cyan);
+        lM.change(tx, ty, "█", Color.WHITE);
         go.checkInput(input);
         this.tx = (int) go.getX();
         this.ty = (int) go.getY();
@@ -135,7 +135,6 @@ public class windowManager extends JFrame implements Runnable, ActionListener {
             {
                 
 //                System.out.print(y);
-                System.out.println(x);
                 try
                 {
                     

@@ -31,7 +31,7 @@ public class Renderer {
         this.a = (space.length);
         this.b = (space[0].length);
         colorFill(Color.white);
-        fill(" . ");
+        fill("█");
     }
     
     public String[][] gets(){return(this.space);}

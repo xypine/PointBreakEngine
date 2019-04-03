@@ -55,7 +55,7 @@ public class gameObject {
             this.x = 0;
             this.velx = this.velx * -0.5F;
         }
-        if(velx >= 0){velx = velx * 0.99F;}
+        if(velx >= 0 && this.y == 24){velx = velx * 0.95F;}
         if(vely > 3F){vely = 3.1F;}
         else{vely = vely + 0.1F;}
     }

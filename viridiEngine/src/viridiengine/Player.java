@@ -30,7 +30,7 @@ public class Player extends gameObject{
 //            canjump = false;
         }
         
-        this.velx = in.right() + in.left();
+        this.velx = this.velx + ((in.right() + in.left()) * 0.99F);
         
     }
 }
