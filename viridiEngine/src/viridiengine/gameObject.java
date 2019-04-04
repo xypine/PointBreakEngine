@@ -37,9 +37,9 @@ public class gameObject {
     public void setColor(Color cat){this.acolor = cat;}
     
     public float getDistance(int ty, int tx){
-        float ry = this.y - ty;
-        float rx = this.x - tx;
-        float finish = (ry + rx) * 0.5F;
+        float ry = pow(this.y - ty, 2.0);
+        float rx = pow(this.x - tx, 2.0);
+        float finish = sqr(rx + ry);
         return(finish);
     }
     
