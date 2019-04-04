@@ -7,7 +7,9 @@
 package viridiengine;
 
 import java.awt.Color;
+import static java.lang.Math.pow;
 import static java.lang.Math.round;
+import static java.lang.Math.sqrt;
 
 /**
  *
@@ -37,9 +39,9 @@ public class gameObject {
     public void setColor(Color cat){this.acolor = cat;}
     
     public float getDistance(int ty, int tx){
-        float ry = pow(this.y - ty, 2.0);
-        float rx = pow(this.x - tx, 2.0);
-        float finish = sqr(rx + ry);
+        float ry = (float) pow(this.y - ty, 2.0);
+        float rx = (float) pow(this.x - tx, 2.0);
+        float finish = (float) sqrt(rx + ry);
         return(finish);
     }
     
