@@ -4,7 +4,7 @@ A flexible game engine made in java, featuring text and vector graphics support.
 
 
 !!!!!
-This gameengine is not ready:
+This game-engine is not ready:
 A bug-free version is on the stable branch
 !!!!!
 
