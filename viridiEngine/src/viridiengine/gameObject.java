@@ -75,7 +75,7 @@ public class gameObject {
         if(velx != 0 && Math.round(this.y) > 23.7F){velx = velx * 0.65F;}
         if(vely > 3F){vely = 3.1F;}
         else{vely = vely + 0.1F;}
-        
+        System.out.println(this.getDistance(0, 0));
     }
     
 }
