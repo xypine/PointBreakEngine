@@ -18,9 +18,9 @@ public class objectManager {
     
     gameObject tmpg;
     Player tmpp;
-    public void addObject(int x, int y, String tag, String skin){
+    public void addObject(int x, int y, String tag, String skin, float mass){
         tmpg = new gameObject();
-        tmpg.summon(y,x,tag,skin);
+        tmpg.summon(y,x,tag,skin, mass);
         objects.add(tmpg);
         
     }
@@ -29,9 +29,9 @@ public class objectManager {
     }
      
     
-    public void addPlayer(int x, int y, String tag, String skin){
+    public void addPlayer(int x, int y, String tag, String skin, float mass){
         tmpp = new Player();
-        tmpp.summon(y,x,tag,skin);
+        tmpp.summon(y,x,tag,skin, mass);
         players.add(tmpp);
         
     }
@@ -57,5 +57,8 @@ public class objectManager {
         }
         System.out.println("No gameobject with tag: " + tagToGet);
         return(999999);
+    }
+    public ArrayList<Player> getPlayers(){
+        return(this.players);
     }
 }

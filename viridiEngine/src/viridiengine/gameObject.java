@@ -17,10 +17,13 @@ import static java.lang.Math.sqrt;
  */
 public class gameObject {
 //    Renderer re = new Renderer();
+    objectManager oM = new objectManager();
+    
+    float mass = 1F;
+    
     float vely = 0;
     float velx = 0;
     
-    private float drag = 0.1F;
     
     private float y = 1;
     private float x = 1;
@@ -48,15 +51,16 @@ public class gameObject {
     
     public String gAppearance(){return(this.appereance);}
     
-    public void summon(int ypos, int xpos, String tag, String ap){
+    public void summon(int ypos, int xpos, String tag, String ap, float mas){
+        this.mass = mas;
         this.y = ypos;
         this.x = xpos;
         this.tag = tag;
         this.appereance = ap;
     }
     public void update(Renderer re){
-        this.y = this.y + this.vely;
-        this.x = this.x + this.velx;
+        this.y = this.y + this.vely / mass;
+        this.x = this.x + this.velx / mass;
         if(this.y > re.sizey() - 1){
             this.y = re.sizey() - 1;
             this.vely = this.vely * -0.55F;
@@ -73,6 +77,7 @@ public class gameObject {
             this.x = 0;
             this.velx = this.velx * -0.5F;
         }
+        
         if(velx != 0 && Math.round(this.y) > 23.7F){velx = velx * 0.65F;}
         if(vely > 3F){vely = 3.1F;}
         else{vely = vely + 0.1F;}

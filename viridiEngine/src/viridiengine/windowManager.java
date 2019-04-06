@@ -7,11 +7,13 @@
 package viridiengine;
 
 import java.awt.Color;
+import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.beans.EventHandler;
+import java.util.ArrayList;
 import java.util.Arrays;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -36,8 +38,9 @@ public class windowManager extends JFrame implements Runnable, ActionListener {
     Input input = new Input();
     
     //GAMEOBJECTS:
-    Player go;
+//    Player p1;
     objectManager oM = new objectManager();
+    ArrayList<Player> players;
     //VARIABLES FOR TICK:
     int tx;
     int ty;
@@ -75,6 +78,7 @@ public class windowManager extends JFrame implements Runnable, ActionListener {
         
         area = new JLabel(screen);
 //        area.setEditable(false);
+        area.setFont(new Font("monospaced", Font.PLAIN, 12));
         area.setForeground(Color.white);
         area.setBackground(Color.black);
         this.add(area);
@@ -84,8 +88,11 @@ public class windowManager extends JFrame implements Runnable, ActionListener {
         getContentPane().setBackground( Color.black );
         //SUMMON TEST
         
-        oM.addPlayer(0, 0, "player1", "█");
-        go = oM.getPlayer("player1");
+        oM.addPlayer(0, 0, "player1", "█", 1F);
+//        p1 = oM.getPlayer("player1");
+        oM.addPlayer(0, 5, "player2", "█", 2F);
+        
+        oM.addPlayer(5, 5, "player3", "█", 0.1F);
     }
     
 
@@ -103,19 +110,24 @@ public class windowManager extends JFrame implements Runnable, ActionListener {
     }
     void tick(){
         //UPDATE ARRAY
-        lM.change(tx, ty, "█", Color.WHITE);
-        go.checkInput(input);
-        this.tx = (int) go.getX();
-        this.ty = (int) go.getY();
-        String ta = go.gAppearance();
-        Color tc = go.getColor();
-        go.update(lM);
+        players = oM.getPlayers();
+        lM.fill("█", Color.WHITE);
+        for(Player p : players){
+//            lM.change(tx, ty, "█", Color.WHITE);
+            
+            p.checkInput(input);
+            this.tx = (int) p.getX();
+            this.ty = (int) p.getY();
+            ta = p.gAppearance();
+            Color tc = p.getColor();
+            p.update(lM);
         
-//        System.out.println("pelaaja: x:" + tx + " y:" + ty);
-        lM.change(tx, ty, ta, tc);
-        //RENDER
-//        lM.fill(Integer.toString(number));
         
+//          System.out.println("pelaaja: x:" + tx + " y:" + ty);
+            lM.change(tx, ty, ta, tc);
+            //RENDER
+//            lM.fill(Integer.toString(number));
+        }
         area.setText(fetch(lM));
     }
     String fetch(Renderer render)

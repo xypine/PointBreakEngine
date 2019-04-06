@@ -32,7 +32,7 @@ public class Player extends gameObject{
 //            canjump = false;
         }
         
-        this.velx = this.velx + ((in.right() + in.left()) * 0.99F);
+        this.velx = this.velx + ((in.right() + in.left()) * 0.4F);
         float orange = ((this.getVX() + 1) * (this.getVY() + 1)) * 0.5F - 0.1F;
         if(orange < 0F){orange = 0F;}
         if(orange > 1F){orange = 0.9F;}
