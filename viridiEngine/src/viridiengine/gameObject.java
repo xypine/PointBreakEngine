@@ -17,7 +17,6 @@ import static java.lang.Math.sqrt;
  */
 public class gameObject {
 //    Renderer re = new Renderer();
-    
     float vely = 0;
     float velx = 0;
     
@@ -37,6 +36,8 @@ public class gameObject {
     public float getVX(){return(this.velx);}
     public Color getColor(){return(this.acolor);}
     public void setColor(Color cat){this.acolor = cat;}
+    
+    public String getTag(){return(this.tag);}
     
     public float getDistance(int ty, int tx){
         float ry = (float) pow(this.y - ty, 2.0);
@@ -75,7 +76,6 @@ public class gameObject {
         if(velx != 0 && Math.round(this.y) > 23.7F){velx = velx * 0.65F;}
         if(vely > 3F){vely = 3.1F;}
         else{vely = vely + 0.1F;}
-        System.out.println(this.getDistance(0, 0));
     }
     
 }

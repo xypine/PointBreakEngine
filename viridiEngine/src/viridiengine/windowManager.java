@@ -36,8 +36,8 @@ public class windowManager extends JFrame implements Runnable, ActionListener {
     Input input = new Input();
     
     //GAMEOBJECTS:
-    Player go = new Player();
-    
+    Player go;
+    objectManager oM = new objectManager();
     //VARIABLES FOR TICK:
     int tx;
     int ty;
@@ -84,7 +84,8 @@ public class windowManager extends JFrame implements Runnable, ActionListener {
         getContentPane().setBackground( Color.black );
         //SUMMON TEST
         
-        go.summon(0, 0, "test", "█");
+        oM.addPlayer(0, 0, "player1", "█");
+        go = oM.getPlayer("player1");
     }
     
 
