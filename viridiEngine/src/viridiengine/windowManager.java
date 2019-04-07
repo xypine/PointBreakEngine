@@ -15,6 +15,7 @@ import java.awt.event.KeyListener;
 import java.beans.EventHandler;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.LinkedList;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JTextArea;
@@ -40,11 +41,13 @@ public class windowManager extends JFrame implements Runnable, ActionListener {
     //GAMEOBJECTS:
 //    Player p1;
     objectManager oM = new objectManager();
-    ArrayList<Player> players;
+    LinkedList<gameObject> players;
     //VARIABLES FOR TICK:
     int tx;
     int ty;
     String ta;
+    private float txf;
+    private float tyf;
 //    
     @Override
     public void run() {
@@ -88,11 +91,12 @@ public class windowManager extends JFrame implements Runnable, ActionListener {
         getContentPane().setBackground( Color.black );
         //SUMMON TEST
         
-        oM.addPlayer(0, 0, "player1", "█", 1F);
+        oM.addObject(new Player(0, 0, "player1", "█", 1F, Color.black));
 //        p1 = oM.getPlayer("player1");
-        oM.addPlayer(0, 5, "player2", "█", 2F);
+        oM.addObject(new Player(5, 0, "player2", "█", 1F, Color.black));
         
-        oM.addPlayer(5, 5, "player3", "█", 0.1F);
+        oM.addObject(new Player(5, 5, "nuul", "█", 1F, Color.black));
+        
     }
     
 
@@ -109,25 +113,38 @@ public class windowManager extends JFrame implements Runnable, ActionListener {
         tickC++;
     }
     void tick(){
+        System.out.println(oM.getObjects().size());
         //UPDATE ARRAY
-        players = oM.getPlayers();
+        players = oM.getObjects();
         lM.fill("█", Color.WHITE);
-        for(Player p : players){
+        for(gameObject p : players){
 //            lM.change(tx, ty, "█", Color.WHITE);
             
             p.checkInput(input);
+            this.txf = p.getX();
+            this.tyf = p.getY();
             this.tx = (int) p.getX();
             this.ty = (int) p.getY();
             ta = p.gAppearance();
             Color tc = p.getColor();
             p.update(lM);
-        
+            if(p.getTag() == "player1"){
+                oM.addObject(new Player(tx, ty, "null", "█", 1F, Color.MAGENTA));
+            }
+            if(p.getTag() == "player2"){
+                oM.addObject(new Player(tx, ty, "null", "█", 1F, Color.CYAN));
+            }
+//            System.out.println((p.getVX() + 1F) * (p.getVY()+1F));
+            if(p.getTag() == "null" && p.hits > 7){
+                oM.removeObject(p);
+            }
         
 //          System.out.println("pelaaja: x:" + tx + " y:" + ty);
             lM.change(tx, ty, ta, tc);
             //RENDER
 //            lM.fill(Integer.toString(number));
         }
+        
         area.setText(fetch(lM));
     }
     String fetch(Renderer render)

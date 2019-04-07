@@ -6,51 +6,42 @@
 
 package viridiengine;
 
-import java.util.ArrayList;
+
+import java.util.LinkedList;
 
 /**
  *
  * @author Jonnelafin
  */
 public class objectManager {
-    ArrayList<gameObject> objects = new ArrayList<gameObject>();
-    ArrayList<Player> players = new ArrayList<Player>();
+    LinkedList<gameObject> object = new LinkedList<gameObject>();
+//    gameObject[] obs = new gameObject[];
+//    ArrayList<gameObject> objects = new ArrayList<gameObject>();
+//    ArrayList<Player> players = new ArrayList<Player>();
     
-    gameObject tmpg;
-    Player tmpp;
-    public void addObject(int x, int y, String tag, String skin, float mass){
-        tmpg = new gameObject();
-        tmpg.summon(y,x,tag,skin, mass);
-        objects.add(tmpg);
-        
+//    gameObject tmpg;
+//    Object tmpg;
+    objectContainer tmp;
+    int index = 0;
+    public void addObject(gameObject tmpO){
+        this.object.add(tmpO);
     }
-    public gameObject getObject(String tagToGet){
-        return(objects.get(findGameObject(tagToGet)));
+    
+    public void removeObject(gameObject object){
+        this.object.remove(object);
+    }
+    
+//    public String getTypebyTag(String tag){
+//        return(object.get(findGameObject(tag)));
+//    }
+    
+    public gameObject getObjectByTag(String tagToGet){
+        return(object.get(findGameObject(tagToGet)));
     }
      
-    
-    public void addPlayer(int x, int y, String tag, String skin, float mass){
-        tmpp = new Player();
-        tmpp.summon(y,x,tag,skin, mass);
-        players.add(tmpp);
-        
-    }
-    public Player getPlayer(String tagToGet){
-        return(players.get(findPlayer(tagToGet)));
-    }
-    public int findPlayer(String tagToGet){
-        for(int i = 0;i<players.size();i++){
-            Player tmp = players.get(i);
-            if(tmp.getTag() == tagToGet){
-                return(i);
-            }
-        }
-        System.out.println("No player with tag: " + tagToGet);
-        return(999999);
-    }
     public int findGameObject(String tagToGet){
-        for(int i = 0;i<objects.size();i++){
-            gameObject tmp = objects.get(i);
+        for(int i = 0;i<object.size();i++){
+            gameObject tmp = object.get(i);
             if(tmp.getTag() == tagToGet){
                 return(i);
             }
@@ -58,7 +49,15 @@ public class objectManager {
         System.out.println("No gameobject with tag: " + tagToGet);
         return(999999);
     }
-    public ArrayList<Player> getPlayers(){
-        return(this.players);
+    public LinkedList<gameObject> getObjects(){
+        LinkedList<gameObject> tmpob = new LinkedList<gameObject>();
+        for(int i = 0;i<object.size();i++){
+            gameObject tmp = object.get(i);
+            tmpob.add(tmp);
+        }
+        return(tmpob);
     }
+//  public ArrayList<Player> getPlayers(){
+//       return(this.players);
+//  }
 }

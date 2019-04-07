@@ -18,6 +18,8 @@ import java.awt.event.MouseListener;
 public class Input implements KeyListener, MouseListener {
     private int up = 0, down = 0;
     private int right = 0, left = 0;
+    private int up2 = 0, down2 = 0;
+    private int right2 = 0, left2 = 0;
     private int mx = 0, my = 0;
     @Override
     public void keyTyped(KeyEvent e) {
@@ -28,6 +30,11 @@ public class Input implements KeyListener, MouseListener {
     public int down(){return(this.down);}
     public int right(){return(this.right);}
     public int left(){return(this.left);}
+    
+    public int up2(){return(this.up2);}
+    public int down2(){return(this.down2);}
+    public int right2(){return(this.right2);}
+    public int left2(){return(this.left2);}
     
     public int MX(){return(this.mx);}
     public int MY(){return(this.my);}
@@ -41,7 +48,8 @@ public class Input implements KeyListener, MouseListener {
     @Override
     public void keyPressed(KeyEvent e) {
         char ke = e.getKeyChar();
-//        System.out.print(ke);
+        int kee = e.getKeyCode();
+//        System.out.println(kee);
         if(ke == 'w'){
             up = -1;
         }
@@ -54,12 +62,30 @@ public class Input implements KeyListener, MouseListener {
         if(ke == 'd'){
             right = 1;
         }
+        
+        if(kee == 37){
+        //arrow left "a"
+            left2 = 1;
+        }
+        if(kee == 38){
+        //arrow up "w"
+            up2 = -1;
+        }
+        if(kee == 39){
+        //arrow right "d"
+            right2 = -1;
+        }
+        if(kee == 40){
+        //arrow down "s"
+            down2 = 1;
+        }
             
     }
 
     @Override
     public void keyReleased(KeyEvent e) {
         char ke = e.getKeyChar();
+        int kee = e.getKeyCode();
         if(ke == 'w'){
             up = 0;
         }
@@ -71,6 +97,19 @@ public class Input implements KeyListener, MouseListener {
         }
         if(ke == 'd'){
             right = 0;
+        }
+        
+        if(kee == 37){
+            left2 = 0;
+        }
+        if(kee == 38){
+            up2 = 0;
+        }
+        if(kee == 39){
+            right2 = 0;
+        }
+        if(kee == 40){
+            down2 = 0;
         }
     }
 

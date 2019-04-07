@@ -5,8 +5,12 @@
         <group>
             <file>file:/C:/Users/Elias/Desktop/viridi/viridiEngine/src/viridiengine/main.java</file>
             <file>file:/C:/Users/Elias/Desktop/viridi/viridiEngine/src/viridiengine/gameObject.java</file>
+            <file>file:/C:/Users/Elias/Desktop/viridi/viridiEngine/src/viridiengine/objectManager.java</file>
+            <file>file:/C:/Users/Elias/Desktop/viridi/viridiEngine/src/viridiengine/colorParser.java</file>
+            <file>file:/C:/Users/Elias/Desktop/viridi/viridiEngine/src/viridiengine/Renderer.java</file>
             <file>file:/C:/Users/Elias/Desktop/viridi/viridiEngine/src/viridiengine/windowManager.java</file>
             <file>file:/C:/Users/Elias/Desktop/viridi/viridiEngine/src/viridiengine/Input.java</file>
+            <file>file:/C:/Users/Elias/Desktop/viridi/viridiEngine/src/viridiengine/space.java</file>
             <file>file:/C:/Users/Elias/Desktop/viridi/viridiEngine/src/viridiengine/Player.java</file>
         </group>
     </open-files>
