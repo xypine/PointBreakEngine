@@ -27,10 +27,10 @@ public class Renderer {
         this.y = y;
         this.x = x;
         this.space = new String[x][y];
-        this.colors = new Color[x][y];
+//        this.colors = new Color[x][y];
         this.a = (space.length);
         this.b = (space[0].length);
-        colorFill(Color.white);
+//        colorFill(Color.white);
         fill("█", Color.WHITE);
     }
     
@@ -64,7 +64,7 @@ public class Renderer {
         try{
             this.space[locx][locy] = cP.parse(to,  c);
             
-            this.colors[locx][locy] = c;
+            //this.colors[locx][locy] = c;
         }
         catch (Exception e){
             System.out.println("Tried writing out of bounds: y(" + locy + "), x(" + locx + ")");

@@ -15,8 +15,8 @@ import java.awt.Color;
 public class Player extends gameObject{
     boolean canjump = true;
 
-    public Player(int ypos, int xpos, String tag, String ap, float mas, Color cot) {
-        super(ypos, xpos, tag, ap, mas, cot);
+    public Player(int ypos, int xpos, String tag, String ap, float mas, Color cot, int ID) {
+        super(ypos, xpos, tag, ap, mas, cot, ID);
 //        this.summon(ypos, xpos, tag, ap, mas);
     }
     

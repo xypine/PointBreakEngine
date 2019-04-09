@@ -10,6 +10,7 @@ import java.awt.Color;
 import static java.lang.Math.pow;
 import static java.lang.Math.round;
 import static java.lang.Math.sqrt;
+import java.util.LinkedList;
 
 /**
  *
@@ -19,8 +20,8 @@ public class gameObject {
 //    Renderer re = new Renderer();
     objectManager oM = new objectManager();
     
-    public gameObject(int xpos, int ypos, String tag, String ap, float mas, Color cot){
-        this.summon(ypos, xpos, tag, ap, mas, cot);
+    public gameObject(int xpos, int ypos, String tag, String ap, float mas, Color cot, int ID){
+        this.summon(ypos, xpos, tag, ap, mas, cot, ID);
     }
     
     float mass = 1F;
@@ -33,14 +34,15 @@ public class gameObject {
     private float y = 1;
     private float x = 1;
     
+    private int id;
     
     private String tag;
     private String appereance;
     private Color acolor = Color.RED;
 
-    gameObject(int y, int x, String tag, String skin, float mass, String type) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
+//    gameObject(int y, int x, String tag, String skin, float mass, String type) {
+//        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+//    }
     
     public float getY(){return(Math.round(this.y));}
     public float getX(){return(Math.round(this.x));}
@@ -49,9 +51,10 @@ public class gameObject {
     public Color getColor(){return(this.acolor);}
     public void setColor(Color cat){this.acolor = cat;}
     
+    public int getID(){return(this.id);}
     public String getTag(){return(this.tag);}
     
-    public float getDistance(int ty, int tx){
+    public float getDistance(float ty, float tx){
         float ry = (float) pow(this.y - ty, 2.0);
         float rx = (float) pow(this.x - tx, 2.0);
         float finish = (float) sqrt(rx + ry);
@@ -60,17 +63,19 @@ public class gameObject {
     
     public String gAppearance(){return(this.appereance);}
     
-    public void summon(int ypos, int xpos, String tag, String ap, float mas, Color cat){
+    public void summon(int ypos, int xpos, String tag, String ap, float mas, Color cat, int ID){
         this.mass = mas;
         this.y = ypos;
         this.x = xpos;
         this.tag = tag;
         this.appereance = ap;
         this.acolor = cat;
+        this.id = ID;
     }
-    public void update(Renderer re){
-        this.y = this.y + this.vely;
-        this.x = this.x + this.velx;
+    public void update(Renderer re, objectManager oMb){
+        this.checkCollisions(oMb, this);
+        this.y = this.y + (this.vely);
+        this.x = this.x + (this.velx);
         if(this.y > re.sizey() - 1){
             this.y = re.sizey() - 1;
             this.vely = this.vely * -0.55F;
@@ -96,6 +101,35 @@ public class gameObject {
     }
     void checkInput(Input input) {
 //        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+    void checkCollisions(objectManager o, gameObject i){
+        LinkedList<gameObject> tmpoa = o.getObjects();
+//        for(gameObject i : tmpoa){
+            for(gameObject x : tmpoa){
+                if(i.getID() == x.getID()){
+                    
+                }
+                else{
+                    int x1 = round(i.getX());
+                    int y1 = round(i.getY());
+                    
+                    float x2 = x.getX();
+                    float y2 = x.getY();
+                    if(i.getDistance(y2, x2) < 1F){
+                        float ivx = i.velx * -0.55F;
+                        float ivy = i.vely * -0.55F;
+                        float xvx = x.velx * -0.55F;
+                        float xvy = x.vely * -0.55F;
+                        i.velx = ivx;
+                        i.vely = ivy;
+                        //x.velx = xvx;
+                        //x.vely = xvy;
+                    }
+//                    i.update(r);
+//                    x.update(r);
+                }
+                
+            }
     }
     
 }

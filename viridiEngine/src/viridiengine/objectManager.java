@@ -7,6 +7,7 @@
 package viridiengine;
 
 
+import static java.lang.Math.round;
 import java.util.LinkedList;
 
 /**
@@ -56,6 +57,37 @@ public class objectManager {
             tmpob.add(tmp);
         }
         return(tmpob);
+    }
+    
+    public void doPhysics(Renderer r, gameObject i){
+        LinkedList<gameObject> tmpoa = this.getObjects();
+//        for(gameObject i : tmpoa){
+            for(gameObject x : tmpoa){
+                if(i.getID() == x.getID()){
+                    
+                }
+                else{
+                    int x1 = round(i.getX());
+                    int y1 = round(i.getY());
+                    
+                    float x2 = x.getX();
+                    float y2 = x.getY();
+                    if(i.getDistance(y2, x2) < 1F){
+                        float ivx = i.velx * -0.55F;
+                        float ivy = i.vely * -0.55F;
+                        float xvx = x.velx * -0.55F;
+                        float xvy = x.vely * -0.55F;
+                        i.velx = ivx;
+                        i.vely = ivy;
+                        //x.velx = xvx;
+                        //x.vely = xvy;
+                    }
+//                    i.update(r);
+//                    x.update(r);
+                }
+                
+            }
+//        }
     }
 //  public ArrayList<Player> getPlayers(){
 //       return(this.players);
