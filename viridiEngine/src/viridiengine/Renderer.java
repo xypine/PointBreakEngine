@@ -31,18 +31,18 @@ public class Renderer {
         this.a = (space.length);
         this.b = (space[0].length);
 //        colorFill(Color.white);
-        fill("█", Color.WHITE);
+        fill("█", Color.WHITE, "null");
     }
     
     public String[][] gets(){return(this.space);}
     public Color[][] getc(){return(this.colors);}
     
-    void fill(String goal, Color gc){
+    void fill(String goal, Color gc, String style){
         String[][] tmp;
         tmp = this.space;
         for(int c = 0; c < this.x; c++){
             for(int u = 0; u < this.y; u++){
-                this.space[c][u] = cP.parse("█",  gc);
+                this.space[c][u] = cP.parse("█",  gc, style);
                 
             }
         }
@@ -60,9 +60,9 @@ public class Renderer {
     void scan(int fx,int fy,int tx,int ty){
         
     }
-    void change(int locy,int locx,String to, Color c){
+    void change(int locy,int locx,String to, Color c, String style){
         try{
-            this.space[locx][locy] = cP.parse(to,  c);
+            this.space[locx][locy] = cP.parse(to,  c, style);
             
             //this.colors[locx][locy] = c;
         }

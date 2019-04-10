@@ -89,7 +89,7 @@ public class windowManager extends JFrame implements Runnable, ActionListener {
         this.requestFocusInWindow();
         this.addKeyListener(input);
         this.setVisible(true);
-        getContentPane().setBackground( Color.black );
+        getContentPane().setBackground( Color.white );
         
         synchronized(lM) {
             lM.init(xd, yd);
@@ -120,7 +120,17 @@ public class windowManager extends JFrame implements Runnable, ActionListener {
         
         oM.addObject(new Player(0, 0, "player1", "█", 1F, Color.black, 1));
 //        p1 = oM.getPlayer("player1");
-        oM.addObject(new Player(5, 0, "player2", "█", 1F, Color.black, 2));
+//        oM.addObject(new Player(5, 0, "player2", "█", 1F, Color.black, 2));
+        oM.addObject(new gameObject(14, 15, "static", "█", 1F, Color.DARK_GRAY, 90));
+        oM.addObject(new gameObject(15, 15, "static", "█", 1F, Color.LIGHT_GRAY, 91));
+        oM.addObject(new gameObject(16, 15, "static", "T", 1F, Color.DARK_GRAY, 92));
+        oM.addObject(new gameObject(17, 15, "static", "E", 1F, Color.DARK_GRAY, 93));
+        oM.addObject(new gameObject(18, 15, "static", "S", 1F, Color.DARK_GRAY, 94));
+        oM.addObject(new gameObject(19, 15, "static", "T", 1F, Color.DARK_GRAY, 95));
+        oM.addObject(new gameObject(20, 15, "static", "I", 1F, Color.DARK_GRAY, 96));
+        oM.addObject(new gameObject(21, 15, "static", "█", 1F, Color.LIGHT_GRAY, 97));
+        oM.addObject(new gameObject(22, 15, "static", "█", 1F, Color.DARK_GRAY, 98));
+        
 //        for(int i : Range.between(1, 3);)
 //        oM.addObject(new Player(5, 5, "nuul", "█", 1F, Color.black));
         
@@ -166,7 +176,7 @@ public class windowManager extends JFrame implements Runnable, ActionListener {
 ;
         LinkedList<xyac> lis = new LinkedList<xyac>();
         players = oM.getObjects();
-        lM.fill("█", Color.BLACK);
+        lM.fill("█", Color.BLACK, "null");
         
 
 //        oM.doPhysics(lM);
@@ -206,7 +216,7 @@ public class windowManager extends JFrame implements Runnable, ActionListener {
         
         //Render
         for(xyac a : lis){
-            lM.change(a.x, a.y, a.a, a.c);
+            lM.change(a.x, a.y, a.a, a.c, "i");
         }
         
         area.setText(fetch(lM));

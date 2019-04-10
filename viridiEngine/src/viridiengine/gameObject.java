@@ -7,6 +7,7 @@
 package viridiengine;
 
 import java.awt.Color;
+import static java.lang.Math.ceil;
 import static java.lang.Math.pow;
 import static java.lang.Math.round;
 import static java.lang.Math.sqrt;
@@ -43,9 +44,9 @@ public class gameObject {
 //    gameObject(int y, int x, String tag, String skin, float mass, String type) {
 //        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
 //    }
-    
-    public float getY(){return(Math.round(this.y));}
-    public float getX(){return(Math.round(this.x));}
+    public boolean colliding = false;
+    public float getY(){return(this.y);}
+    public float getX(){return(this.x);}
     public float getVY(){return(this.vely);}
     public float getVX(){return(this.velx);}
     public Color getColor(){return(this.acolor);}
@@ -72,37 +73,46 @@ public class gameObject {
         this.acolor = cat;
         this.id = ID;
     }
-    public void update(Renderer re, objectManager oMb){
+    public void update(Renderer re, objectManager oMb){     
         this.checkCollisions(oMb, this);
-        this.y = this.y + (this.vely);
-        this.x = this.x + (this.velx);
-        if(this.y > re.sizey() - 1){
-            this.y = re.sizey() - 1;
-            this.vely = this.vely * -0.55F;
-            this.hits++;
-        }
-        if(this.x > re.sizex() - 1){
-            this.x = re.sizex() - 1;
-            this.velx = this.velx * -0.5F;
+        if(this.tag != "static"){
+//        System.out.println(colliding);    
+            this.y = this.y + (this.vely);
+            this.x = this.x + (this.velx);
+            if(this.y > re.sizey() - 1){
+                this.y = re.sizey() - 1;
+                this.vely = this.vely * -0.55F;
+                this.hits++;
+            }
+            if(this.x > re.sizex() - 1){
+                this.x = re.sizex() - 1;
+                this.velx = this.velx * -0.5F;
+            
+            }
+            if(this.y < 0){
+                this.y = 0;
+                this.vely = this.vely * -0.55F;
+            }
+            if(this.x < 0){
+                this.x = 0;
+                this.velx = this.velx * -0.5F;
+            }
+            if(colliding){velx = velx * 0.65F;}
+//            if(velx != 0 && Math.round(this.y) > 23.7F){velx = velx * 0.65F;}
+            if(!colliding){
+                
+                if(vely > 3F){vely = 3.1F;}
+                else{vely = vely + 0.1F;}
+            }
+            else{vely = 0F;}
             
         }
-        if(this.y < 0){
-            this.y = 0;
-            this.vely = this.vely * -0.55F;
-        }
-        if(this.x < 0){
-            this.x = 0;
-            this.velx = this.velx * -0.5F;
-        }
         
-        if(velx != 0 && Math.round(this.y) > 23.7F){velx = velx * 0.65F;}
-        if(vely > 3F){vely = 3.1F;}
-        else{vely = vely + 0.1F;}
     }
     void checkInput(Input input) {
 //        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
-    void checkCollisions(objectManager o, gameObject i){
+    public void checkCollisions(objectManager o, gameObject i){
         LinkedList<gameObject> tmpoa = o.getObjects();
 //        for(gameObject i : tmpoa){
             for(gameObject x : tmpoa){
@@ -115,16 +125,42 @@ public class gameObject {
                     
                     float x2 = x.getX();
                     float y2 = x.getY();
-                    if(i.getDistance(y2, x2) < 1F){
-                        float ivx = i.velx * -0.55F;
-                        float ivy = i.vely * -0.55F;
-                        float xvx = x.velx * -0.55F;
-                        float xvy = x.vely * -0.55F;
+                    if(x.tag != "static"){
+                        System.out.print(colliding + ", ");
+                        System.out.println("x2, y2:x1,y1 : " + x2 + ", " + y2 + ", "+ x1 + ", " + y1);
+                    }
+                    if(round(this.x) == round(x2) && round(this.y) == round(y2)){
+//                    if(i.getDistance(y2, x2) < 1.1F){
+                        colliding = true;
+                        float ivx = i.velx * -0.15F;
+                        float ivy = i.vely * -0.15F;
+                        float xvx = x.velx * -0.15F;
+                        float xvy = x.vely * -0.15F;
+                        i.x = i.x + i.velx * -1F;
+                        i.y = i.y + i.vely * -1F;
                         i.velx = ivx;
                         i.vely = ivy;
                         //x.velx = xvx;
                         //x.vely = xvy;
                     }
+//                    }
+                    else{
+                        if(ceil(this.x) == ceil(x2) && ceil(this.y) == ceil(y2)){
+                        colliding = true;
+                        float ivx = i.velx * -0.15F;
+                        float ivy = i.vely * -0.15F;
+                        float xvx = x.velx * -0.15F;
+                        float xvy = x.vely * -0.15F;
+                        i.x = i.x + i.velx * -1F;
+                        i.y = i.y + i.vely * -1F;
+                        //i.velx = ivx;
+                        i.vely = ivy;
+                        }
+                        else{
+                        colliding = false;
+                        }
+                    }
+                    
 //                    i.update(r);
 //                    x.update(r);
                 }
