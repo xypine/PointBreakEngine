@@ -31,7 +31,7 @@ public class Renderer {
         this.a = (space.length);
         this.b = (space[0].length);
 //        colorFill(Color.white);
-        fill("█", Color.WHITE, "null");
+        fill("█", Color.black, "null");
     }
     
     public String[][] gets(){return(this.space);}
