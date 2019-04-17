@@ -80,6 +80,11 @@ public class windowManager extends JFrame implements Runnable, ActionListener {
         System.out.println(Daspect);
         float fontSize = (float) (Daspect * 7.5);
         area.setFont(new Font("monospaced", Font.PLAIN, (int) fontSize));
+        //area.setFont(new Font("courier_new", Font.PLAIN, (int) fontSize));
+        
+        //final Font currFont = area.getFont();
+        //area.setFont(new Font("test", currFont.getStyle(), currFont.getSize()));
+//        area.setFont("MONOSPACED");
         area.setForeground(Color.white);
         area.setBackground(Color.black);
         
@@ -118,18 +123,20 @@ public class windowManager extends JFrame implements Runnable, ActionListener {
         
         //SUMMON TEST
         
+        levelLoader lL = new levelLoader("/src/viridiengine/levels/q.txt", oM);
         oM.addObject(new Player(0, 0, "player1", "█", 1F, Color.black, 1));
+        
 //        p1 = oM.getPlayer("player1");
 //        oM.addObject(new Player(5, 0, "player2", "█", 1F, Color.black, 2));
-        oM.addObject(new gameObject(14, 15, "static", "█", 1F, Color.DARK_GRAY, 90));
-        oM.addObject(new gameObject(15, 15, "static", "█", 1F, Color.LIGHT_GRAY, 91));
-        oM.addObject(new gameObject(16, 15, "static", "T", 1F, Color.DARK_GRAY, 92));
-        oM.addObject(new gameObject(17, 15, "static", "E", 1F, Color.DARK_GRAY, 93));
-        oM.addObject(new gameObject(18, 15, "static", "S", 1F, Color.DARK_GRAY, 94));
-        oM.addObject(new gameObject(19, 15, "static", "T", 1F, Color.DARK_GRAY, 95));
-        oM.addObject(new gameObject(20, 15, "static", "I", 1F, Color.DARK_GRAY, 96));
-        oM.addObject(new gameObject(21, 15, "static", "█", 1F, Color.LIGHT_GRAY, 97));
-        oM.addObject(new gameObject(22, 15, "static", "█", 1F, Color.DARK_GRAY, 98));
+//        oM.addObject(new gameObject(14, 15, "static", "█", 1F, Color.DARK_GRAY, 90));
+//        oM.addObject(new gameObject(15, 15, "static", "█", 1F, Color.LIGHT_GRAY, 91));
+//        oM.addObject(new gameObject(16, 15, "static", "T", 1F, Color.DARK_GRAY, 92));
+//        oM.addObject(new gameObject(17, 15, "static", "E", 1F, Color.DARK_GRAY, 93));
+//        oM.addObject(new gameObject(18, 15, "static", "S", 1F, Color.DARK_GRAY, 94));
+//        oM.addObject(new gameObject(19, 15, "static", "T", 1F, Color.DARK_GRAY, 95));
+//        oM.addObject(new gameObject(20, 15, "static", "I", 1F, Color.DARK_GRAY, 96));
+//        oM.addObject(new gameObject(21, 15, "static", "█", 1F, Color.LIGHT_GRAY, 97));
+//        oM.addObject(new gameObject(22, 15, "static", "█", 1F, Color.DARK_GRAY, 98));
         
 //        for(int i : Range.between(1, 3);)
 //        oM.addObject(new Player(5, 5, "nuul", "█", 1F, Color.black));
@@ -182,7 +189,7 @@ public class windowManager extends JFrame implements Runnable, ActionListener {
 //        oM.doPhysics(lM);
         for(gameObject p : players){
 //            lM.change(tx, ty, "█", Color.WHITE);
-            
+            System.out.println(p.getTag());
             p.checkInput(input);
             p.update(lM, oM);
 //            oM.doPhysics(lM, p);
@@ -216,7 +223,7 @@ public class windowManager extends JFrame implements Runnable, ActionListener {
         
         //Render
         for(xyac a : lis){
-            lM.change(a.x, a.y, a.a, a.c, "i");
+            lM.change(a.x, a.y, a.a, a.c, "n");
         }
         
         area.setText(fetch(lM));

@@ -67,7 +67,7 @@ public class Renderer {
             //this.colors[locx][locy] = c;
         }
         catch (Exception e){
-            System.out.println("Tried writing out of bounds: y(" + locy + "), x(" + locx + ")");
+            System.out.println("Tried writing out of bounds: y(" + locy + "), x(" + locx + "): ");
             System.out.println(e);
         }
     }

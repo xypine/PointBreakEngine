@@ -97,7 +97,7 @@ public class gameObject {
                 this.x = 0;
                 this.velx = this.velx * -0.5F;
             }
-            if(colliding){velx = velx * 0.65F;}
+            if(colliding || velx != 0 && Math.round(this.y) > 23.7F){velx = velx * 0.65F;}
 //            if(velx != 0 && Math.round(this.y) > 23.7F){velx = velx * 0.65F;}
             if(!colliding){
                 
@@ -125,10 +125,10 @@ public class gameObject {
                     
                     float x2 = x.getX();
                     float y2 = x.getY();
-                    if(x.tag != "static"){
-                        System.out.print(colliding + ", ");
-                        System.out.println("x2, y2:x1,y1 : " + x2 + ", " + y2 + ", "+ x1 + ", " + y1);
-                    }
+//                    if(x.tag != "static"){
+//                        System.out.print(colliding);
+//                        System.out.println("");
+//                    }
                     if(round(this.x) == round(x2) && round(this.y) == round(y2)){
 //                    if(i.getDistance(y2, x2) < 1.1F){
                         colliding = true;
@@ -145,7 +145,7 @@ public class gameObject {
                     }
 //                    }
                     else{
-                        if(ceil(this.x) == ceil(x2) && ceil(this.y) == ceil(y2)){
+                        if(round(this.x) == round(x2) && ceil(this.y) == ceil(y2)){
                         colliding = true;
                         float ivx = i.velx * -0.15F;
                         float ivy = i.vely * -0.15F;
