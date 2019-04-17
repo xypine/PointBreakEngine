@@ -94,7 +94,7 @@ public class windowManager extends JFrame implements Runnable, ActionListener {
         this.requestFocusInWindow();
         this.addKeyListener(input);
         this.setVisible(true);
-        getContentPane().setBackground( Color.white );
+        getContentPane().setBackground( Color.black );
         
         synchronized(lM) {
             lM.init(xd, yd);
@@ -130,7 +130,11 @@ public class windowManager extends JFrame implements Runnable, ActionListener {
 //        oM.addObject(new Player(5, 0, "player2", "█", 1F, Color.black, 2));
 //        oM.addObject(new gameObject(14, 15, "static", "█", 1F, Color.DARK_GRAY, 90));
 //        oM.addObject(new gameObject(15, 15, "static", "█", 1F, Color.LIGHT_GRAY, 91));
+
 //        oM.addObject(new gameObject(16, 15, "static", "T", 1F, Color.DARK_GRAY, 92));
+
+//       oM.addObject(new gameObject(16, 15, "static", "T", 1F, Color.DARK_GRAY, 92));
+
 //        oM.addObject(new gameObject(17, 15, "static", "E", 1F, Color.DARK_GRAY, 93));
 //        oM.addObject(new gameObject(18, 15, "static", "S", 1F, Color.DARK_GRAY, 94));
 //        oM.addObject(new gameObject(19, 15, "static", "T", 1F, Color.DARK_GRAY, 95));

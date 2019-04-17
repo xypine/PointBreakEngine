@@ -81,7 +81,7 @@ public class gameObject {
             this.x = this.x + (this.velx);
             if(this.y > re.sizey() - 1){
                 this.y = re.sizey() - 1;
-                this.vely = this.vely * -0.55F;
+//                this.vely = this.vely * -0.55F;
                 this.hits++;
             }
             if(this.x > re.sizex() - 1){
@@ -97,14 +97,21 @@ public class gameObject {
                 this.x = 0;
                 this.velx = this.velx * -0.5F;
             }
+
             if(colliding || velx != 0 && Math.round(this.y) > 23.7F){velx = velx * 0.65F;}
 //            if(velx != 0 && Math.round(this.y) > 23.7F){velx = velx * 0.65F;}
+
+            if(Math.round(this.y) > 23.7F){colliding = true;}
+            else{colliding = false;}
+//            if(velx != 0 && Math.round(this.y) > 23.7F){colliding = true;}
+            if(colliding){velx = velx * 0.65F;}
+            
             if(!colliding){
                 
                 if(vely > 3F){vely = 3.1F;}
                 else{vely = vely + 0.1F;}
             }
-            else{vely = 0F;}
+            else{this.vely = this.vely * -0.75F;}
             
         }
         
@@ -125,10 +132,17 @@ public class gameObject {
                     
                     float x2 = x.getX();
                     float y2 = x.getY();
+
 //                    if(x.tag != "static"){
 //                        System.out.print(colliding);
 //                        System.out.println("");
 //                    }
+
+                    if(x.tag != "static"){
+//                        System.out.print(colliding + ", ");
+//                        System.out.println("x2, y2:x1,y1 : " + x2 + ", " + y2 + ", "+ x1 + ", " + y1);
+                    }
+
                     if(round(this.x) == round(x2) && round(this.y) == round(y2)){
 //                    if(i.getDistance(y2, x2) < 1.1F){
                         colliding = true;
