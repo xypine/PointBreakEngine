@@ -79,9 +79,12 @@ public class gameObject {
             this.checkCollisions(oMb, this);
         }
         if(this.tag == "player1"){
-//        System.out.println(colliding);    
-            this.y = this.y + (this.vely);
-            this.x = this.x + (this.velx);
+//        System.out.println(colliding);
+            if(this.tag == "cursor"){}
+            else{
+                this.y = this.y + (this.vely);
+                this.x = this.x + (this.velx);
+            }
             if(this.y > re.sizey() - 1){
                 this.y = re.sizey() - 1;
 //                this.vely = this.vely * -0.55F;
@@ -120,7 +123,6 @@ public class gameObject {
         if(this.tag == "static"){
             vely = 0F;
             velx = 0F;
-            System.out.println("noooo");
         }
     }
     void checkInput(Input input) {

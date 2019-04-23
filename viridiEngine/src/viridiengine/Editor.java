@@ -187,6 +187,12 @@ public class Editor extends JFrame implements Runnable, ActionListener {
     void tick(){
 //        System.out.println(oM.getObjects().size());
         //UPDATE ARRAY
+        if(input.rt == 1){
+            gameObject z = oM.getObjectByTag("cursor");
+            int zx = round(z.getX());
+            int zy = round(z.getY());
+            oM.addObject(new gameObject(zx, zy, "static", "█", 1F, Color.red, 1));
+        }
         class xyac
         {
             int x;

@@ -60,7 +60,7 @@ public class Player extends gameObject{
             this.setColor(Color.blue);
         }
         if(this.getTag() == "cursor"){
-            System.out.println("VELX, VELY: " + velx + " , " + vely + "     " + "up, down, left, right: " + in.up() + " " + in.down() + " " + in.right() + " " + in.left() + "      " + "x, y, mouse x, y: " + this.getX() + " , " + this.getY() + "MOUSE:"+ in.MX() + ", " + in.MY());
+//            System.out.println("VELX, VELY: " + velx + " , " + vely + "     " + "up, down, left, right: " + in.up() + " " + in.down() + " " + in.right() + " " + in.left() + "      " + "x, y, mouse x, y: " + this.getX() + " , " + this.getY() + "MOUSE:"+ in.MX() + ", " + in.MY());
             if(in.left() == -1){
                 this.x = this.x - 1;
             }
@@ -72,6 +72,9 @@ public class Player extends gameObject{
             }
             if(in.down() == 1){
                 this.y = this.y + 1;
+            }
+            if(in.rt == 1){
+                
             }
 //            this.setColor(new Color(0 + orange * 0.25F, 0 + orange * 0.5F, 0 + orange));
             this.setColor(Color.green);
