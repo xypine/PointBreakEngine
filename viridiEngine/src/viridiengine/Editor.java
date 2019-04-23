@@ -19,6 +19,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.LinkedList;
 import javax.swing.JFrame;
+import static javax.swing.JFrame.EXIT_ON_CLOSE;
 import javax.swing.JLabel;
 import javax.swing.JTextArea;
 import javax.swing.Timer;
@@ -27,7 +28,8 @@ import javax.swing.Timer;
  *
  * @author Jonnelafin
  */
-public class windowManager extends JFrame implements Runnable, ActionListener {
+public class Editor extends JFrame implements Runnable, ActionListener {
+    private kick k;
     colorParser cP = new colorParser();
     Timer timer = new Timer(1, this);
     int tickC = 0;
@@ -38,6 +40,7 @@ public class windowManager extends JFrame implements Runnable, ActionListener {
     JLabel area;
     
     double lastTime;
+    
     
     //GAMEOBJECTS:
 //    Player p1;
@@ -51,19 +54,20 @@ public class windowManager extends JFrame implements Runnable, ActionListener {
     private float txf;
     private float tyf;
 //    
-    kick k;
     private Input input;
-    public windowManager(kick ki){
-        System.out.println("Initializing main input: " + ki);
+    public Editor(kick ki){
+        System.out.println("Initializing editor input: " + ki);
         this.k = ki;
         input = new Input(k);
-        System.out.println("out main input: " + k);
+        System.out.println("out editor input: " + k);
     }
+    //Input:
+     
     
     
     @Override
     public void run() {
-        
+
         
         timer.setRepeats(true);
         timer.start();
@@ -79,7 +83,7 @@ public class windowManager extends JFrame implements Runnable, ActionListener {
 //        int yd = 25;
         int xd = (int) (w / 15.34);
         int yd = (int) (h / 22.48);
-        this.setTitle("ViridiEngine");
+        this.setTitle("ViridiEngine Editor");
         this.setSize(round(w), round(h));
         this.setDefaultCloseOperation(EXIT_ON_CLOSE);
         
@@ -101,7 +105,7 @@ public class windowManager extends JFrame implements Runnable, ActionListener {
         System.out.println("Initializing...");
         this.requestFocusInWindow();
         this.addKeyListener(input);
-        this.setVisible(true);
+        this.setVisible(false);
         getContentPane().setBackground( Color.black );
         
         synchronized(lM) {
@@ -131,8 +135,8 @@ public class windowManager extends JFrame implements Runnable, ActionListener {
         
         //SUMMON TEST
         
-        levelLoader lL = new levelLoader("/src/viridiengine/levels/2.txt", oM);
-        oM.addObject(new Player(0, 0, "player1", "█", 1F, Color.black, 1));
+//        levelLoader lL = new levelLoader("/src/viridiengine/levels/2.txt", oM);
+        oM.addObject(new Player(5, 5, "cursor", "█", 1F, Color.black, 1));
         
 //        p1 = oM.getPlayer("player1");
 //        oM.addObject(new Player(5, 0, "player2", "█", 1F, Color.black, 2));
@@ -155,7 +159,7 @@ public class windowManager extends JFrame implements Runnable, ActionListener {
         
     }
     
-    public boolean running = true;
+    public boolean running = false;
     @Override
     public void actionPerformed(ActionEvent e) {
         
@@ -172,6 +176,7 @@ public class windowManager extends JFrame implements Runnable, ActionListener {
 //        float aspect = w / h;
 //        float fontSize = (float) (aspect * 10.99087420387603);
 //        area.setFont(new Font("monospaced", Font.PLAIN, (int) fontSize));
+        
         if(running == true){
             tick();
         }

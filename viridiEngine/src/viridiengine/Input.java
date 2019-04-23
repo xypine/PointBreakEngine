@@ -16,6 +16,7 @@ import java.awt.event.MouseListener;
  * @author Jonnelafin
  */
 public class Input implements KeyListener, MouseListener {
+    private kick ki;
     private int up = 0, down = 0;
     private int right = 0, left = 0;
     private int up2 = 0, down2 = 0;
@@ -79,9 +80,13 @@ public class Input implements KeyListener, MouseListener {
         //arrow down "s"
             down2 = 1;
         }
-            
+        if(ke == 'e'){ki.tog();}
     }
-
+    
+    public Input(kick k){
+        this.ki = k;
+    }
+    
     @Override
     public void keyReleased(KeyEvent e) {
         char ke = e.getKeyChar();

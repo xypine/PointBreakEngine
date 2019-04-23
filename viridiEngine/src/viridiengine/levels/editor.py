@@ -1,10 +1,13 @@
+# -*- coding: utf-8 -*-
 import os
 import sys
 import subprocess
+import codecs
 
 import numpy
+numpy.set_printoptions(threshold=numpy.inf)
 dir_path = os.path.dirname(os.path.realpath(__file__))
-out_file = "2.txt"
+out_file = "/2.txt"
 f = open(dir_path + out_file,"w+")
 if sys.platform[:3] == 'win':
     import msvcrt
@@ -34,8 +37,8 @@ done = 0
 round = False
 va = ["|", "*", "-", "*"]
 
-xd = 15
-yd = 15
+xd = 50
+yd = 25
 
 
 x = 2
@@ -47,24 +50,29 @@ vely = 1
 
 
 def write(y = 0, x = 0, p = numpy.chararray((y, x)), op = ""):
-	f = open(op,"w+")
+	id = 400
+	f = codecs.open(op,"w+", "utf-8")
 	t = ""
 	ins = []
 	yp = 0
 	xp = 0
 	print(p)
+	print(op)
 	print("found")
-	print(zip(*numpy.where(p == "#")))
-	ins = zip(*numpy.where(p == "#"))
+	print(zip(*numpy.where(p == 3)))
+	ins = zip(*numpy.where(p == 3))
 	for i in ins:
+		print(i)
 		y = ""
 		x = ""
 		y = int(i[0]) - 7
 		y = y * - 1
 		x = int(i[1]) - 7
-		d = str(1) + "," + str(y) + ":" + str(x) + "!"
+		d = str(x) + "." + str(y) + ".static." + "█.1.white." + str(id) + ".:"
 		print(d)
-		f.write(d)
+		f.write(str(d))
+		#.encode("UTF-8", errors='replace')
+		id += 1
 	f.close()
 	sys.exit()
 
@@ -94,21 +102,24 @@ def syscmd(cmd, encoding=''):
     return p.returncode
 
 def update(c = "", x = 0):
+	pri = ""
 	if sys.platform[:3] == 'win':
 		os.system("cls")
 	elif sys.platform[:3] == 'lin':
 		os.system("clear")
 	a = 0
-	print(c)
-#	for i in c:
-#		for z in i:
-#			if a == x:
-#				a = 0
-#				print(z)
-#			else:
-#				print(z, end="")
-#		a = a + 1
 #	print(c)
+	for i in c:
+		for z in i:
+			if a == x:
+				a = 0
+				pri = pri + z + "\n"
+#				print(z)
+			else:
+				pri = pri + z
+#				print(z, end="")
+	a = a + 1
+	print(pri)
 
 
 temp = "0"

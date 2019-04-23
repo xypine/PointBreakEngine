@@ -55,6 +55,7 @@ public class levelLoader {
                 System.out.println(tm.getTag());
                 dotC = 0;
                 tmp = "";
+                System.out.println(this.tag);
             }
             else if(x == '.'){
 //                System.out.println(tmp);

@@ -59,5 +59,11 @@ public class Player extends gameObject{
 //            this.setColor(new Color(0 + orange * 0.25F, 0 + orange * 0.5F, 0 + orange));
             this.setColor(Color.green);
         }
+        if(this.getTag() == "cursor"){
+            this.x = this.velx + ((in.right() + in.left()) * 2F);
+            this.x = this.vely + (in.up() + in.down()) * 2F;
+//            this.setColor(new Color(0 + orange * 0.25F, 0 + orange * 0.5F, 0 + orange));
+            this.setColor(Color.green);
+        }
     }
 }

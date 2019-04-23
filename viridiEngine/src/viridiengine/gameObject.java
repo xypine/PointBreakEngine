@@ -32,8 +32,8 @@ public class gameObject {
     
     public int hits = 0;
     
-    private float y = 1;
-    private float x = 1;
+    public float y = 1;
+    public float x = 1;
     
     private int id;
     
@@ -73,9 +73,12 @@ public class gameObject {
         this.acolor = cat;
         this.id = ID;
     }
-    public void update(Renderer re, objectManager oMb){     
-        this.checkCollisions(oMb, this);
-        if(this.tag != "static"){
+    public void update(Renderer re, objectManager oMb){    
+        if(this.tag == "cursor"){}
+        else{
+            this.checkCollisions(oMb, this);
+        }
+        if(this.tag == "player1"){
 //        System.out.println(colliding);    
             this.y = this.y + (this.vely);
             this.x = this.x + (this.velx);
@@ -114,7 +117,11 @@ public class gameObject {
             else{this.vely = this.vely * -0.75F;}
             
         }
-        
+        if(this.tag == "static"){
+            vely = 0F;
+            velx = 0F;
+            System.out.println("noooo");
+        }
     }
     void checkInput(Input input) {
 //        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
