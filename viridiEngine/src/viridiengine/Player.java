@@ -23,7 +23,7 @@ public class Player extends gameObject{
     public void checkInput(Input in){
 //        System.out.println("VELX, VELY: " + velx + " , " + vely + "     " + "up, down, left, right: " + in.up() + " " + in.down() + " " + in.right() + " " + in.left() + "      " + "x, y, mouse x, y: " + this.getX() + " , " + this.getY() + "MOUSE:"+ in.MX() + ", " + in.MY());
         //System.out.println(this.colliding);
-        if(this.vely < -0.5F)
+        if(this.vely < -0.5F && this.getTag() != "cursor")
         {
             canjump = false;
             if(this.vely < -0.75F){
@@ -57,11 +57,22 @@ public class Player extends gameObject{
             if(orange < 0F){orange = 0F;}
             if(orange > 1F){orange = 0.9F;}
 //            this.setColor(new Color(0 + orange * 0.25F, 0 + orange * 0.5F, 0 + orange));
-            this.setColor(Color.green);
+            this.setColor(Color.blue);
         }
         if(this.getTag() == "cursor"){
-            this.x = this.velx + ((in.right() + in.left()) * 2F);
-            this.x = this.vely + (in.up() + in.down()) * 2F;
+            System.out.println("VELX, VELY: " + velx + " , " + vely + "     " + "up, down, left, right: " + in.up() + " " + in.down() + " " + in.right() + " " + in.left() + "      " + "x, y, mouse x, y: " + this.getX() + " , " + this.getY() + "MOUSE:"+ in.MX() + ", " + in.MY());
+            if(in.left() == -1){
+                this.x = this.x - 1;
+            }
+            if(in.right() == 1){
+                this.x = this.x + 1;
+            }
+            if(in.up() == -1){
+                this.y = this.y - 1;
+            }
+            if(in.down() == 1){
+                this.y = this.y + 1;
+            }
 //            this.setColor(new Color(0 + orange * 0.25F, 0 + orange * 0.5F, 0 + orange));
             this.setColor(Color.green);
         }
