@@ -16,6 +16,7 @@ import java.io.IOException;
 import java.io.OutputStreamWriter;
 import java.io.UnsupportedEncodingException;
 import java.io.Writer;
+import static java.lang.Math.round;
 import java.util.LinkedList;
 import java.util.Scanner;
 import java.util.logging.Level;
@@ -59,10 +60,10 @@ public class levelLoader {
             if(x == ':'){
                 gameObject tm = new gameObject(this.x, this.y, this.tag, this.appereance, this.mass, this.c, this.id);
                 oM.addObject(tm);
-                System.out.println(tm.getTag());
+                //System.out.println(tm.getTag());
                 dotC = 0;
                 tmp = "";
-                System.out.println(this.tag);
+                //System.out.println(this.tag);
             }
             else if(x == '.'){
 //                System.out.println(tmp);
@@ -102,8 +103,10 @@ public class levelLoader {
         String tmp = "";
         int idi = 90;
         for(gameObject p : g){
-            tmp = tmp + p.x + "." + p.y + ".static.█.1.white." + idi + ".:";
-            idi++;
+            if(p.getTag() != "cursor"){
+                tmp = tmp + round(p.x) + "." + round(p.y) + ".static.█.1.green." + idi + ".:";
+                idi++;
+            }
         }
         try (Writer writer = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(System.getProperty("user.dir") + file), "utf-8"))) {
             writer.write(tmp);

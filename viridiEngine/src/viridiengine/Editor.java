@@ -106,7 +106,7 @@ public class Editor extends JFrame implements Runnable, ActionListener {
         
         this.add(area);
         
-        System.out.println("Initializing...");
+        System.out.println("Initializing editor...");
         this.requestFocusInWindow();
         this.addKeyListener(input);
         this.setVisible(false);
@@ -118,7 +118,7 @@ public class Editor extends JFrame implements Runnable, ActionListener {
         tmp = lM.gets();
         
         screen = "";
-        System.out.println("Done initializing!");
+        System.out.println("Done initializing editor!");
         
 //        for (String[] y : tmp)
 //        {  
@@ -189,15 +189,16 @@ public class Editor extends JFrame implements Runnable, ActionListener {
 //        System.out.println(this.getWidth() + ", " + this.getHeight());
         tickC++;
     }
+    boolean saved = false;
     void tick(){
 //        System.out.println(oM.getObjects().size());
         //UPDATE ARRAY
-        
-        if(input.rt == 1){
-            gameObject z = oM.getObjectByTag("cursor");
-            int zx = round(z.getX());
-            int zy = round(z.getY());
+        gameObject z = oM.getObjectByTag("cursor");
+        int zx = round(z.getX());
+        int zy = round(z.getY());
+        if(input.tog && !oM.colliding(zx,zy)){
             oM.addObject(new gameObject(zx, zy, "static", "█", 1F, Color.red, 1));
+            saved = false;
         }
         class xyac
         {
@@ -213,7 +214,7 @@ public class Editor extends JFrame implements Runnable, ActionListener {
 ;
         LinkedList<xyac> lis = new LinkedList<xyac>();
         players = oM.getObjects();
-        if(input.ke == 'l'){
+        if(input.ke == 'l' && !saved){
             try {
                 aol.write(players, "/src/viridiengine/levels/out.txt");
             } catch (UnsupportedEncodingException ex) {
@@ -221,6 +222,7 @@ public class Editor extends JFrame implements Runnable, ActionListener {
             } catch (IOException ex) {
                 Logger.getLogger(Editor.class.getName()).log(Level.SEVERE, null, ex);
             }
+            saved = true;
         }
         lM.fill("█", Color.BLACK, "null");
         

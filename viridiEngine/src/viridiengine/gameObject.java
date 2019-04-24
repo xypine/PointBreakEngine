@@ -36,7 +36,7 @@ public class gameObject {
     public float x = 1;
     
     private int id;
-    
+    private boolean point2 = false;
     private String tag;
     private String appereance;
     private Color acolor = Color.RED;
@@ -78,12 +78,25 @@ public class gameObject {
         else{
             this.checkCollisions(oMb, this);
         }
-        if(this.tag == "player1"){
+        if(this.tag == "player1" || this.tag == "cursor"){
 //        System.out.println(colliding);
             if(this.tag == "cursor"){}
             else{
-                this.y = this.y + (this.vely);
-                this.x = this.x + (this.velx);
+//                this.y = this.y + (this.vely);
+//                this.x = this.x + (this.velx);
+                for (int i : new Range(round(Math.abs(this.velx)))) {
+                    
+                    if(this.velx < 0){this.x = this.x - 1F;}
+                    if(this.velx > 0){this.x = this.x + 1F;}
+                    this.checkCollisions(oMb, this);
+                }
+                for (int i : new Range(round(Math.abs(this.vely)))) {
+                    
+                    if(this.vely < 0){this.y = this.y - 1F;}
+                    if(this.vely > 0){this.y = this.y + 1F;}
+                    this.checkCollisions(oMb, this);
+                }
+                  
             }
             if(this.y > re.sizey() - 1){
                 this.y = re.sizey() - 1;
@@ -113,7 +126,6 @@ public class gameObject {
             if(colliding){velx = velx * 0.65F;}
             
             if(!colliding){
-                
                 if(vely > 3F){vely = 3.1F;}
                 else{vely = vely + 0.1F;}
             }
@@ -154,6 +166,7 @@ public class gameObject {
 
                     if(round(this.x) == round(x2) && round(this.y) == round(y2)){
 //                    if(i.getDistance(y2, x2) < 1.1F){
+System.out.println("point1");
                         colliding = true;
                         float ivx = i.velx * -0.15F;
                         float ivy = i.vely * -0.15F;
@@ -169,6 +182,8 @@ public class gameObject {
 //                    }
                     else{
                         if(round(this.x) == round(x2) && ceil(this.y) == ceil(y2)){
+                        point2 = true;
+System.out.println("point_2");
                         colliding = true;
                         float ivx = i.velx * -0.15F;
                         float ivy = i.vely * -0.15F;
@@ -180,6 +195,7 @@ public class gameObject {
                         i.vely = ivy;
                         }
                         else{
+                        point2 = false;
                         colliding = false;
                         }
                     }

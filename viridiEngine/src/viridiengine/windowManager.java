@@ -25,7 +25,7 @@ import javax.swing.Timer;
 
 /**
  *
- * @author Jonnelafin
+ * @author Jonnelafinelse
  */
 public class windowManager extends JFrame implements Runnable, ActionListener {
     colorParser cP = new colorParser();
@@ -98,7 +98,7 @@ public class windowManager extends JFrame implements Runnable, ActionListener {
         
         this.add(area);
         
-        System.out.println("Initializing...");
+        System.out.println("Initializing game...");
         this.requestFocusInWindow();
         this.addKeyListener(input);
         this.setVisible(true);
@@ -110,7 +110,7 @@ public class windowManager extends JFrame implements Runnable, ActionListener {
         tmp = lM.gets();
         
         screen = "";
-        System.out.println("Done initializing!");
+        System.out.println("Done initializing game!");
         
 //        for (String[] y : tmp)
 //        {  
@@ -131,7 +131,7 @@ public class windowManager extends JFrame implements Runnable, ActionListener {
         
         //SUMMON TEST
         
-        levelLoader lL = new levelLoader("/src/viridiengine/levels/2.txt", oM);
+        levelLoader lL = new levelLoader("/src/viridiengine/levels/out.txt", oM);
         oM.addObject(new Player(0, 0, "player1", "█", 1F, Color.black, 1));
         
 //        p1 = oM.getPlayer("player1");

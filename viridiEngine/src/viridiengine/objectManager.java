@@ -58,7 +58,17 @@ public class objectManager {
         }
         return(tmpob);
     }
-    
+    public boolean colliding(int x, int y){
+        for(gameObject i : object){
+            if(i.getTag() == "cursor"){}
+            else{
+                if((round(i.x) == x && round(i.y) == y)){
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
     public void doPhysics(Renderer r, gameObject i){
         LinkedList<gameObject> tmpoa = this.getObjects();
 //        for(gameObject i : tmpoa){
