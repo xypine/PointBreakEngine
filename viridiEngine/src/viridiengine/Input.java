@@ -88,11 +88,12 @@ public class Input implements KeyListener, MouseListener {
     public Input(kick k){
         this.ki = k;
     }
-    
+    public char ke;
+    public int kee;
     @Override
     public void keyReleased(KeyEvent e) {
-        char ke = e.getKeyChar();
-        int kee = e.getKeyCode();
+        ke = e.getKeyChar();
+        kee = e.getKeyCode();
         if(ke == 'w'){
             up = 0;
         }

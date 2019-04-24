@@ -14,10 +14,14 @@ import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.awt.font.NumericShaper.Range;
 import java.beans.EventHandler;
+import java.io.IOException;
+import java.io.UnsupportedEncodingException;
 import static java.lang.Math.round;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.LinkedList;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JFrame;
 import static javax.swing.JFrame.EXIT_ON_CLOSE;
 import javax.swing.JLabel;
@@ -62,7 +66,7 @@ public class Editor extends JFrame implements Runnable, ActionListener {
         System.out.println("out editor input: " + k);
     }
     //Input:
-     
+    levelLoader aol;
     
     
     @Override
@@ -135,7 +139,8 @@ public class Editor extends JFrame implements Runnable, ActionListener {
         
         //SUMMON TEST
         
-//        levelLoader lL = new levelLoader("/src/viridiengine/levels/2.txt", oM);
+        aol = new levelLoader("/src/viridiengine/levels/null.txt", oM);
+        
         oM.addObject(new Player(5, 5, "cursor", "█", 1F, Color.black, 1));
         
 //        p1 = oM.getPlayer("player1");
@@ -187,6 +192,7 @@ public class Editor extends JFrame implements Runnable, ActionListener {
     void tick(){
 //        System.out.println(oM.getObjects().size());
         //UPDATE ARRAY
+        
         if(input.rt == 1){
             gameObject z = oM.getObjectByTag("cursor");
             int zx = round(z.getX());
@@ -207,6 +213,15 @@ public class Editor extends JFrame implements Runnable, ActionListener {
 ;
         LinkedList<xyac> lis = new LinkedList<xyac>();
         players = oM.getObjects();
+        if(input.ke == 'l'){
+            try {
+                aol.write(players, "/src/viridiengine/levels/out.txt");
+            } catch (UnsupportedEncodingException ex) {
+                Logger.getLogger(Editor.class.getName()).log(Level.SEVERE, null, ex);
+            } catch (IOException ex) {
+                Logger.getLogger(Editor.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
         lM.fill("█", Color.BLACK, "null");
         
 

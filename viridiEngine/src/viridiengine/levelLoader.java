@@ -7,9 +7,16 @@
 package viridiengine;
 
 import java.awt.Color;
+import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.FileReader;
+import java.io.IOException;
+import java.io.OutputStreamWriter;
+import java.io.UnsupportedEncodingException;
+import java.io.Writer;
+import java.util.LinkedList;
 import java.util.Scanner;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -90,6 +97,18 @@ public class levelLoader {
             
         }
     }
+    public void write(LinkedList<gameObject> g, String file) throws FileNotFoundException, UnsupportedEncodingException, IOException{
+        System.out.println(System.getProperty("user.dir") + "/" + file);
+        String tmp = "";
+        int idi = 90;
+        for(gameObject p : g){
+            tmp = tmp + p.x + "." + p.y + ".static.█.1.white." + idi + ".:";
+            idi++;
+        }
+        try (Writer writer = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(System.getProperty("user.dir") + file), "utf-8"))) {
+            writer.write(tmp);
+        }
+    }
     public int toInt(String som){
         String result = "";
         for (int i = 0; i < som.length(); i++) {
@@ -101,12 +120,12 @@ public class levelLoader {
         return Integer.parseInt(result);
     }
     public static Color getColorByName(String name) {
-    try {
-        return (Color)Color.class.getField(name.toUpperCase()).get(null);
-    } catch (IllegalArgumentException | IllegalAccessException | NoSuchFieldException | SecurityException e) {
-        e.printStackTrace();
-        return null;
+        try {
+            return (Color)Color.class.getField(name.toUpperCase()).get(null);
+        } catch (IllegalArgumentException | IllegalAccessException | NoSuchFieldException | SecurityException e) {
+            e.printStackTrace();
+            return null;
+        }
     }
-}
     
 }
