@@ -36,7 +36,7 @@ public class gameObject {
     public float x = 1;
     
     private int id;
-    private boolean point2 = false;
+    public boolean point2 = false;
     private String tag;
     private String appereance;
     private Color acolor = Color.RED;
@@ -140,6 +140,29 @@ public class gameObject {
     void checkInput(Input input) {
 //        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
+    public void point1(gameObject i, gameObject x){
+        colliding = true;
+                        float ivx = i.velx * -0.15F;
+                        float ivy = i.vely * -0.15F;
+                        float xvx = x.velx * -0.15F;
+                        float xvy = x.vely * -0.15F;
+                        i.x = i.x + i.velx * -1F;
+                        i.y = i.y + i.vely * -1F;
+                        i.velx = ivx;
+                        i.vely = ivy;
+    }
+    public void point2(gameObject i, gameObject x){
+        colliding = true;
+                        float ivx = i.velx * -0.15F;
+                        float ivy = i.vely * -0.15F;
+                        float xvx = x.velx * -0.15F;
+                        float xvy = x.vely * -0.15F;
+                        i.x = i.x + i.velx * -1F;
+                        i.y = i.y + i.vely * -1F;
+                        //i.velx = ivx;
+                        i.vely = ivy;
+    }
+    int po = 0;
     public void checkCollisions(objectManager o, gameObject i){
         LinkedList<gameObject> tmpoa = o.getObjects();
 //        for(gameObject i : tmpoa){
@@ -167,15 +190,8 @@ public class gameObject {
                     if(round(this.x) == round(x2) && round(this.y) == round(y2)){
 //                    if(i.getDistance(y2, x2) < 1.1F){
 System.out.println("point1");
-                        colliding = true;
-                        float ivx = i.velx * -0.15F;
-                        float ivy = i.vely * -0.15F;
-                        float xvx = x.velx * -0.15F;
-                        float xvy = x.vely * -0.15F;
-                        i.x = i.x + i.velx * -1F;
-                        i.y = i.y + i.vely * -1F;
-                        i.velx = ivx;
-                        i.vely = ivy;
+                    po = 1;
+                        
                         //x.velx = xvx;
                         //x.vely = xvy;
                     }
@@ -183,22 +199,20 @@ System.out.println("point1");
                     else{
                         if(round(this.x) == round(x2) && ceil(this.y) == ceil(y2)){
                         point2 = true;
+                        
+                        po = 2;
 System.out.println("point_2");
-                        colliding = true;
-                        float ivx = i.velx * -0.15F;
-                        float ivy = i.vely * -0.15F;
-                        float xvx = x.velx * -0.15F;
-                        float xvy = x.vely * -0.15F;
-                        i.x = i.x + i.velx * -1F;
-                        i.y = i.y + i.vely * -1F;
-                        //i.velx = ivx;
-                        i.vely = ivy;
+                        
                         }
                         else{
+                        po = 0;
                         point2 = false;
                         colliding = false;
                         }
+                        
                     }
+                    if(po == 1){point1(i,x);}
+                    if(po == 2){point2(i,x);}
                     
 //                    i.update(r);
 //                    x.update(r);

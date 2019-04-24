@@ -14,7 +14,7 @@ import java.awt.Color;
  */
 public class Player extends gameObject{
     boolean canjump = true;
-
+    public boolean point2 = false;
     public Player(int ypos, int xpos, String tag, String ap, float mas, Color cot, int ID) {
         super(ypos, xpos, tag, ap, mas, cot, ID);
 //        this.summon(ypos, xpos, tag, ap, mas);
@@ -36,11 +36,13 @@ public class Player extends gameObject{
         if(canjump && this.getTag() == "player1"){
             
             this.vely = this.vely + (in.up() + in.down()) * 1.7F;
+//            if(point2){this.vely = this.vely * -1;}
 //            canjump = false;
         }
         if(canjump && this.getTag() == "player2"){
             
             this.vely = this.vely + (in.up2() + in.down2()) * 1.7F;
+//            if(point2){this.vely = this.vely * -1;}
 //            canjump = false;
         }
         if(this.getTag() == "player1"){
