@@ -14,10 +14,15 @@ import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.awt.font.NumericShaper.Range;
 import java.beans.EventHandler;
+import java.io.IOException;
 import static java.lang.Math.round;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.LinkedList;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.sound.sampled.LineUnavailableException;
+import javax.sound.sampled.UnsupportedAudioFileException;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JTextArea;
@@ -43,7 +48,7 @@ public class windowManager extends JFrame implements Runnable, ActionListener {
 //    Player p1;
     int co = 0;
     objectManager oM = new objectManager();
-    LinkedList<gameObject> players;
+    LinkedList<gameObject> objects;
     //VARIABLES FOR TICKS:
     int tx;
     int ty;
@@ -59,7 +64,7 @@ public class windowManager extends JFrame implements Runnable, ActionListener {
         input = new Input(k);
         System.out.println("out main input: " + k);
     }
-    
+    private audioManager aM;
     
     @Override
     public void run() {
@@ -133,54 +138,31 @@ public class windowManager extends JFrame implements Runnable, ActionListener {
         
         levelLoader lL = new levelLoader("/src/viridiengine/levels/out.txt", oM);
         oM.addObject(new Player(0, 0, "player1", "█", 1F, Color.black, 1));
-        
-//        p1 = oM.getPlayer("player1");
-//        oM.addObject(new Player(5, 0, "player2", "█", 1F, Color.black, 2));
-//        oM.addObject(new gameObject(14, 15, "static", "█", 1F, Color.DARK_GRAY, 90));
-//        oM.addObject(new gameObject(15, 15, "static", "█", 1F, Color.LIGHT_GRAY, 91));
-
-//        oM.addObject(new gameObject(16, 15, "static", "T", 1F, Color.DARK_GRAY, 92));
-
-//       oM.addObject(new gameObject(16, 15, "static", "T", 1F, Color.DARK_GRAY, 92));
-
-//        oM.addObject(new gameObject(17, 15, "static", "E", 1F, Color.DARK_GRAY, 93));
-//        oM.addObject(new gameObject(18, 15, "static", "S", 1F, Color.DARK_GRAY, 94));
-//        oM.addObject(new gameObject(19, 15, "static", "T", 1F, Color.DARK_GRAY, 95));
-//        oM.addObject(new gameObject(20, 15, "static", "I", 1F, Color.DARK_GRAY, 96));
-//        oM.addObject(new gameObject(21, 15, "static", "█", 1F, Color.LIGHT_GRAY, 97));
-//        oM.addObject(new gameObject(22, 15, "static", "█", 1F, Color.DARK_GRAY, 98));
-        
-//        for(int i : Range.between(1, 3);)
-//        oM.addObject(new Player(5, 5, "nuul", "█", 1F, Color.black));
-        
+        //Add audioManager
+        try {
+            
+            aM = new audioManager();
+        } catch (LineUnavailableException ex) {
+            Logger.getLogger(windowManager.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (UnsupportedAudioFileException ex) {
+            Logger.getLogger(windowManager.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (IOException ex) {
+            Logger.getLogger(windowManager.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
     
     public boolean running = true;
     @Override
     public void actionPerformed(ActionEvent e) {
-        
-//        double fps = 1000000.0 / (lastTime - (lastTime = System.nanoTime())); //This way, lastTime is assigned and used at the same time.
-//        System.out.println("FPS: " + fps);
-//        lastTime = System.nanoTime();
         this.number = Integer.parseInt(Integer.toString(tickC).substring(0, 1));
-//        System.out.print("another [" + this.number + "] tick passed! (");
-//        System.out.println(tickC + ")");
-        
-        //Do updates
-//        float w = this.getWidth();
-//        float h = this.getHeight();
-//        float aspect = w / h;
-//        float fontSize = (float) (aspect * 10.99087420387603);
-//        area.setFont(new Font("monospaced", Font.PLAIN, (int) fontSize));
         if(running == true){
             tick();
         }
         
-//        System.out.println(this.getWidth() + ", " + this.getHeight());
         tickC++;
     }
     void tick(){
-//        System.out.println(oM.getObjects().size());
+        aM.play();
         //UPDATE ARRAY
         class xyac
         {
@@ -195,16 +177,17 @@ public class windowManager extends JFrame implements Runnable, ActionListener {
         }
 ;
         LinkedList<xyac> lis = new LinkedList<xyac>();
-        players = oM.getObjects();
+        objects = oM.getObjects();
         lM.fill("█", Color.BLACK, "null");
         
 
 //        oM.doPhysics(lM);
-        for(gameObject p : players){
+        for(gameObject p : objects){
 //            lM.change(tx, ty, "█", Color.WHITE);
 //            System.out.println(p.getTag().getClass() + " " + "static".getClass());
-            p.checkInput(input);
             p.update(lM, oM);
+            p.checkInput(input);
+            
 //            oM.doPhysics(lM, p);
             this.txf = p.getX();
             this.tyf = p.getY();
@@ -215,6 +198,10 @@ public class windowManager extends JFrame implements Runnable, ActionListener {
 //            p.update(lM);
             if(p.getTag() == "player1"){
 //                oM.addObject(new Player(tx, ty, "null", "█", 1F, Color.MAGENTA));
+                float d = p.getDistance(25F, 12.5F);
+                aM.setVolume(d/10);
+                System.out.println(aM.getVolume());
+                
             }
             if(p.getTag() == "player2"){
 //                oM.addObject(new Player(tx, ty, "null", "█", 1F, Color.CYAN,co+3));

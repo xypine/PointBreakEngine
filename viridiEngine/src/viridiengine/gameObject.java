@@ -55,7 +55,7 @@ public class gameObject {
     public int getID(){return(this.id);}
     public String getTag(){return(this.tag);}
     
-    public float getDistance(float ty, float tx){
+    public float getDistance(float tx, float ty){
         float ry = (float) pow(this.y - ty, 2.0);
         float rx = (float) pow(this.x - tx, 2.0);
         float finish = (float) sqrt(rx + ry);
@@ -84,16 +84,16 @@ public class gameObject {
             else{
 //                this.y = this.y + (this.vely);
 //                this.x = this.x + (this.velx);
-                for (int i : new Range(round(Math.abs(this.velx)))) {
+                for (int i : new Range(round(Math.abs(this.velx) * 10))) {
                     
-                    if(this.velx < 0){this.x = this.x - 1F;}
-                    if(this.velx > 0){this.x = this.x + 1F;}
+                    if(this.velx < 0){this.x = this.x - 0.1F;}
+                    if(this.velx > 0){this.x = this.x + 0.1F;}
                     this.checkCollisions(oMb, this);
                 }
-                for (int i : new Range(round(Math.abs(this.vely)))) {
+                for (int i : new Range(round(Math.abs(this.vely) * 10))) {
                     
-                    if(this.vely < 0){this.y = this.y - 1F;}
-                    if(this.vely > 0){this.y = this.y + 1F;}
+                    if(this.vely < 0){this.y = this.y - 0.1F;}
+                    if(this.vely > 0){this.y = this.y + 0.1F;}
                     this.checkCollisions(oMb, this);
                 }
                   
@@ -117,7 +117,7 @@ public class gameObject {
                 this.velx = this.velx * -0.5F;
             }
 
-            if(colliding || velx != 0 && Math.round(this.y) > 23.7F){velx = velx * 0.65F;}
+            if(point2 || Math.round(this.y) > 23.7F){velx = velx * 0.65F;}
 //            if(velx != 0 && Math.round(this.y) > 23.7F){velx = velx * 0.65F;}
 
             if(Math.round(this.y) > 23.7F){colliding = true;}
@@ -126,7 +126,7 @@ public class gameObject {
             if(colliding){velx = velx * 0.65F;}
             
             if(!colliding){
-                if(vely > 3F){vely = 3.1F;}
+                if(vely > 100F){vely = 100.1F;}
                 else{vely = vely + 0.1F;}
             }
             else{this.vely = this.vely * -0.75F;}
@@ -189,7 +189,7 @@ public class gameObject {
 
                     if(round(this.x) == round(x2) && round(this.y) == round(y2)){
 //                    if(i.getDistance(y2, x2) < 1.1F){
-System.out.println("point1");
+//System.out.println("point1");
                     po = 1;
                         
                         //x.velx = xvx;
@@ -201,7 +201,7 @@ System.out.println("point1");
                         point2 = true;
                         
                         po = 2;
-System.out.println("point_2");
+//System.out.println("point_2");
                         
                         }
                         else{
