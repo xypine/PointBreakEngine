@@ -139,7 +139,7 @@ public class windowManager extends JFrame implements Runnable, ActionListener {
         levelLoader lL = new levelLoader("/src/viridiengine/levels/out.txt", oM);
         oM.addObject(new Player(0, 0, "player1", "█", 1F, Color.black, 1));
         //Add audioManager
-        try {
+/*        try {
             
             aM = new audioManager();
         } catch (LineUnavailableException ex) {
@@ -149,6 +149,7 @@ public class windowManager extends JFrame implements Runnable, ActionListener {
         } catch (IOException ex) {
             Logger.getLogger(windowManager.class.getName()).log(Level.SEVERE, null, ex);
         }
+*/
     }
     
     public boolean running = true;
@@ -161,8 +162,10 @@ public class windowManager extends JFrame implements Runnable, ActionListener {
         
         tickC++;
     }
+    public Recorder recorder = new Recorder();
     void tick(){
-        aM.play();
+//        aM.play();
+        recorder.record(oM);
         //UPDATE ARRAY
         class xyac
         {
@@ -199,8 +202,8 @@ public class windowManager extends JFrame implements Runnable, ActionListener {
             if(p.getTag() == "player1"){
 //                oM.addObject(new Player(tx, ty, "null", "█", 1F, Color.MAGENTA));
                 float d = p.getDistance(25F, 12.5F);
-                aM.setVolume(d/10);
-                System.out.println(aM.getVolume());
+//                aM.setVolume(d/10);
+//                System.out.println(aM.getVolume());
                 
             }
             if(p.getTag() == "player2"){

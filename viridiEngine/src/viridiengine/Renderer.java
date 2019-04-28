@@ -33,6 +33,9 @@ public class Renderer {
 //        colorFill(Color.white);
         fill("█", Color.black, "null");
     }
+    public void initVector(){
+        
+    }
     
     public String[][] gets(){return(this.space);}
     public Color[][] getc(){return(this.colors);}
@@ -47,6 +50,9 @@ public class Renderer {
             }
         }
 //        this.space = tmp;
+    }
+    void vectorFill(){
+        
     }
     void colorFill(Color goal){
         Color[][] tmp;

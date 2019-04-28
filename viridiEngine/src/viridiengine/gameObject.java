@@ -61,7 +61,9 @@ public class gameObject {
         float finish = (float) sqrt(rx + ry);
         return(finish);
     }
-    
+    public Vector getLocation(){
+        return(new Vector(this.x, this.y));
+    }
     public String gAppearance(){return(this.appereance);}
     
     public void summon(int ypos, int xpos, String tag, String ap, float mas, Color cat, int ID){
