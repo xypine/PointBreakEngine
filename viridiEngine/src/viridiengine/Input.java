@@ -10,18 +10,19 @@ import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.awt.event.MouseMotionListener;
 
 /**
  *
  * @author Jonnelafin
  */
-public class Input implements KeyListener, MouseListener {
+public class Input implements KeyListener, MouseMotionListener, MouseListener {
     private kick ki;
     private int up = 0, down = 0;
     private int right = 0, left = 0;
     private int up2 = 0, down2 = 0;
     private int right2 = 0, left2 = 0;
-    private int mx = 0, my = 0;
+    private int mouseX = 0, mouseY = 0;
     public int rt = 0;
     public boolean tog = false;
     @Override
@@ -39,14 +40,9 @@ public class Input implements KeyListener, MouseListener {
     public int right2(){return(this.right2);}
     public int left2(){return(this.left2);}
     
-    public int MX(){return(this.mx);}
-    public int MY(){return(this.my);}
+    public int mouseX(){return(this.mouseX);}
+    public int mouseY(){return(this.mouseY);}
     
-    void mouseMoved(MouseEvent e)
-    {
-        mx = e.getX();
-        my = e.getY();
-    }
     
     @Override
     public void keyPressed(KeyEvent e) {
@@ -124,29 +120,56 @@ public class Input implements KeyListener, MouseListener {
     }
 
     @Override
+    public void mouseDragged(MouseEvent e) {
+        lX = mouseX;
+        lY = mouseY;
+        mouseX = e.getX();
+        mouseY = e.getY();
+        cX = mouseX - lX;
+        cY = mouseY - lY;
+        System.out.println("x, y: " + cX + " ," + cY);
+    }
+    
+    public int cX = 0;
+    public int cY = 0;
+    public int lX = 0;
+    public int lY = 0;
+    @Override
+    public void mouseMoved(MouseEvent e) {
+        /*
+        lX = mouseX;
+        lY = mouseY;
+        mouseX = e.getX();
+        mouseY = e.getY();
+        cX = mouseX - lX;
+        cY = mouseY - lY;
+        System.out.println("x, y: " + cX + " ," + cY);
+        */
+    }
+    public int mousestate = 0;
+    @Override
     public void mouseClicked(MouseEvent e) {
-        
+        //throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
     @Override
     public void mousePressed(MouseEvent e) {
-        
+        //throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
     @Override
     public void mouseReleased(MouseEvent e) {
-        
+        //throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
     @Override
     public void mouseEntered(MouseEvent e) {
-        
+        //throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
     @Override
     public void mouseExited(MouseEvent e) {
-        
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
-    
     
 }

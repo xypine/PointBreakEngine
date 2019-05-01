@@ -106,6 +106,7 @@ public class windowManager extends JFrame implements Runnable, ActionListener {
         System.out.println("Initializing game...");
         this.requestFocusInWindow();
         this.addKeyListener(input);
+        this.addMouseMotionListener(input);
         this.setVisible(true);
         getContentPane().setBackground( Color.black );
         

@@ -6,6 +6,14 @@
 
 package viridiengine;
 
+import java.io.BufferedWriter;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.OutputStreamWriter;
+import java.io.UnsupportedEncodingException;
+import java.io.Writer;
+import static java.lang.Math.round;
 import java.util.LinkedList;
 
 /**
@@ -13,7 +21,7 @@ import java.util.LinkedList;
  * @author Jonnelafin
  */
 public class Recorder {
-    public LinkedList<Vector> locations;
+    public LinkedList<Vector> recorded = new LinkedList<>();
     public LinkedList<LinkedList<Vector>> locationsByTime;
     public LinkedList<Vector> lastLocations;
     public LinkedList<gameObject> gameObjects;
@@ -21,31 +29,32 @@ public class Recorder {
     private String out;
     public int frame = 0;
     public Recorder(){
-        locations = new LinkedList<>();
-        gameObjects = new LinkedList<>();
-        lastLocations = new LinkedList<>();
+//        locations = new LinkedList<>();
+//        gameObjects = new LinkedList<>();
+//        lastLocations = new LinkedList<>();
     }
     public void record(objectManager oM){
-        lastLocations = locations;
-        locations.clear();
-        for(gameObject i : oM.getObjects()){
-            locations.add(i.getLocation());
+        gameObject z = oM.getObjectByTag("player1");
+        try{
+        recorded.add( new Vector(z.getX(), z.getY()));
         }
-        if(locations.toString().equals(lastLocations.toString())){}
-        else{
-            int index = 0;
-            changed.clear();
-            for(Vector i : locations){
-                if(i.equals(lastLocations.get(index))){}
-                else{
-                    changed.add(new container(Vector.subtract(i, lastLocations.get(index)), oM.getObjects().get(index).getID()) );
-                }
-                index++;
-            }
-            System.out.println(changed);
-        }
-        System.out.println("frame " + frame);
+        catch(Exception e){System.out.println("");}
+        //System.out.println("frame: " + frame + ": " + recorded.getLast().x);
         frame++;
+    }
+    public void write(LinkedList<Vector> g, String file) throws FileNotFoundException, UnsupportedEncodingException, IOException{
+        System.out.println(System.getProperty("user.dir") + "/" + file);
+        String tmp = "";
+        int idi = 90;
+        for(Vector p : g){
+            tmp = tmp + p.x + "l" + p.y + ":";
+        }
+        try (Writer writer = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(System.getProperty("user.dir") + file), "utf-8"))) {
+            writer.write(tmp);
+        }
+    }
+    public void read(){
+        
     }
     class container{
         public Vector location;

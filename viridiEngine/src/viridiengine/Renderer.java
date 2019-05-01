@@ -6,9 +6,10 @@
 
 package viridiengine;
 
+import java.awt.Canvas;
 import java.awt.Color;
-import java.util.Arrays;
-
+import java.awt.Graphics;
+import java.awt.image.BufferStrategy;
 /**
  *
  * @author Jonnelafin
@@ -33,7 +34,7 @@ public class Renderer {
 //        colorFill(Color.white);
         fill("█", Color.black, "null");
     }
-    public void initVector(){
+    public void initVector(int y, int x){
         
     }
     
@@ -51,8 +52,17 @@ public class Renderer {
         }
 //        this.space = tmp;
     }
-    void vectorFill(){
+    void vectorFill(Canvas ca){
+        BufferStrategy bs = ca.getBufferStrategy();
+        if(bs == null){
+            ca.createBufferStrategy(3);
+            return;
+        }
         
+        Graphics g = bs.getDrawGraphics();
+        
+        g.setColor(Color.black);
+        g.fillRect(0, 0, 0, 0);
     }
     void colorFill(Color goal){
         Color[][] tmp;
