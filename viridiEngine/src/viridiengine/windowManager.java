@@ -34,7 +34,7 @@ import javax.swing.Timer;
  * @author Jonnelafinelse
  */
 public class windowManager extends JFrame implements Runnable, ActionListener {
-    public int vector = 1;
+    public int vector = 0;
     colorParser cP = new colorParser();
     Timer timer = new Timer(1, this);
     int tickC = 0;
@@ -173,11 +173,13 @@ public class windowManager extends JFrame implements Runnable, ActionListener {
         if(running == true){
             tick();
         }
-        
         tickC++;
     }
     //public Recorder recorder = new Recorder();
+    boolean ve = false;
     void tick(){
+        vector = input.ve;
+        
 //        aM.play();
         //recorder.record(oM);
         //UPDATE ARRAY

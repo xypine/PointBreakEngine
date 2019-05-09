@@ -75,7 +75,6 @@ public class Renderer {
         g.setColor(co);
         g.clearRect(0, 0, canvas.getWidth() * -1, canvas.getHeight() * -1);
         canvas.setSize(767, 562);
-        System.out.println("");
         g.dispose();
         bs.show();
     }

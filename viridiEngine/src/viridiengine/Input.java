@@ -24,6 +24,7 @@ public class Input implements KeyListener, MouseMotionListener, MouseListener {
     private int right2 = 0, left2 = 0;
     private int mouseX = 0, mouseY = 0;
     public int rt = 0;
+    public int ve = 0;
     public boolean tog = false;
     @Override
     public void keyTyped(KeyEvent e) {
@@ -80,6 +81,7 @@ public class Input implements KeyListener, MouseMotionListener, MouseListener {
         }
         if(ke == 'e'){ki.tog();}
         if(ke == 'r'){rt = 1;tog = !tog;}
+        if(ke == 'v'){ve = 1;}
     }
     
     public Input(kick k){
@@ -117,6 +119,7 @@ public class Input implements KeyListener, MouseMotionListener, MouseListener {
             down2 = 0;
         }
         if(ke == 'r'){rt = 0;}
+        if(ke == 'v'){ve = 0;}
     }
 
     @Override
