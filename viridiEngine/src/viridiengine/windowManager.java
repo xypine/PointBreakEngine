@@ -6,6 +6,7 @@
 
 package viridiengine;
 
+import java.awt.Canvas;
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
@@ -33,6 +34,7 @@ import javax.swing.Timer;
  * @author Jonnelafinelse
  */
 public class windowManager extends JFrame implements Runnable, ActionListener {
+    public int vector = 1;
     colorParser cP = new colorParser();
     Timer timer = new Timer(1, this);
     int tickC = 0;
@@ -56,6 +58,7 @@ public class windowManager extends JFrame implements Runnable, ActionListener {
     private float txf;
     private float tyf;
 //    
+    public Canvas canvas;
     kick k;
     private Input input;
     public windowManager(kick ki){
@@ -111,8 +114,10 @@ public class windowManager extends JFrame implements Runnable, ActionListener {
         getContentPane().setBackground( Color.black );
         
         synchronized(lM) {
-            lM.init(xd, yd);
+            lM.init(xd, yd, this);
         }
+        canvas = lM.canvas;
+        this.add(canvas);
         tmp = lM.gets();
         
         screen = "";
@@ -157,6 +162,14 @@ public class windowManager extends JFrame implements Runnable, ActionListener {
     @Override
     public void actionPerformed(ActionEvent e) {
         this.number = Integer.parseInt(Integer.toString(tickC).substring(0, 1));
+        if(vector == 0){
+            area.setVisible(true);
+            canvas.setVisible(false);
+        }
+        if(vector == 1){
+            area.setVisible(false);
+            canvas.setVisible(true);
+        }
         if(running == true){
             tick();
         }
@@ -182,7 +195,7 @@ public class windowManager extends JFrame implements Runnable, ActionListener {
 ;
         LinkedList<xyac> lis = new LinkedList<xyac>();
         objects = oM.getObjects();
-        lM.fill("█", Color.BLACK, "null");
+        
         
 
 //        oM.doPhysics(lM);
@@ -224,10 +237,12 @@ public class windowManager extends JFrame implements Runnable, ActionListener {
             //RENDER
 //            lM.fill(Integer.toString(number));
         }
-        
+        lM.fill("█", Color.BLACK, "null");
+        lM.vectorFill(Color.BLACK, vector);
         //Render
         for(xyac a : lis){
             lM.change(a.x, a.y, a.a, a.c, "n");
+            lM.vChange((int) (a.x * 15.34F), (int) (a.y * 22.48F), a.a, a.c, vector);
         }
         
         area.setText(fetch(lM));

@@ -8,8 +8,10 @@ package viridiengine;
 
 import java.awt.Canvas;
 import java.awt.Color;
+import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.image.BufferStrategy;
+import javax.swing.JFrame;
 /**
  *
  * @author Jonnelafin
@@ -19,23 +21,29 @@ public class Renderer {
     private int b;
     private String[][] space;
     private Color[][] colors;
+    public Canvas canvas = new Canvas();
     private int y;
     private int x;
+    private JFrame frame;
     colorParser cP;
     
-    public void init(int y, int x){
+    public void init(int x, int y, JFrame f){
+        this.frame = f;
         cP = new colorParser();
-        this.y = y;
-        this.x = x;
-        this.space = new String[x][y];
+        this.x = y;
+        this.y = x;
+        this.space = new String[y][x];
 //        this.colors = new Color[x][y];
         this.a = (space.length);
         this.b = (space[0].length);
 //        colorFill(Color.white);
         fill("█", Color.black, "null");
+        initVector(767, 562);
     }
-    public void initVector(int y, int x){
-        
+    public void initVector(int x, int y){
+        canvas.setSize(y, x);
+        canvas.setMaximumSize(new Dimension(y,x));
+        canvas.setMinimumSize(new Dimension(y,x));
     }
     
     public String[][] gets(){return(this.space);}
@@ -52,17 +60,22 @@ public class Renderer {
         }
 //        this.space = tmp;
     }
-    void vectorFill(Canvas ca){
-        BufferStrategy bs = ca.getBufferStrategy();
+    void vectorFill(Color co, int vec){
+        BufferStrategy bs = canvas.getBufferStrategy();
         if(bs == null){
-            ca.createBufferStrategy(3);
+            canvas.createBufferStrategy(3);
             return;
         }
         
         Graphics g = bs.getDrawGraphics();
         
-        g.setColor(Color.black);
-        g.fillRect(0, 0, 0, 0);
+        g.setColor(co);
+        g.fillRect(0, 0, canvas.getWidth(), canvas.getHeight());
+        
+        g.dispose();
+        if(vec == 1){
+            bs.show();
+        }
     }
     void colorFill(Color goal){
         Color[][] tmp;
@@ -79,6 +92,31 @@ public class Renderer {
     void change(int locy,int locx,String to, Color c, String style){
         try{
             this.space[locx][locy] = cP.parse(to,  c, style);
+            
+            //this.colors[locx][locy] = c;
+        }
+        catch (Exception e){
+            System.out.println("Tried writing out of bounds: y(" + locy + "), x(" + locx + "): ");
+            System.out.println(e);
+        }
+    }
+    void vChange(int locx,int locy,String to, Color c, int vec){
+        try{
+            
+            BufferStrategy bs = canvas.getBufferStrategy();
+            if(bs == null){
+                canvas.createBufferStrategy(3);
+                return;
+            }
+        
+            Graphics g = bs.getDrawGraphics();
+            g.setColor(c);
+            g.drawRect(locx, locy, (int) 15.34F, (int) 22.48F);
+        
+            g.dispose();
+            if(vec == 1){
+                bs.show();
+            }
             
             //this.colors[locx][locy] = c;
         }

@@ -16,9 +16,13 @@ public class kick {
     windowManager wM;
     Editor ea;
     boolean tog;
+    kick ref = this;
     public kick(){
-        wM = new windowManager(this);
-        ea = new Editor(this);
+        new Thread(){
+                @Override
+                public void run(){
+        wM = new windowManager(ref);
+        ea = new Editor(ref);
         
         SwingUtilities.invokeLater(wM);
         SwingUtilities.invokeLater(ea);
@@ -28,6 +32,8 @@ public class kick {
         //b.start();
         
         ea.setVisible(false);
+                }
+        }.start();
     }
     public void tog(){
         wM.setVisible(tog);

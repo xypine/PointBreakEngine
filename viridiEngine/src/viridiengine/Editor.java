@@ -113,7 +113,7 @@ public class Editor extends JFrame implements Runnable, ActionListener {
         getContentPane().setBackground( Color.black );
         
         synchronized(lM) {
-            lM.init(xd, yd);
+            lM.init(xd, yd, this);
         }
         tmp = lM.gets();
         
