@@ -21,7 +21,7 @@ public class Player extends gameObject{
     }
     
     public void checkInput(Input in){
-        //System.out.println("VELX, VELY: " + velx + " , " + vely + "     " + "up, down, left, right: " + in.up() + " " + in.down() + " " + in.right() + " " + in.left() + "      " + "x, y, mouse x, y: " + this.getX() + " , " + this.getY() + "MOUSE:"+ in.MX() + ", " + in.MY());
+        //System.out.println("VELX, VELY: " + velx + " , " + vely + "     " + "up, down, left, right: " + in.up() + " " + in.down() + " " + in.right() + " " + in.left() + "      " + "x, y, mouse x, y: " + this.getX() + " , " + this.getY() + "MOUSE:"+ in.mouseX() + ", " + in.mouseY());
         //System.out.println(this.colliding);
         
         if(this.vely < -0.5F && this.getTag() != "cursor")
@@ -47,9 +47,9 @@ public class Player extends gameObject{
 //            canjump = false;
         }
         if(this.getTag() == "player1"){
-            //this.velx = this.velx + ((in.right() + in.left()) * 0.4F);
-            this.velx = this.velx + in.cX / 75;
-            this.vely = this.vely + in.cY / 75;
+            this.velx = this.velx + ((in.right() + in.left()) * 0.4F);
+            //this.velx = this.velx + in.cX / 75;
+            //this.vely = this.vely + in.cY / 75;
 //            this.setColor(new Color(0 + orange * 0.25F, 0 + orange * 0.5F, 0 + orange));
             this.setColor(Color.red);
         }

@@ -163,10 +163,10 @@ public class windowManager extends JFrame implements Runnable, ActionListener {
         
         tickC++;
     }
-    public Recorder recorder = new Recorder();
+    //public Recorder recorder = new Recorder();
     void tick(){
 //        aM.play();
-        recorder.record(oM);
+        //recorder.record(oM);
         //UPDATE ARRAY
         class xyac
         {
