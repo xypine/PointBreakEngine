@@ -183,12 +183,12 @@ public class windowManager extends JFrame implements Runnable, ActionListener {
         //UPDATE ARRAY
         class xyac
         {
-            int x;
-            int y;  
+            float x;
+            float y;  
             String a;
             Color c;
 
-            private xyac(int tx, int ty, String ta, Color tc) {
+            private xyac(float tx, float ty, String ta, Color tc) {
                 this.x = tx; this.y = ty; this.a = ta; this.c = tc;
             }
         }
@@ -241,8 +241,8 @@ public class windowManager extends JFrame implements Runnable, ActionListener {
         lM.vectorFill(Color.BLACK, vector);
         //Render
         for(xyac a : lis){
-            lM.change(a.x, a.y, a.a, a.c, "n");
-            lM.vChange((int) (a.x * 15.34F), (int) (a.y * 22.48F), a.a, a.c, vector);
+            lM.change((int) (a.x), (int) (a.y), a.a, a.c, "n");
+            lM.vChange(a.x * 15.34F, a.y * 22.48F, a.a, a.c, vector);
         }
         
         area.setText(fetch(lM));

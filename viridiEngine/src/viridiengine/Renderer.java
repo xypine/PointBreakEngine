@@ -11,6 +11,7 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.image.BufferStrategy;
+import static java.lang.Math.round;
 import javax.swing.JFrame;
 /**
  *
@@ -26,6 +27,8 @@ public class Renderer {
     private int x;
     private JFrame frame;
     colorParser cP;
+    int cW;
+    int cH;
     
     public void init(int x, int y, JFrame f){
         this.frame = f;
@@ -70,12 +73,11 @@ public class Renderer {
         Graphics g = bs.getDrawGraphics();
         
         g.setColor(co);
-        g.fillRect(0, 0, canvas.getWidth(), canvas.getHeight());
-        
+        g.clearRect(0, 0, canvas.getWidth() * -1, canvas.getHeight() * -1);
+        canvas.setSize(767, 562);
+        System.out.println("");
         g.dispose();
-        if(vec == 1){
-            bs.show();
-        }
+        bs.show();
     }
     void colorFill(Color goal){
         Color[][] tmp;
@@ -100,7 +102,7 @@ public class Renderer {
             System.out.println(e);
         }
     }
-    void vChange(int locx,int locy,String to, Color c, int vec){
+    void vChange(float locx,float locy,String to, Color c, int vec){
         try{
             
             BufferStrategy bs = canvas.getBufferStrategy();
@@ -111,7 +113,7 @@ public class Renderer {
         
             Graphics g = bs.getDrawGraphics();
             g.setColor(c);
-            g.drawRect(locx, locy, (int) 15.34F, (int) 22.48F);
+            g.drawRect(round(locx), round(locy), (int) 15.34F, (int) 22.48F);
         
             g.dispose();
             if(vec == 1){
