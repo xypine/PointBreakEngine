@@ -16,6 +16,7 @@ import java.awt.event.KeyListener;
 import java.awt.font.NumericShaper.Range;
 import java.beans.EventHandler;
 import java.io.IOException;
+import java.io.UnsupportedEncodingException;
 import static java.lang.Math.round;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -35,6 +36,7 @@ import javax.swing.Timer;
  */
 public class windowManager extends JFrame implements Runnable, ActionListener {
     public int vector = 0;
+    public LinkedList<Vector> record;
     colorParser cP = new colorParser();
     Timer timer = new Timer(1, this);
     int tickC = 0;
@@ -106,7 +108,7 @@ public class windowManager extends JFrame implements Runnable, ActionListener {
         
         this.add(area);
         
-        System.out.println("Initializing game...");
+        System.out.println("Initializing engine...");
         this.requestFocusInWindow();
         this.addKeyListener(input);
         this.addMouseMotionListener(input);
@@ -121,7 +123,7 @@ public class windowManager extends JFrame implements Runnable, ActionListener {
         tmp = lM.gets();
         
         screen = "";
-        System.out.println("Done initializing game!");
+        System.out.println("Done initializing engine!");
         
 //        for (String[] y : tmp)
 //        {  
@@ -143,7 +145,10 @@ public class windowManager extends JFrame implements Runnable, ActionListener {
         //SUMMON TEST
         
         levelLoader lL = new levelLoader("/src/viridiengine/levels/out.txt", oM);
-        oM.addObject(new Player(0, 0, "player1", "█", 1F, Color.black, 1));
+        oM.addObject(new Player(4, 1, "player1", "█", 1F, Color.black, 1));
+        
+        record = recorder.read("/src/viridiengine/records/recorded.txt");
+        oM.addObject(new Player(3, 3, "playback", "█", 1F, Color.blue, 11));
         //Add audioManager
 /*        try {
             
@@ -175,13 +180,15 @@ public class windowManager extends JFrame implements Runnable, ActionListener {
         }
         tickC++;
     }
-    //public Recorder recorder = new Recorder();
+    public Recorder recorder = new Recorder();
     boolean ve = false;
     void tick(){
+        Vector loc = record.get(tickC);
+        oM.getObjectByTag("playback").setLocation(loc);
         vector = input.ve;
         
 //        aM.play();
-        //recorder.record(oM);
+        recorder.record(oM);
         //UPDATE ARRAY
         class xyac
         {
@@ -290,6 +297,17 @@ public class windowManager extends JFrame implements Runnable, ActionListener {
 //        System.out.println(colors);
 //        System.out.println("Done fetching!");
         return(screen);
+    }
+
+    void record() {
+        try {
+            
+            recorder.write(recorder.recorded, "/src/viridiengine/records/recorded.txt");
+        } catch (UnsupportedEncodingException ex) {
+            Logger.getLogger(windowManager.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (IOException ex) {
+            Logger.getLogger(windowManager.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 
     

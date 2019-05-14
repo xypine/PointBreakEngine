@@ -112,7 +112,7 @@ public class Renderer {
         
             Graphics g = bs.getDrawGraphics();
             g.setColor(c);
-            g.drawRect(round(locx), round(locy), (int) 15.34F, (int) 22.48F);
+            g.fillRect(round(locx), round(locy), (int) 15.34F, (int) 22.48F);
         
             g.dispose();
             if(vec == 1){

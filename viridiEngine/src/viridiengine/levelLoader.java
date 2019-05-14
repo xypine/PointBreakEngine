@@ -29,6 +29,7 @@ import java.util.logging.Logger;
 public class levelLoader {
     private int dotC = 0;
     private boolean inSentence = false;
+    public int count = 0;
     int x = 0;
     int y = 0;
     int mass = 1;
@@ -47,12 +48,13 @@ public class levelLoader {
             }
             in.close();
             fetch(text, oM);
-            
+            System.out.println("Level loaded with " + count + " objects!");
 //            fetch(in.toString(), oM);
         } catch (FileNotFoundException ex) {
             Logger.getLogger(levelLoader.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
+    
     public void fetch(String i, objectManager oM){
         String tmp = "";
         for(char x : i.toCharArray()){
@@ -60,6 +62,7 @@ public class levelLoader {
             if(x == ':'){
                 gameObject tm = new gameObject(this.x, this.y, this.tag, this.appereance, this.mass, this.c, this.id);
                 oM.addObject(tm);
+                count++;
                 //System.out.println(tm.getTag());
                 dotC = 0;
                 tmp = "";

@@ -36,6 +36,9 @@ public class kick {
         }.start();
     }
     public void tog(){
+        if(tog){
+            wM.record();
+        }
         wM.setVisible(tog);
         wM.running = tog;
         ea.setVisible(!tog);

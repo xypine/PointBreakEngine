@@ -9,12 +9,16 @@ package viridiengine;
 import java.io.BufferedWriter;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
+import java.io.FileReader;
 import java.io.IOException;
 import java.io.OutputStreamWriter;
 import java.io.UnsupportedEncodingException;
 import java.io.Writer;
 import static java.lang.Math.round;
 import java.util.LinkedList;
+import java.util.Scanner;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  *
@@ -43,7 +47,7 @@ public class Recorder {
         frame++;
     }
     public void write(LinkedList<Vector> g, String file) throws FileNotFoundException, UnsupportedEncodingException, IOException{
-        System.out.println(System.getProperty("user.dir") + "/" + file);
+        System.out.println(System.getProperty("user.dir") + "/" + file + "  " + g.size());
         String tmp = "";
         int idi = 90;
         for(Vector p : g){
@@ -53,8 +57,46 @@ public class Recorder {
             writer.write(tmp);
         }
     }
-    public void read(){
-        
+    public LinkedList<Vector> read(String file){
+        try {
+            Scanner in = new Scanner(new FileReader(file));
+            String text = "";
+            while (in.hasNextLine()) {
+                String line = in.nextLine();
+                text = text + line;
+            }
+            in.close();
+            int l = 0;
+            String ax = "";
+            String ay = "";
+            LinkedList<Vector> out = new LinkedList<>();
+            for(char x : text.toCharArray())
+            {
+                System.out.println(x);
+                if(x == ':')
+                {
+                    l = 0;
+                    out.add(new Vector(toInt(ax), toInt(ay)));
+                    System.out.println("Read a new location: " + toInt(ax) + " " + toInt(ay));
+                    ax = "";
+                    ay = "";
+                }
+                else if(x == 'l'){
+                    l = 1;
+                }
+                else if(l == 0){
+                    ax = ax + x;
+                }
+                else if(l == 1){
+                    ay = ay + x;
+                }
+            }
+            System.out.println("Loaded level "+file+" with the lenght of "+out.size());
+            return(out);
+        } catch (FileNotFoundException ex) {
+            Logger.getLogger(Recorder.class.getName()).log(Level.SEVERE, null, ex);
+            return new LinkedList<Vector>();
+        }
     }
     class container{
         public Vector location;
@@ -63,5 +105,15 @@ public class Recorder {
             this.location = v;
             this.id = ta;
         }
+    }
+    public int toInt(String som){
+        String result = "";
+        for (int i = 0; i < som.length(); i++) {
+            Character character = som.charAt(i);
+            if (Character.isDigit(character)) {
+                result = result + character;
+            }
+        }
+        return Integer.parseInt(result);
     }
 }
