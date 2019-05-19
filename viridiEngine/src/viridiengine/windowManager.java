@@ -8,6 +8,7 @@ package viridiengine;
 
 import java.awt.Canvas;
 import java.awt.Color;
+import java.awt.Component;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -35,7 +36,10 @@ import javax.swing.Timer;
  * @author Jonnelafinelse
  */
 public class windowManager extends JFrame implements Runnable, ActionListener {
-    public int vector = 0;
+    //Screen components
+    public LinkedList<Object> content = new LinkedList<>();
+    
+    public int vector = 1;
     public LinkedList<Vector> record;
     colorParser cP = new colorParser();
     Timer timer = new Timer(1, this);
@@ -107,7 +111,8 @@ public class windowManager extends JFrame implements Runnable, ActionListener {
         area.setBackground(Color.black);
         
         this.add(area);
-        
+        content.add(area);
+        //fresh();
         System.out.println("Initializing engine...");
         this.requestFocusInWindow();
         this.addKeyListener(input);
@@ -119,10 +124,15 @@ public class windowManager extends JFrame implements Runnable, ActionListener {
             lM.init(xd, yd, this);
         }
         canvas = lM.canvas;
+        
         this.add(canvas);
+        content.add(canvas);
+        
         tmp = lM.gets();
         
         screen = "";
+        
+        //fresh();
         System.out.println("Done initializing engine!");
         
 //        for (String[] y : tmp)
@@ -142,13 +152,14 @@ public class windowManager extends JFrame implements Runnable, ActionListener {
         
         
         
+        
         //SUMMON TEST
         
         levelLoader lL = new levelLoader("/src/viridiengine/levels/out.txt", oM);
-        oM.addObject(new Player(4, 1, "player1", "█", 1F, Color.black, 1));
+        oM.addObject(new Player(5, 5, "player1", "█", 1F, Color.black, 1));
         
         record = recorder.read("/src/viridiengine/records/recorded.txt");
-        oM.addObject(new Player(3, 3, "playback", "█", 1F, Color.blue, 11));
+        //oM.addObject(new Player(3, 3, "playback", "█", 1F, Color.blue, 11));
         //Add audioManager
 /*        try {
             
@@ -163,9 +174,20 @@ public class windowManager extends JFrame implements Runnable, ActionListener {
 */
     }
     
+    //Function for reshfreshing the screen
+    private void fresh(){
+        this.removeAll();
+        for(Object i : content){
+            //this.add((Component) i);
+        }
+    }
+    
     public boolean running = true;
     @Override
     public void actionPerformed(ActionEvent e) {
+        //fresh();
+        revalidate();
+        repaint();
         this.number = Integer.parseInt(Integer.toString(tickC).substring(0, 1));
         if(vector == 0){
             area.setVisible(true);
@@ -177,15 +199,25 @@ public class windowManager extends JFrame implements Runnable, ActionListener {
         }
         if(running == true){
             tick();
+            tickC++;
         }
-        tickC++;
+        
     }
+    Vector las;
     public Recorder recorder = new Recorder();
     boolean ve = false;
     void tick(){
-        Vector loc = record.get(tickC);
-        oM.getObjectByTag("playback").setLocation(loc);
-        vector = input.ve;
+        if(tickC < record.size()){
+            if(oM.findGameObject("playback") != 99999999){
+                Vector loc = record.get(tickC);
+                System.out.println("Playing back frame " + tickC + ": " + loc.represent());
+                oM.getObjectByTag("playback").setLocation(loc);
+            }
+        }
+        else{
+            tickC = -1;
+        }
+        //vector = input.ve;
         
 //        aM.play();
         recorder.record(oM);
@@ -196,9 +228,9 @@ public class windowManager extends JFrame implements Runnable, ActionListener {
             float y;  
             String a;
             Color c;
-
-            private xyac(float tx, float ty, String ta, Color tc) {
-                this.x = tx; this.y = ty; this.a = ta; this.c = tc;
+            Vector last;
+            private xyac(float tx, float ty, String ta, Color tc, Vector last) {
+                this.x = tx; this.y = ty; this.a = ta; this.c = tc; this.last = last;
             }
         }
 ;
@@ -206,7 +238,7 @@ public class windowManager extends JFrame implements Runnable, ActionListener {
         objects = oM.getObjects();
         
         
-
+        
 //        oM.doPhysics(lM);
         for(gameObject p : objects){
 //            lM.change(tx, ty, "█", Color.WHITE);
@@ -219,6 +251,9 @@ public class windowManager extends JFrame implements Runnable, ActionListener {
             this.tyf = p.getY();
             this.tx = round(p.getX());
             this.ty = round(p.getY());
+            this.las = new Vector(p.lastX, p.lastY);
+            p.lastX = txf;
+            p.lastY = tyf;
             ta = p.gAppearance();
             Color tc = p.getColor();
 //            p.update(lM);
@@ -240,7 +275,7 @@ public class windowManager extends JFrame implements Runnable, ActionListener {
         
 //          System.out.println("pelaaja: x:" + tx + " y:" + ty);
 /////////////////            lM.change(tx, ty, ta, tc);
-            lis.add(new xyac(tx,ty,ta,tc));
+            lis.add(new xyac(tx,ty,ta,tc,las));
 
 
             //RENDER
@@ -251,7 +286,8 @@ public class windowManager extends JFrame implements Runnable, ActionListener {
         //Render
         for(xyac a : lis){
             lM.change((int) (a.x), (int) (a.y), a.a, a.c, "n");
-            lM.vChange(a.x * 15.34F, a.y * 22.48F, a.a, a.c, vector);
+            //lM.vChange(a.last.x * 15.34F, a.last.y * 22.48F, a.a, Color.black, vector);
+            lM.vChange(a.x * 15.34F, a.y * 22.48F, a.c);
         }
         
         area.setText(fetch(lM));

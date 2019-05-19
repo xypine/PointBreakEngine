@@ -48,7 +48,7 @@ public class levelLoader {
             }
             in.close();
             fetch(text, oM);
-            System.out.println("Level loaded with " + count + " objects!");
+            System.out.println("Level ["+filePath.concat(file)+"] loaded with " + count + " objects!");
 //            fetch(in.toString(), oM);
         } catch (FileNotFoundException ex) {
             Logger.getLogger(levelLoader.class.getName()).log(Level.SEVERE, null, ex);

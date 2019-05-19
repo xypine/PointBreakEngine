@@ -47,8 +47,8 @@ public class objectManager {
                 return(i);
             }
         }
-        System.out.println("No gameobject with tag: " + tagToGet);
-        return(999999);
+        //System.out.println("No gameobject with tag: " + tagToGet);
+        return(99999999);
     }
     public LinkedList<gameObject> getObjects(){
         LinkedList<gameObject> tmpob = new LinkedList<gameObject>();

@@ -32,6 +32,12 @@ class Vector {
     public static Vector divide(Vector one, Vector two){
         return(new Vector(one.x / two.x, one.y / two.y));
     }
+    public String represent(){
+        return(this.x + ", " + this.y);
+    }
+    public static Vector round(Vector in){
+        return(new Vector(Math.round(in.x), Math.round(in.y)));
+    }
 }
 class Vector3{
     public float x;

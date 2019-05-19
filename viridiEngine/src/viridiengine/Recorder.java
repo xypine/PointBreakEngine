@@ -7,6 +7,7 @@
 package viridiengine;
 
 import java.io.BufferedWriter;
+import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.FileReader;
@@ -57,9 +58,11 @@ public class Recorder {
             writer.write(tmp);
         }
     }
+    String filePath = new File("").getAbsolutePath();
     public LinkedList<Vector> read(String file){
+        System.out.println("trying to reconstruct recording [" + filePath.concat(file)+"]");
         try {
-            Scanner in = new Scanner(new FileReader(file));
+            Scanner in = new Scanner(new FileReader(filePath.concat(file)));
             String text = "";
             while (in.hasNextLine()) {
                 String line = in.nextLine();
@@ -70,28 +73,31 @@ public class Recorder {
             String ax = "";
             String ay = "";
             LinkedList<Vector> out = new LinkedList<>();
+            int framer =0;
             for(char x : text.toCharArray())
             {
-                System.out.println(x);
                 if(x == ':')
                 {
                     l = 0;
-                    out.add(new Vector(toInt(ax), toInt(ay)));
-                    System.out.println("Read a new location: " + toInt(ax) + " " + toInt(ay));
+                    out.add(new Vector(Float.parseFloat(ax), Float.parseFloat(ay)));
+                    //System.out.println("Read frame "+framer+ ": " + Float.parseFloat(ax) + " " + Float.parseFloat(ay));
                     ax = "";
                     ay = "";
+                    framer++;
                 }
                 else if(x == 'l'){
                     l = 1;
                 }
                 else if(l == 0){
-                    ax = ax + x;
+                    if(x == '.'){ax = ax + ".";}
+                    else{ax = ax + x;}
                 }
                 else if(l == 1){
-                    ay = ay + x;
+                    if(x == '.'){ay = ay + ".";}
+                    else{ay = ay + x;}
                 }
             }
-            System.out.println("Loaded level "+file+" with the lenght of "+out.size());
+            System.out.println("Loaded record ["+file+"] with the lenght of "+out.size()+" frames");
             return(out);
         } catch (FileNotFoundException ex) {
             Logger.getLogger(Recorder.class.getName()).log(Level.SEVERE, null, ex);

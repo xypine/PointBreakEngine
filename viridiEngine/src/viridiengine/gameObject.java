@@ -30,6 +30,9 @@ public class gameObject {
     float vely = 0;
     float velx = 0;
     
+    public float lastX = 0;
+    public float lastY = 0;
+    
     public int hits = 0;
     
     public float y = 1;

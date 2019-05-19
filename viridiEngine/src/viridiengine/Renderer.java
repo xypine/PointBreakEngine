@@ -22,7 +22,7 @@ public class Renderer {
     private int b;
     private String[][] space;
     private Color[][] colors;
-    public Canvas canvas = new Canvas();
+    public vCanvas canvas = new vCanvas();
     private int y;
     private int x;
     private JFrame frame;
@@ -71,10 +71,11 @@ public class Renderer {
         }
         
         Graphics g = bs.getDrawGraphics();
-        
+        g.setColor(Color.black);
+        g.drawRect(0, 0, -767, -562);
         g.setColor(co);
-        g.clearRect(0, 0, canvas.getWidth() * -1, canvas.getHeight() * -1);
-        canvas.setSize(767, 562);
+        g.clearRect(0, 0, 767, 562);
+        //canvas.setSize(767, 562);
         g.dispose();
         bs.show();
     }
@@ -101,25 +102,9 @@ public class Renderer {
             System.out.println(e);
         }
     }
-    void vChange(float locx,float locy,String to, Color c, int vec){
+    void vChange(float locx,float locy, Color c){
         try{
-            
-            BufferStrategy bs = canvas.getBufferStrategy();
-            if(bs == null){
-                canvas.createBufferStrategy(3);
-                return;
-            }
-        
-            Graphics g = bs.getDrawGraphics();
-            g.setColor(c);
-            g.fillRect(round(locx), round(locy), (int) 15.34F, (int) 22.48F);
-        
-            g.dispose();
-            if(vec == 1){
-                bs.show();
-            }
-            
-            //this.colors[locx][locy] = c;
+            canvas.render(locx, locy, c);
         }
         catch (Exception e){
             System.out.println("Tried writing out of bounds: y(" + locy + "), x(" + locx + "): ");
