@@ -1,3 +1,0 @@
-viridiengine.vector3
-viridiengine.Vector3
-viridiengine.Vector
