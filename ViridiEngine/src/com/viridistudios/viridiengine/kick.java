@@ -45,7 +45,6 @@ public class kick {
             //rad.setTitle("VSRad");
         }
         wM.running = false;
-        wM.setVisible(false);
                 }
         }.start();
     }

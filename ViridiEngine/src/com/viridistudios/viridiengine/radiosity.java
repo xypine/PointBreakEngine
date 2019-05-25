@@ -92,7 +92,7 @@ public class radiosity extends JFrame implements Runnable, ActionListener {
         area = new JLabel(screen);
         float Daspect = xd / yd;
         System.out.println(Daspect);
-        float fontSize = (float) (Daspect * 7.5);
+        float fontSize = (float) (7*Daspect);
         area.setFont(new Font("monospaced", Font.PLAIN, (int) fontSize));
         //area.setFont(new Font("courier_new", Font.PLAIN, (int) fontSize));
         
@@ -117,9 +117,9 @@ public class radiosity extends JFrame implements Runnable, ActionListener {
         
         screen = "";
         rad.init(xd, yd);
-        rad.calculate(new dVector(10, 10), 4);
-        rad.calculate(new dVector(15, 15), 2);
-        rad.calculate(new dVector(49, 24), 11);
+        //rad.calculate(new dVector(10, 10), 4);
+        rad.calculate(new dVector(15, 15), 4);
+        //rad.calculate(new dVector(49, 24), 11);
         System.out.println("Done initializing VSRad!");
         
         area.setText(fetch(lM));
@@ -154,14 +154,12 @@ public class radiosity extends JFrame implements Runnable, ActionListener {
     }
     
     public boolean running = false;
-    VSRad rad = new VSRad();
+    VSRad rad = new VSRad(oM, this);
     @Override
     
     public void actionPerformed(ActionEvent e) {
         
-//        double fps = 1000000.0 / (lastTime - (lastTime = System.nanoTime())); //This way, lastTime is assigned and used at the same time.
-//        System.out.println("FPS: " + fps);
-//        lastTime = System.nanoTime();
+
         this.number = Integer.parseInt(Integer.toString(tickC).substring(0, 1));
 //        System.out.print("another [" + this.number + "] tick passed! (");
 //        System.out.println(tickC + ")");
@@ -182,9 +180,10 @@ public class radiosity extends JFrame implements Runnable, ActionListener {
     }
     boolean saved = false;
     void tick(){
-        rad.fill(0);
-        rad.calculate(new dVector(number, 10), 5);
-        rad.calculate(new dVector(2, number + 2), 3);
+        //rad.fill(0);
+        //rad.calculate(new dVector(number, 10), 5);
+        //rad.calculate(new dVector(2, number + 2), 3);
+        //this.setTitle("ViridiEngine radiosity "+rad.s);
         int xp = 0, yp = 0;
         for(float[] x : rad.grid){
             for(float y : x){

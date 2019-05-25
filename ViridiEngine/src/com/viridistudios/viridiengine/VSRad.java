@@ -16,6 +16,12 @@ public class VSRad {
     private Vector source;
     public int width, height;
     dVector[] directions = new dVector[resolution];
+    private objectManager oM;
+    private radiosity demo;
+    public VSRad(objectManager oM, radiosity r){
+        this.oM = oM;
+        this.demo = r;
+    }
     public void init(int w, int h){
         int state = 0;
         grid = new float[w][h];
@@ -63,6 +69,7 @@ public class VSRad {
                 else{
                     state = 4; //Finished
                     //System.out.println("Calculating directions phase 4: " + cur.represent());
+                    System.out.println("finished calculating directions");
                 }
             }
             //directions[i] = new Vector(0,1);
@@ -81,32 +88,69 @@ public class VSRad {
     }
     private boolean inside = true;
     dVector cursor;
-    
+    int done = 0;
+    int hits = 0;
+    public float s = 0;
     public void calculate(dVector from, float strenght){
         for(dVector d: directions){
             //System.out.println("direction " + d.represent());
         }
+        System.out.println("Calculating rays...");
         cursor = from;
         grid[(int) from.x][(int) from.y] = strenght;
-        float s = strenght;
+        s = strenght;
         
         for(int i : new Range(resolution)){
+            //System.out.println(done / resolution * 100 + "%: ");
             int hp = 0;
-            dVector dir;
+            int hits =0;
+            dVector dir = directions[i];
             while(inside){
-                
+                //System.out.println(s);
+                //demo.setTitle("ViridiEngine radiosity "+s);
                 try{
-                    cursor = new dVector(cursor.x + directions[i].x, cursor.y + directions[i].y);
-                    grid[(int) cursor.x][(int) cursor.y] = grid[(int) cursor.x][(int) cursor.y] + s;
+                    //System.out.print(hits + " ");
+                    cursor = new dVector(cursor.x + dir.x, cursor.y + dir.y);
+                    if(oM.colliding((int)cursor.x,(int) cursor.y)){
+                        bounce(hp, dir, s);
+                    }
+                    else{
+                        grid[(int) cursor.x][(int) cursor.y] = grid[(int) cursor.x][(int) cursor.y] + s;
+                    }
                 }
                 catch(Exception e){
-                    
-                    if(hp > 0){
+                    bounce(hp, dir, s);
+                }
+                if(s * 0.999F > 0){
+                    s = s * 0.999F;
+                }
+                else{
+                    s = 0;
+                }
+                if(s < 0.09){
+                    inside = false;
+                }
+            }
+            cursor = from;
+            s = strenght;
+            inside = true;
+            done++;
+        }
+        System.out.println("rays calculated");
+    }
+    private void bounce(int hp, dVector dir, float s){
+                    if(hp > 0 && s > 0){
                         try{
-                            cursor = new dVector(cursor.x + dVector.multiply(directions[i], new dVector(-1, -1)).x, dVector.multiply(directions[i], new dVector(-1, -1)).y);
+                            dir = dVector.multiply(dir, new dVector(-1, -1));
+                            cursor = new dVector(cursor.x + dir.x, cursor.y + dir.y);
                             grid[(int) cursor.x][(int) cursor.y] = grid[(int) cursor.x][(int) cursor.y] + s;
                             hp = hp -1;
                             s = s * 0.5F;
+                            if(s < 0.001){
+                                inside = false;
+                            }
+                            hits++;
+                            //System.out.print(".");
                         }
                         catch(Exception d){
                             inside = false;
@@ -115,19 +159,6 @@ public class VSRad {
                     else{
                         inside = false;
                     }
-                }
-                if(s - 1 > 0){
-                s = s * 0.999F;
-                }
-                else{
-                    s = 0;
-                }
-            }
-            cursor = from;
-            s = strenght;
-            inside = true;
-        }
     }
-    
     
 }
