@@ -116,7 +116,8 @@ public class radiosity extends JFrame implements Runnable, ActionListener {
         tmp = lM.gets();
         
         screen = "";
-        rad.init(yd, yd);
+        rad.init(xd, yd);
+        rad.calculate(new Vector(0, 0), 9);
         System.out.println("Done initializing VSRad!");
         
         area.setText(fetch(lM));
@@ -182,10 +183,12 @@ public class radiosity extends JFrame implements Runnable, ActionListener {
         int xp = 0, yp = 0;
         for(float[] x : rad.grid){
             for(float y : x){
-                lM.change(xp, yp,rad.pwts(xp, yp),Color.BLACK, "i");
+                lM.change(xp, yp,Integer.toString(Math.round(y)),Color.BLACK, "i");
+                //lM.change(xp, yp, "0", Color.red, "i");
                 yp++;
             }
             xp++;
+            yp = 0;
         }
         
         //Render

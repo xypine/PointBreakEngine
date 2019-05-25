@@ -36,6 +36,7 @@ public class kick {
         //b.start();
         
         ea.setVisible(false);
+        rad.running = true;
         if(mode == 3){
             wM.loadLevel("/src/com/viridistudios/viridiengine/levels/out.txt");
             wM.oM.addObject(new Player(5, 5, "player1", "█", 1F, Color.black, 1));
