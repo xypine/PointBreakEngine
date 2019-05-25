@@ -49,3 +49,31 @@ class Vector3{
         this.z = nz;
     }
 }
+class dVector{
+    public double x;
+    public double y;
+    public dVector(double nx, double ny){
+        this.x = nx;
+        this.y = ny;
+    }
+    public static dVector add(dVector one, dVector two){
+        double nx = one.x + two.x;
+        double ny = one.y + two.y;
+        return(new dVector(nx, ny));
+    }
+    public static dVector subtract(dVector o, dVector t){
+        return(new dVector(o.x - t.x, o.y - t.y));
+    }
+    public static dVector multiply(dVector one, dVector two){
+        return(new dVector(one.x * two.x, one.y * two.y));
+    }
+    public static dVector divide(dVector one, dVector two){
+        return(new dVector(one.x / two.x, one.y / two.y));
+    }
+    public String represent(){
+        return(this.x + ", " + this.y);
+    }
+    public static dVector round(dVector in){
+        return(new dVector(Math.round(in.x), Math.round(in.y)));
+    }
+}

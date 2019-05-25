@@ -28,7 +28,7 @@ public class kick {
         ea = new Editor(ref);
         rad = new radiosity(ref);
         SwingUtilities.invokeLater(rad);
-        SwingUtilities.invokeLater(wM);
+        //SwingUtilities.invokeLater(wM);
         SwingUtilities.invokeLater(ea);
         //Thread a = new Thread(wM, "Thread 1");
         //Thread b = new Thread(ea, "Thread 2");
@@ -36,13 +36,16 @@ public class kick {
         //b.start();
         
         ea.setVisible(false);
+        wM.setVisible(false);
         rad.running = true;
+        wM.running = false;
         if(mode == 3){
             wM.loadLevel("/src/com/viridistudios/viridiengine/levels/out.txt");
             wM.oM.addObject(new Player(5, 5, "player1", "█", 1F, Color.black, 1));
             //rad.setTitle("VSRad");
         }
-        
+        wM.running = false;
+        wM.setVisible(false);
                 }
         }.start();
     }
