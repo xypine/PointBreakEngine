@@ -237,4 +237,5 @@ class VSRadManager{
             VSRad.remove(0);
         }
     }
+    
 }

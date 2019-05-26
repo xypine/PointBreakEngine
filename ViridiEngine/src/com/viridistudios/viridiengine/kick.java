@@ -17,26 +17,48 @@ import javax.swing.SwingUtilities;
 public class kick {
     windowManager wM;
     Editor ea;
-    radiosity rad;
+    //radiosity rad;
+    VSRadManager rad;
     boolean tog;
     kick ref = this;
+    int xd = 50;
+    int yd = 25;
+    Thread c;
+    Thread b;
+    Thread a;
+    objectManager forwM = new objectManager();
     public kick(int mode){
-        new Thread(){
+        c  = new Thread(){
+            @Override
+            public void run(){
+                rad = new VSRadManager(xd, yd, forwM);
+            }
+        };
+        c.start();
+        b  = new Thread(){
+            @Override
+            public void run(){
+                ea = new Editor(ref);
+                SwingUtilities.invokeLater(ea);
+                ea.setVisible(false);
+            }
+        };
+        b.start();
+        a = new Thread(){
                 @Override
                 public void run(){
-        wM = new windowManager(ref);
-        ea = new Editor(ref);
+        wM = new windowManager(ref , forwM, xd, yd, rad);
+        
+        
         //rad = new radiosity(ref);
         //SwingUtilities.invokeLater(rad);
         SwingUtilities.invokeLater(wM);
-        SwingUtilities.invokeLater(ea);
+        
            //Thread a = new Thread(wM, "Thread 1");
            //Thread b = new Thread(ea, "Thread 2");
            //a.start();
            //b.start();
         
-        ea.setVisible(false);
-        wM.setVisible(false);
         //rad.running = true;
         wM.running = false;
         if(mode == 3){
@@ -46,7 +68,8 @@ public class kick {
         }
         wM.running = true;
                 }
-        }.start();
+        };
+        a.start();
     }
     public void tog(){
         if(tog){
@@ -58,6 +81,7 @@ public class kick {
 //        rad.running = tog;
         ea.setVisible(!tog);
         ea.running = !tog;
+        
         tog = !tog;
     }
     public void stop(){

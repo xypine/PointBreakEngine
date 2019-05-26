@@ -50,12 +50,15 @@ public class windowManager extends JFrame implements Runnable, ActionListener {
     Renderer renderer = new Renderer();
     JLabel area;
     
+    public int xd;
+    public int yd;
     double lastTime;
     
     //GAMEOBJECTS:
 //    Player p1;
     int co = 0;
-    objectManager oM = new objectManager();
+    objectManager oM;
+    //objectManager oM = new objectManager();
     LinkedList<gameObject> objects;
     //VARIABLES FOR TICKS:
     int tx;
@@ -67,7 +70,11 @@ public class windowManager extends JFrame implements Runnable, ActionListener {
     public Canvas canvas;
     kick k;
     private Input input;
-    public windowManager(kick ki){
+    public windowManager(kick ki, objectManager o, int xd, int yd, VSRadManager a){
+        this.rads = a;
+        this.oM = o;
+        this.xd = xd;
+        this.yd = yd;
         System.out.println("Initializing main input: " + ki);
         this.k = ki;
         input = new Input(k);
@@ -92,8 +99,8 @@ public class windowManager extends JFrame implements Runnable, ActionListener {
         
 //        int xd = 50;
 //        int yd = 25;
-        int xd = (int) (w / 15.34);
-        int yd = (int) (h / 22.48);
+        //xd = (int) (w / 15.34);
+        //yd = (int) (h / 22.48);
         this.setTitle("ViridiEngine");
         this.setSize(round(w), round(h));
         this.setDefaultCloseOperation(EXIT_ON_CLOSE);
@@ -131,7 +138,7 @@ public class windowManager extends JFrame implements Runnable, ActionListener {
         
         tmp = renderer.gets();
         
-        rads = new VSRadManager(xd, yd, oM);
+        //rads = new VSRadManager(xd, yd, oM);
         rads.add(25, 12, 1);
         screen = "";
         
@@ -269,7 +276,7 @@ public class windowManager extends JFrame implements Runnable, ActionListener {
 //            p.update(renderer);
             if(p.getTag() == "player1"){
 //                oM.addObject(new Player(tx, ty, "null", "█", 1F, Color.MAGENTA));
-                rads.add(tx, ty, 1);
+                //rads.add(tx, ty, 1);
 //                aM.setVolume(d/10);
 //                System.out.println(aM.getVolume());
             }else{}
@@ -300,7 +307,7 @@ public class windowManager extends JFrame implements Runnable, ActionListener {
                     i = 255;
                 }
                 renderer.change(xp, yp,"█",new Color((int) i,(int) i,(int) i), "n");
-                //lM.change(xp, yp, "0", Color.red, "i");
+                renderer.vChange(xp * 15.34F, yp * 22.48F, new Color((int) i,(int) i,(int) i));
                 yp++;
             }
             xp++;
