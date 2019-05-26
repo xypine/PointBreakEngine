@@ -58,9 +58,9 @@ public class objectManager {
         }
         return(tmpob);
     }
-    public boolean colliding(int x, int y){
+    public boolean colliding(int x, int y, String ignore){
         for(gameObject i : object){
-            if(i.getTag() == "cursor"){}
+            if(i.getTag() == "cursor" || i.getTag() == ignore){}
             else{
                 if((round(i.x) == x && round(i.y) == y)){
                     return true;

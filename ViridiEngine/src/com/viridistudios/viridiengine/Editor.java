@@ -196,7 +196,7 @@ public class Editor extends JFrame implements Runnable, ActionListener {
         gameObject z = oM.getObjectByTag("cursor");
         int zx = round(z.getX());
         int zy = round(z.getY());
-        if(input.tog && !oM.colliding(zx,zy)){
+        if(input.tog && !oM.colliding(zx,zy,"null")){
             oM.addObject(new gameObject(zx, zy, "static", "█", 1F, Color.red, 1));
             saved = false;
         }

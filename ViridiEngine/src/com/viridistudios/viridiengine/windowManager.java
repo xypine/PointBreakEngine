@@ -47,7 +47,7 @@ public class windowManager extends JFrame implements Runnable, ActionListener {
     int number;
     String screen;
     String[][] tmp;
-    Renderer lM = new Renderer();
+    Renderer renderer = new Renderer();
     JLabel area;
     
     double lastTime;
@@ -74,6 +74,7 @@ public class windowManager extends JFrame implements Runnable, ActionListener {
         System.out.println("out main input: " + k);
     }
     private audioManager aM;
+    VSRadManager rads;
     
     @Override
     public void run() {
@@ -120,16 +121,18 @@ public class windowManager extends JFrame implements Runnable, ActionListener {
         this.setVisible(true);
         getContentPane().setBackground( Color.black );
         
-        synchronized(lM) {
-            lM.init(xd, yd, this);
+        synchronized(renderer) {
+            renderer.init(xd, yd, this);
         }
-        canvas = lM.canvas;
+        canvas = renderer.canvas;
         
         this.add(canvas);
         content.add(canvas);
         
-        tmp = lM.gets();
+        tmp = renderer.gets();
         
+        rads = new VSRadManager(xd, yd, oM);
+        rads.add(25, 12, 1);
         screen = "";
         
         //fresh();
@@ -147,7 +150,7 @@ public class windowManager extends JFrame implements Runnable, ActionListener {
 //        }
         
         
-        area.setText(fetch(lM));
+        area.setText(fetch(renderer));
 //        area.setEditable(false);
         
         
@@ -212,6 +215,7 @@ public class windowManager extends JFrame implements Runnable, ActionListener {
     public Recorder recorder = new Recorder();
     boolean ve = false;
     void tick(){
+        rads.removeA();
         if(tickC < record.size()){
             if(oM.findGameObject("playback") != 99999999){
                 Vector loc = record.get(tickC);
@@ -241,17 +245,18 @@ public class windowManager extends JFrame implements Runnable, ActionListener {
 ;
         LinkedList<xyac> lis = new LinkedList<xyac>();
         objects = oM.getObjects();
+        int xp = 0, yp = 0;
         
         
         
-//        oM.doPhysics(lM);
+//        oM.doPhysics(renderer);
         for(gameObject p : objects){
-//            lM.change(tx, ty, "█", Color.WHITE);
+//            renderer.change(tx, ty, "█", Color.WHITE);
 //            System.out.println(p.getTag().getClass() + " " + "static".getClass());
-            p.update(lM, oM);
+            p.update(renderer, oM);
             p.checkInput(input);
             
-//            oM.doPhysics(lM, p);
+//            oM.doPhysics(renderer, p);
             this.txf = p.getX();
             this.tyf = p.getY();
             this.tx = round(p.getX());
@@ -261,14 +266,13 @@ public class windowManager extends JFrame implements Runnable, ActionListener {
             p.lastY = tyf;
             ta = p.gAppearance();
             Color tc = p.getColor();
-//            p.update(lM);
+//            p.update(renderer);
             if(p.getTag() == "player1"){
 //                oM.addObject(new Player(tx, ty, "null", "█", 1F, Color.MAGENTA));
-                float d = p.getDistance(25F, 12.5F);
+                rads.add(tx, ty, 1);
 //                aM.setVolume(d/10);
 //                System.out.println(aM.getVolume());
-                
-            }
+            }else{}
             if(p.getTag() == "player2"){
 //                oM.addObject(new Player(tx, ty, "null", "█", 1F, Color.CYAN,co+3));
 //                co++;
@@ -279,23 +283,36 @@ public class windowManager extends JFrame implements Runnable, ActionListener {
             }
         
 //          System.out.println("pelaaja: x:" + tx + " y:" + ty);
-/////////////////            lM.change(tx, ty, ta, tc);
+/////////////////            renderer.change(tx, ty, ta, tc);
             lis.add(new xyac(tx,ty,ta,tc,las));
 
 
             //RENDER
-//            lM.fill(Integer.toString(number));
+//            renderer.fill(Integer.toString(number));
         }
-        lM.fill("█", Color.BLACK, "null");
-        lM.vectorFill(Color.BLACK, vector);
+        renderer.fill("█", Color.BLACK, "null");
+        renderer.vectorFill(Color.BLACK, vector);
         //Render
+        for(float[] x : rads.read()){
+            for(float y : x){
+                double i = y * 1F;
+                if(i > 255){
+                    i = 255;
+                }
+                renderer.change(xp, yp,"█",new Color((int) i,(int) i,(int) i), "n");
+                //lM.change(xp, yp, "0", Color.red, "i");
+                yp++;
+            }
+            xp++;
+            yp = 0;
+        }
         for(xyac a : lis){
-            lM.change((int) (a.x), (int) (a.y), a.a, a.c, "n");
+            renderer.change((int) (a.x), (int) (a.y), a.a, a.c, "n");
             //lM.vChange(a.last.x * 15.34F, a.last.y * 22.48F, a.a, Color.black, vector);
-            lM.vChange(a.x * 15.34F, a.y * 22.48F, a.c);
+            renderer.vChange(a.x * 15.34F, a.y * 22.48F, a.c);
         }
         
-        area.setText(fetch(lM));
+        area.setText(fetch(renderer));
     }
     String fetch(Renderer render)
     {

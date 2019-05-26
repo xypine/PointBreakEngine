@@ -14,16 +14,15 @@ import java.util.LinkedList;
 public class VSRad {
     public float[][] grid;
     public LinkedList<float[][]> rays = new LinkedList<>();
-    public int resolution = 10000;
-    public float shutter = 0.001F;
+    public int resolution = 360;
+    public float shutter = 0.01F;
     private Vector source;
     public int width, height;
     dVector[] directions = new dVector[resolution];
     private objectManager oM;
     private radiosity demo;
-    public VSRad(objectManager oM, radiosity r){
+    public VSRad(objectManager oM){
         this.oM = oM;
-        this.demo = r;
     }
     public void init(int w, int h){
         int state = 0;
@@ -125,24 +124,24 @@ public class VSRad {
                     if(cursor.y > height-1){
                         cursor.y = height - 1;
                         dir.y = dir.y * - 1;
-                        s = s * 0.7F;
+                        s = s * 0.99F;
                     }
                     if(cursor.y < 0){
                         cursor.y = 0;
                         dir.y = dir.y * - 1;
-                        s = s * 0.7F;
+                        s = s * 0.99F;
                     }
                     if(cursor.x > width-1){
                         cursor.x = width - 1;
                         dir.x = dir.x * - 1;
-                        s = s * 0.7F;
+                        s = s * 0.99F;
                     }
                     if(cursor.x < 0){
                         cursor.x = 0;
                         dir.x = dir.x * - 1;
-                        s = s * 0.7F;
+                        s = s * 0.99F;
                     }
-                    if(oM.colliding((int) cursor.x, (int) cursor.y)){
+                    if(oM.colliding((int) cursor.x, (int) cursor.y, "player1")){
                         dir.x = dir.x * -1;
                         dir.y = dir.y * -1;
                         cursor = new dVector(cursor.x + dir.x, cursor.y + dir.y);
@@ -157,7 +156,7 @@ public class VSRad {
                     inside = false;
                     //bounce(hp, dir, s);
                 }
-                s = s * 0.9F;
+                s = s * 0.99F;
                 if(s <= 0.0001){
                     inside = false;
                 }
@@ -200,17 +199,16 @@ class VSRadManager{
     private objectManager oM;
     private radiosity demo;
     private dVector[] directions;
-    public VSRadManager(int w, int h, radiosity rad, objectManager oM){
+    public VSRadManager(int w, int h,objectManager oM){
         this.w = w;
         this.h = h;
         this.oM = oM;
-        this.demo = rad;
-        director = new VSRad(this.oM, this.demo);
+        director = new VSRad(this.oM);
         director.init(this.w, this.h);
         this.directions = director.directions;
     }
     public void add(int x, int y, float s){
-        VSRad tmp = new VSRad(oM, demo);
+        VSRad tmp = new VSRad(oM);        
         tmp.init(w, h);
         tmp.calculate(new dVector(x,y), s);
         System.out.println(tmp.sum);
@@ -233,5 +231,10 @@ class VSRadManager{
             xp = 0;
         }
         return(sum);
+    }
+    public void removeA(){
+        for(int i : new Range(VSRad.size())){
+            VSRad.remove(0);
+        }
     }
 }

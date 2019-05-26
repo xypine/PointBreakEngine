@@ -59,6 +59,7 @@ public class radiosity extends JFrame implements Runnable, ActionListener {
     private float txf;
     private float tyf;
 //    
+    public float[][] radiosity;
     private Input input;
     public radiosity(kick ki){
         
@@ -72,7 +73,7 @@ public class radiosity extends JFrame implements Runnable, ActionListener {
     public void run() {
 
         
-        timer.setRepeats(true);
+        timer.setRepeats(false);
         timer.start();
         
         //Initiate screen size
@@ -82,8 +83,8 @@ public class radiosity extends JFrame implements Runnable, ActionListener {
         float aspect = w / h;
         System.out.println(aspect);
         
-        int xd = 50*2;
-        int yd = 25*2;
+        int xd = 50;
+        int yd = 25;
         //int xd = (int) (w / 15.34);
         //int yd = (int) (h / 22.48);
         this.setTitle("ViridiEngine rad");
@@ -94,7 +95,7 @@ public class radiosity extends JFrame implements Runnable, ActionListener {
         float Daspect = xd / yd;
         System.out.println(Daspect);
         float fontSize = (float) (7*Daspect);
-        area.setFont(new Font("monospaced", Font.PLAIN, (int) 7));
+        area.setFont(new Font("monospaced", Font.PLAIN, (int) fontSize));
         //area.setFont(new Font("courier_new", Font.PLAIN, (int) fontSize));
         
         //final Font currFont = area.getFont();
@@ -117,16 +118,16 @@ public class radiosity extends JFrame implements Runnable, ActionListener {
         tmp = lM.gets();
         
         screen = "";
-        rads = new VSRadManager(yd, yd, this, oM);
+        rads = new VSRadManager(yd, yd, oM);
         oM.addObject(new gameObject(9, 17, "static", "a", 1, Color.red, 71));
         oM.addObject(new gameObject(9, 16, "static", "a", 1, Color.red, 72));
         oM.addObject(new gameObject(10, 16, "static", "a", 1, Color.red, 73));
         //rad.calculate(new dVector(10, 10), 4);
         //rads.add(7, 15, 7);
-        rads.add(10,20, 70);
-        rads.add(49,49, 45);
-        rads.add(45,5, 10);
-        rads.add(0,0, 10);
+        //rads.add(10,20, 70);
+        //rads.add(49,49, 45);
+        //rads.add(45,5, 10);
+        //rads.add(0,0, 10);
         //rad.calculate(new dVector(34, 4), 200);
         //rad.calculate(new dVector(15, 8), 4);
         //grid = rad.out();
@@ -137,7 +138,7 @@ public class radiosity extends JFrame implements Runnable, ActionListener {
         
         //SUMMON TEST
         
-        //aol = new levelLoader("/src/com/viridistudios/viridiengine/levels/null.txt", oM);
+        aol = new levelLoader("/src/com/viridistudios/viridiengine/levels/out.txt", oM);
         
         
 //        p1 = oM.getPlayer("player1");
@@ -191,6 +192,8 @@ public class radiosity extends JFrame implements Runnable, ActionListener {
         //rad.calculate(new dVector(12, 10), 4);
         //rad.calculate(new dVector(2, number + 2), 2);
         //this.setTitle("ViridiEngine radiosity "+rad.s);
+        rads.add(10,20, 70);
+        
         int xp = 0, yp = 0;
         for(float[] x : rads.read()){
             for(float y : x){
