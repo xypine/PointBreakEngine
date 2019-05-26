@@ -102,7 +102,7 @@ public class VSRad {
         
         for(int i : new Range(resolution)){
             //System.out.println(done / resolution * 100 + "%: ");
-            int hp = 0;
+            int hp = 1;
             int hits =0;
             dVector dir = directions[i];
             while(inside){
@@ -111,22 +111,39 @@ public class VSRad {
                 try{
                     //System.out.print(hits + " ");
                     cursor = new dVector(cursor.x + dir.x, cursor.y + dir.y);
-                    if(oM.colliding((int)cursor.x,(int) cursor.y)){
-                        bounce(hp, dir, s);
+                    if(cursor.y > height-1){
+                        cursor.y = height - 1;
+                        dir.y = dir.y * - 1;
+                        s = s * 0.7F;
                     }
-                    else{
-                        grid[(int) cursor.x][(int) cursor.y] = grid[(int) cursor.x][(int) cursor.y] + s;
+                    if(cursor.y < 0){
+                        cursor.y = 0;
+                        dir.y = dir.y * - 1;
+                        s = s * 0.7F;
                     }
+                    if(cursor.x > width-1){
+                        cursor.x = width - 1;
+                        dir.x = dir.x * - 1;
+                        s = s * 0.7F;
+                    }
+                    if(cursor.x < 0){
+                        cursor.x = 0;
+                        dir.x = dir.x * - 1;
+                        s = s * 0.7F;
+                    }
+                    if(oM.colliding((int) cursor.x, (int) cursor.y)){
+                        dir.x = dir.x * -1;
+                        dir.y = dir.y * -1;
+                        cursor = new dVector(cursor.x + dir.x, cursor.y + dir.y);
+                        s = s * 0.5F;
+                    }
+                    grid[(int) cursor.x][(int) cursor.y] = grid[(int) cursor.x][(int) cursor.y] + s;
                 }
                 catch(Exception e){
-                    bounce(hp, dir, s);
+                    inside = false;
+                    //bounce(hp, dir, s);
                 }
-                if(s * 0.999F > 0){
-                    s = s * 0.999F;
-                }
-                else{
-                    s = 0;
-                }
+                s = s * 0.99F;
                 if(s < 0.09){
                     inside = false;
                 }
@@ -145,7 +162,7 @@ public class VSRad {
                             cursor = new dVector(cursor.x + dir.x, cursor.y + dir.y);
                             grid[(int) cursor.x][(int) cursor.y] = grid[(int) cursor.x][(int) cursor.y] + s;
                             hp = hp -1;
-                            s = s * 0.5F;
+                            s = s * 0.7F;
                             if(s < 0.001){
                                 inside = false;
                             }

@@ -118,7 +118,7 @@ public class radiosity extends JFrame implements Runnable, ActionListener {
         screen = "";
         rad.init(xd, yd);
         //rad.calculate(new dVector(10, 10), 4);
-        rad.calculate(new dVector(15, 15), 4);
+        rad.calculate(new dVector(4, 15), 4);
         //rad.calculate(new dVector(49, 24), 11);
         System.out.println("Done initializing VSRad!");
         
