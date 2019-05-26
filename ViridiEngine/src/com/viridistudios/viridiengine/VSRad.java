@@ -5,12 +5,15 @@
  */
 package com.viridistudios.viridiengine;
 
+import java.util.LinkedList;
+
 /**
  *
  * @author elias
  */
 public class VSRad {
     public float[][] grid;
+    public LinkedList<float[][]> rays = new LinkedList<>();
     public int resolution = 10000;
     public float shutter = 0.001F;
     private Vector source;
@@ -91,7 +94,10 @@ public class VSRad {
     int done = 0;
     int hits = 0;
     public float s = 0;
+    int requests = 0;
     public void calculate(dVector from, float strenght){
+        float[][] ray = new float[width][height];
+        requests++;
         for(dVector d: directions){
             //System.out.println("direction " + d.represent());
         }
@@ -104,6 +110,7 @@ public class VSRad {
             //System.out.println(done / resolution * 100 + "%: ");
             int hp = 1;
             int hits =0;
+            inside = true;
             dVector dir = directions[i];
             while(inside){
                 //System.out.println(s);
@@ -136,6 +143,7 @@ public class VSRad {
                         dir.y = dir.y * -1;
                         cursor = new dVector(cursor.x + dir.x, cursor.y + dir.y);
                         s = s * 0.5F;
+                        //System.out.println(dVector.round(cursor).represent() + " " + requests);
                     }
                     grid[(int) cursor.x][(int) cursor.y] = grid[(int) cursor.x][(int) cursor.y] + s;
                 }
@@ -143,7 +151,7 @@ public class VSRad {
                     inside = false;
                     //bounce(hp, dir, s);
                 }
-                s = s * 0.99F;
+                s = s * 0.9F;
                 if(s < 0.09){
                     inside = false;
                 }
@@ -153,29 +161,29 @@ public class VSRad {
             inside = true;
             done++;
         }
+        //rays.add(ray);
         System.out.println("rays calculated");
     }
-    private void bounce(int hp, dVector dir, float s){
-                    if(hp > 0 && s > 0){
-                        try{
-                            dir = dVector.multiply(dir, new dVector(-1, -1));
-                            cursor = new dVector(cursor.x + dir.x, cursor.y + dir.y);
-                            grid[(int) cursor.x][(int) cursor.y] = grid[(int) cursor.x][(int) cursor.y] + s;
-                            hp = hp -1;
-                            s = s * 0.7F;
-                            if(s < 0.001){
-                                inside = false;
-                            }
-                            hits++;
-                            //System.out.print(".");
-                        }
-                        catch(Exception d){
-                            inside = false;
-                        }
-                    }
-                    else{
-                        inside = false;
-                    }
+    public float[][] out(){
+        int xp = 0;
+        int yp = 0;
+        float all = 0;
+        float[][] out = new float[width][height];
+        for(float[][] ray : rays){
+            for(float[] x : ray){
+                for(float y : x){
+                    out[xp][yp] = out[xp][yp] + y;
+                    all = all + y;
+                    yp++;
+                }
+                xp++;
+                yp = 0;
+            }
+            xp = 0;
+        }
+        //System.out.println(out[3][0]);
+        //return(out);
+        System.out.println(rays.get(0)[7][3]);
+        return(rays.get(0));
     }
-    
 }

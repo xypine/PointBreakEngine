@@ -5,7 +5,9 @@
         <group>
             <file>file:/home/elias/Työpöytä/viridi/ViridiEngine/src/com/viridistudios/viridiengine/gameObject.java</file>
             <file>file:/home/elias/Työpöytä/viridi/ViridiEngine/src/com/viridistudios/viridiengine/Recorder.java</file>
+            <file>file:/home/elias/Työpöytä/viridi/ViridiEngine/src/com/viridistudios/viridiengine/VSRad.java</file>
             <file>file:/home/elias/Työpöytä/viridi/ViridiEngine/src/com/viridistudios/viridiengine/main.java</file>
+            <file>file:/home/elias/Työpöytä/viridi/ViridiEngine/src/com/viridistudios/viridiengine/radiosity.java</file>
             <file>file:/home/elias/Työpöytä/viridi/ViridiEngine/src/com/viridistudios/viridiengine/levelLoader.java</file>
             <file>file:/home/elias/Työpöytä/viridi/ViridiEngine/src/com/viridistudios/viridiengine/windowManager.java</file>
             <file>file:/home/elias/Työpöytä/viridi/ViridiEngine/src/com/viridistudios/viridiengine/kick.java</file>

@@ -65,7 +65,7 @@ public class radiosity extends JFrame implements Runnable, ActionListener {
     }
     //Input:
     levelLoader aol;
-    
+    float[][] grid;
     
     @Override
     public void run() {
@@ -117,9 +117,14 @@ public class radiosity extends JFrame implements Runnable, ActionListener {
         
         screen = "";
         rad.init(xd, yd);
+        oM.addObject(new gameObject(9, 17, "static", "a", 1, Color.red, 71));
+        oM.addObject(new gameObject(9, 16, "static", "a", 1, Color.red, 72));
+        oM.addObject(new gameObject(10, 16, "static", "a", 1, Color.red, 73));
         //rad.calculate(new dVector(10, 10), 4);
-        rad.calculate(new dVector(4, 15), 4);
-        //rad.calculate(new dVector(49, 24), 11);
+        rad.calculate(new dVector(7, 15), 4);
+        //rad.calculate(new dVector(34, 4), 200);
+        //rad.calculate(new dVector(15, 8), 4);
+        //grid = rad.out();
         System.out.println("Done initializing VSRad!");
         
         area.setText(fetch(lM));
@@ -181,8 +186,8 @@ public class radiosity extends JFrame implements Runnable, ActionListener {
     boolean saved = false;
     void tick(){
         //rad.fill(0);
-        //rad.calculate(new dVector(number, 10), 5);
-        //rad.calculate(new dVector(2, number + 2), 3);
+        //rad.calculate(new dVector(12, 10), 4);
+        //rad.calculate(new dVector(2, number + 2), 2);
         //this.setTitle("ViridiEngine radiosity "+rad.s);
         int xp = 0, yp = 0;
         for(float[] x : rad.grid){
