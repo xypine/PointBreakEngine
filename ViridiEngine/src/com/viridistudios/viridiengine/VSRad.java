@@ -32,7 +32,8 @@ public class VSRad {
         this.height = h;
         dVector cur = new dVector(0,1);
         System.out.println(dVector.add(cur, new dVector(0.1, -0.1)).represent());
-        for(int i : new Range(resolution)){
+        Range r = new Range(resolution);
+        for(int i : r){
             if(state == 0){
                 if(cur.x < 1){
                     //System.out.println("Calculating directions phase 0: " + cur.represent());
@@ -90,11 +91,13 @@ public class VSRad {
         }
     }
     private boolean inside = true;
-    dVector cursor;
+    dVector cursor = new dVector(0,0);
     int done = 0;
     int hits = 0;
     public float s = 0;
     int requests = 0;
+    public float sum = 0;
+    dVector dir;
     public void calculate(dVector from, float strenght){
         float[][] ray = new float[width][height];
         requests++;
@@ -111,7 +114,8 @@ public class VSRad {
             int hp = 1;
             int hits =0;
             inside = true;
-            dVector dir = directions[i];
+            
+            dir = directions[i];
             while(inside){
                 //System.out.println(s);
                 //demo.setTitle("ViridiEngine radiosity "+s);
@@ -142,17 +146,19 @@ public class VSRad {
                         dir.x = dir.x * -1;
                         dir.y = dir.y * -1;
                         cursor = new dVector(cursor.x + dir.x, cursor.y + dir.y);
-                        s = s * 0.5F;
+                        s = s * 0.99F;
                         //System.out.println(dVector.round(cursor).represent() + " " + requests);
                     }
                     grid[(int) cursor.x][(int) cursor.y] = grid[(int) cursor.x][(int) cursor.y] + s;
+                    sum = sum + s;
                 }
                 catch(Exception e){
+                    
                     inside = false;
                     //bounce(hp, dir, s);
                 }
                 s = s * 0.9F;
-                if(s < 0.09){
+                if(s <= 0.0001){
                     inside = false;
                 }
             }
@@ -185,5 +191,47 @@ public class VSRad {
         //return(out);
         System.out.println(rays.get(0)[7][3]);
         return(rays.get(0));
+    }
+}
+class VSRadManager{
+    public LinkedList<VSRad> VSRad = new LinkedList<>();
+    private VSRad director;
+    private int w, h;
+    private objectManager oM;
+    private radiosity demo;
+    private dVector[] directions;
+    public VSRadManager(int w, int h, radiosity rad, objectManager oM){
+        this.w = w;
+        this.h = h;
+        this.oM = oM;
+        this.demo = rad;
+        director = new VSRad(this.oM, this.demo);
+        director.init(this.w, this.h);
+        this.directions = director.directions;
+    }
+    public void add(int x, int y, float s){
+        VSRad tmp = new VSRad(oM, demo);
+        tmp.init(w, h);
+        tmp.calculate(new dVector(x,y), s);
+        System.out.println(tmp.sum);
+        this.VSRad.add(tmp);
+    }
+    public float[][] read(){
+        float[][] sum = new float[w][h];
+        int xp = 0, yp = 0;
+        for(VSRad ray : VSRad){
+            for(float[] line : ray.grid){
+                for(float i : line){
+                    if(i > 0){
+                        sum[xp][yp] = sum[xp][yp] + i;
+                    }
+                    yp++;
+                }
+                xp++;
+                yp = 0;
+            }
+            xp = 0;
+        }
+        return(sum);
     }
 }

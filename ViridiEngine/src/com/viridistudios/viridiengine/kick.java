@@ -29,11 +29,11 @@ public class kick {
         rad = new radiosity(ref);
         SwingUtilities.invokeLater(rad);
         //SwingUtilities.invokeLater(wM);
-        SwingUtilities.invokeLater(ea);
-        //Thread a = new Thread(wM, "Thread 1");
-        //Thread b = new Thread(ea, "Thread 2");
-        //a.start();
-        //b.start();
+        //SwingUtilities.invokeLater(ea);
+           //Thread a = new Thread(wM, "Thread 1");
+           //Thread b = new Thread(ea, "Thread 2");
+           //a.start();
+           //b.start();
         
         ea.setVisible(false);
         wM.setVisible(false);
