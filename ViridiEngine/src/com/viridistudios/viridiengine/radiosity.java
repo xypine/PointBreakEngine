@@ -17,6 +17,7 @@ import java.beans.EventHandler;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import static java.lang.Math.round;
+import java.net.URISyntaxException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.LinkedList;
@@ -136,9 +137,13 @@ public class radiosity extends JFrame implements Runnable, ActionListener {
         System.out.println("Done initializing VSRad!");
         
         
-        //SUMMON TEST
-        
-        aol = new levelLoader("/src/com/viridistudios/viridiengine/levels/out.txt", oM);
+        try {
+            //SUMMON TEST
+
+            aol = new levelLoader("/src/com/viridistudios/viridiengine/levels/out.txt", oM);
+        } catch (URISyntaxException ex) {
+            Logger.getLogger(radiosity.class.getName()).log(Level.SEVERE, null, ex);
+        }
         
         
 //        p1 = oM.getPlayer("player1");

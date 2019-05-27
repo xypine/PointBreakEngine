@@ -17,6 +17,7 @@ import java.beans.EventHandler;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import static java.lang.Math.round;
+import java.net.URISyntaxException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.LinkedList;
@@ -134,12 +135,13 @@ public class Editor extends JFrame implements Runnable, ActionListener {
         
         area.setText(fetch(lM));
 //        area.setEditable(false);
-        
-        
-        
-        //SUMMON TEST
-        
-        aol = new levelLoader("/src/com/viridistudios/viridiengine/levels/null.txt", oM);
+        try {
+            //SUMMON TEST
+            
+            aol = new levelLoader("/src/com/viridistudios/viridiengine/levels/null.txt", oM);
+        } catch (URISyntaxException ex) {
+            Logger.getLogger(Editor.class.getName()).log(Level.SEVERE, null, ex);
+        }
         
         oM.addObject(new Player(5, 5, "cursor", "█", 1F, Color.black, 1));
         

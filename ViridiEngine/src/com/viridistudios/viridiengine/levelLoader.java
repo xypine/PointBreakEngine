@@ -17,6 +17,7 @@ import java.io.OutputStreamWriter;
 import java.io.UnsupportedEncodingException;
 import java.io.Writer;
 import static java.lang.Math.round;
+import java.net.URISyntaxException;
 import java.util.LinkedList;
 import java.util.Scanner;
 import java.util.logging.Level;
@@ -38,7 +39,7 @@ public class levelLoader {
     Color c;
     int id;
     String filePath = new File("").getAbsolutePath();
-    public levelLoader(String file, objectManager oM){
+    public levelLoader(String file, objectManager oM) throws URISyntaxException{
         try {
             Scanner in = new Scanner(new FileReader(filePath.concat(file)));
             String text = "";
@@ -51,7 +52,23 @@ public class levelLoader {
             System.out.println("Level ["+filePath.concat(file)+"] loaded with " + count + " objects!");
 //            fetch(in.toString(), oM);
         } catch (FileNotFoundException ex) {
-            Logger.getLogger(levelLoader.class.getName()).log(Level.SEVERE, null, ex);
+            try{
+                String a = new File(levelLoader.class.getProtectionDomain().getCodeSource().getLocation().toURI()).getPath();
+                Scanner in = new Scanner(new FileReader(a.concat(file)));
+            String text = "";
+            while (in.hasNextLine()) {
+                String line = in.nextLine();
+                text = text + line;
+            }
+            in.close();
+            fetch(text, oM);
+            System.out.println("Level ["+a.concat(file)+"] loaded with " + count + " objects!");
+//            fetch(in.toString(), oM);
+            }
+            catch(Exception o){
+                Logger.getLogger(levelLoader.class.getName()).log(Level.SEVERE, null, o);
+            }
+            
         }
     }
     

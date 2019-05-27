@@ -10,6 +10,7 @@ import java.awt.Canvas;
 import java.awt.Color;
 import java.awt.Component;
 import java.awt.Font;
+import java.awt.Graphics;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
@@ -19,6 +20,7 @@ import java.beans.EventHandler;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import static java.lang.Math.round;
+import java.net.URISyntaxException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.LinkedList;
@@ -39,7 +41,7 @@ public class windowManager extends JFrame implements Runnable, ActionListener {
     //Screen components
     public LinkedList<Object> content = new LinkedList<>();
     
-    public int vector = 0;
+    public int vector = 1;
     public LinkedList<Vector> record;
     colorParser cP = new colorParser();
     Timer timer = new Timer(1, this);
@@ -67,7 +69,7 @@ public class windowManager extends JFrame implements Runnable, ActionListener {
     private float txf;
     private float tyf;
 //    
-    public Canvas canvas;
+    public vectorArea vA;
     kick k;
     private Input input;
     public windowManager(kick ki, objectManager o, int xd, int yd, VSRadManager a){
@@ -131,10 +133,10 @@ public class windowManager extends JFrame implements Runnable, ActionListener {
         synchronized(renderer) {
             renderer.init(xd, yd, this);
         }
-        canvas = renderer.canvas;
-        
-        this.add(canvas);
-        content.add(canvas);
+        //canvas = renderer.canvas;
+        vA = new vectorArea();
+        this.add(vA);
+        content.add(vA);
         
         tmp = renderer.gets();
         
@@ -197,24 +199,24 @@ public class windowManager extends JFrame implements Runnable, ActionListener {
     @Override
     public void actionPerformed(ActionEvent e) {
         //fresh();
-        revalidate();
-        repaint();
+        
         this.number = Integer.parseInt(Integer.toString(tickC).substring(0, 1));
         if(vector == 0){
             area.setVisible(true);
-            canvas.setVisible(false);
+            vA.setVisible(false);
         }
         if(vector == 1){
             area.setVisible(false);
-            canvas.setVisible(true);
+            vA.setVisible(true);
         }
         if(running == true){
             tick();
             tickC++;
         }
-        
+        revalidate();
+        repaint();
     }
-    public void loadLevel(String level){
+    public void loadLevel(String level) throws URISyntaxException{
         oM.removeLevel();
         levelLoader lL = new levelLoader(level, oM);
     }
@@ -251,6 +253,8 @@ public class windowManager extends JFrame implements Runnable, ActionListener {
         }
 ;
         LinkedList<xyac> lis = new LinkedList<xyac>();
+        LinkedList<Vector> points = new LinkedList<>();
+        LinkedList<Color> colors = new LinkedList<>();
         objects = oM.getObjects();
         int xp = 0, yp = 0;
         
@@ -291,6 +295,8 @@ public class windowManager extends JFrame implements Runnable, ActionListener {
         
 //          System.out.println("pelaaja: x:" + tx + " y:" + ty);
 /////////////////            renderer.change(tx, ty, ta, tc);
+            points.add(new Vector(txf, tyf));
+            colors.add(tc);
             lis.add(new xyac(tx,ty,ta,tc,las));
 
 
@@ -298,7 +304,7 @@ public class windowManager extends JFrame implements Runnable, ActionListener {
 //            renderer.fill(Integer.toString(number));
         }
         renderer.fill("█", Color.BLACK, "null");
-        renderer.vectorFill(Color.BLACK, vector);
+        //renderer.vectorFill(Color.BLACK, vector);
         //Render
         for(float[] x : rads.read()){
             for(float y : x){
@@ -307,16 +313,18 @@ public class windowManager extends JFrame implements Runnable, ActionListener {
                     i = 255;
                 }
                 renderer.change(xp, yp,"█",new Color((int) i,(int) i,(int) i), "n");
-                renderer.vChange(xp * 15.34F, yp * 22.48F, new Color((int) i,(int) i,(int) i));
+                //renderer.vChange(xp * 15.34F, yp * 22.48F, new Color((int) i,(int) i,(int) i));
                 yp++;
             }
             xp++;
             yp = 0;
         }
+        //renderer.canvas.clean();
+        vA.update(points, colors);
         for(xyac a : lis){
             renderer.change((int) (a.x), (int) (a.y), a.a, a.c, "n");
             //lM.vChange(a.last.x * 15.34F, a.last.y * 22.48F, a.a, Color.black, vector);
-            renderer.vChange(a.x * 15.34F, a.y * 22.48F, a.c);
+            //renderer.vChange(a.x * 15.34F, a.y * 22.48F, a.c);
         }
         
         area.setText(fetch(renderer));
@@ -375,6 +383,9 @@ public class windowManager extends JFrame implements Runnable, ActionListener {
         }
     }
 
-    
+    public void paint(Graphics g){
+        super.paint(g);
+        g.drawRect(0, 0, 200, 400);
+    }
     
 }

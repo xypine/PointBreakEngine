@@ -7,7 +7,10 @@
 package com.viridistudios.viridiengine;
 
 import java.awt.Color;
+import java.net.URISyntaxException;
 import java.util.LinkedList;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.SwingUtilities;
 
 /**
@@ -40,7 +43,11 @@ public class main {
             System.out.println("initializing main... " + c);
             c++;
         }
-        main.loadLevel("/src/com/viridistudios/viridiengine/levels/out.txt");
+        try {
+            main.loadLevel("/src/com/viridistudios/viridiengine/levels/out.txt");
+        } catch (URISyntaxException ex) {
+            Logger.getLogger(main.class.getName()).log(Level.SEVERE, null, ex);
+        }
         main.oM.addObject(new Player(5, 5, "player1", "█", 1F, Color.black, 1));
     }
     public void stop(){

@@ -26,10 +26,22 @@ public class vCanvas extends Canvas{
         
         Graphics g = bs.getDrawGraphics();
         
-        g.setColor(Color.black);
-        g.fillRect(0, 0, WIDTH, HEIGHT);
         g.setColor(c);
         g.fillRect(round(locx), round(locy), (int) 15.34F, (int) 22.48F);
+        g.dispose();
+        bs.show();
+    }
+    public void clean(){
+        BufferStrategy bs = this.getBufferStrategy();
+        if(bs == null){
+            this.createBufferStrategy(3);
+            return;
+        }
+        
+        Graphics g = bs.getDrawGraphics();
+        
+        g.setColor(Color.black);
+        g.fillRect(0, 0, WIDTH, HEIGHT);
         g.dispose();
         bs.show();
     }
