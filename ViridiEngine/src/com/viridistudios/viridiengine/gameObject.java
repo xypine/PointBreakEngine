@@ -129,7 +129,7 @@ public class gameObject {
             if(point2 || Math.round(this.y) > 23.7F){velx = velx * 0.65F;}
 //            if(velx != 0 && Math.round(this.y) > 23.7F){velx = velx * 0.65F;}
 
-            if(Math.round(this.y) > 23.7F){colliding = true;}
+            if(Math.round(this.y) > 23.99F){colliding = true;}
             else{colliding = false;}
 //            if(velx != 0 && Math.round(this.y) > 23.7F){colliding = true;}
             if(colliding){velx = velx * 0.65F;}

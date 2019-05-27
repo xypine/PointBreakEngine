@@ -142,10 +142,11 @@ public class VSRad {
                         s = s * 0.99F;
                     }
                     if(oM.colliding((int) cursor.x, (int) cursor.y, "player1")){
+                        grid[(int) cursor.x][(int) cursor.y] = grid[(int) cursor.x][(int) cursor.y] + s;
                         dir.x = dir.x * -1;
                         dir.y = dir.y * -1;
                         cursor = new dVector(cursor.x + dir.x, cursor.y + dir.y);
-                        s = s * 0.99F;
+                        s = s * 0.9F;
                         //System.out.println(dVector.round(cursor).represent() + " " + requests);
                     }
                     grid[(int) cursor.x][(int) cursor.y] = grid[(int) cursor.x][(int) cursor.y] + s;
@@ -156,7 +157,7 @@ public class VSRad {
                     inside = false;
                     //bounce(hp, dir, s);
                 }
-                s = s * 0.99F;
+                s = s * 0.995F;
                 if(s <= 0.0001){
                     inside = false;
                 }

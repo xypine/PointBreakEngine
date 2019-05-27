@@ -224,7 +224,7 @@ public class windowManager extends JFrame implements Runnable, ActionListener {
     public Recorder recorder = new Recorder();
     boolean ve = false;
     void tick(){
-        rads.removeA();
+//        rads.removeA();
         if(tickC < record.size()){
             if(oM.findGameObject("playback") != 99999999){
                 Vector loc = record.get(tickC);
@@ -259,7 +259,21 @@ public class windowManager extends JFrame implements Runnable, ActionListener {
         int xp = 0, yp = 0;
         
         
-        
+        for(float[] x : rads.read()){
+            for(float y : x){
+                double i = y * 1F;
+                if(i > 255){
+                    i = 255;
+                }
+                points.add(new Vector(xp,yp));
+                colors.add(new Color((int) i,(int) i,(int) i));
+                renderer.change(xp, yp,"█",new Color((int) i,(int) i,(int) i), "n");
+                //renderer.vChange(xp * 15.34F, yp * 22.48F, new Color((int) i,(int) i,(int) i));
+                yp++;
+            }
+            xp++;
+            yp = 0;
+        }
 //        oM.doPhysics(renderer);
         for(gameObject p : objects){
 //            renderer.change(tx, ty, "█", Color.WHITE);
@@ -296,7 +310,14 @@ public class windowManager extends JFrame implements Runnable, ActionListener {
 //          System.out.println("pelaaja: x:" + tx + " y:" + ty);
 /////////////////            renderer.change(tx, ty, ta, tc);
             points.add(new Vector(txf, tyf));
-            colors.add(tc);
+            
+            float r = tc.getRed();
+            float g = tc.getGreen();
+            float b = tc.getBlue();
+            //r = r * (rads.read()[tx][ty] * 0.1F);if(r > 255){r = 255;}
+            //g = g * (rads.read()[tx][ty] * 0.1F);if(g > 255){g = 255;}
+            //b = b * (rads.read()[tx][ty] * 0.1F);if(b > 255){b = 255;}
+            colors.add(new Color((int)r,(int)g,(int)b));
             lis.add(new xyac(tx,ty,ta,tc,las));
 
 
@@ -306,19 +327,7 @@ public class windowManager extends JFrame implements Runnable, ActionListener {
         renderer.fill("█", Color.BLACK, "null");
         //renderer.vectorFill(Color.BLACK, vector);
         //Render
-        for(float[] x : rads.read()){
-            for(float y : x){
-                double i = y * 1F;
-                if(i > 255){
-                    i = 255;
-                }
-                renderer.change(xp, yp,"█",new Color((int) i,(int) i,(int) i), "n");
-                //renderer.vChange(xp * 15.34F, yp * 22.48F, new Color((int) i,(int) i,(int) i));
-                yp++;
-            }
-            xp++;
-            yp = 0;
-        }
+        
         //renderer.canvas.clean();
         vA.update(points, colors);
         for(xyac a : lis){
