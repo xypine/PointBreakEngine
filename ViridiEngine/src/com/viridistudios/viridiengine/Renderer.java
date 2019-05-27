@@ -15,6 +15,7 @@ import static java.lang.Math.round;
 import java.util.LinkedList;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
+import javax.swing.border.Border;
 /**
  *
  * @author Jonnelafin
@@ -132,6 +133,7 @@ class vectorArea extends JPanel{
     LinkedList<Color> colors = new LinkedList<>();
     @Override
     public void paintComponent(Graphics g) {
+        super.paintComponent(g);
         for(int i : new Range(points.size())){
             Vector r = points.get(i);
             Color c = colors.get(i);
@@ -142,6 +144,14 @@ class vectorArea extends JPanel{
     public void update(LinkedList<Vector> p,LinkedList<Color> c){
         this.points = p;
         this.colors = c;
+    }
+    public void init(int w, int h){
+        this.setSize(w, h);
+        this.setBackground(Color.BLACK);
+        this.setPreferredSize(new Dimension(w,h));
+        this.setOpaque(true);
+        this.setBackground(Color.BLACK);
+        //this.setBorder();
     }
 }
 

@@ -117,7 +117,7 @@ public class windowManager extends JFrame implements Runnable, ActionListener {
         //final Font currFont = area.getFont();
         //area.setFont(new Font("test", currFont.getStyle(), currFont.getSize()));
 //        area.setFont("MONOSPACED");
-        area.setForeground(Color.white);
+        area.setForeground(Color.black);
         area.setBackground(Color.black);
         
         this.add(area);
@@ -137,7 +137,7 @@ public class windowManager extends JFrame implements Runnable, ActionListener {
         vA = new vectorArea();
         this.add(vA);
         content.add(vA);
-        
+        vA.init((int)w, (int)h);
         tmp = renderer.gets();
         
         //rads = new VSRadManager(xd, yd, oM);
@@ -383,9 +383,6 @@ public class windowManager extends JFrame implements Runnable, ActionListener {
         }
     }
 
-    public void paint(Graphics g){
-        super.paint(g);
-        g.drawRect(0, 0, 200, 400);
-    }
+    
     
 }
