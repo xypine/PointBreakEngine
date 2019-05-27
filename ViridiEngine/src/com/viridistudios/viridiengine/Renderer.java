@@ -138,7 +138,7 @@ class vectorArea extends JPanel{
             Vector r = points.get(i);
             Color c = colors.get(i);
             g.setColor(c);
-            //g.fillRect((int)(r.x*15.34F),(int) (r.y*22.48F), (int) 15.34F, (int) 22.48F);
+            g.fillRect((int)(r.x*15.34F),(int) (r.y*22.48F), (int) 15.34F, (int) 22.48F);
             g.drawRect((int)(r.x*15.34F),(int) (r.y*22.48F), (int) 15.34F, (int) 22.48F);
         }
     }

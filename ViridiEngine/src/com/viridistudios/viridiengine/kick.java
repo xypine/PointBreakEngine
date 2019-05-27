@@ -31,13 +31,7 @@ public class kick {
     Thread a;
     objectManager forwM = new objectManager();
     public kick(int mode){
-        c  = new Thread(){
-            @Override
-            public void run(){
-                rad = new VSRadManager(xd, yd, forwM);
-            }
-        };
-        c.start();
+        devkit kit = new devkit();
         b  = new Thread(){
             @Override
             public void run(){

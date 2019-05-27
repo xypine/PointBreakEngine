@@ -215,6 +215,7 @@ class VSRadManager{
         System.out.println(tmp.sum);
         this.VSRad.add(tmp);
     }
+    int lasthash = 0;
     public float[][] read(){
         float[][] sum = new float[w][h];
         int xp = 0, yp = 0;
@@ -231,6 +232,10 @@ class VSRadManager{
             }
             xp = 0;
         }
+        if(sum.hashCode() == lasthash){
+            System.out.println("no change");
+        }
+        lasthash = sum.hashCode();
         return(sum);
     }
     public void removeA(){

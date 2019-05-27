@@ -73,7 +73,7 @@ public class windowManager extends JFrame implements Runnable, ActionListener {
     kick k;
     private Input input;
     public windowManager(kick ki, objectManager o, int xd, int yd, VSRadManager a){
-        this.rads = a;
+        
         this.oM = o;
         this.xd = xd;
         this.yd = yd;
@@ -87,7 +87,7 @@ public class windowManager extends JFrame implements Runnable, ActionListener {
     
     @Override
     public void run() {
-        
+        this.rads = new VSRadManager(xd, yd, oM);
         
         timer.setRepeats(true);
         timer.start();
@@ -141,7 +141,7 @@ public class windowManager extends JFrame implements Runnable, ActionListener {
         tmp = renderer.gets();
         
         //rads = new VSRadManager(xd, yd, oM);
-        rads.add(25, 12, 1);
+        rads.add(25, 12, 4);
         screen = "";
         
         //fresh();
@@ -224,7 +224,9 @@ public class windowManager extends JFrame implements Runnable, ActionListener {
     public Recorder recorder = new Recorder();
     boolean ve = false;
     void tick(){
-//        rads.removeA();
+        //rads.removeA();
+        //rads.add(25, 12, 4);
+        //
         if(tickC < record.size()){
             if(oM.findGameObject("playback") != 99999999){
                 Vector loc = record.get(tickC);
