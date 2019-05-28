@@ -97,7 +97,11 @@ public class VSRad {
     int requests = 0;
     public float sum = 0;
     dVector dir;
+    public dVector from;
+    public float lastS;
     public void calculate(dVector from, float strenght){
+        this.from = from;
+        this.lastS = strenght;
         float[][] ray = new float[width][height];
         requests++;
         for(dVector d: directions){
@@ -141,7 +145,7 @@ public class VSRad {
                         dir.x = dir.x * - 1;
                         s = s * 0.99F;
                     }
-                    if(oM.colliding((int) cursor.x, (int) cursor.y, "player1")){
+                    if(oM.colliding((int) cursor.x, (int) cursor.y, "noray")){
                         grid[(int) cursor.x][(int) cursor.y] = grid[(int) cursor.x][(int) cursor.y] + s;
                         dir.x = dir.x * -1;
                         dir.y = dir.y * -1;
@@ -243,5 +247,10 @@ class VSRadManager{
             VSRad.remove(0);
         }
     }
-    
+    public void recalculate(){
+        for(VSRad i :VSRad){
+            i.fill(0);
+            i.calculate(i.from, i.lastS);
+        }
+    }
 }

@@ -226,7 +226,7 @@ public class windowManager extends JFrame implements Runnable, ActionListener {
     void tick(){
         //rads.removeA();
         //rads.add(25, 12, 4);
-        //
+        rads.recalculate();
         if(tickC < record.size()){
             if(oM.findGameObject("playback") != 99999999){
                 Vector loc = record.get(tickC);

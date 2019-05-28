@@ -31,7 +31,7 @@ public class kick {
     Thread a;
     objectManager forwM = new objectManager();
     public kick(int mode){
-        devkit kit = new devkit();
+        devkit kit = new devkit(ref);
         b  = new Thread(){
             @Override
             public void run(){

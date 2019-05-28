@@ -5,8 +5,12 @@
  */
 package com.viridistudios.viridiengine;
 
+import java.awt.BorderLayout;
 import java.awt.Button;
 import java.awt.HeadlessException;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 
@@ -16,17 +20,45 @@ import javax.swing.JPanel;
  */
 public class devkit extends JFrame{
     JPanel cont = new JPanel();
-    Button graphic = new Button("toggle vector");
-    public devkit() {
+    boolean tog = false;
+    kick k;
+    JButton graphic = new JButton("toggle vector");
+    public devkit(kick k) {
         this.setTitle("ViridiEngine devkit");
+        this.k = k;
         this.setSize(300, 550);
         
         
-        
-        cont.add(graphic);
+        graphic.addActionListener(new BListener(9, this));
+        cont.add(graphic, BorderLayout.CENTER);
         this.add(cont);
         
         this.setVisible(true);
+    }
+    public void togG(){
+        if(tog){
+            k.wM.vector = 1;
+        }
+        else{
+            k.wM.vector = 0;
+        }
+        tog = !tog;
+    }
+    
+}
+class BListener implements ActionListener{
+    int type;
+    devkit k;
+    public BListener(int t, devkit d){
+        this.type = t;
+        this.k = d;
+    }
+    @Override
+    public void actionPerformed(ActionEvent ae) {
+        if(type == 9){
+            System.out.println("Graphics!");
+            k.togG();
+        }
     }
     
 }
