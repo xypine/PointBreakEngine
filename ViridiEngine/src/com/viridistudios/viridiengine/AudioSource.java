@@ -23,20 +23,19 @@ import javax.sound.sampled.UnsupportedAudioFileException;
  *
  * @author Jonnelafin
  */
-public class audioManager {
+public class AudioSource {
    private LinkedList<Clip> clips = new LinkedList<Clip>();
    private LinkedList<FloatControl> controls = new LinkedList<FloatControl>();
    private Clip clip;
    private FloatControl gainControl;
    AudioInputStream audioStream;
    String filePath = new File("").getAbsolutePath();
-   public audioManager() throws LineUnavailableException, UnsupportedAudioFileException, IOException{
+   public AudioSource() throws LineUnavailableException, UnsupportedAudioFileException, IOException{
        clip = AudioSystem.getClip();
        addSound("src/viridiengine/audio/test.wav");
        clip.open(audioStream);
        clip.setFramePosition(0);
-       gainControl = 
-    (FloatControl) clip.getControl(FloatControl.Type.MASTER_GAIN);
+       gainControl = (FloatControl) clip.getControl(FloatControl.Type.MASTER_GAIN);
    }
    public void addSound(String filename) throws UnsupportedAudioFileException, IOException{
        File tmp = new File(filename);

@@ -83,7 +83,7 @@ public class windowManager extends JFrame implements Runnable, ActionListener {
         input = new Input(k);
         System.out.println("out main input: " + k);
     }
-    private audioManager aM;
+    private AudioSource aM;
     VSRadManager rads;
     
     @Override
@@ -142,7 +142,8 @@ public class windowManager extends JFrame implements Runnable, ActionListener {
         tmp = renderer.gets();
         
         //rads = new VSRadManager(xd, yd, oM);
-        rads.add(25, 12, 4, new Color(255, 0, 255));
+        rads.add(25, 12, 1, new Color(10, 0, 0));
+        rads.add(12, 1, 1, new Color(0, 0, 10));
         screen = "";
         
         //fresh();
@@ -174,9 +175,9 @@ public class windowManager extends JFrame implements Runnable, ActionListener {
         
         record = recorder.read("/src/com/viridistudios/viridiengine/records/recorded.txt");
         //oM.addObject(new Player(3, 3, "playback", "█", 1F, Color.blue, 11));
-        //Add audioManager
+        //Add AudioSource
 /*        try {
-        aM = new audioManager();
+        aM = new AudioSource();
         } catch (LineUnavailableException ex) {
         Logger.getLogger(windowManager.class.getName()).log(Level.SEVERE, null, ex);
         } catch (UnsupportedAudioFileException ex) {

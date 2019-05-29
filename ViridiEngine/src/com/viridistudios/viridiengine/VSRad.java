@@ -177,28 +177,6 @@ public class VSRad {
         //rays.add(ray);
         //System.out.println("rays calculated");
     }
-    public float[][] out(){
-        int xp = 0;
-        int yp = 0;
-        float all = 0;
-        float[][] out = new float[width][height];
-        for(float[][] ray : rays){
-            for(float[] x : ray){
-                for(float y : x){
-                    out[xp][yp] = out[xp][yp] + y;
-                    all = all + y;
-                    yp++;
-                }
-                xp++;
-                yp = 0;
-            }
-            xp = 0;
-        }
-        //System.out.println(out[3][0]);
-        //return(out);
-        System.out.println(rays.get(0)[7][3]);
-        return(rays.get(0));
-    }
 }
 class VSRadManager{
     public Color[][] colors;
@@ -235,9 +213,10 @@ class VSRadManager{
                         sum[xp][yp] = sum[xp][yp] + i;
                         //System.out.println(colors[xp][yp] + " " + ray.color.getRGB());
                         float r,g,b;
-                        try{r = colors[xp][yp].getRed() + ray.color.getRed();}catch(Exception e){r = ray.color.getRed();}
-                        try{g = colors[xp][yp].getGreen()+ ray.color.getGreen();}catch(Exception e){g = ray.color.getGreen();}
-                        try{b = colors[xp][yp].getBlue()+ ray.color.getBlue();}catch(Exception e){b = ray.color.getBlue();}
+                        try{r = colors[xp][yp].getRed() + (ray.color.getRed() * ray.grid[xp][yp]);}catch(Exception e){r = ray.color.getRed() * ray.grid[xp][yp];}
+                        try{g = colors[xp][yp].getGreen()+ (ray.color.getGreen() * ray.grid[xp][yp]);}catch(Exception e){g = ray.color.getGreen() * ray.grid[xp][yp];}
+                        try{b = colors[xp][yp].getBlue()+ (ray.color.getBlue() * ray.grid[xp][yp]);}catch(Exception e){b = ray.color.getBlue() * ray.grid[xp][yp];}
+                        //r = r / 2;g = g / 2;b = b / 2;
                         if(r > 255){r = 255;}
                         if(g > 255){g = 255;}
                         if(b > 255){b = 255;}
@@ -264,6 +243,7 @@ class VSRadManager{
     public void recalculate(){
         for(VSRad i :VSRad){
             i.fill(0);
+            this.colors = new Color[w][h];
             i.calculate(i.from, i.lastS);
         }
     }
