@@ -12,6 +12,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import javax.swing.JButton;
 import javax.swing.JFrame;
+import javax.swing.JLabel;
 import javax.swing.JPanel;
 
 /**
@@ -23,6 +24,8 @@ public class devkit extends JFrame{
     boolean tog = false;
     kick k;
     JButton graphic = new JButton("toggle vector");
+    JButton rays = new JButton("toggle rays");
+    JLabel raysL = new JLabel("RAYYYS");
     public devkit(kick k) {
         this.setTitle("ViridiEngine devkit");
         this.k = k;
@@ -30,7 +33,10 @@ public class devkit extends JFrame{
         
         
         graphic.addActionListener(new BListener(9, this));
-        cont.add(graphic, BorderLayout.CENTER);
+        rays.addActionListener(new BListener(2, this));
+        cont.add(graphic, BorderLayout.NORTH);
+        cont.add(rays, BorderLayout.NORTH);
+        cont.add(raysL, BorderLayout.SOUTH);
         this.add(cont);
         
         this.setVisible(true);
@@ -44,7 +50,16 @@ public class devkit extends JFrame{
         }
         tog = !tog;
     }
-    
+    boolean togV = true;
+    public void togV(){
+        if(togV){
+            k.wM.renderRays = 0;
+        }
+        else{
+            k.wM.renderRays = 1;
+        }
+        togV = !togV;
+    }
 }
 class BListener implements ActionListener{
     int type;
@@ -59,6 +74,11 @@ class BListener implements ActionListener{
             System.out.println("Graphics!");
             k.togG();
         }
+        if(type == 2){
+            System.out.println("Rays!");
+            k.togV();
+        }
+        k.raysL.setText(Boolean.toString(k.togV));
     }
     
 }

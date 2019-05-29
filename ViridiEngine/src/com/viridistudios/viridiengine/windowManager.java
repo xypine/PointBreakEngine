@@ -42,6 +42,7 @@ public class windowManager extends JFrame implements Runnable, ActionListener {
     public LinkedList<Object> content = new LinkedList<>();
     
     public int vector = 1;
+    public int renderRays = 1;
     public LinkedList<Vector> record;
     colorParser cP = new colorParser();
     Timer timer = new Timer(1, this);
@@ -226,7 +227,9 @@ public class windowManager extends JFrame implements Runnable, ActionListener {
     void tick(){
         //rads.removeA();
         //rads.add(25, 12, 4);
-        rads.recalculate();
+        if(renderRays == 1){
+                    rads.recalculate();
+        }
         if(tickC < record.size()){
             if(oM.findGameObject("playback") != 99999999){
                 Vector loc = record.get(tickC);
@@ -266,14 +269,15 @@ public class windowManager extends JFrame implements Runnable, ActionListener {
                 Color c = new Color(0,0,0);
                 c = rads.colors[xp][yp];
                 double i = y * 1F;
-                //if(i > 255){
-                //    i = 255;
-                //}
-                float r,g,b;
-                System.out.println(i);
-                r = rads.colors[xp][yp].getRed() * y;
-                g = rads.colors[xp][yp].getGreen() * y;
-                b = rads.colors[xp][yp].getBlue() * y;
+                if(i > 255){
+                    i = 255;
+                }
+                float r = 0,g = 0,b = 0;
+                //System.out.println();
+                float brightness = 0.00255F;
+                try{r = rads.colors[xp][yp].getRed() * (y*brightness);}catch(Exception e){r = 0F;}
+                try{g = rads.colors[xp][yp].getGreen() * (y*brightness);}catch(Exception e){g = 0F;}
+                try{b = rads.colors[xp][yp].getBlue() * (y*brightness);}catch(Exception e){b = 0F;}
                 if(r > 255){r = 255;}
                 if(g > 255){g = 255;}
                 if(b > 255){b = 255;}

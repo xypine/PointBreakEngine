@@ -110,7 +110,7 @@ public class VSRad {
         for(dVector d: directions){
             //System.out.println("direction " + d.represent());
         }
-        System.out.println("Calculating rays...");
+        //System.out.println("Calculating rays...");
         cursor = from;
         grid[(int) from.x][(int) from.y] = strenght;
         s = strenght;
@@ -175,7 +175,7 @@ public class VSRad {
             done++;
         }
         //rays.add(ray);
-        System.out.println("rays calculated");
+        //System.out.println("rays calculated");
     }
     public float[][] out(){
         int xp = 0;
