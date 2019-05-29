@@ -5,6 +5,7 @@
  */
 package com.viridistudios.viridiengine;
 
+import java.awt.Color;
 import java.util.LinkedList;
 
 /**
@@ -12,6 +13,7 @@ import java.util.LinkedList;
  * @author elias
  */
 public class VSRad {
+    public Color color = new Color(0,0,0);
     public float[][] grid;
     public LinkedList<float[][]> rays = new LinkedList<>();
     public int resolution = 360;
@@ -21,8 +23,9 @@ public class VSRad {
     dVector[] directions = new dVector[resolution];
     private objectManager oM;
     private radiosity demo;
-    public VSRad(objectManager oM){
+    public VSRad(objectManager oM, Color c){
         this.oM = oM;
+        this.color = c;
     }
     public void init(int w, int h){
         int state = 0;
@@ -198,6 +201,7 @@ public class VSRad {
     }
 }
 class VSRadManager{
+    public Color[][] colors;
     public LinkedList<VSRad> VSRad = new LinkedList<>();
     private VSRad director;
     private int w, h;
@@ -208,12 +212,13 @@ class VSRadManager{
         this.w = w;
         this.h = h;
         this.oM = oM;
-        director = new VSRad(this.oM);
+        director = new VSRad(this.oM, Color.BLACK);
         director.init(this.w, this.h);
         this.directions = director.directions;
+        this.colors = new Color[w][h];
     }
-    public void add(int x, int y, float s){
-        VSRad tmp = new VSRad(oM);        
+    public void add(int x, int y, float s, Color color){
+        VSRad tmp = new VSRad(oM, color);        
         tmp.init(w, h);
         tmp.calculate(new dVector(x,y), s);
         System.out.println(tmp.sum);
@@ -228,6 +233,15 @@ class VSRadManager{
                 for(float i : line){
                     if(i > 0){
                         sum[xp][yp] = sum[xp][yp] + i;
+                        //System.out.println(colors[xp][yp] + " " + ray.color.getRGB());
+                        float r,g,b;
+                        try{r = colors[xp][yp].getRed() + ray.color.getRed();}catch(Exception e){r = ray.color.getRed();}
+                        try{g = colors[xp][yp].getGreen()+ ray.color.getGreen();}catch(Exception e){g = ray.color.getGreen();}
+                        try{b = colors[xp][yp].getBlue()+ ray.color.getBlue();}catch(Exception e){b = ray.color.getBlue();}
+                        if(r > 255){r = 255;}
+                        if(g > 255){g = 255;}
+                        if(b > 255){b = 255;}
+                        colors[xp][yp] = new Color((int)r,(int)g,(int)b);
                     }
                     yp++;
                 }

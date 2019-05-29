@@ -197,7 +197,7 @@ public class radiosity extends JFrame implements Runnable, ActionListener {
         //rad.calculate(new dVector(12, 10), 4);
         //rad.calculate(new dVector(2, number + 2), 2);
         //this.setTitle("ViridiEngine radiosity "+rad.s);
-        rads.add(10,20, 70);
+        /*rads.add(10,20, 70);
         
         int xp = 0, yp = 0;
         for(float[] x : rads.read()){
@@ -212,7 +212,7 @@ public class radiosity extends JFrame implements Runnable, ActionListener {
             }
             xp++;
             yp = 0;
-        }
+        }*/
         
         //Render
         

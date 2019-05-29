@@ -141,7 +141,7 @@ public class windowManager extends JFrame implements Runnable, ActionListener {
         tmp = renderer.gets();
         
         //rads = new VSRadManager(xd, yd, oM);
-        rads.add(25, 12, 4);
+        rads.add(25, 12, 4, new Color(255, 0, 255));
         screen = "";
         
         //fresh();
@@ -263,12 +263,23 @@ public class windowManager extends JFrame implements Runnable, ActionListener {
         
         for(float[] x : rads.read()){
             for(float y : x){
+                Color c = new Color(0,0,0);
+                c = rads.colors[xp][yp];
                 double i = y * 1F;
-                if(i > 255){
-                    i = 255;
-                }
+                //if(i > 255){
+                //    i = 255;
+                //}
+                float r,g,b;
+                System.out.println(i);
+                r = (float) (c.getRed() * i);
+                g = (float) (c.getGreen() * i);
+                b = (float) (c.getBlue() * i);
+                if(r > 255){r = 255;}
+                if(g > 255){g = 255;}
+                if(b > 255){b = 255;}
+                
                 points.add(new Vector(xp,yp));
-                colors.add(new Color((int) i,(int) i,(int) i));
+                colors.add(new Color((int) r,(int) g,(int) b));
                 renderer.change(xp, yp,"█",new Color((int) i,(int) i,(int) i), "n");
                 //renderer.vChange(xp * 15.34F, yp * 22.48F, new Color((int) i,(int) i,(int) i));
                 yp++;
