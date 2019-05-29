@@ -271,9 +271,9 @@ public class windowManager extends JFrame implements Runnable, ActionListener {
                 //}
                 float r,g,b;
                 System.out.println(i);
-                r = (float) (c.getRed() * i);
-                g = (float) (c.getGreen() * i);
-                b = (float) (c.getBlue() * i);
+                r = rads.colors[xp][yp].getRed() * y;
+                g = rads.colors[xp][yp].getGreen() * y;
+                b = rads.colors[xp][yp].getBlue() * y;
                 if(r > 255){r = 255;}
                 if(g > 255){g = 255;}
                 if(b > 255){b = 255;}
