@@ -243,15 +243,15 @@ public class Editor extends JFrame implements Runnable, ActionListener {
             ta = p.gAppearance();
             Color tc = p.getColor();
 //            p.update(lM);
-            if(p.getTag() == "player1"){
+            if(p.getTag().contains(new String("player1"))){
 //                oM.addObject(new Player(tx, ty, "null", "█", 1F, Color.MAGENTA));
             }
-            if(p.getTag() == "player2"){
+            if(p.getTag().contains(new String("player2"))){
 //                oM.addObject(new Player(tx, ty, "null", "█", 1F, Color.CYAN,co+3));
 //                co++;
             }
 //            System.out.println((p.getVX() + 1F) * (p.getVY()+1F));
-            if(p.getTag() == "null" && p.hits > 7){
+            if(p.getTag().contains(new String("null")) && p.hits > 7){
 //                oM.removeObject(p);
             }
         

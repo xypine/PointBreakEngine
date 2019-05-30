@@ -115,7 +115,7 @@ public class levelLoader {
         String tmp = "";
         int idi = 90;
         for(gameObject p : g){
-            if(p.getTag() != "cursor"){
+            if(!p.getTag().contains(new String("cursor"))){
                 tmp = tmp + round(p.x) + "." + round(p.y) + ".static.█.1.green." + idi + ".:";
                 idi++;
             }

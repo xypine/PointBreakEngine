@@ -102,7 +102,7 @@ public class VSRad {
     dVector dir;
     public dVector from;
     public float lastS;
-    public void calculate(dVector from, float strenght){
+    public void calculate(dVector from, float strenght, String ignore){
         this.from = from;
         this.lastS = strenght;
         float[][] ray = new float[width][height];
@@ -198,7 +198,7 @@ class VSRadManager{
     public void add(int x, int y, float s, Color color){
         VSRad tmp = new VSRad(oM, color);        
         tmp.init(w, h);
-        tmp.calculate(new dVector(x,y), s);
+        tmp.calculate(new dVector(x,y), s, "null");
         System.out.println(tmp.sum);
         this.VSRad.add(tmp);
     }
@@ -240,11 +240,11 @@ class VSRadManager{
             VSRad.remove(0);
         }
     }
-    public void recalculate(){
+    public void recalculate(String ignore){
         for(VSRad i :VSRad){
             i.fill(0);
             this.colors = new Color[w][h];
-            i.calculate(i.from, i.lastS);
+            i.calculate(i.from, i.lastS, ignore);
         }
     }
 }

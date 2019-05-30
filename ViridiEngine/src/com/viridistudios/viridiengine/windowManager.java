@@ -41,11 +41,13 @@ public class windowManager extends JFrame implements Runnable, ActionListener {
     //Screen components
     public LinkedList<Object> content = new LinkedList<>();
     
+    public int rayDetail = 1;
     public int vector = 1;
     public int renderRays = 1;
     public LinkedList<Vector> record;
     colorParser cP = new colorParser();
     Timer timer = new Timer(1, this);
+    float[][] red;
     int tickC = 0;
     int number;
     String screen;
@@ -105,7 +107,7 @@ public class windowManager extends JFrame implements Runnable, ActionListener {
         //xd = (int) (w / 15.34);
         //yd = (int) (h / 22.48);
         this.setTitle("ViridiEngine");
-        this.setSize(round(w), round(h));
+        this.setSize((int) Math.ceil(w), (int) Math.ceil(h*1.05F));
         this.setDefaultCloseOperation(EXIT_ON_CLOSE);
         
         area = new JLabel(screen);
@@ -134,6 +136,7 @@ public class windowManager extends JFrame implements Runnable, ActionListener {
         synchronized(renderer) {
             renderer.init(xd, yd, this);
         }
+        red = new float[xd][yd];
         //canvas = renderer.canvas;
         vA = new vectorArea();
         this.add(vA);
@@ -142,7 +145,7 @@ public class windowManager extends JFrame implements Runnable, ActionListener {
         tmp = renderer.gets();
         
         //rads = new VSRadManager(xd, yd, oM);
-        rads.add(25, 12, 1, new Color(10, 0, 0));
+        rads.add(25, 12, 4, new Color(10, 0, 0));
         rads.add(12, 1, 1, new Color(0, 0, 10));
         screen = "";
         
@@ -229,7 +232,13 @@ public class windowManager extends JFrame implements Runnable, ActionListener {
         //rads.removeA();
         //rads.add(25, 12, 4);
         if(renderRays == 1){
-                    rads.recalculate();
+            if(rayDetail == 0){
+                rads.recalculate("player1");
+            }
+            if(rayDetail == 1){
+                rads.recalculate("none");
+            }
+            red = rads.read();
         }
         if(tickC < record.size()){
             if(oM.findGameObject("playback") != 99999999){
@@ -265,7 +274,7 @@ public class windowManager extends JFrame implements Runnable, ActionListener {
         int xp = 0, yp = 0;
         
         
-        for(float[] x : rads.read()){
+        for(float[] x : red){
             for(float y : x){
                 Color c = new Color(0,0,0);
                 c = rads.colors[xp][yp];
@@ -275,7 +284,7 @@ public class windowManager extends JFrame implements Runnable, ActionListener {
                 }
                 float r = 0,g = 0,b = 0;
                 //System.out.println();
-                float brightness = 0.00255F;
+                float brightness = 0.001F;
                 try{r = rads.colors[xp][yp].getRed() * (y*brightness);}catch(Exception e){r = 0F;}
                 try{g = rads.colors[xp][yp].getGreen() * (y*brightness);}catch(Exception e){g = 0F;}
                 try{b = rads.colors[xp][yp].getBlue() * (y*brightness);}catch(Exception e){b = 0F;}
@@ -310,18 +319,18 @@ public class windowManager extends JFrame implements Runnable, ActionListener {
             ta = p.gAppearance();
             Color tc = p.getColor();
 //            p.update(renderer);
-            if(p.getTag() == "player1"){
+            if(p.getTag().contains(new String("player1"))){
 //                oM.addObject(new Player(tx, ty, "null", "█", 1F, Color.MAGENTA));
                 //rads.add(tx, ty, 1);
 //                aM.setVolume(d/10);
 //                System.out.println(aM.getVolume());
             }else{}
-            if(p.getTag() == "player2"){
+            if(p.getTag().contains(new String("player2"))){
 //                oM.addObject(new Player(tx, ty, "null", "█", 1F, Color.CYAN,co+3));
 //                co++;
             }
 //            System.out.println((p.getVX() + 1F) * (p.getVY()+1F));
-            if(p.getTag() == "null" && p.hits > 7){
+            if(p.getTag().contains(new String("null")) && p.hits > 7){
 //                oM.removeObject(p);
             }
         

@@ -43,7 +43,7 @@ public class objectManager {
     public int findGameObject(String tagToGet){
         for(int i = 0;i<object.size();i++){
             gameObject tmp = object.get(i);
-            if(tmp.getTag() == tagToGet){
+            if(tmp.getTag().contains(new String(tagToGet))){
                 return(i);
             }
         }
@@ -60,7 +60,7 @@ public class objectManager {
     }
     public boolean colliding(int x, int y, String ignore){
         for(gameObject i : object){
-            if(i.getTag() == "cursor" || i.getTag() == ignore){}
+            if(i.getTag().contains(new String("cursor")) || i.getTag().contains(new String(ignore))){}
             else{
                 if((round(i.x) == x && round(i.y) == y)){
                     return true;
@@ -71,7 +71,7 @@ public class objectManager {
     }
     public void removeLevel(){
         for(gameObject ga : object){
-            if(ga.getTag() == "static"){
+            if(ga.getTag().contains(new String("static"))){
                 object.remove(ga);
             }
         }

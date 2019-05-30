@@ -40,7 +40,7 @@ public class gameObject {
     
     private int id;
     public boolean point2 = false;
-    private String tag;
+    private LinkedList<String> tag = new LinkedList<>();
     private String appereance;
     private Color acolor = Color.RED;
 
@@ -56,7 +56,7 @@ public class gameObject {
     public void setColor(Color cat){this.acolor = cat;}
     
     public int getID(){return(this.id);}
-    public String getTag(){return(this.tag);}
+    public LinkedList<String> getTag(){return(this.tag);}
     
     public float getDistance(float tx, float ty){
         float ry = (float) pow(this.y - ty, 2.0);
@@ -73,7 +73,7 @@ public class gameObject {
         this.mass = mas;
         this.y = ypos;
         this.x = xpos;
-        this.tag = tag;
+        this.tag.add(tag);
         this.appereance = ap;
         this.acolor = cat;
         this.id = ID;
@@ -83,13 +83,13 @@ public class gameObject {
         this.y = v.y;
     }
     public void update(Renderer re, objectManager oMb){    
-        if(this.tag == "cursor"){}
+        if(this.tag.contains(new String("cursor"))){}
         else{
             this.checkCollisions(oMb, this);
         }
-        if(this.tag == "player1" || this.tag == "cursor"){
+        if(this.tag.contains(new String("player1")) || this.tag.contains(new String("cursor"))){
 //        System.out.println(colliding);
-            if(this.tag == "cursor"){}
+            if(this.tag.contains(new String("cursor"))){}
             else{
 //                this.y = this.y + (this.vely);
 //                this.x = this.x + (this.velx);
@@ -141,7 +141,7 @@ public class gameObject {
             else{this.vely = this.vely * -0.75F;}
             
         }
-        if(this.tag == "static"){
+        if(this.tag.contains(new String("static"))){
             vely = 0F;
             velx = 0F;
         }
@@ -191,7 +191,7 @@ public class gameObject {
 //                        System.out.println("");
 //                    }
 
-                    if(x.tag != "static"){
+                    if(!this.tag.contains(new String("cursor"))){
 //                        System.out.print(colliding + ", ");
 //                        System.out.println("x2, y2:x1,y1 : " + x2 + ", " + y2 + ", "+ x1 + ", " + y1);
                     }
