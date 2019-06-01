@@ -40,7 +40,7 @@ import javax.swing.Timer;
 public class windowManager extends JFrame implements Runnable, ActionListener {
     //Screen components
     public LinkedList<Object> content = new LinkedList<>();
-    
+    public float global_brightness = 0.55F;
     public int rayDetail = 0;
     public int vector = 1;
     public int renderRays = 1;
@@ -342,9 +342,10 @@ public class windowManager extends JFrame implements Runnable, ActionListener {
             float r = tc.getRed();
             float g = tc.getGreen();
             float b = tc.getBlue();
-            r = (r * 0.55F + (rads.read()[tx][ty] * 0.55F) / 2 );if(r > 255){r = 255;}
-            g = (g * 0.55F + (rads.read()[tx][ty] * 0.55F) / 2 );if(g > 255){g = 255;}
-            b = (b * 0.55F + (rads.read()[tx][ty] * 0.55F) / 2 );if(b > 255){b = 255;}
+                    //global brightness
+            r = (r * global_brightness + (rads.read()[tx][ty] * 0.55F) / 2 );if(r > 255){r = 255;}
+            g = (g * global_brightness + (rads.read()[tx][ty] * 0.55F) / 2 );if(g > 255){g = 255;}
+            b = (b * global_brightness + (rads.read()[tx][ty] * 0.55F) / 2 );if(b > 255){b = 255;}
             colors.add(new Color((int)r,(int)g,(int)b));
             lis.add(new xyac(tx,ty,ta,tc,las));
 
