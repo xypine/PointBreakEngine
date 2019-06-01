@@ -13,6 +13,8 @@ import java.util.LinkedList;
  * @author elias
  */
 public class VSRad {
+    public int type = 0;
+    //type 1 = baked, type 0 = realtime
     public Color color = new Color(0,0,0);
     public float[][] grid;
     public LinkedList<float[][]> rays = new LinkedList<>();
@@ -23,9 +25,10 @@ public class VSRad {
     dVector[] directions = new dVector[resolution];
     private objectManager oM;
     private radiosity demo;
-    public VSRad(objectManager oM, Color c){
+    public VSRad(objectManager oM, Color c, int type){
         this.oM = oM;
         this.color = c;
+        this.type = type;
     }
     public void init(int w, int h){
         int state = 0;
@@ -114,7 +117,14 @@ public class VSRad {
         cursor = from;
         grid[(int) from.x][(int) from.y] = strenght;
         s = strenght;
-        
+        float bOut = 0.999F;
+        float decay = 0.999F;
+        float nullDecay = 0.9975F;
+        if(this.type == 0){
+            bOut = 0;
+            decay = 0.99F;
+            nullDecay = 0.995F;
+        }
         for(int i : new Range(resolution)){
             //System.out.println(done / resolution * 100 + "%: ");
             int hp = 1;
@@ -131,29 +141,29 @@ public class VSRad {
                     if(cursor.y > height-1){
                         cursor.y = height - 1;
                         dir.y = dir.y * - 1;
-                        s = s * 0.99F;
+                        s = s * bOut;
                     }
                     if(cursor.y < 0){
                         cursor.y = 0;
                         dir.y = dir.y * - 1;
-                        s = s * 0.99F;
+                        s = s * bOut;
                     }
                     if(cursor.x > width-1){
                         cursor.x = width - 1;
                         dir.x = dir.x * - 1;
-                        s = s * 0.99F;
+                        s = s * bOut;
                     }
                     if(cursor.x < 0){
                         cursor.x = 0;
                         dir.x = dir.x * - 1;
-                        s = s * 0.99F;
+                        s = s * bOut;
                     }
-                    if(oM.colliding((int) cursor.x, (int) cursor.y, "noray")){
+                    if(oM.colliding((int) cursor.x, (int) cursor.y, ignore)){
                         grid[(int) cursor.x][(int) cursor.y] = grid[(int) cursor.x][(int) cursor.y] + s;
                         dir.x = dir.x * -1;
                         dir.y = dir.y * -1;
                         cursor = new dVector(cursor.x + dir.x, cursor.y + dir.y);
-                        s = s * 0.9F;
+                        s = s * decay;
                         //System.out.println(dVector.round(cursor).represent() + " " + requests);
                     }
                     grid[(int) cursor.x][(int) cursor.y] = grid[(int) cursor.x][(int) cursor.y] + s;
@@ -164,7 +174,7 @@ public class VSRad {
                     inside = false;
                     //bounce(hp, dir, s);
                 }
-                s = s * 0.995F;
+                s = s * nullDecay;
                 if(s <= 0.0001){
                     inside = false;
                 }
@@ -190,13 +200,13 @@ class VSRadManager{
         this.w = w;
         this.h = h;
         this.oM = oM;
-        director = new VSRad(this.oM, Color.BLACK);
+        director = new VSRad(this.oM, Color.BLACK, 1999);
         director.init(this.w, this.h);
         this.directions = director.directions;
         this.colors = new Color[w][h];
     }
-    public void add(int x, int y, float s, Color color){
-        VSRad tmp = new VSRad(oM, color);        
+    public void add(int x, int y, float s, Color color, int type){
+        VSRad tmp = new VSRad(oM, color, type);        
         tmp.init(w, h);
         tmp.calculate(new dVector(x,y), s, "null");
         System.out.println(tmp.sum);
@@ -240,8 +250,11 @@ class VSRadManager{
             VSRad.remove(0);
         }
     }
-    public void recalculate(String ignore){
+    public void recalculate(String ignore, int type){
         for(VSRad i :VSRad){
+            if(i.type == type){
+                continue;
+            }
             i.fill(0);
             this.colors = new Color[w][h];
             i.calculate(i.from, i.lastS, ignore);

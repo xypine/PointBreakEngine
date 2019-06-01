@@ -41,12 +41,12 @@ public class windowManager extends JFrame implements Runnable, ActionListener {
     //Screen components
     public LinkedList<Object> content = new LinkedList<>();
     
-    public int rayDetail = 1;
+    public int rayDetail = 0;
     public int vector = 1;
     public int renderRays = 1;
     public LinkedList<Vector> record;
     colorParser cP = new colorParser();
-    Timer timer = new Timer(1, this);
+    Timer timer = new Timer(15, this);
     float[][] red;
     int tickC = 0;
     int number;
@@ -145,8 +145,9 @@ public class windowManager extends JFrame implements Runnable, ActionListener {
         tmp = renderer.gets();
         
         //rads = new VSRadManager(xd, yd, oM);
-        rads.add(25, 12, 4, new Color(10, 0, 0));
-        rads.add(12, 1, 1, new Color(0, 0, 10));
+        rads.add(25, 12, 2, new Color(1, 1, 1), 1);
+        //rads.add(25, 12, 4, new Color(1, 1, 1), 0);
+        //rads.add(12, 1, 1, new Color(0, 0, 10));
         screen = "";
         
         //fresh();
@@ -233,10 +234,10 @@ public class windowManager extends JFrame implements Runnable, ActionListener {
         //rads.add(25, 12, 4);
         if(renderRays == 1){
             if(rayDetail == 0){
-                rads.recalculate("player1");
+                rads.recalculate("player1", 1);
             }
             if(rayDetail == 1){
-                rads.recalculate("none");
+                rads.recalculate("none", 0);
             }
             red = rads.read();
         }
@@ -341,9 +342,9 @@ public class windowManager extends JFrame implements Runnable, ActionListener {
             float r = tc.getRed();
             float g = tc.getGreen();
             float b = tc.getBlue();
-            //r = r * (rads.read()[tx][ty] * 0.1F);if(r > 255){r = 255;}
-            //g = g * (rads.read()[tx][ty] * 0.1F);if(g > 255){g = 255;}
-            //b = b * (rads.read()[tx][ty] * 0.1F);if(b > 255){b = 255;}
+            r = (r * 0.55F + (rads.read()[tx][ty] * 0.55F) / 2 );if(r > 255){r = 255;}
+            g = (g * 0.55F + (rads.read()[tx][ty] * 0.55F) / 2 );if(g > 255){g = 255;}
+            b = (b * 0.55F + (rads.read()[tx][ty] * 0.55F) / 2 );if(b > 255){b = 255;}
             colors.add(new Color((int)r,(int)g,(int)b));
             lis.add(new xyac(tx,ty,ta,tc,las));
 
