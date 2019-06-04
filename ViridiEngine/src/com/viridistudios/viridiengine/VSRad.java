@@ -245,6 +245,24 @@ class VSRadManager{
         lasthash = sum.hashCode();
         return(sum);
     }
+    public Color readColor(int x, int y){
+        
+        //x = x -1;
+        //y = y -1;
+        //if(x > 49){x = 49;}
+        //if(x < 0){x = 0;}
+        //if(y > 49){y = 49;}
+        //if(y < 0){y = 0;}
+        Color sum = new Color(0,0,0);
+        int r = 0, g = 0, b = 0;
+        for(VSRad ray : VSRad){
+            r = Math.round(sum.getRed() + (ray.grid[x][y] * ray.color.getRed()));if(r > 255){r = 255;}
+            g = Math.round(sum.getGreen() + (ray.grid[x][y] * ray.color.getGreen()));if(g > 255){g = 255;}
+            b = Math.round(sum.getBlue() + (ray.grid[x][y] * ray.color.getBlue()));if(b > 255){b = 255;}
+            sum = new Color(r,g,b);
+        }
+        return(sum);
+    }
     public void removeA(){
         for(int i : new Range(VSRad.size())){
             VSRad.remove(0);

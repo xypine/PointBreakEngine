@@ -145,7 +145,7 @@ public class windowManager extends JFrame implements Runnable, ActionListener {
         tmp = renderer.gets();
         
         //rads = new VSRadManager(xd, yd, oM);
-        rads.add(25, 12, 2, new Color(1, 1, 1), 1);
+        rads.add(25, 12, 2, new Color(0, 0, 1), 1);
         //rads.add(25, 12, 4, new Color(1, 1, 1), 0);
         //rads.add(12, 1, 1, new Color(0, 0, 10));
         screen = "";
@@ -343,9 +343,22 @@ public class windowManager extends JFrame implements Runnable, ActionListener {
             float g = tc.getGreen();
             float b = tc.getBlue();
                     //global brightness
-            r = (r * global_brightness + (rads.read()[tx][ty] * 0.55F) / 2 );if(r > 255){r = 255;}
-            g = (g * global_brightness + (rads.read()[tx][ty] * 0.55F) / 2 );if(g > 255){g = 255;}
-            b = (b * global_brightness + (rads.read()[tx][ty] * 0.55F) / 2 );if(b > 255){b = 255;}
+                    
+            try{
+                r = (r * global_brightness + (rads.readColor(tx, ty).getRed()));if(r > 255){r = 255;}
+                g = (g * global_brightness + (rads.readColor(tx, ty).getGreen()));if(g > 255){g = 255;}
+                b = (b * global_brightness + (rads.readColor(tx, ty).getBlue()));if(b > 255){b = 255;}
+            //    r = (r * global_brightness + (rads.colors[tx][ty].getRed() * 0.5F) / 2 );if(r > 255){r = 255;}
+            //    g = (g * global_brightness + (rads.colors[tx][ty].getGreen() * 0.5F) / 2 );if(g > 255){g = 255;}
+            //    b = (b * global_brightness + (rads.colors[tx][ty].getBlue() * 0.5F) / 2 );if(b > 255){b = 255;}
+            }catch(Exception e){
+                
+                r = (r * global_brightness + (rads.read()[tx][ty] * 0.55F) / 2 );if(r > 255){r = 255;}
+                g = (g * global_brightness + (rads.read()[tx][ty] * 0.55F) / 2 );if(g > 255){g = 255;}
+                b = (b * global_brightness + (rads.read()[tx][ty] * 0.55F) / 2 );if(b > 255){b = 255;}
+                throw(e);
+            }
+            
             colors.add(new Color((int)r,(int)g,(int)b));
             lis.add(new xyac(tx,ty,ta,tc,las));
 

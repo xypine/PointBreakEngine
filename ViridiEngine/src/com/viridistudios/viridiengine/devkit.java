@@ -14,6 +14,7 @@ import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JTextField;
 
 /**
  *
@@ -26,6 +27,7 @@ public class devkit extends JFrame{
     JButton graphic = new JButton("toggle vector");
     JButton rays = new JButton("toggle rays");
     JLabel raysL = new JLabel("RAYYYS");
+    JTextField lum = new JTextField(20);
     public devkit(kick k) {
         this.setTitle("ViridiEngine devkit");
         this.k = k;
@@ -34,9 +36,11 @@ public class devkit extends JFrame{
         
         graphic.addActionListener(new BListener(9, this));
         rays.addActionListener(new BListener(2, this));
+        lum.addActionListener(new BListener(0, this));
         cont.add(graphic, BorderLayout.NORTH);
         cont.add(rays, BorderLayout.NORTH);
         cont.add(raysL, BorderLayout.SOUTH);
+        cont.add(lum, BorderLayout.NORTH);
         this.add(cont);
         
         this.setVisible(true);
@@ -78,6 +82,10 @@ class BListener implements ActionListener{
             System.out.println("Rays!");
             k.togV();
         }
+        try{
+            k.k.wM.global_brightness = Float.parseFloat(k.lum.getText());
+        }
+        catch(Exception e){}
         k.raysL.setText(Boolean.toString(k.togV));
     }
     
