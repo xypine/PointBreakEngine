@@ -29,6 +29,7 @@ import java.util.logging.Logger;
 import javax.sound.sampled.LineUnavailableException;
 import javax.sound.sampled.UnsupportedAudioFileException;
 import javax.swing.JFrame;
+import static javax.swing.JFrame.EXIT_ON_CLOSE;
 import javax.swing.JLabel;
 import javax.swing.JTextArea;
 import javax.swing.Timer;
@@ -37,9 +38,10 @@ import javax.swing.Timer;
  *
  * @author Jonnelafin
  */
-public class engine extends JFrame implements Runnable, ActionListener {
+public class EffectsDemo extends JFrame implements Runnable, ActionListener {
     //Screen components
     public dVector gravity;
+    gridEffects GE = new gridEffects();
     public LinkedList<Object> content = new LinkedList<>();
     public float global_brightness = 0.55F;
     public int rayDetail = 0;
@@ -76,23 +78,23 @@ public class engine extends JFrame implements Runnable, ActionListener {
     public vectorArea vA;
     kick k;
     private Input input;
-    public engine(kick ki, objectManager o, int xd, int yd, VSRadManager a, dVector g){
+    public EffectsDemo(kick ki, objectManager o, int xd, int yd, VSRadManager a, dVector g){
         
         this.oM = o;
         this.xd = xd;
         this.yd = yd;
-        System.out.println("Initializing main input: " + ki);
+        System.out.println("Initializing effect input: " + ki);
         this.k = ki;
         input = new Input(k);
-        System.out.println("out main input: " + k);
+        System.out.println("out effect input: " + k);
     }
-    private AudioSource aM;
-    VSRadManager rads;
     
+    float[][] demo;
     @Override
     public void run() {
-        this.rads = new VSRadManager(xd, yd, oM);
-        
+        demo = new float[xd][yd];
+        demo[12][17] = 255F;
+        demo = GE.blur(demo, xd, yd);
         timer.setRepeats(true);
         timer.start();
         
@@ -107,7 +109,7 @@ public class engine extends JFrame implements Runnable, ActionListener {
 //        int yd = 25;
         //xd = (int) (w / 15.34);
         //yd = (int) (h / 22.48);
-        this.setTitle("ViridiEngine");
+        this.setTitle("ViridiEngine effect demo");
         this.setSize((int) Math.ceil(w), (int) Math.ceil(h*1.05F));
         this.setDefaultCloseOperation(EXIT_ON_CLOSE);
         
@@ -131,7 +133,7 @@ public class engine extends JFrame implements Runnable, ActionListener {
         this.requestFocusInWindow();
         this.addKeyListener(input);
         this.addMouseMotionListener(input);
-        this.setVisible(false);
+        this.setVisible(true);
         getContentPane().setBackground( Color.black );
         
         synchronized(renderer) {
@@ -143,13 +145,6 @@ public class engine extends JFrame implements Runnable, ActionListener {
         this.add(vA);
         content.add(vA);
         vA.init((int)w, (int)h);
-        //tmp = renderer.gets();
-        
-        //rads = new VSRadManager(xd, yd, oM);
-        rads.add(25, 12, 10, new Color(0, 0, 1), 1);
-        rads.add(24, 24, 4, new Color(1, 1, 1), 1);
-        //rads.add(25, 12, 4, new Color(1, 1, 1), 0);
-        //rads.add(12, 1, 1, new Color(0, 0, 10));
         screen = "";
         
         //fresh();
@@ -179,7 +174,6 @@ public class engine extends JFrame implements Runnable, ActionListener {
         
         
         
-        record = recorder.read("/src/com/PointBreakStudios/PointBreakEngine/records/recorded.txt");
         //oM.addObject(new Player(3, 3, "playback", "█", 1F, Color.blue, 11));
         //Add AudioSource
 /*        try {
@@ -229,34 +223,12 @@ public class engine extends JFrame implements Runnable, ActionListener {
         levelLoader lL = new levelLoader(level, oM, k);
     }
     Vector las;
-    public Recorder recorder = new Recorder();
     boolean ve = false;
+    int cu = 0;
     void tick(){
-        //rads.removeA();
-        //rads.add(25, 12, 4);
-        if(renderRays == 1){
-            if(rayDetail == 0){
-                rads.recalculate("player1", 1);
-            }
-            if(rayDetail == 1){
-                rads.recalculate("none", 0);
-            }
-            red = rads.read();
-        }
-        if(tickC < record.size()){
-            if(oM.findGameObject("playback") != 99999999){
-                Vector loc = record.get(tickC);
-                System.out.println("Playing back frame " + tickC + ": " + loc.represent());
-                oM.getObjectByTag("playback").setLocation(loc);
-            }
-        }
-        else{
-            tickC = -1;
-        }
         //vector = input.ve;
         
 //        aM.play();
-        recorder.record(oM);
         //UPDATE ARRAY
         class xyac
         {
@@ -275,112 +247,32 @@ public class engine extends JFrame implements Runnable, ActionListener {
         LinkedList<Color> colors = new LinkedList<>();
         objects = oM.getObjects();
         int xp = 0, yp = 0;
-        
-        
-        for(float[] x : red){
+        for(float[] x : demo){
             for(float y : x){
-                Color c = new Color(0,0,0);
-                c = rads.colors[xp][yp];
-                double i = y * 1F;
+                int i = (int) (y * 1F);
                 if(i > 255){
                     i = 255;
                 }
-                float r = 0,g = 0,b = 0;
-                //System.out.println();
-                float brightness = 0.001F;
-                try{r = rads.colors[xp][yp].getRed() * (y*brightness);}catch(Exception e){r = 0F;}
-                try{g = rads.colors[xp][yp].getGreen() * (y*brightness);}catch(Exception e){g = 0F;}
-                try{b = rads.colors[xp][yp].getBlue() * (y*brightness);}catch(Exception e){b = 0F;}
-                if(r > 255){r = 255;}
-                if(g > 255){g = 255;}
-                if(b > 255){b = 255;}
-                
                 points.add(new Vector(xp,yp));
-                colors.add(new Color((int) r,(int) g,(int) b));
-                renderer.change(xp, yp,"█",new Color((int) i,(int) i,(int) i), "n");
-                //renderer.vChange(xp * 15.34F, yp * 22.48F, new Color((int) i,(int) i,(int) i));
+                colors.add(new Color(i,i,i));
                 yp++;
             }
             xp++;
             yp = 0;
-        }
-//        oM.doPhysics(renderer);
-        for(gameObject p : objects){
-//            renderer.change(tx, ty, "█", Color.WHITE);
-//            System.out.println(p.getTag().getClass() + " " + "static".getClass());
-            p.update(renderer, oM);
-            p.checkInput(input);
-            
-//            oM.doPhysics(renderer, p);
-            this.txf = p.getX();
-            this.tyf = p.getY();
-            this.tx = round(p.getX());
-            this.ty = round(p.getY());
-            this.las = new Vector(p.lastX, p.lastY);
-            p.lastX = txf;
-            p.lastY = tyf;
-            ta = p.gAppearance();
-            Color tc = p.getColor();
-//            p.update(renderer);
-            if(p.getTag().contains(new String("player1"))){
-//                oM.addObject(new Player(tx, ty, "null", "█", 1F, Color.MAGENTA));
-                //rads.add(tx, ty, 1);
-//                aM.setVolume(d/10);
-//                System.out.println(aM.getVolume());
-            }else{}
-            if(p.getTag().contains(new String("player2"))){
-//                oM.addObject(new Player(tx, ty, "null", "█", 1F, Color.CYAN,co+3));
-//                co++;
-            }
-//            System.out.println((p.getVX() + 1F) * (p.getVY()+1F));
-            if(p.getTag().contains(new String("null")) && p.hits > 7){
-//                oM.removeObject(p);
-            }
-        
-//          System.out.println("pelaaja: x:" + tx + " y:" + ty);
-/////////////////            renderer.change(tx, ty, ta, tc);
-            points.add(new Vector(txf, tyf));
-            
-            float r = tc.getRed();
-            float g = tc.getGreen();
-            float b = tc.getBlue();
-                    //global brightness
-                    
-            try{
-                r = (r * global_brightness + (rads.readColor(tx, ty).getRed()));if(r > 255){r = 255;}
-                g = (g * global_brightness + (rads.readColor(tx, ty).getGreen()));if(g > 255){g = 255;}
-                b = (b * global_brightness + (rads.readColor(tx, ty).getBlue()));if(b > 255){b = 255;}
-            //    r = (r * global_brightness + (rads.colors[tx][ty].getRed() * 0.5F) / 2 );if(r > 255){r = 255;}
-            //    g = (g * global_brightness + (rads.colors[tx][ty].getGreen() * 0.5F) / 2 );if(g > 255){g = 255;}
-            //    b = (b * global_brightness + (rads.colors[tx][ty].getBlue() * 0.5F) / 2 );if(b > 255){b = 255;}
-            }catch(Exception e){
-                
-                r = (r * global_brightness + (rads.read()[tx][ty] * 0.55F) / 2 );if(r > 255){r = 255;}
-                g = (g * global_brightness + (rads.read()[tx][ty] * 0.55F) / 2 );if(g > 255){g = 255;}
-                b = (b * global_brightness + (rads.read()[tx][ty] * 0.55F) / 2 );if(b > 255){b = 255;}
-                throw(e);
-            }
-            
-            colors.add(new Color((int)r,(int)g,(int)b));
-            lis.add(new xyac(tx,ty,ta,tc,las));
-
-
-            //RENDER
-//            renderer.fill(Integer.toString(number));
         }
         renderer.fill("█", Color.BLACK, "null");
         //renderer.vectorFill(Color.BLACK, vector);
         //Render
         
         //renderer.canvas.clean();
-        vA.update(points, colors, 20F);
+        vA.update(points, colors, 2F);
         for(xyac a : lis){
-            renderer.change((int) (a.x), (int) (a.y), a.a, a.c, "n");
+            //renderer.change((int) (a.x), (int) (a.y), a.a, a.c, "n");
             //lM.vChange(a.last.x * 15.34F, a.last.y * 22.48F, a.a, Color.black, vector);
             //renderer.vChange(a.x * 15.34F, a.y * 22.48F, a.c);
         }
         
-        area.setText(fetch(renderer));
+        //area.setText(fetch(renderer));
     }
     String fetch(Renderer render)
     {
@@ -425,17 +317,7 @@ public class engine extends JFrame implements Runnable, ActionListener {
         return(screen);
     }
 
-    void record() {
-        try {
-            
-            recorder.write(recorder.recorded, "/src/com/viridistudios/viridiengine/records/recorded.txt");
-        } catch (UnsupportedEncodingException ex) {
-            Logger.getLogger(engine.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (IOException ex) {
-            Logger.getLogger(engine.class.getName()).log(Level.SEVERE, null, ex);
-        }
-    }
-
+    
     
     
 }

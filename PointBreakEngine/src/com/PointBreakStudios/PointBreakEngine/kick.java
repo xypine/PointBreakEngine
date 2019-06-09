@@ -33,6 +33,7 @@ public class kick {
     objectManager forwM = new objectManager();
     public kick(int mode){
         devkit kit = new devkit(ref);
+        EffectsDemo ED = new EffectsDemo(ref , forwM, 500, 250, rad, engine_gravity);
         b  = new Thread(){
             @Override
             public void run(){
@@ -49,9 +50,9 @@ public class kick {
         
         
         //rad = new radiosity(ref);
-        //SwingUtilities.invokeLater(rad);
+        SwingUtilities.invokeLater(ED);
         SwingUtilities.invokeLater(wM);
-        
+        ED.running = true;
            //Thread a = new Thread(wM, "Thread 1");
            //Thread b = new Thread(ea, "Thread 2");
            //a.start();
@@ -68,7 +69,7 @@ public class kick {
             wM.oM.addObject(new Player(5, 5, "player1", "█", 1F, Color.black, 1, ref));
             //rad.setTitle("VSRad");
         }
-        wM.running = true;
+        //wM.running = true;
                 }
         };
         a.start();

@@ -145,9 +145,10 @@ class vectorArea extends JPanel{
             g.drawRect((int)(r.x*factor),(int) (r.y*factor), (int) factor, (int) factor);
         }
     }
-    public void update(LinkedList<Vector> p,LinkedList<Color> c){
+    public void update(LinkedList<Vector> p,LinkedList<Color> c, float f){
         this.points = p;
         this.colors = c;
+        this.factor = f;
     }
     public void init(int w, int h){
         this.setSize(w, h);
