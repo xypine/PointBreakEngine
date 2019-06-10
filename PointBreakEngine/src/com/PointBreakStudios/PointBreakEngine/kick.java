@@ -33,7 +33,7 @@ public class kick {
     objectManager forwM = new objectManager();
     public kick(int mode){
         devkit kit = new devkit(ref);
-        EffectsDemo ED = new EffectsDemo(ref , forwM, 500, 250, rad, engine_gravity);
+        EffectsDemo ED = new EffectsDemo(ref , forwM, 50, 25, rad, engine_gravity);
         b  = new Thread(){
             @Override
             public void run(){
@@ -51,7 +51,7 @@ public class kick {
         
         //rad = new radiosity(ref);
         SwingUtilities.invokeLater(ED);
-        SwingUtilities.invokeLater(wM);
+        //SwingUtilities.invokeLater(wM);
         ED.running = true;
            //Thread a = new Thread(wM, "Thread 1");
            //Thread b = new Thread(ea, "Thread 2");

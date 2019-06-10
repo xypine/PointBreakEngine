@@ -30,7 +30,7 @@ public class gridEffects {
         float[][] out = new float[w][h];
         for(float[] lane : sauce){
             for(float lany : lane){
-                sum = 0;
+                sum = sauce[x][y];
                 for(dVector i : dirs){
                     try{
                         sum = sum + sauce[x + (int) i.x][y + (int) i.y];

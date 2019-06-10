@@ -129,7 +129,7 @@ public class EffectsDemo extends JFrame implements Runnable, ActionListener {
         this.add(area);
         content.add(area);
         //fresh();
-        System.out.println("Initializing engine...");
+        System.out.println("Initializing effects demo...");
         this.requestFocusInWindow();
         this.addKeyListener(input);
         this.addMouseMotionListener(input);
@@ -148,7 +148,7 @@ public class EffectsDemo extends JFrame implements Runnable, ActionListener {
         screen = "";
         
         //fresh();
-        System.out.println("Done initializing engine!");
+        System.out.println("Done initializing effects demo!");
         
 //        for (String[] y : tmp)
 //        {  
@@ -162,7 +162,7 @@ public class EffectsDemo extends JFrame implements Runnable, ActionListener {
 //        }
         
         
-        area.setText(fetch(renderer));
+        //area.setText(fetch(renderer));
 //        area.setEditable(false);
         
         
@@ -201,7 +201,6 @@ public class EffectsDemo extends JFrame implements Runnable, ActionListener {
     @Override
     public void actionPerformed(ActionEvent e) {
         //fresh();
-        
         this.number = Integer.parseInt(Integer.toString(tickC).substring(0, 1));
         if(vector == 0){
             area.setVisible(true);
@@ -265,7 +264,7 @@ public class EffectsDemo extends JFrame implements Runnable, ActionListener {
         //Render
         
         //renderer.canvas.clean();
-        vA.update(points, colors, 2F);
+        vA.update(points, colors, 20F);
         for(xyac a : lis){
             //renderer.change((int) (a.x), (int) (a.y), a.a, a.c, "n");
             //lM.vChange(a.last.x * 15.34F, a.last.y * 22.48F, a.a, Color.black, vector);
