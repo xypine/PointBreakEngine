@@ -93,7 +93,7 @@ public class EffectsDemo extends JFrame implements Runnable, ActionListener {
     @Override
     public void run() {
         demo = new float[xd][yd];
-        demo[12][17] = 255F;
+        //demo[12][17] = 255F;
         demo = GE.blur(demo, xd, yd);
         timer.setRepeats(true);
         timer.start();

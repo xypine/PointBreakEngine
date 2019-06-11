@@ -117,6 +117,7 @@ public class VSRad {
         //System.out.println("Calculating rays...");
         cursor = from;
         grid[(int) from.x][(int) from.y] = strenght;
+        fill(0);
         s = strenght;
         float bOut = 0.999F;
         float decay = 0.999F;
@@ -197,10 +198,12 @@ class VSRadManager{
     private objectManager oM;
     private radiosity demo;
     private dVector[] directions;
+    private float[][] last;
     public VSRadManager(int w, int h,objectManager oM){
         this.w = w;
         this.h = h;
         this.oM = oM;
+        last = new float[w][h];
         director = new VSRad(this.oM, Color.BLACK, 1999);
         director.init(this.w, this.h);
         this.directions = director.directions;
@@ -244,6 +247,7 @@ class VSRadManager{
             System.out.println("no change");
         }
         lasthash = sum.hashCode();
+        last = sum;
         return(sum);
     }
     public Color readColor(int x, int y){
@@ -278,5 +282,32 @@ class VSRadManager{
             this.colors = new Color[w][h];
             i.calculate(i.from, i.lastS, ignore);
         }
+    }
+    public float[][] getR(int xd, int yd){
+        float[][] out = new float[xd][yd];
+        for(int x : new Range(xd)){
+            for(int y : new Range(yd)){
+                try{out[x][y] = colors[x][y].getRed();}catch(Exception e){out[x][y] = 0;}
+            }
+        }
+        return out;
+    }
+    public float[][] getG(int xd, int yd){
+        float[][] out = new float[xd][yd];
+        for(int x : new Range(xd)){
+            for(int y : new Range(yd)){
+                try{out[x][y] = colors[x][y].getGreen();}catch(Exception e){out[x][y] = 0;}
+            }
+        }
+        return out;
+    }
+    public float[][] getB(int xd, int yd){
+        float[][] out = new float[xd][yd];
+        for(int x : new Range(xd)){
+            for(int y : new Range(yd)){
+                try{out[x][y] = colors[x][y].getBlue();}catch(Exception e){out[x][y] = 0;}
+            }
+        }
+        return out;
     }
 }

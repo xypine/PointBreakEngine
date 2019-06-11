@@ -33,7 +33,7 @@ public class kick {
     objectManager forwM = new objectManager();
     public kick(int mode){
         devkit kit = new devkit(ref);
-        EffectsDemo ED = new EffectsDemo(ref , forwM, 50, 25, rad, engine_gravity);
+        //EffectsDemo ED = new EffectsDemo(ref , forwM, 50, 25, rad, engine_gravity);
         b  = new Thread(){
             @Override
             public void run(){
@@ -50,16 +50,15 @@ public class kick {
         
         
         //rad = new radiosity(ref);
-        SwingUtilities.invokeLater(ED);
-        //SwingUtilities.invokeLater(wM);
-        ED.running = true;
+        //SwingUtilities.invokeLater(ED);
+        SwingUtilities.invokeLater(wM);
            //Thread a = new Thread(wM, "Thread 1");
            //Thread b = new Thread(ea, "Thread 2");
            //a.start();
            //b.start();
         
         //rad.running = true;
-        wM.running = false;
+        wM.running = true;
         if(mode == 3){
             try {
                 wM.loadLevel("/src/com/PointBreakStudios/PointBreakEngine/levels/out.txt");

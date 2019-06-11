@@ -40,6 +40,7 @@ import javax.swing.Timer;
 public class engine extends JFrame implements Runnable, ActionListener {
     //Screen components
     public dVector gravity;
+    gridEffects effects = new gridEffects();
     public LinkedList<Object> content = new LinkedList<>();
     public float global_brightness = 0.55F;
     public int rayDetail = 0;
@@ -131,7 +132,7 @@ public class engine extends JFrame implements Runnable, ActionListener {
         this.requestFocusInWindow();
         this.addKeyListener(input);
         this.addMouseMotionListener(input);
-        this.setVisible(false);
+        this.setVisible(true);
         getContentPane().setBackground( Color.black );
         
         synchronized(renderer) {
@@ -275,7 +276,9 @@ public class engine extends JFrame implements Runnable, ActionListener {
         LinkedList<Color> colors = new LinkedList<>();
         objects = oM.getObjects();
         int xp = 0, yp = 0;
-        
+        float rb[][] = effects.blur(rads.getR(xd, yd), xd, yd);
+        float gb[][] = effects.blur(rads.getG(xd, yd), xd, yd);
+        float bb[][] = effects.blur(rads.getB(xd, yd), xd, yd);
         
         for(float[] x : red){
             for(float y : x){
@@ -288,9 +291,9 @@ public class engine extends JFrame implements Runnable, ActionListener {
                 float r = 0,g = 0,b = 0;
                 //System.out.println();
                 float brightness = 0.001F;
-                try{r = rads.colors[xp][yp].getRed() * (y*brightness);}catch(Exception e){r = 0F;}
-                try{g = rads.colors[xp][yp].getGreen() * (y*brightness);}catch(Exception e){g = 0F;}
-                try{b = rads.colors[xp][yp].getBlue() * (y*brightness);}catch(Exception e){b = 0F;}
+                try{r = rb[xp][yp] * (y*brightness);}catch(Exception e){r = 0F;}
+                try{g = gb[xp][yp] * (y*brightness);}catch(Exception e){g = 0F;}
+                try{b = bb[xp][yp] * (y*brightness);}catch(Exception e){b = 0F;}
                 if(r > 255){r = 255;}
                 if(g > 255){g = 255;}
                 if(b > 255){b = 255;}
