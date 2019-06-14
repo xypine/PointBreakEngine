@@ -27,13 +27,14 @@ public class kick {
     kick ref = this;
     int xd = 50;
     int yd = 25;
+        EffectsDemo ED;
     Thread c;
     Thread b;
     Thread a;
     objectManager forwM = new objectManager();
     public kick(int mode){
         devkit kit = new devkit(ref);
-        //EffectsDemo ED = new EffectsDemo(ref , forwM, 50, 25, rad, engine_gravity);
+        //ED = new EffectsDemo(ref , forwM, 50, 25, rad, engine_gravity);
         b  = new Thread(){
             @Override
             public void run(){

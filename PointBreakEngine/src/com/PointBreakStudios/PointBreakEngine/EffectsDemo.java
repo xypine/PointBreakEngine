@@ -40,6 +40,7 @@ import javax.swing.Timer;
  */
 public class EffectsDemo extends JFrame implements Runnable, ActionListener {
     //Screen components
+    int blur = 2;
     public dVector gravity;
     gridEffects GE = new gridEffects();
     public LinkedList<Object> content = new LinkedList<>();
@@ -90,11 +91,13 @@ public class EffectsDemo extends JFrame implements Runnable, ActionListener {
     }
     
     float[][] demo;
+    float[][] sauce;
     @Override
     public void run() {
-        demo = new float[xd][yd];
-        //demo[12][17] = 255F;
-        demo = GE.blur(demo, xd, yd);
+        
+        sauce = new float[xd][yd];
+        sauce[12][17] = 255F;
+        demo = GE.blur(sauce, xd, yd, 2);
         timer.setRepeats(true);
         timer.start();
         
@@ -226,7 +229,7 @@ public class EffectsDemo extends JFrame implements Runnable, ActionListener {
     int cu = 0;
     void tick(){
         //vector = input.ve;
-        
+        demo = GE.blur(sauce, xd, yd, blur);
 //        aM.play();
         //UPDATE ARRAY
         class xyac

@@ -129,20 +129,40 @@ public class Renderer {
     
 }
 class vectorArea extends JPanel{
+    private Color[][] master;
+    public int blur = 0;
     LinkedList<Vector> points = new LinkedList<>();
     LinkedList<Color> colors = new LinkedList<>();
     float x = 15.34F;
     float y = 22.48F;
     float factor = 20F;
+    private int w = 0;
+    private int h = 0;
     @Override
     public void paintComponent(Graphics g) {
         super.paintComponent(g);
+        master = gridEffects.zero(master);
         for(int i : new Range(points.size())){
-            Vector r = points.get(i);
+            Vector rl = points.get(i);
             Color c = colors.get(i);
-            g.setColor(c);
-            g.fillRect((int)(r.x*factor),(int) (r.y*factor), (int) factor, (int) factor);
-            g.drawRect((int)(r.x*factor),(int) (r.y*factor), (int) factor, (int) factor);
+            master[Math.round(rl.x)][Math.round(rl.y)] = c;
+            
+        }
+        float[][] rs = gridEffects.separateRGB(master, w, h).get(0);
+        float[][] gs = gridEffects.separateRGB(master, w, h).get(1);
+        float[][] bs = gridEffects.separateRGB(master, w, h).get(2);
+        rs = gridEffects.blur(rs, w, h, blur);
+        gs = gridEffects.blur(rs, w, h, blur);
+        bs = gridEffects.blur(rs, w, h, blur);
+        master = gridEffects.parseColor(w, h, rs, gs, bs);
+        for(int x : new Range(w)){
+            for(int y : new Range(h)){
+                Vector rm = new Vector(x, y);
+                Color c = master[x][y];
+                g.setColor(c);
+                g.fillRect((int)(rm.x*factor),(int) (rm.y*factor), (int) factor, (int) factor);
+                //g.drawRect((int)(r.x*factor),(int) (r.y*factor), (int) factor, (int) factor);
+            }
         }
     }
     public void update(LinkedList<Vector> p,LinkedList<Color> c, float f){
@@ -151,11 +171,15 @@ class vectorArea extends JPanel{
         this.factor = f;
     }
     public void init(int w, int h){
+        this.w = w;
+        this.h = h;
         this.setSize(w, h);
         this.setBackground(Color.BLACK);
         this.setPreferredSize(new Dimension(w,h));
         this.setOpaque(true);
         this.setBackground(Color.BLACK);
+        master = new Color[w][h];
+        master = gridEffects.zero(master);
         //this.setBorder();
     }
 }

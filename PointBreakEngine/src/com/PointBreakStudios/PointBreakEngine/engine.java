@@ -38,7 +38,9 @@ import javax.swing.Timer;
  * @author Jonnelafin
  */
 public class engine extends JFrame implements Runnable, ActionListener {
+    public boolean running = true;
     //Screen components
+    int blurStrenght = 1;
     public dVector gravity;
     gridEffects effects = new gridEffects();
     public LinkedList<Object> content = new LinkedList<>();
@@ -147,10 +149,11 @@ public class engine extends JFrame implements Runnable, ActionListener {
         //tmp = renderer.gets();
         
         //rads = new VSRadManager(xd, yd, oM);
-        rads.add(25, 12, 10, new Color(0, 0, 1), 1);
-        rads.add(24, 24, 4, new Color(1, 1, 1), 1);
+        rads.add(25, 12, 4, new Color(0, 0, 1), 1);
+        rads.add(24, 24, 4, new Color(1, 0, 0), 1);
         //rads.add(25, 12, 4, new Color(1, 1, 1), 0);
         //rads.add(12, 1, 1, new Color(0, 0, 10));
+        red = rads.read();
         screen = "";
         
         //fresh();
@@ -204,7 +207,6 @@ public class engine extends JFrame implements Runnable, ActionListener {
         }
     }
     
-    public boolean running = true;
     @Override
     public void actionPerformed(ActionEvent e) {
         //fresh();
@@ -276,10 +278,9 @@ public class engine extends JFrame implements Runnable, ActionListener {
         LinkedList<Color> colors = new LinkedList<>();
         objects = oM.getObjects();
         int xp = 0, yp = 0;
-        float rb[][] = effects.blur(rads.getR(xd, yd), xd, yd);
-        float gb[][] = effects.blur(rads.getG(xd, yd), xd, yd);
-        float bb[][] = effects.blur(rads.getB(xd, yd), xd, yd);
-        
+        //float rb[][] = effects.blur(rads.getR(xd, yd), xd, yd, blurStrenght);
+        //float gb[][] = effects.blur(rads.getG(xd, yd), xd, yd, blurStrenght);
+        //float bb[][] = effects.blur(rads.getB(xd, yd), xd, yd, blurStrenght);
         for(float[] x : red){
             for(float y : x){
                 Color c = new Color(0,0,0);
@@ -291,9 +292,9 @@ public class engine extends JFrame implements Runnable, ActionListener {
                 float r = 0,g = 0,b = 0;
                 //System.out.println();
                 float brightness = 0.001F;
-                try{r = rb[xp][yp] * (y*brightness);}catch(Exception e){r = 0F;}
-                try{g = gb[xp][yp] * (y*brightness);}catch(Exception e){g = 0F;}
-                try{b = bb[xp][yp] * (y*brightness);}catch(Exception e){b = 0F;}
+                try{r = rads.colors[xp][yp].getRed() * (y*brightness);}catch(Exception e){r = 0F;}
+                try{g = rads.colors[xp][yp].getGreen() * (y*brightness);}catch(Exception e){g = 0F;}
+                try{b = rads.colors[xp][yp].getBlue() * (y*brightness);}catch(Exception e){b = 0F;}
                 if(r > 255){r = 255;}
                 if(g > 255){g = 255;}
                 if(b > 255){b = 255;}

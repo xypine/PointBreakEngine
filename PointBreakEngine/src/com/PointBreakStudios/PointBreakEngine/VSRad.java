@@ -1,4 +1,4 @@
-/*
+    /*
  * To change this license header, choose License Headers in Project Properties.
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
@@ -191,6 +191,7 @@ public class VSRad {
     }
 }
 class VSRadManager{
+    public int blurStrenght = 0; //Disabled by default
     public Color[][] colors;
     public LinkedList<VSRad> VSRad = new LinkedList<>();
     private VSRad director;
@@ -266,12 +267,38 @@ class VSRadManager{
             b = Math.round(sum.getBlue() + (ray.grid[x][y] * ray.color.getBlue()));if(b > 255){b = 255;}
             sum = new Color(r,g,b);
         }
+        //sum = getBlurred()[x][y];
         return(sum);
     }
     public void removeA(){
         for(int i : new Range(VSRad.size())){
             VSRad.remove(0);
         }
+    }
+    public Color[][] getBlurred(){
+        Color[][] out = new Color[w][h];
+        out = gridEffects.zero(out);
+        float[][] r = getR(w,h);
+        float[][] g = getG(w,h);
+        float[][] b = getB(w,h);
+        LinkedList<float[][]> rgb = new LinkedList<>();
+        r = new gridEffects().blur(r, w, h, blurStrenght);
+        g = new gridEffects().blur(g, w, h, blurStrenght);
+        b = new gridEffects().blur(b, w, h, blurStrenght);
+        rgb.add(r);rgb.add(g);rgb.add(b);
+        int xp = 0, yp = 0;
+        for(Color[] lane : out){
+            for(Color i : lane){
+                int ri = (int) r[xp][yp];
+                int gi = (int) g[xp][yp];
+                int bi = (int) b[xp][yp];
+                i = new Color(ri,gi,bi);
+                yp++;
+            }
+            xp++;
+            yp = 0;
+        }
+        return out;
     }
     public void recalculate(String ignore, int type){
         for(VSRad i :VSRad){
