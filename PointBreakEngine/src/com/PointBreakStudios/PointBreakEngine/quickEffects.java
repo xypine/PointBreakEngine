@@ -6,8 +6,13 @@
 
 package com.PointBreakStudios.PointBreakEngine;
 
+import java.awt.AlphaComposite;
 import java.awt.Color;
 import java.awt.Graphics2D;
+import java.awt.GraphicsConfiguration;
+import java.awt.GraphicsEnvironment;
+import java.awt.RenderingHints;
+import java.awt.Transparency;
 import java.awt.image.BufferedImage;
 import java.util.LinkedList;
 
@@ -136,14 +141,70 @@ public class quickEffects {
         out.addLast(r);out.addLast(g);out.addLast(b);
         return out;
     }
-    public static BufferedImage colorImage(BufferedImage loadImg, int red, int green, int blue) {
+    public BufferedImage colorImage(BufferedImage loadImg, int red, int green, int blue) {
+        /*
         BufferedImage img = new BufferedImage(loadImg.getWidth(), loadImg.getHeight(),
             BufferedImage.TRANSLUCENT);
         Graphics2D graphics = img.createGraphics(); 
-        Color newColor = new Color(red, green, blue, 0 /* alpha needs to be zero */);
+        Color newColor = new Color(red, green, blue, 0  alpha needs to be zero );
         graphics.setXORMode(newColor);
         graphics.drawImage(loadImg, null, 0, 0);
         graphics.dispose();
-    return img;
-}
+        return img;
+        */
+        Color rgb = new Color(red,green,blue);
+        BufferedImage mask = generateMask(loadImg, rgb, 0.5F);
+        BufferedImage out = tint(loadImg, mask);
+        return out;
+    }
+    public static BufferedImage generateMask(BufferedImage imgSource, Color color, float alpha) {
+        int imgWidth = imgSource.getWidth();
+        int imgHeight = imgSource.getHeight();
+
+        BufferedImage imgMask = createCompatibleImage(imgWidth, imgHeight, Transparency.TRANSLUCENT);
+        Graphics2D g2 = imgMask.createGraphics();
+        applyQualityRenderingHints(g2);
+
+        g2.drawImage(imgSource, 0, 0, null);
+        g2.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_IN, alpha));
+        g2.setColor(color);
+
+        g2.fillRect(0, 0, imgSource.getWidth(), imgSource.getHeight());
+        g2.dispose();
+
+        return imgMask;
+    }
+
+    public BufferedImage tint(BufferedImage master, BufferedImage tint) {
+        int imgWidth = master.getWidth();
+        int imgHeight = master.getHeight();
+
+        BufferedImage tinted = createCompatibleImage(imgWidth, imgHeight, Transparency.TRANSLUCENT);
+        Graphics2D g2 = tinted.createGraphics();
+        applyQualityRenderingHints(g2);
+        g2.drawImage(master, 0, 0, null);
+        g2.drawImage(tint, 0, 0, null);
+        g2.dispose();
+
+        return tinted;
+    }
+    public static BufferedImage createCompatibleImage(int width, int height, int transparency) {
+        BufferedImage image = getGraphicsConfiguration().createCompatibleImage(width, height, transparency);
+        image.coerceData(true);
+        return image;
+    }
+
+    public static void applyQualityRenderingHints(Graphics2D g2d) {
+        g2d.setRenderingHint(RenderingHints.KEY_ALPHA_INTERPOLATION, RenderingHints.VALUE_ALPHA_INTERPOLATION_QUALITY);
+        g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
+        g2d.setRenderingHint(RenderingHints.KEY_COLOR_RENDERING, RenderingHints.VALUE_COLOR_RENDER_QUALITY);
+        g2d.setRenderingHint(RenderingHints.KEY_DITHERING, RenderingHints.VALUE_DITHER_ENABLE);
+        g2d.setRenderingHint(RenderingHints.KEY_FRACTIONALMETRICS, RenderingHints.VALUE_FRACTIONALMETRICS_ON);
+        g2d.setRenderingHint(RenderingHints.KEY_INTERPOLATION, RenderingHints.VALUE_INTERPOLATION_BILINEAR);
+        g2d.setRenderingHint(RenderingHints.KEY_RENDERING, RenderingHints.VALUE_RENDER_QUALITY);
+        g2d.setRenderingHint(RenderingHints.KEY_STROKE_CONTROL, RenderingHints.VALUE_STROKE_PURE);
+    }
+    public static GraphicsConfiguration getGraphicsConfiguration() {
+        return GraphicsEnvironment.getLocalGraphicsEnvironment().getDefaultScreenDevice().getDefaultConfiguration();
+    }
 }

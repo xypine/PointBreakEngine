@@ -70,8 +70,8 @@ public class levelLoader {
         String tmp = "";
         for(char x : i.toCharArray()){
             
-            if(x == ':'){
-                gameObject tm = new gameObject(this.x, this.y, this.tag, this.appereance, this.mass, this.c, this.id, master);
+            if(x == ':'){                                                                          //this.c
+                gameObject tm = new gameObject(this.x, this.y, this.tag, this.appereance, this.mass, Color.BLACK, this.id, master);
                 tm.imageName = directory.textures + "walls/walls0.png";
                 oM.addObject(tm);
                 count++;
