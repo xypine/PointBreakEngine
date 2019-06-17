@@ -11,8 +11,12 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.image.BufferStrategy;
+import java.awt.image.BufferedImage;
+import java.io.File;
 import static java.lang.Math.round;
 import java.util.LinkedList;
+import java.util.Objects;
+import javax.imageio.ImageIO;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.Border;
@@ -148,10 +152,21 @@ class vectorArea extends JPanel{
             for(int i : new Range(vL.points.size())){
                 Vector rl = vL.points.get(i);
                 Color c = vL.colors.get(i);
-                String image = vL.images.get(i);
-                g.setColor(c);
-                g.fillRect((int)(rl.x*factor),(int) (rl.y*factor), (int) factor, (int) factor);
-
+                String imageloc = vL.images.get(i);
+                if(Objects.equals(imageloc, new String(""))){
+                    g.setColor(c);
+                    g.fillRect((int)(rl.x*factor),(int) (rl.y*factor), (int) factor, (int) factor);
+                }
+                else{
+                    try{
+                        File img = new File(imageloc);
+                        BufferedImage image = ImageIO.read(img);
+                        g.drawImage(image, (int)(rl.x*factor),(int) (rl.y*factor), (int) factor, (int) factor, this);
+                    }catch(Exception e){
+                        g.setColor(Color.pink);
+                        g.fillRect((int)(rl.x*factor),(int) (rl.y*factor), (int) factor, (int) factor);
+                    }
+                }
             }
         }
         /*
