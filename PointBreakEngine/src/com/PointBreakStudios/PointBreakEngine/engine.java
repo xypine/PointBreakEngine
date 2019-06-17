@@ -6,31 +6,19 @@
 
 package com.PointBreakStudios.PointBreakEngine;
 
-import java.awt.Canvas;
 import java.awt.Color;
-import java.awt.Component;
 import java.awt.Font;
-import java.awt.Graphics;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.KeyEvent;
-import java.awt.event.KeyListener;
-import java.awt.font.NumericShaper.Range;
-import java.beans.EventHandler;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import static java.lang.Math.round;
 import java.net.URISyntaxException;
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javax.sound.sampled.LineUnavailableException;
-import javax.sound.sampled.UnsupportedAudioFileException;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
-import javax.swing.JTextArea;
 import javax.swing.Timer;
 
 /**
@@ -40,7 +28,7 @@ import javax.swing.Timer;
 public class engine extends JFrame implements Runnable, ActionListener {
     public boolean running = true;
     //Screen components
-    int blurStrenght = 1;
+    int blurStrenght = 3;
     public dVector gravity;
     gridEffects effects = new gridEffects();
     public LinkedList<Object> content = new LinkedList<>();
@@ -145,12 +133,12 @@ public class engine extends JFrame implements Runnable, ActionListener {
         vA = new vectorArea();
         this.add(vA);
         content.add(vA);
-        vA.init((int)w, (int)h);
+        vA.init((int)w, (int)h, 3);
         //tmp = renderer.gets();
         
         //rads = new VSRadManager(xd, yd, oM);
         rads.add(25, 12, 4, new Color(0, 0, 1), 1);
-        rads.add(24, 24, 4, new Color(1, 0, 0), 1);
+        //rads.add(24, 24, 4, new Color(1, 0, 0), 1);
         //rads.add(25, 12, 4, new Color(1, 1, 1), 0);
         //rads.add(12, 1, 1, new Color(0, 0, 10));
         red = rads.read();
@@ -278,9 +266,10 @@ public class engine extends JFrame implements Runnable, ActionListener {
         LinkedList<Color> colors = new LinkedList<>();
         objects = oM.getObjects();
         int xp = 0, yp = 0;
-        //float rb[][] = effects.blur(rads.getR(xd, yd), xd, yd, blurStrenght);
-        //float gb[][] = effects.blur(rads.getG(xd, yd), xd, yd, blurStrenght);
-        //float bb[][] = effects.blur(rads.getB(xd, yd), xd, yd, blurStrenght);
+        float rb[][] = effects.blur(rads.getR(xd, yd), xd, yd, blurStrenght);
+        float gb[][] = effects.blur(rads.getG(xd, yd), xd, yd, blurStrenght);
+        float bb[][] = effects.blur(rads.getB(xd, yd), xd, yd, blurStrenght);
+        Color[][] colored = gridEffects.parseColor(xd, yd, rb, gb, bb);
         for(float[] x : red){
             for(float y : x){
                 Color c = new Color(0,0,0);
@@ -292,6 +281,7 @@ public class engine extends JFrame implements Runnable, ActionListener {
                 float r = 0,g = 0,b = 0;
                 //System.out.println();
                 float brightness = 0.001F;
+                      //rads.colors[....
                 try{r = rads.colors[xp][yp].getRed() * (y*brightness);}catch(Exception e){r = 0F;}
                 try{g = rads.colors[xp][yp].getGreen() * (y*brightness);}catch(Exception e){g = 0F;}
                 try{b = rads.colors[xp][yp].getBlue() * (y*brightness);}catch(Exception e){b = 0F;}
@@ -377,7 +367,7 @@ public class engine extends JFrame implements Runnable, ActionListener {
         //Render
         
         //renderer.canvas.clean();
-        vA.update(points, colors, 20F);
+        vA.update(points, colors, 20F, 0);
         for(xyac a : lis){
             renderer.change((int) (a.x), (int) (a.y), a.a, a.c, "n");
             //lM.vChange(a.last.x * 15.34F, a.last.y * 22.48F, a.a, Color.black, vector);

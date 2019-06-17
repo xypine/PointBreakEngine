@@ -133,6 +133,7 @@ class vectorArea extends JPanel{
     public int blur = 0;
     LinkedList<Vector> points = new LinkedList<>();
     LinkedList<Color> colors = new LinkedList<>();
+    LinkedList<vectorLayer> layers = new LinkedList<>();
     float x = 15.34F;
     float y = 22.48F;
     float factor = 20F;
@@ -141,13 +142,16 @@ class vectorArea extends JPanel{
     @Override
     public void paintComponent(Graphics g) {
         super.paintComponent(g);
-        master = gridEffects.zero(master);
-        for(int i : new Range(points.size())){
-            Vector rl = points.get(i);
-            Color c = colors.get(i);
-            g.setColor(c);
-            g.fillRect((int)(rl.x*factor),(int) (rl.y*factor), (int) factor, (int) factor);
-            
+        //master = gridEffects.zero(master);
+        for(int layer : new Range(layers.size())){
+            vectorLayer vL = layers.get(layer);
+            for(int i : new Range(vL.points.size())){
+                Vector rl = vL.points.get(i);
+                Color c = vL.colors.get(i);
+                g.setColor(c);
+                g.fillRect((int)(rl.x*factor),(int) (rl.y*factor), (int) factor, (int) factor);
+
+            }
         }
         /*
         float[][] rs = gridEffects.separateRGB(master, w, h).get(0);
@@ -166,12 +170,18 @@ class vectorArea extends JPanel{
         }
         */
     }
-    public void update(LinkedList<Vector> p,LinkedList<Color> c, float f){
-        this.points = p;
-        this.colors = c;
-        this.factor = f;
+    public void update(LinkedList<Vector> p,LinkedList<Color> c, float f, int layer){
+        vectorLayer tmp = layers.get(layer);
+        tmp.points = p;
+        tmp.colors = c;
+        tmp.factor = f;
     }
-    public void init(int w, int h){
+    public void update(LinkedList<Vector> p,LinkedList<Color> c, float f, vectorLayer layer){
+        layer.points = p;
+        layer.colors = c;
+        layer.factor = f;
+    }
+    public void init(int w, int h, int num_layers){
         this.w = w;
         this.h = h;
         this.setSize(w, h);
@@ -181,7 +191,34 @@ class vectorArea extends JPanel{
         this.setBackground(Color.BLACK);
         master = new Color[w][h];
         master = gridEffects.zero(master);
+        for(int i : new Range(num_layers)){
+            this.addLayer(i, "Layer " + String.valueOf(i));
+        }
         //this.setBorder();
+    }
+    public void addLayer(int position, String title){
+        vectorLayer tmp = new vectorLayer();
+        tmp.init(title);
+        this.layers.add(position, tmp);
+    }
+}
+class vectorLayer{
+    LinkedList<Vector> points = new LinkedList<>();
+    LinkedList<Color> colors = new LinkedList<>();
+    float x = 15.34F;
+    float y = 22.48F;
+    float factor = 20F;
+    public int w = 0;
+    public int h = 0;
+    public String title = "";
+    public void init(String title){
+        this.title = title;
+    }
+    
+    public void update(LinkedList<Vector> p,LinkedList<Color> c, float f){
+        this.points = p;
+        this.colors = c;
+        this.factor = f;
     }
 }
 

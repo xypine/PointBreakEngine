@@ -42,7 +42,7 @@ public class Recorder {
         
         try{
             gameObject z = oM.getObjectByTag("player1");
-            recorded.add( new Vector(z.getX(), z.getY()));
+            //recorded.add( new Vector(z.getX(), z.getY()));
         }
         catch(Exception e){
             //System.out.println("couldn't record");
@@ -82,7 +82,7 @@ public class Recorder {
                 if(x == ':')
                 {
                     l = 0;
-                    out.add(new Vector(Float.parseFloat(ax), Float.parseFloat(ay)));
+                    //out.add(new Vector(Float.parseFloat(ax), Float.parseFloat(ay)));
                     //System.out.println("Read frame "+framer+ ": " + Float.parseFloat(ax) + " " + Float.parseFloat(ay));
                     ax = "";
                     ay = "";

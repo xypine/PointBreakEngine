@@ -11,7 +11,6 @@ package com.PointBreakStudios.PointBreakEngine;
  * @author Jonnelafin
  */
 class Vector {
-
     public float x;
     public float y;
     public Vector(float nx, float ny){

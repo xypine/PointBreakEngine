@@ -147,7 +147,7 @@ public class EffectsDemo extends JFrame implements Runnable, ActionListener {
         vA = new vectorArea();
         this.add(vA);
         content.add(vA);
-        vA.init((int)w, (int)h);
+        vA.init((int)w, (int)h, 3);
         screen = "";
         
         //fresh();
@@ -267,7 +267,7 @@ public class EffectsDemo extends JFrame implements Runnable, ActionListener {
         //Render
         
         //renderer.canvas.clean();
-        vA.update(points, colors, 20F);
+        vA.update(points, colors, 20F, 0);
         for(xyac a : lis){
             //renderer.change((int) (a.x), (int) (a.y), a.a, a.c, "n");
             //lM.vChange(a.last.x * 15.34F, a.last.y * 22.48F, a.a, Color.black, vector);
