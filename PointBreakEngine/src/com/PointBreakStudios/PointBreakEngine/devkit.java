@@ -29,7 +29,7 @@ public class devkit extends JFrame{
     JLabel raysL = new JLabel("RAYYYS");
     JTextField lum = new JTextField(20);
     public devkit(kick k) {
-        this.setTitle("ViridiEngine devkit");
+        this.setTitle("PointBreakEngine devkit");
         this.k = k;
         this.setSize(300, 550);
         

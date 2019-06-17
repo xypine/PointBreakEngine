@@ -98,7 +98,7 @@ public class engine extends JFrame implements Runnable, ActionListener {
 //        int yd = 25;
         //xd = (int) (w / 15.34);
         //yd = (int) (h / 22.48);
-        this.setTitle("ViridiEngine");
+        this.setTitle("PointBreakEngine");
         this.setSize((int) Math.ceil(w), (int) Math.ceil(h*1.05F));
         this.setDefaultCloseOperation(EXIT_ON_CLOSE);
         
@@ -137,7 +137,8 @@ public class engine extends JFrame implements Runnable, ActionListener {
         //tmp = renderer.gets();
         
         //rads = new VSRadManager(xd, yd, oM);
-        rads.add(25, 12, 4, new Color(0, 0, 1), 1);
+        rads.add(25, 12, 3, new Color(1, 1, 1), 1);
+        //rads.add(25, 12, 4, new Color(1, 1, 1), 0);
         //rads.add(24, 24, 4, new Color(1, 0, 0), 1);
         //rads.add(25, 12, 4, new Color(1, 1, 1), 0);
         //rads.add(12, 1, 1, new Color(0, 0, 10));
@@ -227,7 +228,7 @@ public class engine extends JFrame implements Runnable, ActionListener {
         //rads.add(25, 12, 4);
         if(renderRays == 1){
             if(rayDetail == 0){
-                rads.recalculate("player1", 1);
+                rads.recalculate("none", 1);
             }
             if(rayDetail == 1){
                 rads.recalculate("none", 0);
