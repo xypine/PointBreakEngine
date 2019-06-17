@@ -145,25 +145,26 @@ class vectorArea extends JPanel{
         for(int i : new Range(points.size())){
             Vector rl = points.get(i);
             Color c = colors.get(i);
-            master[Math.round(rl.x)][Math.round(rl.y)] = c;
+            g.setColor(c);
+            g.fillRect((int)(rl.x*factor),(int) (rl.y*factor), (int) factor, (int) factor);
             
         }
+        /*
         float[][] rs = gridEffects.separateRGB(master, w, h).get(0);
         float[][] gs = gridEffects.separateRGB(master, w, h).get(1);
         float[][] bs = gridEffects.separateRGB(master, w, h).get(2);
-        rs = gridEffects.blur(rs, w, h, blur);
-        gs = gridEffects.blur(rs, w, h, blur);
-        bs = gridEffects.blur(rs, w, h, blur);
-        master = gridEffects.parseColor(w, h, rs, gs, bs);
+        //rs = gridEffects.blur(rs, w, h, blur);
+        //gs = gridEffects.blur(rs, w, h, blur);
+        //bs = gridEffects.blur(rs, w, h, blur);
+        //master = gridEffects.parseColor(w, h, rs, gs, bs);
         for(int x : new Range(w)){
             for(int y : new Range(h)){
                 Vector rm = new Vector(x, y);
                 Color c = master[x][y];
-                g.setColor(c);
-                g.fillRect((int)(rm.x*factor),(int) (rm.y*factor), (int) factor, (int) factor);
                 //g.drawRect((int)(r.x*factor),(int) (r.y*factor), (int) factor, (int) factor);
             }
         }
+        */
     }
     public void update(LinkedList<Vector> p,LinkedList<Color> c, float f){
         this.points = p;
