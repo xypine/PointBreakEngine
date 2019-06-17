@@ -148,6 +148,7 @@ class vectorArea extends JPanel{
             for(int i : new Range(vL.points.size())){
                 Vector rl = vL.points.get(i);
                 Color c = vL.colors.get(i);
+                String image = vL.images.get(i);
                 g.setColor(c);
                 g.fillRect((int)(rl.x*factor),(int) (rl.y*factor), (int) factor, (int) factor);
 
@@ -170,16 +171,12 @@ class vectorArea extends JPanel{
         }
         */
     }
-    public void update(LinkedList<Vector> p,LinkedList<Color> c, float f, int layer){
+    public void update(LinkedList<Vector> p,LinkedList<Color> c, LinkedList<String> images, float f, int layer){
         vectorLayer tmp = layers.get(layer);
-        tmp.points = p;
-        tmp.colors = c;
-        tmp.factor = f;
+        tmp.update(p, c, images, factor);
     }
-    public void update(LinkedList<Vector> p,LinkedList<Color> c, float f, vectorLayer layer){
-        layer.points = p;
-        layer.colors = c;
-        layer.factor = f;
+    public void update(LinkedList<Vector> p,LinkedList<Color> c, LinkedList<String> images, float f, vectorLayer layer){
+        layer.update(p, c, images, factor);
     }
     public void init(int w, int h, int num_layers){
         this.w = w;
@@ -205,6 +202,7 @@ class vectorArea extends JPanel{
 }
 class vectorLayer{
     LinkedList<Vector> points = new LinkedList<>();
+    LinkedList<String> images = new LinkedList<>();
     LinkedList<Color> colors = new LinkedList<>();
     public int blur;
     float x = 15.34F;
@@ -217,10 +215,11 @@ class vectorLayer{
         this.title = title;
     }
     
-    public void update(LinkedList<Vector> p,LinkedList<Color> c, float f){
+    public void update(LinkedList<Vector> p,LinkedList<Color> c, LinkedList<String> images, float factor){
         this.points = p;
         this.colors = c;
-        this.factor = f;
+        this.images = images;
+        this.factor = factor;
     }
 }
 

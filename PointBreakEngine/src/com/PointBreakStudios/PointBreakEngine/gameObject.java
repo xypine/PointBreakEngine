@@ -18,6 +18,7 @@ import java.util.LinkedList;
  * @author Jonnelafin
  */
 public class gameObject {
+    public String imageName = "";
 //    Renderer re = new Renderer();
     objectManager oM = new objectManager();
     kick masterParent;

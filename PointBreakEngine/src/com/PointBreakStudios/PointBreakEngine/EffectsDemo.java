@@ -6,32 +6,15 @@
 
 package com.PointBreakStudios.PointBreakEngine;
 
-import java.awt.Canvas;
 import java.awt.Color;
-import java.awt.Component;
 import java.awt.Font;
-import java.awt.Graphics;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.KeyEvent;
-import java.awt.event.KeyListener;
-import java.awt.font.NumericShaper.Range;
-import java.beans.EventHandler;
-import java.io.IOException;
-import java.io.UnsupportedEncodingException;
-import static java.lang.Math.round;
 import java.net.URISyntaxException;
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.LinkedList;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-import javax.sound.sampled.LineUnavailableException;
-import javax.sound.sampled.UnsupportedAudioFileException;
 import javax.swing.JFrame;
 import static javax.swing.JFrame.EXIT_ON_CLOSE;
 import javax.swing.JLabel;
-import javax.swing.JTextArea;
 import javax.swing.Timer;
 
 /**
@@ -267,7 +250,7 @@ public class EffectsDemo extends JFrame implements Runnable, ActionListener {
         //Render
         
         //renderer.canvas.clean();
-        vA.update(points, colors, 20F, 0);
+        vA.update(points, colors, new LinkedList<String>(), 20F, 0);
         for(xyac a : lis){
             //renderer.change((int) (a.x), (int) (a.y), a.a, a.c, "n");
             //lM.vChange(a.last.x * 15.34F, a.last.y * 22.48F, a.a, Color.black, vector);

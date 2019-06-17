@@ -6,6 +6,8 @@
 
 package com.PointBreakStudios.PointBreakEngine;
 
+import static java.lang.Math.round;
+
 /**
  *
  * @author Jonnelafin
@@ -37,6 +39,7 @@ class Vector {
     public static Vector round(Vector in){
         return(new Vector(Math.round(in.x), Math.round(in.y)));
     }
+    
 }
 class Vector3{
     public float x;

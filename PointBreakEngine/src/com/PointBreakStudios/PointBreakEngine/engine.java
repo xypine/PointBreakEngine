@@ -262,10 +262,14 @@ public class engine extends JFrame implements Runnable, ActionListener {
         }
 ;
         LinkedList<xyac> lis = new LinkedList<xyac>();
+        
         LinkedList<Vector> points = new LinkedList<>();
         LinkedList<Color> colors = new LinkedList<>();
+        LinkedList<String> images = new LinkedList<>();
+        
         LinkedList<Vector> points2 = new LinkedList<>();
         LinkedList<Color> colors2 = new LinkedList<>();
+        LinkedList<String> images2 = new LinkedList<>();
         objects = oM.getObjects();
         int xp = 0, yp = 0;
         float rb[][] = effects.blur(rads.getR(xd, yd), xd, yd, blurStrenght);
@@ -293,6 +297,7 @@ public class engine extends JFrame implements Runnable, ActionListener {
                 
                 points2.add(new Vector(xp,yp));
                 colors2.add(new Color((int) r,(int) g,(int) b));
+                images2.add("");
                 renderer.change(xp, yp,"█",new Color((int) i,(int) i,(int) i), "n");
                 //renderer.vChange(xp * 15.34F, yp * 22.48F, new Color((int) i,(int) i,(int) i));
                 yp++;
@@ -336,7 +341,7 @@ public class engine extends JFrame implements Runnable, ActionListener {
 //          System.out.println("pelaaja: x:" + tx + " y:" + ty);
 /////////////////            renderer.change(tx, ty, ta, tc);
             points.add(new Vector(txf, tyf));
-            
+            images.add(p.imageName);
             float r = tc.getRed();
             float g = tc.getGreen();
             float b = tc.getBlue();
@@ -369,8 +374,8 @@ public class engine extends JFrame implements Runnable, ActionListener {
         //Render
         
         //renderer.canvas.clean();
-        vA.update(points, colors, 20F, 1);
-        vA.update(points2, colors2, 20F, 0);
+        vA.update(points, colors, images, 20F, 1);
+        vA.update(points2, colors2, images2, 20F, 0);
         for(xyac a : lis){
             renderer.change((int) (a.x), (int) (a.y), a.a, a.c, "n");
             //lM.vChange(a.last.x * 15.34F, a.last.y * 22.48F, a.a, Color.black, vector);
