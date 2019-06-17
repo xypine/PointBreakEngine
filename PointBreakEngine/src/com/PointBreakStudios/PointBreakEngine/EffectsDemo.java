@@ -25,7 +25,7 @@ public class EffectsDemo extends JFrame implements Runnable, ActionListener {
     //Screen components
     int blur = 2;
     public dVector gravity;
-    gridEffects GE = new gridEffects();
+    quickEffects GE = new quickEffects();
     public LinkedList<Object> content = new LinkedList<>();
     public float global_brightness = 0.55F;
     public int rayDetail = 0;

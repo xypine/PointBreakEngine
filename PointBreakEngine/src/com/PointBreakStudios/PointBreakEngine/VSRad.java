@@ -209,7 +209,7 @@ class VSRadManager{
         director.init(this.w, this.h);
         this.directions = director.directions;
         this.colors = new Color[w][h];
-        gridEffects.zero(colors);
+        quickEffects.zero(colors);
     }
     public void add(int x, int y, float s, Color color, int type){
         VSRad tmp = new VSRad(oM, color, type);        
@@ -278,14 +278,14 @@ class VSRadManager{
     }
     public Color[][] getBlurred(){
         Color[][] out = new Color[w][h];
-        out = gridEffects.zero(out);
+        out = quickEffects.zero(out);
         float[][] r = getR(w,h);
         float[][] g = getG(w,h);
         float[][] b = getB(w,h);
         LinkedList<float[][]> rgb = new LinkedList<>();
-        r = new gridEffects().blur(r, w, h, blurStrenght);
-        g = new gridEffects().blur(g, w, h, blurStrenght);
-        b = new gridEffects().blur(b, w, h, blurStrenght);
+        r = new quickEffects().blur(r, w, h, blurStrenght);
+        g = new quickEffects().blur(g, w, h, blurStrenght);
+        b = new quickEffects().blur(b, w, h, blurStrenght);
         rgb.add(r);rgb.add(g);rgb.add(b);
         int xp = 0, yp = 0;
         for(Color[] lane : out){
@@ -310,10 +310,10 @@ class VSRadManager{
             this.colors = new Color[w][h];
             i.calculate(i.from, i.lastS, ignore);
         }
-        //float[][] r = gridEffects.blur(gridEffects.separateRGB(colors, w, h).get(0), w, h, 3);
-        //float[][] g = gridEffects.blur(gridEffects.separateRGB(colors, w, h).get(1), w, h, 3);
-        //float[][] b = gridEffects.blur(gridEffects.separateRGB(colors, w, h).get(2), w, h, 3);
-        //this.colors = gridEffects.parseColor(w, h, r, g, b);
+        //float[][] r = quickEffects.blur(quickEffects.separateRGB(colors, w, h).get(0), w, h, 3);
+        //float[][] g = quickEffects.blur(quickEffects.separateRGB(colors, w, h).get(1), w, h, 3);
+        //float[][] b = quickEffects.blur(quickEffects.separateRGB(colors, w, h).get(2), w, h, 3);
+        //this.colors = quickEffects.parseColor(w, h, r, g, b);
     }
     public float[][] getR(int xd, int yd){
         float[][] out = new float[xd][yd];

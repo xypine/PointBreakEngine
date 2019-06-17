@@ -7,15 +7,17 @@
 package com.PointBreakStudios.PointBreakEngine;
 
 import java.awt.Color;
+import java.awt.Graphics2D;
+import java.awt.image.BufferedImage;
 import java.util.LinkedList;
 
 /**
  *
  * @author Jonnelafin
  */
-public class gridEffects {
+public class quickEffects {
     static dVector[] dirs = new dVector[8];
-    public gridEffects(){
+    public quickEffects(){
             dirs[0] = new dVector(0.0F,1.0F);
             dirs[1] = new dVector(1.0F,1.0F);
             dirs[2] = new dVector(1.0F,0.0F);
@@ -98,7 +100,7 @@ public class gridEffects {
     
     public static Color[][] parseColor(int w, int h, float[][] r, float[][] g, float[][] b){
         Color[][] out = new Color[w][h];
-        out = gridEffects.zero(out);
+        out = quickEffects.zero(out);
         LinkedList<float[][]> rgb = new LinkedList<>();
         rgb.add(r);rgb.add(g);rgb.add(b);
         int xp = 0, yp = 0;
@@ -134,4 +136,14 @@ public class gridEffects {
         out.addLast(r);out.addLast(g);out.addLast(b);
         return out;
     }
+    public static BufferedImage colorImage(BufferedImage loadImg, int red, int green, int blue) {
+        BufferedImage img = new BufferedImage(loadImg.getWidth(), loadImg.getHeight(),
+            BufferedImage.TRANSLUCENT);
+        Graphics2D graphics = img.createGraphics(); 
+        Color newColor = new Color(red, green, blue, 0 /* alpha needs to be zero */);
+        graphics.setXORMode(newColor);
+        graphics.drawImage(loadImg, null, 0, 0);
+        graphics.dispose();
+    return img;
+}
 }

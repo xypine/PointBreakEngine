@@ -72,6 +72,7 @@ public class levelLoader {
             
             if(x == ':'){
                 gameObject tm = new gameObject(this.x, this.y, this.tag, this.appereance, this.mass, this.c, this.id, master);
+                tm.imageName = directory.textures + "walls/walls0.png";
                 oM.addObject(tm);
                 count++;
                 //System.out.println(tm.getTag());

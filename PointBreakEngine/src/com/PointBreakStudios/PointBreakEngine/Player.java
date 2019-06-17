@@ -17,7 +17,7 @@ public class Player extends gameObject{
     public boolean point2 = false;
     public Player(int ypos, int xpos, String tag, String ap, float mas, Color cot, int ID, kick master) {
         super(ypos, xpos, tag, ap, mas, cot, ID, master);
-        this.imageName = directory.textures + "player.png";
+        this.imageName = directory.textures + "player/player.png";
 //        this.summon(ypos, xpos, tag, ap, mas);
     }
     

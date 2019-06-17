@@ -30,7 +30,7 @@ public class engine extends JFrame implements Runnable, ActionListener {
     //Screen components
     int blurStrenght = 3;
     public dVector gravity;
-    gridEffects effects = new gridEffects();
+    quickEffects effects = new quickEffects();
     public LinkedList<Object> content = new LinkedList<>();
     public float global_brightness = 0.55F;
     public int rayDetail = 0;
@@ -275,7 +275,7 @@ public class engine extends JFrame implements Runnable, ActionListener {
         float rb[][] = effects.blur(rads.getR(xd, yd), xd, yd, blurStrenght);
         float gb[][] = effects.blur(rads.getG(xd, yd), xd, yd, blurStrenght);
         float bb[][] = effects.blur(rads.getB(xd, yd), xd, yd, blurStrenght);
-        Color[][] colored = gridEffects.parseColor(xd, yd, rb, gb, bb);
+        Color[][] colored = quickEffects.parseColor(xd, yd, rb, gb, bb);
         for(float[] x : red){
             for(float y : x){
                 Color c = new Color(0,0,0);

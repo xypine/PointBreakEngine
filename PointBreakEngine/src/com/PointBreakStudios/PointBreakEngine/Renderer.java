@@ -146,7 +146,7 @@ class vectorArea extends JPanel{
     @Override
     public void paintComponent(Graphics g) {
         super.paintComponent(g);
-        //master = gridEffects.zero(master);
+        //master = quickEffects.zero(master);
         for(int layer : new Range(layers.size())){
             vectorLayer vL = layers.get(layer);
             for(int i : new Range(vL.points.size())){
@@ -161,6 +161,7 @@ class vectorArea extends JPanel{
                     try{
                         File img = new File(imageloc);
                         BufferedImage image = ImageIO.read(img);
+                        image = quickEffects.colorImage(image, c.getRed(), c.getGreen(), c.getBlue());
                         g.drawImage(image, (int)(rl.x*factor),(int) (rl.y*factor), (int) factor, (int) factor, this);
                     }catch(Exception e){
                         g.setColor(Color.pink);
@@ -170,13 +171,13 @@ class vectorArea extends JPanel{
             }
         }
         /*
-        float[][] rs = gridEffects.separateRGB(master, w, h).get(0);
-        float[][] gs = gridEffects.separateRGB(master, w, h).get(1);
-        float[][] bs = gridEffects.separateRGB(master, w, h).get(2);
-        //rs = gridEffects.blur(rs, w, h, blur);
-        //gs = gridEffects.blur(rs, w, h, blur);
-        //bs = gridEffects.blur(rs, w, h, blur);
-        //master = gridEffects.parseColor(w, h, rs, gs, bs);
+        float[][] rs = quickEffects.separateRGB(master, w, h).get(0);
+        float[][] gs = quickEffects.separateRGB(master, w, h).get(1);
+        float[][] bs = quickEffects.separateRGB(master, w, h).get(2);
+        //rs = quickEffects.blur(rs, w, h, blur);
+        //gs = quickEffects.blur(rs, w, h, blur);
+        //bs = quickEffects.blur(rs, w, h, blur);
+        //master = quickEffects.parseColor(w, h, rs, gs, bs);
         for(int x : new Range(w)){
             for(int y : new Range(h)){
                 Vector rm = new Vector(x, y);
@@ -202,7 +203,7 @@ class vectorArea extends JPanel{
         this.setOpaque(true);
         this.setBackground(Color.BLACK);
         master = new Color[w][h];
-        master = gridEffects.zero(master);
+        master = quickEffects.zero(master);
         for(int i : new Range(num_layers)){
             this.addLayer(i, "Layer " + String.valueOf(i), 0);
         }
