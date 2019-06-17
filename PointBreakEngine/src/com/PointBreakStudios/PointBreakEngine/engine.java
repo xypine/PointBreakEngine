@@ -268,10 +268,10 @@ public class engine extends JFrame implements Runnable, ActionListener {
         LinkedList<Color> colors2 = new LinkedList<>();
         objects = oM.getObjects();
         int xp = 0, yp = 0;
-        //float rb[][] = effects.blur(rads.getR(xd, yd), xd, yd, blurStrenght);
-        //float gb[][] = effects.blur(rads.getG(xd, yd), xd, yd, blurStrenght);
-        //float bb[][] = effects.blur(rads.getB(xd, yd), xd, yd, blurStrenght);
-        //Color[][] colored = gridEffects.parseColor(xd, yd, rb, gb, bb);
+        float rb[][] = effects.blur(rads.getR(xd, yd), xd, yd, blurStrenght);
+        float gb[][] = effects.blur(rads.getG(xd, yd), xd, yd, blurStrenght);
+        float bb[][] = effects.blur(rads.getB(xd, yd), xd, yd, blurStrenght);
+        Color[][] colored = gridEffects.parseColor(xd, yd, rb, gb, bb);
         for(float[] x : red){
             for(float y : x){
                 Color c = new Color(0,0,0);

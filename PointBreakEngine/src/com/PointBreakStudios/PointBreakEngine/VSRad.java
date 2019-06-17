@@ -209,6 +209,7 @@ class VSRadManager{
         director.init(this.w, this.h);
         this.directions = director.directions;
         this.colors = new Color[w][h];
+        gridEffects.zero(colors);
     }
     public void add(int x, int y, float s, Color color, int type){
         VSRad tmp = new VSRad(oM, color, type);        
@@ -309,6 +310,10 @@ class VSRadManager{
             this.colors = new Color[w][h];
             i.calculate(i.from, i.lastS, ignore);
         }
+        //float[][] r = gridEffects.blur(gridEffects.separateRGB(colors, w, h).get(0), w, h, 3);
+        //float[][] g = gridEffects.blur(gridEffects.separateRGB(colors, w, h).get(1), w, h, 3);
+        //float[][] b = gridEffects.blur(gridEffects.separateRGB(colors, w, h).get(2), w, h, 3);
+        //this.colors = gridEffects.parseColor(w, h, r, g, b);
     }
     public float[][] getR(int xd, int yd){
         float[][] out = new float[xd][yd];

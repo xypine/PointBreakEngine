@@ -192,26 +192,28 @@ class vectorArea extends JPanel{
         master = new Color[w][h];
         master = gridEffects.zero(master);
         for(int i : new Range(num_layers)){
-            this.addLayer(i, "Layer " + String.valueOf(i));
+            this.addLayer(i, "Layer " + String.valueOf(i), 0);
         }
+        this.layers.get(0).blur = 3; //enable blur by default
         //this.setBorder();
     }
-    public void addLayer(int position, String title){
+    public void addLayer(int position, String title, int blur){
         vectorLayer tmp = new vectorLayer();
-        tmp.init(title);
+        tmp.init(title, blur);
         this.layers.add(position, tmp);
     }
 }
 class vectorLayer{
     LinkedList<Vector> points = new LinkedList<>();
     LinkedList<Color> colors = new LinkedList<>();
+    public int blur;
     float x = 15.34F;
     float y = 22.48F;
     float factor = 20F;
     public int w = 0;
     public int h = 0;
     public String title = "";
-    public void init(String title){
+    public void init(String title, int blur){
         this.title = title;
     }
     
