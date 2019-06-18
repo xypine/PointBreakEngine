@@ -40,12 +40,50 @@ public class quickEffects {
         return out;
         
     }
+    public static float[][] blur(float[][] sauce, int w, int h, int times, int divisions){
+        float[][] out = sauce;
+        for(int i : new Range(times)){
+            out = blurOnce(out, w, h, divisions);
+        }
+        return out;
+        
+    }
+    public static float[][] blur(float[][] sauce, int w, int h, int times,float factor){
+        float[][] out = sauce;
+        for(int i : new Range(times)){
+            out = blurOnce(out, w, h);
+        }
+        return out;
+        
+    }
     private static float[][] blurOnce(float[][] sauce, int w, int h){
         int x = 0;
         int y = 0;
         x = 0;y = 0;
         float sum = 0;
         float[][] out = new float[w][h];
+        for(float[] lane : sauce){
+            for(float lany : lane){
+                sum = sauce[x][y];
+                for(dVector i : dirs){
+                    try{
+                        sum = sum + sauce[x + (int) i.x][y + (int) i.y];
+                    }catch(Exception e){}
+                }
+                try{out[x][y] = sum / 9;}catch(Exception e){System.out.println(new Vector(x,y).represent());}
+                y = y + 1;
+            }
+            x++;
+            y=0;
+        }
+        return(out);
+    }
+    private static float[][] blurOnce(float[][] sauce, int w, int h, int divisions){
+        int x = 0;
+        int y = 0;
+        x = 0;y = 0;
+        float sum = 0;
+        float[][] out = new float[w*divisions][h*divisions];
         for(float[] lane : sauce){
             for(float lany : lane){
                 sum = sauce[x][y];

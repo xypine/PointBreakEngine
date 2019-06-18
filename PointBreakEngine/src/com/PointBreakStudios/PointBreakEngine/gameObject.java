@@ -19,6 +19,7 @@ import java.util.LinkedList;
  */
 public class gameObject {
     public String imageName = "";
+    public int preferredLayer = -1;
 //    Renderer re = new Renderer();
     objectManager oM = new objectManager();
     kick masterParent;

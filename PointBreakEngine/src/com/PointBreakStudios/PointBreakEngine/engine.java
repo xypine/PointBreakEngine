@@ -137,12 +137,13 @@ public class engine extends JFrame implements Runnable, ActionListener {
         //tmp = renderer.gets();
         
         //rads = new VSRadManager(xd, yd, oM);
-        rads.add(25, 12, 3, new Color(1, 1, 1), 1);
+        rads.add(1, 1, 2, new Color(1, 1, 0), 1);
+        rads.add(49, 1, 2, new Color(0, 0, 1), 1);
         //rads.add(25, 12, 4, new Color(1, 1, 1), 0);
         //rads.add(24, 24, 4, new Color(1, 0, 0), 1);
         //rads.add(25, 12, 4, new Color(1, 1, 1), 0);
         //rads.add(12, 1, 1, new Color(0, 0, 10));
-        red = rads.read();
+        red = rads.read(99);
         screen = "";
         
         //fresh();
@@ -199,7 +200,6 @@ public class engine extends JFrame implements Runnable, ActionListener {
     @Override
     public void actionPerformed(ActionEvent e) {
         //fresh();
-        
         this.number = Integer.parseInt(Integer.toString(tickC).substring(0, 1));
         if(vector == 0){
             area.setVisible(true);
@@ -232,8 +232,9 @@ public class engine extends JFrame implements Runnable, ActionListener {
             }
             if(rayDetail == 1){
                 rads.recalculate("none", 0);
+                red = rads.read(0);
             }
-            red = rads.read();
+            
         }
         if(tickC < record.size()){
             if(oM.findGameObject("playback") != 99999999){
@@ -273,11 +274,14 @@ public class engine extends JFrame implements Runnable, ActionListener {
         LinkedList<String> images2 = new LinkedList<>();
         objects = oM.getObjects();
         int xp = 0, yp = 0;
+        /*
         float rb[][] = effects.blur(rads.getR(xd, yd), xd, yd, blurStrenght);
         float gb[][] = effects.blur(rads.getG(xd, yd), xd, yd, blurStrenght);
         float bb[][] = effects.blur(rads.getB(xd, yd), xd, yd, blurStrenght);
         Color[][] colored = quickEffects.parseColor(xd, yd, rb, gb, bb);
-        for(float[] x : red){
+        */
+        float[][] out = quickEffects.blur(red, xd, yd, 1);
+        for(float[] x : out){
             for(float y : x){
                 Color c = new Color(0,0,0);
                 c = rads.colors[xp][yp];
@@ -348,7 +352,7 @@ public class engine extends JFrame implements Runnable, ActionListener {
             float b = tc.getBlue();
                     //global brightness
                     
-            try{
+            try{                                //.readColor(tx, ty).getRed()
                 r = (r * global_brightness + (rads.readColor(tx, ty).getRed()));if(r > 255){r = 255;}
                 g = (g * global_brightness + (rads.readColor(tx, ty).getGreen()));if(g > 255){g = 255;}
                 b = (b * global_brightness + (rads.readColor(tx, ty).getBlue()));if(b > 255){b = 255;}
@@ -357,9 +361,9 @@ public class engine extends JFrame implements Runnable, ActionListener {
             //    b = (b * global_brightness + (rads.colors[tx][ty].getBlue() * 0.5F) / 2 );if(b > 255){b = 255;}
             }catch(Exception e){
                 
-                r = (r * global_brightness + (rads.read()[tx][ty] * 0.55F) / 2 );if(r > 255){r = 255;}
-                g = (g * global_brightness + (rads.read()[tx][ty] * 0.55F) / 2 );if(g > 255){g = 255;}
-                b = (b * global_brightness + (rads.read()[tx][ty] * 0.55F) / 2 );if(b > 255){b = 255;}
+                r = (r * global_brightness + (red[tx][ty] * 0.55F) / 2 );if(r > 255){r = 255;}
+                g = (g * global_brightness + (red[tx][ty] * 0.55F) / 2 );if(g > 255){g = 255;}
+                b = (b * global_brightness + (red[tx][ty] * 0.55F) / 2 );if(b > 255){b = 255;}
                 throw(e);
             }
             

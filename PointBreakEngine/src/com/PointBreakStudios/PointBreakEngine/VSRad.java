@@ -219,29 +219,31 @@ class VSRadManager{
         this.VSRad.add(tmp);
     }
     int lasthash = 0;
-    public float[][] read(){
+    public float[][] read(int type){
         float[][] sum = new float[w][h];
         int xp = 0, yp = 0;
         for(VSRad ray : VSRad){
-            for(float[] line : ray.grid){
-                for(float i : line){
-                    if(i > 0){
-                        sum[xp][yp] = sum[xp][yp] + i;
-                        //System.out.println(colors[xp][yp] + " " + ray.color.getRGB());
-                        float r,g,b;
-                        try{r = colors[xp][yp].getRed() + (ray.color.getRed() * ray.grid[xp][yp]);}catch(Exception e){r = ray.color.getRed() * ray.grid[xp][yp];}
-                        try{g = colors[xp][yp].getGreen()+ (ray.color.getGreen() * ray.grid[xp][yp]);}catch(Exception e){g = ray.color.getGreen() * ray.grid[xp][yp];}
-                        try{b = colors[xp][yp].getBlue()+ (ray.color.getBlue() * ray.grid[xp][yp]);}catch(Exception e){b = ray.color.getBlue() * ray.grid[xp][yp];}
-                        //r = r / 2;g = g / 2;b = b / 2;
-                        if(r > 255){r = 255;}
-                        if(g > 255){g = 255;}
-                        if(b > 255){b = 255;}
-                        colors[xp][yp] = new Color((int)r,(int)g,(int)b);
+            if(ray.type != type){
+                for(float[] line : ray.grid){
+                    for(float i : line){
+                        if(i > 0){
+                            sum[xp][yp] = sum[xp][yp] + i;
+                            //System.out.println(colors[xp][yp] + " " + ray.color.getRGB());
+                            float r,g,b;
+                            try{r = colors[xp][yp].getRed() + (ray.color.getRed() * ray.grid[xp][yp]);}catch(Exception e){r = ray.color.getRed() * ray.grid[xp][yp];}
+                            try{g = colors[xp][yp].getGreen()+ (ray.color.getGreen() * ray.grid[xp][yp]);}catch(Exception e){g = ray.color.getGreen() * ray.grid[xp][yp];}
+                            try{b = colors[xp][yp].getBlue()+ (ray.color.getBlue() * ray.grid[xp][yp]);}catch(Exception e){b = ray.color.getBlue() * ray.grid[xp][yp];}
+                            //r = r / 2;g = g / 2;b = b / 2;
+                            if(r > 255){r = 255;}
+                            if(g > 255){g = 255;}
+                            if(b > 255){b = 255;}
+                            colors[xp][yp] = new Color((int)r,(int)g,(int)b);
+                        }
+                        yp++;
                     }
-                    yp++;
+                    xp++;
+                    yp = 0;
                 }
-                xp++;
-                yp = 0;
             }
             xp = 0;
         }
