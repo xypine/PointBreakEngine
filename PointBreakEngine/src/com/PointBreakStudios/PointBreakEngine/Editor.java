@@ -138,7 +138,7 @@ public class Editor extends JFrame implements Runnable, ActionListener {
         try {
             //SUMMON TEST
             
-            aol = new levelLoader("/src/com/PointBreakStudios/PointBreakEngine/levels/null.txt", oM, k);
+            aol = new levelLoader("null.txt", oM, k);
         } catch (URISyntaxException ex) {
             Logger.getLogger(Editor.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -218,7 +218,7 @@ public class Editor extends JFrame implements Runnable, ActionListener {
         players = oM.getObjects();
         if(input.ke == 'l' && !saved){
             try {
-                aol.write(players, "/src/com/PointBreakStudios/PointBreakEngine/levels/out.txt");
+                aol.write(players, "out.txt");
             } catch (UnsupportedEncodingException ex) {
                 Logger.getLogger(Editor.class.getName()).log(Level.SEVERE, null, ex);
             } catch (IOException ex) {

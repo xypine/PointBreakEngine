@@ -280,7 +280,7 @@ public class engine extends JFrame implements Runnable, ActionListener {
         float bb[][] = effects.blur(rads.getB(xd, yd), xd, yd, blurStrenght);
         Color[][] colored = quickEffects.parseColor(xd, yd, rb, gb, bb);
         */
-        float[][] out = quickEffects.blur(red, xd, yd, 1);
+        float[][] out = quickEffects.blur(red, xd, yd, 3);
         for(float[] x : out){
             for(float y : x){
                 Color c = new Color(0,0,0);

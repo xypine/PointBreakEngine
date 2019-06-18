@@ -164,7 +164,7 @@ class vectorArea extends JPanel{
                         image = new quickEffects().colorImage(image, c.getRed(), c.getGreen(), c.getBlue());
                         g.drawImage(image, (int)(rl.x*factor),(int) (rl.y*factor), (int) factor, (int) factor, this);
                     }catch(Exception e){
-                        g.setColor(Color.pink);
+                        g.setColor(Color.MAGENTA);
                         g.fillRect((int)(rl.x*factor),(int) (rl.y*factor), (int) factor, (int) factor);
                     }
                 }

@@ -39,11 +39,11 @@ public class levelLoader {
     String appereance;
     Color c;
     int id;
-    String filePath = new File("").getAbsolutePath();
+    String filePath = directory.levels;
     public levelLoader(String file, objectManager oM, kick master) throws URISyntaxException{
         this.master = master;
         try {
-            Scanner in = new Scanner(new FileReader(filePath.concat(file)));
+            Scanner in = new Scanner(new FileReader(filePath + file));
             String text = "";
             while (in.hasNextLine()) {
                 String line = in.nextLine();
@@ -114,7 +114,7 @@ public class levelLoader {
         }
     }
     public void write(LinkedList<gameObject> g, String file) throws FileNotFoundException, UnsupportedEncodingException, IOException{
-        System.out.println(System.getProperty("user.dir") + "/" + file);
+        System.out.println(directory.levels + file);
         String tmp = "";
         int idi = 90;
         for(gameObject p : g){

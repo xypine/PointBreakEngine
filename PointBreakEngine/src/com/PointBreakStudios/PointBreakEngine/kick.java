@@ -62,7 +62,7 @@ public class kick {
         wM.running = true;
         if(mode == 3){
             try {
-                wM.loadLevel("/src/com/PointBreakStudios/PointBreakEngine/levels/out.txt");
+                wM.loadLevel("out.txt");
             } catch (URISyntaxException ex) {
                 Logger.getLogger(kick.class.getName()).log(Level.SEVERE, null, ex);
             }

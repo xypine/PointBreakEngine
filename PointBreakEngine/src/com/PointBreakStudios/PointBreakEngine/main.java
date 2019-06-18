@@ -44,7 +44,7 @@ public class main {
             c++;
         }
         try {
-            main.loadLevel("/src/com/PointBreakStudios/PointBreakEngine/levels/out.txt");
+            main.loadLevel("out.txt");
         } catch (URISyntaxException ex) {
             Logger.getLogger(main.class.getName()).log(Level.SEVERE, null, ex);
         }
