@@ -114,16 +114,18 @@ public class levelLoader {
         }
     }
     public void write(LinkedList<gameObject> g, String file) throws FileNotFoundException, UnsupportedEncodingException, IOException{
-        System.out.println(directory.levels + file);
+        System.out.println("Saving level to: "+directory.levels + file + "...");
+        System.out.println("");
         String tmp = "";
         int idi = 90;
         for(gameObject p : g){
             if(!p.getTag().contains(new String("cursor"))){
                 tmp = tmp + round(p.x) + "." + round(p.y) + ".static.█.1.green." + idi + ".:";
+                System.out.print(".");
                 idi++;
             }
         }
-        try (Writer writer = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(System.getProperty("user.dir") + file), "utf-8"))) {
+        try (Writer writer = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(directory.levels + file), "utf-8"))) {
             writer.write(tmp);
         }
     }
