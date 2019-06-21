@@ -179,7 +179,7 @@ public class quickEffects {
         out.addLast(r);out.addLast(g);out.addLast(b);
         return out;
     }
-    public BufferedImage colorImage(BufferedImage loadImg, int red, int green, int blue) {
+    public BufferedImage colorImage(BufferedImage loadImg, int red, int green, int blue, float alpha) {
         /*
         BufferedImage img = new BufferedImage(loadImg.getWidth(), loadImg.getHeight(),
             BufferedImage.TRANSLUCENT);
@@ -191,7 +191,7 @@ public class quickEffects {
         return img;
         */
         Color rgb = new Color(red,green,blue);
-        BufferedImage mask = generateMask(loadImg, rgb, 0.5F);
+        BufferedImage mask = generateMask(loadImg, rgb, alpha);
         BufferedImage out = tint(loadImg, mask);
         return out;
     }

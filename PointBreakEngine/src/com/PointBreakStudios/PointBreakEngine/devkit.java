@@ -83,8 +83,8 @@ class BListener implements ActionListener{
             k.togV();
         }
         try{
-            k.k.wM.global_brightness = Integer.parseInt(k.lum.getText());
-            //k.k.wM.blurStrenght = Integer.parseInt(k.lum.getText());
+            //k.k.wM.global_brightness = Integer.parseInt(k.lum.getText());
+            k.k.wM.blurStrenght = Integer.parseInt(k.lum.getText());
             //k.k.wM.vA.blur = Integer.parseInt(k.lum.getText());
             //k.k.ED.blur = Integer.parseInt(k.lum.getText());
         }

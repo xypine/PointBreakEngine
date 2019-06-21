@@ -6,20 +6,16 @@
 
 package com.PointBreakStudios.PointBreakEngine;
 
-import java.awt.Canvas;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;
-import java.awt.image.BufferStrategy;
 import java.awt.image.BufferedImage;
 import java.io.File;
-import static java.lang.Math.round;
 import java.util.LinkedList;
 import java.util.Objects;
 import javax.imageio.ImageIO;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
-import javax.swing.border.Border;
 /**
  *
  * @author Jonnelafin
@@ -161,7 +157,7 @@ class vectorArea extends JPanel{
                     try{
                         File img = new File(imageloc);
                         BufferedImage image = ImageIO.read(img);
-                        image = new quickEffects().colorImage(image, c.getRed(), c.getGreen(), c.getBlue());
+                        image = new quickEffects().colorImage(image, c.getRed(), c.getGreen(), c.getBlue(), 0.75F);
                         g.drawImage(image, (int)(rl.x*factor),(int) (rl.y*factor), (int) factor, (int) factor, this);
                     }catch(Exception e){
                         g.setColor(Color.MAGENTA);
