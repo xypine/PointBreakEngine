@@ -6,6 +6,7 @@
 
 package com.PointBreakStudios.PointBreakEngine;
 
+import static com.PointBreakStudios.PointBreakEngine.quickEffects.dirs;
 import static java.lang.Math.round;
 
 /**
@@ -39,7 +40,18 @@ class Vector {
     public static Vector round(Vector in){
         return(new Vector(Math.round(in.x), Math.round(in.y)));
     }
-    
+    public static dVector[] dir(){
+            dVector[] dirs = new dVector[8];
+            dirs[0] = new dVector(0.0F,1.0F);
+            dirs[1] = new dVector(1.0F,1.0F);
+            dirs[2] = new dVector(1.0F,0.0F);
+            dirs[3] = new dVector(-1.0F,-1.0F);
+            dirs[4] = new dVector(0F,-1.0F);
+            dirs[5] = new dVector(-1.0F,-1.0F);
+            dirs[6] = new dVector(-1.0F,0F);
+            dirs[7] = new dVector(-1.0F,1F);
+            return dirs;
+    }
 }
 class Vector3{
     public float x;

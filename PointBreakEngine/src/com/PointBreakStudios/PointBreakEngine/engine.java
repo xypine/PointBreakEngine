@@ -141,6 +141,7 @@ public class engine extends JFrame implements Runnable, ActionListener {
         //rads = new VSRadManager(xd, yd, oM);
         rads.add(1, 1, 2, new Color(1, 1, 0), 1);
         rads.add(49, 1, 2, new Color(0, 0, 1), 1);
+        rads.add(25, 1, 1, new Color(1, 1, 1), 1);
         //rads.add(25, 12, 4, new Color(1, 1, 1), 0);
         //rads.add(24, 24, 4, new Color(1, 0, 0), 1);
         //rads.add(25, 12, 4, new Color(1, 1, 1), 0);

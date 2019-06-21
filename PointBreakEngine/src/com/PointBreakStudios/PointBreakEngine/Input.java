@@ -44,9 +44,11 @@ public class Input implements KeyListener, MouseMotionListener, MouseListener {
     public int mouseX(){return(this.mouseX);}
     public int mouseY(){return(this.mouseY);}
     
+    public KeyEvent keyPressed;
     
     @Override
     public void keyPressed(KeyEvent e) {
+        keyPressed = e;
         char ke = e.getKeyChar();
         int kee = e.getKeyCode();
 //        System.out.println(kee);

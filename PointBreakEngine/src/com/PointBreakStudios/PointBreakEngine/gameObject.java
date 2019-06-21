@@ -18,6 +18,7 @@ import java.util.LinkedList;
  * @author Jonnelafin
  */
 public class gameObject {
+    public int collision_type = 0;
     public String imageName = "";
     public int preferredLayer = -1;
 //    Renderer re = new Renderer();
@@ -37,7 +38,7 @@ public class gameObject {
     public float lastY = 0;
     
     public int hits = 0;
-    
+    public boolean collision_Explode = false;
     public float y = 1;
     public float x = 1;
     
@@ -85,12 +86,19 @@ public class gameObject {
         this.x = v.x;
         this.y = v.y;
     }
-    public void update(Renderer re, objectManager oMb){    
+    public void update(Renderer re, objectManager oMb){   
+        if(this.collision_Explode){
+            if(colliding || po != 0 || point2){
+                oM.removeObject(this);
+                oMb.removeObject(this);
+            }
+        }
         if(this.tag.contains(new String("cursor"))){}
         else{
             this.checkCollisions(oMb, this);
         }
-        if(this.tag.contains(new String("player1")) || this.tag.contains(new String("cursor"))){
+        //if(this.tag.contains(new String("player1")) || this.tag.contains(new String("cursor"))){
+        if(!this.tag.contains(new String("static"))){
 //        System.out.println(colliding);
             if(this.tag.contains(new String("cursor"))){}
             else{
@@ -152,7 +160,12 @@ public class gameObject {
             velx = 0F;
         }
     }
+    public void addForce(Vector force){
+        this.velx = this.velx + force.x;
+        this.vely = this.vely + force.y;
+    }
     void checkInput(Input input) {
+          //Ignore if not player...
 //        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
     public void point1(gameObject i, gameObject x){
@@ -180,60 +193,75 @@ public class gameObject {
     int po = 0;
     public void checkCollisions(objectManager o, gameObject i){
         LinkedList<gameObject> tmpoa = o.getObjects();
-//        for(gameObject i : tmpoa){
-            for(gameObject x : tmpoa){
-                if(i.getID() == x.getID()){
-                    
-                }
-                else{
-                    int x1 = round(i.getX());
-                    int y1 = round(i.getY());
-                    
-                    float x2 = x.getX();
-                    float y2 = x.getY();
-
-//                    if(x.tag != "static"){
-//                        System.out.print(colliding);
-//                        System.out.println("");
-//                    }
-
-                    if(!this.tag.contains(new String("cursor"))){
-//                        System.out.print(colliding + ", ");
-//                        System.out.println("x2, y2:x1,y1 : " + x2 + ", " + y2 + ", "+ x1 + ", " + y1);
-                    }
-
-                    if(round(this.x) == round(x2) && round(this.y) == round(y2)){
-//                    if(i.getDistance(y2, x2) < 1.1F){
-//System.out.println("point1");
-                    po = 1;
-                        
-                        //x.velx = xvx;
-                        //x.vely = xvy;
-                    }
-//                    }
-                    else{
-                        if(round(this.x) == round(x2) && ceil(this.y) == ceil(y2)){
-                        point2 = true;
-                        
-                        po = 2;
-//System.out.println("point_2");
-                        
-                        }
-                        else{
-                        po = 0;
-                        point2 = false;
-                        colliding = false;
-                        }
-                        
-                    }
-                    if(po == 1){point1(i,x);}
-                    if(po == 2){point2(i,x);}
-                    
-//                    i.update(r);
-//                    x.update(r);
-                }
-                
+        if(this.collision_type == 1){
+            dVector[] dirs = Vector.dir();
+            int result = 0;
+            dVector cursor = new dVector(i.x, i.y);
+            if(o.colliding((int)cursor.x,(int) cursor.y, i.tag.get(0))){result++;}
+            for(int d : new Range(dirs.length)){
+                cursor = new dVector(i.x + dirs[d].x, i.y + dirs[d].y);
+                if(o.colliding((int)cursor.x,(int) cursor.y, i.tag.get(0))){result++;}
             }
+            if(result != 0){
+                colliding = true;
+            }
+        }
+        else{
+    //        for(gameObject i : tmpoa){
+                for(gameObject x : tmpoa){
+                    if(i.getID() == x.getID()){
+
+                    }
+                    else{
+                        int x1 = round(i.getX());
+                        int y1 = round(i.getY());
+
+                        float x2 = x.getX();
+                        float y2 = x.getY();
+
+    //                    if(x.tag != "static"){
+    //                        System.out.print(colliding);
+    //                        System.out.println("");
+    //                    }
+
+                        if(!this.tag.contains(new String("cursor"))){
+    //                        System.out.print(colliding + ", ");
+    //                        System.out.println("x2, y2:x1,y1 : " + x2 + ", " + y2 + ", "+ x1 + ", " + y1);
+                        }
+
+                        if(round(this.x) == round(x2) && round(this.y) == round(y2)){
+    //                    if(i.getDistance(y2, x2) < 1.1F){
+    //System.out.println("point1");
+                        po = 1;
+
+                            //x.velx = xvx;
+                            //x.vely = xvy;
+                        }
+    //                    }
+                        else{
+                            if(round(this.x) == round(x2) && ceil(this.y) == ceil(y2)){
+                            point2 = true;
+
+                            po = 2;
+    //System.out.println("point_2");
+
+                            }
+                            else{
+                            po = 0;
+                            point2 = false;
+                            colliding = false;
+                            }
+
+                        }
+                        if(po == 1){point1(i,x);}
+                        if(po == 2){point2(i,x);}
+
+    //                    i.update(r);
+    //                    x.update(r);
+                    }
+
+                }
+        }
     }
     
 }

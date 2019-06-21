@@ -50,6 +50,22 @@ public class Player extends gameObject{
         }
         if(this.getTag().contains(new String("player1"))){
             this.velx = this.velx + ((in.right() + in.left()) * 0.4F);
+            
+            if(in.keyPressed == null){
+                
+            }
+            else{
+                if(in.keyPressed.getKeyCode() == 32){
+                    gameObject projectile = new gameObject((int)this.x,(int) this.y, "projectile", "", 1, Color.white, 919, masterParent);
+                    masterParent.forwM.addObject(projectile);
+                    projectile.velx = this.velx * 3;
+                    projectile.vely = this.vely * 3;
+                    projectile.x = projectile.x + projectile.velx;
+                    projectile.y = projectile.y + projectile.vely;
+                    projectile.collision_Explode = true;
+                    projectile.collision_type = 1;
+                }
+            }
             //this.velx = this.velx + in.cX / 75;
             //this.vely = this.vely + in.cY / 75;
 //            this.setColor(new Color(0 + orange * 0.25F, 0 + orange * 0.5F, 0 + orange));
