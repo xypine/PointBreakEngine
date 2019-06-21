@@ -11,8 +11,18 @@ package com.PointBreakStudios.PointBreakEngine;
  * @author Jonnelafin
  */
 public class directory {
-    public final static String levels = "assets/levels/";
-    public final static String textures = "assets/textures/";
-    public final static String replays = "assets/replays/";
-    public final static String music = "assets/music/";
+    private String appendix = "";
+    public String levels = appendix+"assets/levels/";
+    public String textures = appendix+"assets/textures/";
+    public String replays = appendix+"assets/replays/";
+    public String music = appendix+"assets/music/";
+    public directory(){
+        if(System.getProperty("os.name").equals("Linux")){
+            appendix = System.getProperty("user.dir")+"/";
+            levels = appendix+"assets/levels/";
+            textures = appendix+"assets/textures/";
+            replays = appendix+"assets/replays/";
+            music = appendix+"assets/music/";
+        }
+    }
 }

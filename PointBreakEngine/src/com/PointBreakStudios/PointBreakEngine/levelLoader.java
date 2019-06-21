@@ -22,12 +22,14 @@ import java.util.LinkedList;
 import java.util.Scanner;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.JOptionPane;
 
 /**
  *
  * @author Jonnelafin
  */
 public class levelLoader {
+    private directory dir= new directory();
     private kick master;
     private int dotC = 0;
     private boolean inSentence = false;
@@ -39,7 +41,7 @@ public class levelLoader {
     String appereance;
     Color c;
     int id;
-    String filePath = directory.levels;
+    String filePath = dir.levels;
     public levelLoader(String file, objectManager oM, kick master) throws URISyntaxException{
         this.master = master;
         try {
@@ -56,6 +58,8 @@ public class levelLoader {
         } catch (FileNotFoundException ex) {
             try{
             fetch(fallback, oM);
+            System.out.println("!!! level " + filePath + file + " FAILED TO LOAD!!!");
+            JOptionPane.showMessageDialog(null, "!!! level " + filePath + file + " FAILED TO LOAD!!!");
             System.out.println("fallback level loaded with " + count + " objects!");
 //            fetch(in.toString(), oM);
             }
@@ -72,7 +76,7 @@ public class levelLoader {
             
             if(x == ':'){                                                                          //this.c
                 gameObject tm = new gameObject(this.x, this.y, this.tag, this.appereance, this.mass, Color.BLACK, this.id, master);
-                tm.imageName = directory.textures + "walls/walls0.png";
+                tm.imageName = dir.textures + "walls/walls0.png";
                 oM.addObject(tm);
                 count++;
                 //System.out.println(tm.getTag());
@@ -114,7 +118,7 @@ public class levelLoader {
         }
     }
     public void write(LinkedList<gameObject> g, String file) throws FileNotFoundException, UnsupportedEncodingException, IOException{
-        System.out.println(directory.levels + file);
+        System.out.println(dir.levels + file);
         String tmp = "";
         int idi = 90;
         for(gameObject p : g){

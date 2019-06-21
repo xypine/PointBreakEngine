@@ -26,6 +26,7 @@ import javax.swing.Timer;
  * @author Jonnelafin
  */
 public class engine extends JFrame implements Runnable, ActionListener {
+    public boolean ready = false;
     public boolean running = true;
     //Screen components
     int blurStrenght = 3;
@@ -82,6 +83,7 @@ public class engine extends JFrame implements Runnable, ActionListener {
     
     @Override
     public void run() {
+        ready = false;
         this.rads = new VSRadManager(xd, yd, oM);
         
         timer.setRepeats(true);
@@ -188,7 +190,6 @@ public class engine extends JFrame implements Runnable, ActionListener {
          */
         ready = true;
     }
-    public boolean ready;
     //Function for reshfreshing the screen
     private void fresh(){
         this.removeAll();
@@ -229,6 +230,7 @@ public class engine extends JFrame implements Runnable, ActionListener {
         if(renderRays == 1){
             if(rayDetail == 0){
                 rads.recalculate("none", 1);
+                
             }
             if(rayDetail == 1){
                 rads.recalculate("none", 0);
