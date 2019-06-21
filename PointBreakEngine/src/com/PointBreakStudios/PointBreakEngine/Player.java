@@ -14,10 +14,11 @@ import java.awt.Color;
  */
 public class Player extends gameObject{
     boolean canjump = true;
+    private directory dir = new directory();
     public boolean point2 = false;
     public Player(int ypos, int xpos, String tag, String ap, float mas, Color cot, int ID, kick master) {
         super(ypos, xpos, tag, ap, mas, cot, ID, master);
-        this.imageName = directory.textures + "player/player.png";
+        this.imageName = dir.textures + "player/player.png";
 //        this.summon(ypos, xpos, tag, ap, mas);
     }
     

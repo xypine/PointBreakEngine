@@ -10,23 +10,16 @@ import java.awt.Color;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.KeyEvent;
-import java.awt.event.KeyListener;
-import java.awt.font.NumericShaper.Range;
-import java.beans.EventHandler;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import static java.lang.Math.round;
 import java.net.URISyntaxException;
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JFrame;
 import static javax.swing.JFrame.EXIT_ON_CLOSE;
 import javax.swing.JLabel;
-import javax.swing.JTextArea;
 import javax.swing.Timer;
 
 /**
@@ -34,6 +27,7 @@ import javax.swing.Timer;
  * @author Jonnelafin
  */
 public class Editor extends JFrame implements Runnable, ActionListener {
+    public boolean ready = false;
     private kick k;
     colorParser cP = new colorParser();
     Timer timer = new Timer(1, this);
@@ -72,7 +66,7 @@ public class Editor extends JFrame implements Runnable, ActionListener {
     
     @Override
     public void run() {
-
+        ready = false;
         
         timer.setRepeats(true);
         timer.start();
@@ -163,6 +157,7 @@ public class Editor extends JFrame implements Runnable, ActionListener {
         
 //        for(int i : Range.between(1, 3);)
 //        oM.addObject(new Player(5, 5, "nuul", "█", 1F, Color.black));
+          ready = true;
         
     }
     

@@ -43,6 +43,9 @@ public class kick {
                 ea.setVisible(false);
             }
         };
+        System.out.println("Starting PointBreakEngine on " + System.getProperty("os.name") + "...");
+        System.out.println("initializing");
+        System.out.println("////////////////");
         b.start();
         a = new Thread(){
                 @Override
@@ -73,6 +76,8 @@ public class kick {
                 }
         };
         a.start();
+        //System.out.println("////////////////");
+        //System.out.println("done initializing");
     }
     public void tog(){
         if(tog){
