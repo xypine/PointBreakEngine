@@ -356,17 +356,17 @@ public class engine extends JFrame implements Runnable, ActionListener {
                     //global brightness
                     
             try{                                //.readColor(tx, ty).getRed()
-                r = (r * global_brightness + (rads.readColor(tx, ty).getRed()));if(r > 255){r = 255;}
-                g = (g * global_brightness + (rads.readColor(tx, ty).getGreen()));if(g > 255){g = 255;}
-                b = (b * global_brightness + (rads.readColor(tx, ty).getBlue()));if(b > 255){b = 255;}
+                try{r = (r * global_brightness + (rads.readColor(tx, ty).getRed()));if(r > 255){r = 255;}}catch(Exception e2){r = 0;}
+                try{g = (g * global_brightness + (rads.readColor(tx, ty).getGreen()));if(g > 255){g = 255;}}catch(Exception e2){g = 0;}
+                try{b = (b * global_brightness + (rads.readColor(tx, ty).getBlue()));if(b > 255){b = 255;}}catch(Exception e2){b = 0;}
             //    r = (r * global_brightness + (rads.colors[tx][ty].getRed() * 0.5F) / 2 );if(r > 255){r = 255;}
             //    g = (g * global_brightness + (rads.colors[tx][ty].getGreen() * 0.5F) / 2 );if(g > 255){g = 255;}
             //    b = (b * global_brightness + (rads.colors[tx][ty].getBlue() * 0.5F) / 2 );if(b > 255){b = 255;}
             }catch(Exception e){
                 
-                r = (r * global_brightness + (red[tx][ty] * 0.55F) / 2 );if(r > 255){r = 255;}
-                g = (g * global_brightness + (red[tx][ty] * 0.55F) / 2 );if(g > 255){g = 255;}
-                b = (b * global_brightness + (red[tx][ty] * 0.55F) / 2 );if(b > 255){b = 255;}
+                try{r = (r * global_brightness + (red[tx][ty] * 0.55F) / 2 );if(r > 255){r = 255;}}catch(Exception e2){r = 0;}
+                try{g = (g * global_brightness + (red[tx][ty] * 0.55F) / 2 );if(g > 255){g = 255;}}catch(Exception e2){g = 0;}
+                try{b = (b * global_brightness + (red[tx][ty] * 0.55F) / 2 );if(b > 255){b = 255;}}catch(Exception e2){b = 0;}
                 throw(e);
             }
             

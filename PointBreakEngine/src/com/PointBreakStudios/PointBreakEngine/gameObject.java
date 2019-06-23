@@ -18,11 +18,28 @@ import java.util.LinkedList;
  * @author Jonnelafin
  */
 public class gameObject {
+    
+    private gameObject parent = this;
+    public boolean isParent = false;
+    private LinkedList<gameObject> children = new LinkedList<>();
+    public void addChild(gameObject child){
+        children.add(child);
+    }
+    public void removeChild(gameObject child){
+        children.remove(child);
+    }
+    public int children(){
+        return children.size();
+    }
+    private double parent_offsetX = 0;
+    private double parent_offsetY = 0;
+    
     public int collision_type = 0;
+    
     public String imageName = "";
     public int preferredLayer = -1;
 //    Renderer re = new Renderer();
-    objectManager oM = new objectManager();
+    //objectManager oM = new objectManager();
     kick masterParent;
     public gameObject(int xpos, int ypos, String tag, String ap, float mas, Color cot, int ID, kick master){
         this.masterParent = master;
@@ -59,6 +76,23 @@ public class gameObject {
     public Color getColor(){return(this.acolor);}
     public void setColor(Color cat){this.acolor = cat;}
     
+    public void setParent(gameObject parent){
+        this.parent = parent;
+        parent.isParent = true;
+        parent.addChild(this);
+        this.parent_offsetX = parent.x - this.x;
+        this.parent_offsetY = parent.y - this.y;
+    }
+    public gameObject getParent(){
+        return this.parent;
+    }
+    public void clearParent(){
+        this.parent.removeChild(this);
+        if(parent.children() == 0){
+            this.parent.isParent = false;
+        }
+        this.parent = this;
+    }
     public int getID(){return(this.id);}
     public LinkedList<String> getTag(){return(this.tag);}
     
@@ -86,78 +120,84 @@ public class gameObject {
         this.x = v.x;
         this.y = v.y;
     }
-    public void update(Renderer re, objectManager oMb){   
+    public void update(Renderer re, objectManager oMb){
         if(this.collision_Explode){
             if(colliding || po != 0 || point2){
-                oM.removeObject(this);
                 oMb.removeObject(this);
+                //oMb.removeObject(this);
             }
         }
-        if(this.tag.contains(new String("cursor"))){}
-        else{
-            this.checkCollisions(oMb, this);
-        }
-        //if(this.tag.contains(new String("player1")) || this.tag.contains(new String("cursor"))){
-        if(!this.tag.contains(new String("static"))){
-//        System.out.println(colliding);
+        if(this.parent.equals(this)){
             if(this.tag.contains(new String("cursor"))){}
             else{
-//                this.y = this.y + (this.vely);
-//                this.x = this.x + (this.velx);
-                for (int i : new Range(round(Math.abs(this.velx) * 10))) {
-                    
-                    if(this.velx < 0){this.x = this.x - 0.1F;}
-                    if(this.velx > 0){this.x = this.x + 0.1F;}
-                    this.checkCollisions(oMb, this);
-                }
-                for (int i : new Range(round(Math.abs(this.vely) * 10))) {
-                    
-                    if(this.vely < 0){this.y = this.y - 0.1F;}
-                    if(this.vely > 0){this.y = this.y + 0.1F;}
-                    this.checkCollisions(oMb, this);
-                }
-                  
+                this.checkCollisions(oMb, this);
             }
-            if(this.y > re.sizey() - 1){
-                this.y = re.sizey() - 1;
-//                this.vely = this.vely * -0.55F;
-                this.hits++;
-            }
-            if(this.x > re.sizex() - 1){
-                this.x = re.sizex() - 1;
-                this.velx = this.velx * -0.5F;
-            
-            }
-            if(this.y < 0){
-                this.y = 0;
-                this.vely = this.vely * -0.55F;
-            }
-            if(this.x < 0){
-                this.x = 0;
-                this.velx = this.velx * -0.5F;
-            }
+            //if(this.tag.contains(new String("player1")) || this.tag.contains(new String("cursor"))){
+            if(!this.tag.contains(new String("static"))){
+    //        System.out.println(colliding);
+                if(this.tag.contains(new String("cursor"))){}
+                else{
+    //                this.y = this.y + (this.vely);
+    //                this.x = this.x + (this.velx);
+                    for (int i : new Range(round(Math.abs(this.velx) * 10))) {
 
-            if(point2 || Math.round(this.y) > 23.7F){velx = velx * 0.65F;}
-//            if(velx != 0 && Math.round(this.y) > 23.7F){velx = velx * 0.65F;}
+                        if(this.velx < 0){this.x = this.x - 0.1F;}
+                        if(this.velx > 0){this.x = this.x + 0.1F;}
+                        this.checkCollisions(oMb, this);
+                    }
+                    for (int i : new Range(round(Math.abs(this.vely) * 10))) {
 
-            if(Math.round(this.y) > 23.99F){colliding = true;}
-            else{colliding = false;}
-//            if(velx != 0 && Math.round(this.y) > 23.7F){colliding = true;}
-            if(colliding){velx = velx * 0.65F;}
-            
-            if(!colliding || point2){
-                if(vely > 100F){vely = 100.1F;}
-                else{vely = (float) (vely + masterParent.engine_gravity.y);}
+                        if(this.vely < 0){this.y = this.y - 0.1F;}
+                        if(this.vely > 0){this.y = this.y + 0.1F;}
+                        this.checkCollisions(oMb, this);
+                    }
+
+                }
+                if(this.y > re.sizey() - 1){
+                    this.y = re.sizey() - 1;
+    //                this.vely = this.vely * -0.55F;
+                    this.hits++;
+                }
+                if(this.x > re.sizex() - 1){
+                    this.x = re.sizex() - 1;
+                    this.velx = this.velx * -0.5F;
+
+                }
+                if(this.y < 0){
+                    this.y = 0;
+                    this.vely = this.vely * -0.55F;
+                }
+                if(this.x < 0){
+                    this.x = 0;
+                    this.velx = this.velx * -0.5F;
+                }
+
+                if(point2 || Math.round(this.y) > 23.7F){velx = velx * 0.65F;}
+    //            if(velx != 0 && Math.round(this.y) > 23.7F){velx = velx * 0.65F;}
+
+                if(Math.round(this.y) > 23.99F){colliding = true;}
+                else{colliding = false;}
+    //            if(velx != 0 && Math.round(this.y) > 23.7F){colliding = true;}
+                if(colliding){velx = velx * 0.65F;}
+
+                if(!colliding || point2){
+                    if(vely > 100F){vely = 100.1F;}
+                    else{vely = (float) (vely + masterParent.engine_gravity.y);}
+                }
+                else{this.vely = this.vely * -0.75F;}
+                if(!colliding){
+                    if(velx > 100F){velx = 100.1F;}
+                    else{velx = (float) (velx + masterParent.engine_gravity.x);}
+                }
             }
-            else{this.vely = this.vely * -0.75F;}
-            if(!colliding){
-                if(velx > 100F){velx = 100.1F;}
-                else{velx = (float) (velx + masterParent.engine_gravity.x);}
+            if(this.tag.contains(new String("static"))){
+                vely = 0F;
+                velx = 0F;
             }
         }
-        if(this.tag.contains(new String("static"))){
-            vely = 0F;
-            velx = 0F;
+        else{
+            this.x = (float) (parent.x + parent_offsetX);
+            this.y = (float) (parent.y + parent_offsetY);
         }
     }
     public void addForce(Vector force){

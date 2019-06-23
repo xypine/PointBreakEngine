@@ -69,7 +69,14 @@ public class kick {
             } catch (URISyntaxException ex) {
                 Logger.getLogger(kick.class.getName()).log(Level.SEVERE, null, ex);
             }
-            wM.oM.addObject(new Player(5, 5, "player1", "█", 1F, Color.black, 1, ref));
+            gameObject p1 = new Player(5, 5, "player1", "█", 1F, Color.black, 1, ref);
+            //wM.oM.addObject(new Player(5, 5, "player1", "█", 1F, Color.black, 1, ref));
+            gameObject p2 = new Player(6, 5, "player1", "█", 1F, Color.black, 2, ref);
+            p2.setParent(p1);
+            wM.oM.addObject(p1);
+            wM.oM.addObject(p2);
+            //wM.oM.addObject(new Player(5, 6, "player1", "█", 1F, Color.black, 3, ref));
+            //wM.oM.addObject(new Player(6, 6, "player1", "█", 1F, Color.black, 4, ref));
             //rad.setTitle("VSRad");
         }
         //wM.running = true;
