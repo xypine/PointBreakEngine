@@ -44,6 +44,7 @@ public class gameObject {
     public gameObject(int xpos, int ypos, String tag, String ap, float mas, Color cot, int ID, kick master){
         this.masterParent = master;
         this.summon(ypos, xpos, tag, ap, mas, cot, ID);
+        this.children.add(this);
     }
     
     float mass = 1F;
@@ -88,7 +89,7 @@ public class gameObject {
     }
     public void clearParent(){
         this.parent.removeChild(this);
-        if(parent.children() == 0){
+        if(parent.children() == 1){
             this.parent.isParent = false;
         }
         this.parent = this;
@@ -249,7 +250,7 @@ public class gameObject {
         else{
     //        for(gameObject i : tmpoa){
                 for(gameObject x : tmpoa){
-                    if(i.getID() == x.getID()){
+                    if(i.getID() == x.getID() || children.contains(x)){
 
                     }
                     else{

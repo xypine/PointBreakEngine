@@ -60,10 +60,23 @@ public class objectManager {
     }
     public boolean colliding(int x, int y, String ignore){
         for(gameObject i : object){
-            if(i.getTag().contains(new String("cursor")) || i.getTag().contains(new String(ignore))){}
+            if(i.getTag().contains("cursor") || i.getTag().contains(ignore)){}
             else{
                 if((round(i.x) == x && round(i.y) == y)){
                     return true;
+                }
+            }
+        }
+        return false;
+    }
+    public boolean colliding(int x, int y, LinkedList<String> ignore){
+        for(gameObject i : object){
+            for(int ix : new Range(ignore.size())){
+                if(i.getTag().contains("cursor") || i.equals(ignore.get(ix))){}
+                else{
+                    if((round(i.x) == x && round(i.y) == y)){
+                        return true;
+                    }
                 }
             }
         }
@@ -76,36 +89,7 @@ public class objectManager {
             }
         }
     }
-    public void doPhysics(Renderer r, gameObject i){
-        LinkedList<gameObject> tmpoa = this.getObjects();
-//        for(gameObject i : tmpoa){
-            for(gameObject x : tmpoa){
-                if(i.getID() == x.getID()){
-                    
-                }
-                else{
-                    int x1 = round(i.getX());
-                    int y1 = round(i.getY());
-                    
-                    float x2 = x.getX();
-                    float y2 = x.getY();
-                    if(i.getDistance(y2, x2) < 1F){
-                        float ivx = i.velx * -0.55F;
-                        float ivy = i.vely * -0.55F;
-                        float xvx = x.velx * -0.55F;
-                        float xvy = x.vely * -0.55F;
-                        i.velx = ivx;
-                        i.vely = ivy;
-                        //x.velx = xvx;
-                        //x.vely = xvy;
-                    }
-//                    i.update(r);
-//                    x.update(r);
-                }
-                
-            }
-//        }
-    }
+    
 //  public ArrayList<Player> getPlayers(){
 //       return(this.players);
 //  }
