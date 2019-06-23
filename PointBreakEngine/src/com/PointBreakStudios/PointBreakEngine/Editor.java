@@ -62,8 +62,11 @@ public class Editor extends JFrame implements Runnable, ActionListener {
     }
     //Input:
     levelLoader aol;
-    
-    
+    float size = 1F;
+    float w = 767*size;
+    float h = 562*size;
+    int xd = (int) (w / 15.34);
+    int yd = (int) (h / 22.48);
     @Override
     public void run() {
         ready = false;
@@ -72,16 +75,14 @@ public class Editor extends JFrame implements Runnable, ActionListener {
         timer.start();
         
         //Initiate screen size
-        float size = 1F;
-        float w = 767*size;
-        float h = 562*size;
+        
         float aspect = w / h;
         System.out.println(aspect);
         
 //        int xd = 50;
 //        int yd = 25;
-        int xd = (int) (w / 15.34);
-        int yd = (int) (h / 22.48);
+        xd = (int) (w / 15.34);
+        yd = (int) (h / 22.48);
         this.setTitle("ViridiEngine Editor");
         this.setSize(round(w), round(h));
         this.setDefaultCloseOperation(EXIT_ON_CLOSE);
@@ -229,7 +230,7 @@ public class Editor extends JFrame implements Runnable, ActionListener {
 //            lM.change(tx, ty, "█", Color.WHITE);
 //            System.out.println(p.getTag().getClass() + " " + "static".getClass());
             p.checkInput(input);
-            p.update(lM, oM);
+            p.update(xd, yd, oM);
 //            oM.doPhysics(lM, p);
             this.txf = p.getX();
             this.tyf = p.getY();

@@ -121,7 +121,7 @@ public class gameObject {
         this.x = v.x;
         this.y = v.y;
     }
-    public void update(Renderer re, objectManager oMb){
+    public void update(int xd, int yd, objectManager oMb){
         if(this.collision_Explode){
             if(colliding || po != 0 || point2){
                 oMb.removeObject(this);
@@ -154,13 +154,13 @@ public class gameObject {
                     }
 
                 }
-                if(this.y > re.sizey() - 1){
-                    this.y = re.sizey() - 1;
+                if(this.y > yd - 1){
+                    this.y = yd - 1;
     //                this.vely = this.vely * -0.55F;
                     this.hits++;
                 }
-                if(this.x > re.sizex() - 1){
-                    this.x = re.sizex() - 1;
+                if(this.x > xd - 1){
+                    this.x = xd - 1;
                     this.velx = this.velx * -0.5F;
 
                 }

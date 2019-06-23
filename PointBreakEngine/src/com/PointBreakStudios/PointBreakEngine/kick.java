@@ -50,7 +50,7 @@ public class kick {
         a = new Thread(){
                 @Override
                 public void run(){
-        wM = new engine(ref , forwM, xd, yd, rad, engine_gravity);
+        wM = new engine(ref , forwM, xd*2, yd*2, rad, engine_gravity);
         
         
         //rad = new radiosity(ref);
@@ -69,12 +69,20 @@ public class kick {
             } catch (URISyntaxException ex) {
                 Logger.getLogger(kick.class.getName()).log(Level.SEVERE, null, ex);
             }
-            gameObject p1 = new Player(5, 5, "player1", "█", 1F, Color.black, 1, ref);
             //wM.oM.addObject(new Player(5, 5, "player1", "█", 1F, Color.black, 1, ref));
-            gameObject p2 = new Player(6, 5, "player1", "█", 1F, Color.black, 2, ref);
-            p2.setParent(p1);
-            wM.oM.addObject(p1);
-            wM.oM.addObject(p2);
+            gameObject p = new Player(5, 5, "player1", "█", 1F, Color.black, 1, ref);
+            int id = 2;
+            for(int x : new Range(10)){
+                for(int y : new Range(15)){
+                    Player p1 = new Player(x+2, y+2, "player1", "█", 1F, Color.black, id, ref);
+                    p1.setParent(p);
+                    wM.oM.addObject(p1);
+                    id++;
+                }
+            }
+            
+            
+            wM.oM.addObject(p);
             //wM.oM.addObject(new Player(5, 6, "player1", "█", 1F, Color.black, 3, ref));
             //wM.oM.addObject(new Player(6, 6, "player1", "█", 1F, Color.black, 4, ref));
             //rad.setTitle("VSRad");

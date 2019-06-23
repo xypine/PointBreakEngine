@@ -45,7 +45,7 @@ public class engine extends JFrame implements Runnable, ActionListener {
     int number;
     String screen;
     String[][] tmp;
-    Renderer renderer = new Renderer();
+    //Renderer renderer = new Renderer();
     JLabel area;
     
     public int xd;
@@ -127,9 +127,9 @@ public class engine extends JFrame implements Runnable, ActionListener {
         this.setVisible(true);
         getContentPane().setBackground( Color.black );
         
-        synchronized(renderer) {
-            renderer.init(xd, yd, this);
-        }
+        //synchronized(renderer) {
+            //renderer.init(xd, yd, this);
+        //}
         red = new float[xd][yd];
         //canvas = renderer.canvas;
         vA = new vectorArea();
@@ -164,7 +164,7 @@ public class engine extends JFrame implements Runnable, ActionListener {
 //        }
         
         
-        area.setText(fetch(renderer));
+        //area.setText(fetch(renderer));
 //        area.setEditable(false);
         
         
@@ -306,7 +306,7 @@ public class engine extends JFrame implements Runnable, ActionListener {
                 points2.add(new Vector(xp,yp));
                 colors2.add(new Color((int) r,(int) g,(int) b));
                 images2.add("");
-                renderer.change(xp, yp,"█",new Color((int) i,(int) i,(int) i), "n");
+//                renderer.change(xp, yp,"█",new Color((int) i,(int) i,(int) i), "n");
                 //renderer.vChange(xp * 15.34F, yp * 22.48F, new Color((int) i,(int) i,(int) i));
                 yp++;
             }
@@ -317,7 +317,7 @@ public class engine extends JFrame implements Runnable, ActionListener {
         for(gameObject p : objects){
 //            renderer.change(tx, ty, "█", Color.WHITE);
 //            System.out.println(p.getTag().getClass() + " " + "static".getClass());
-            p.update(renderer, oM);
+            p.update(xd, yd, oM);
             p.checkInput(input);
             
 //            oM.doPhysics(renderer, p);
@@ -377,7 +377,7 @@ public class engine extends JFrame implements Runnable, ActionListener {
             //RENDER
 //            renderer.fill(Integer.toString(number));
         }
-        renderer.fill("█", Color.BLACK, "null");
+//        renderer.fill("█", Color.BLACK, "null");
         //renderer.vectorFill(Color.BLACK, vector);
         //Render
         
@@ -385,12 +385,12 @@ public class engine extends JFrame implements Runnable, ActionListener {
         vA.update(points, colors, images, 20F, 1);
         vA.update(points2, colors2, images2, 20F, 0);
         for(xyac a : lis){
-            renderer.change((int) (a.x), (int) (a.y), a.a, a.c, "n");
+//            renderer.change((int) (a.x), (int) (a.y), a.a, a.c, "n");
             //lM.vChange(a.last.x * 15.34F, a.last.y * 22.48F, a.a, Color.black, vector);
             //renderer.vChange(a.x * 15.34F, a.y * 22.48F, a.c);
         }
         
-        area.setText(fetch(renderer));
+//        area.setText(fetch(renderer));
     }
     String fetch(Renderer render)
     {
