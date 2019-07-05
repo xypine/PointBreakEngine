@@ -29,9 +29,14 @@ public class PBEngine {
     boolean running;
     public static void main(String[] args) {
         // TODO code application logic here
-        k = new kick(3);
-        
-        
+        if(args.length != 0){if(args[0].equals("template")){
+            k = new kick(3);
+        }else{
+            k = new kick(0);
+        }}
+        else{
+            k = new kick(0);
+        }
     }
     public void start(){
         running = true;

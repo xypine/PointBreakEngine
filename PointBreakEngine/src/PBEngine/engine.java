@@ -135,13 +135,11 @@ public class engine extends JFrame implements Runnable, ActionListener {
         vA = new vectorArea();
         this.add(vA);
         content.add(vA);
-        vA.init((int)w, (int)h, 3);
-        //tmp = renderer.gets();
+        vA.init((int)w, (int)h, 3, true);
+        try {vA.setImage(new directory().textures + "splash.png");}
+        catch (IOException ex) {quickEffects.alert(ex.getMessage());}
         
         //rads = new VSRadManager(xd, yd, oM);
-        rads.add(1, 1, 2, new Color(1, 1, 0), 1);
-        rads.add(49, 1, 2, new Color(0, 0, 1), 1);
-        rads.add(25, 1, 1, new Color(1, 1, 1), 1);
         //rads.add(25, 12, 4, new Color(1, 1, 1), 0);
         //rads.add(24, 24, 4, new Color(1, 0, 0), 1);
         //rads.add(25, 12, 4, new Color(1, 1, 1), 0);

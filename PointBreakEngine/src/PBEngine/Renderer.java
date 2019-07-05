@@ -9,8 +9,10 @@ package PBEngine;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;
+import java.awt.Image;
 import java.awt.image.BufferedImage;
 import java.io.File;
+import java.io.IOException;
 import java.util.LinkedList;
 import java.util.Objects;
 import javax.imageio.ImageIO;
@@ -139,11 +141,17 @@ class vectorArea extends JPanel{
     float factor = 20F / 1F;
     private int w = 0;
     private int h = 0;
+    public boolean sSi = false;
+    Image image;
     @Override
     public void paintComponent(Graphics g) {
         super.paintComponent(g);
         //master = quickEffects.zero(master);
+        if(sSi){
+            g.drawImage(image, w, h, this);
+        }
         for(int layer : new Range(layers.size())){
+            if(sSi){break;}
             vectorLayer vL = layers.get(layer);
             for(int i : new Range(vL.points.size())){
                 Vector rl = vL.points.get(i);
@@ -183,6 +191,11 @@ class vectorArea extends JPanel{
         }
         */
     }
+    public void setImage(String mage) throws IOException{
+        File img = new File(mage);
+        BufferedImage image = ImageIO.read(img);
+        this.image = image;
+    }
     public void update(LinkedList<Vector> p,LinkedList<Color> c, LinkedList<String> images, float f, int layer){
         vectorLayer tmp = layers.get(layer);
         tmp.update(p, c, images, factor);
@@ -190,7 +203,7 @@ class vectorArea extends JPanel{
     public void update(LinkedList<Vector> p,LinkedList<Color> c, LinkedList<String> images, float f, vectorLayer layer){
         layer.update(p, c, images, factor);
     }
-    public void init(int w, int h, int num_layers){
+    public void init(int w, int h, int num_layers, boolean showStartingImage){
         this.w = w;
         this.h = h;
         this.setSize(w, h);

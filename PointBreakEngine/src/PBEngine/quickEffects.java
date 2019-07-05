@@ -15,6 +15,7 @@ import java.awt.RenderingHints;
 import java.awt.Transparency;
 import java.awt.image.BufferedImage;
 import java.util.LinkedList;
+import javax.swing.JOptionPane;
 
 /**
  *
@@ -110,7 +111,9 @@ public class quickEffects {
         return out;
     }
     
-    
+    public static void alert(String msg){
+        JOptionPane.showMessageDialog(null, msg);
+    }
     
     
     public float[][] getR(int xd, int yd, Color[][] colors){
