@@ -136,7 +136,7 @@ class vectorArea extends JPanel{
     LinkedList<vectorLayer> layers = new LinkedList<>();
     float x = 15.34F;
     float y = 22.48F;
-    float factor = 20F / 2F;
+    float factor = 20F / 1F;
     private int w = 0;
     private int h = 0;
     @Override
@@ -219,7 +219,7 @@ class vectorLayer{
     public int blur;
     float x = 15.34F;
     float y = 22.48F;
-    float factor = 20F;
+    float factor = 2F;
     public int w = 0;
     public int h = 0;
     public String title = "";

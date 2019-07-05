@@ -382,8 +382,8 @@ public class engine extends JFrame implements Runnable, ActionListener {
         //Render
         
         //renderer.canvas.clean();
-        vA.update(points, colors, images, 20F, 1);
-        vA.update(points2, colors2, images2, 20F, 0);
+        vA.update(points, colors, images, 2F, 1);
+        vA.update(points2, colors2, images2, 2F, 0);
         for(xyac a : lis){
 //            renderer.change((int) (a.x), (int) (a.y), a.a, a.c, "n");
             //lM.vChange(a.last.x * 15.34F, a.last.y * 22.48F, a.a, Color.black, vector);
