@@ -4,14 +4,12 @@
  * and open the template in the editor.
  */
 
-package com.PointBreakStudios.PointBreakEngine;
+package PBEngine;
 
 import java.io.File;
 import java.io.IOException;
 import static java.lang.Math.pow;
 import java.util.LinkedList;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.sound.sampled.AudioInputStream;
 import javax.sound.sampled.AudioSystem;
 import javax.sound.sampled.Clip;

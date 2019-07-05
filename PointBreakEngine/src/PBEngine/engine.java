@@ -4,7 +4,7 @@
  * and open the template in the editor.
  */
 
-package com.PointBreakStudios.PointBreakEngine;
+package PBEngine;
 
 import java.awt.Color;
 import java.awt.Font;
@@ -176,7 +176,7 @@ public class engine extends JFrame implements Runnable, ActionListener {
         
         
         
-        record = recorder.read("/src/com/PointBreakStudios/PointBreakEngine/records/recorded.txt");
+        //record = recorder.read("/records/recorded.txt");
         //oM.addObject(new Player(3, 3, "playback", "█", 1F, Color.blue, 11));
         //Add AudioSource
 /*        try {

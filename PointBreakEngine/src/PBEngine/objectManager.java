@@ -4,7 +4,7 @@
  * and open the template in the editor.
  */
 
-package com.PointBreakStudios.PointBreakEngine;
+package PBEngine;
 
 
 import static java.lang.Math.round;

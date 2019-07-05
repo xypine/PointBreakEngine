@@ -4,10 +4,7 @@
  * and open the template in the editor.
  */
 
-package com.PointBreakStudios.PointBreakEngine;
-
-import static com.PointBreakStudios.PointBreakEngine.quickEffects.dirs;
-import static java.lang.Math.round;
+package PBEngine;
 
 /**
  *
