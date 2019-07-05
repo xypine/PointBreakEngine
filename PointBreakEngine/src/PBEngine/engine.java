@@ -239,7 +239,7 @@ public class engine extends JFrame implements Runnable, ActionListener {
             }
             
         }
-        if(tickC < record.size()){
+/*        if(tickC < record.size()){
             if(oM.findGameObject("playback") != 99999999){
                 Vector loc = record.get(tickC);
                 System.out.println("Playing back frame " + tickC + ": " + loc.represent());
@@ -248,7 +248,7 @@ public class engine extends JFrame implements Runnable, ActionListener {
         }
         else{
             tickC = -1;
-        }
+        }*/
         //vector = input.ve;
         
 //        aM.play();
