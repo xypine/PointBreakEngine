@@ -218,6 +218,7 @@ class vectorArea extends JPanel{
         }
         this.layers.get(0).blur = 3; //enable blur by default
         //this.setBorder();
+        this.sSi = showStartingImage;
     }
     public void addLayer(int position, String title, int blur){
         vectorLayer tmp = new vectorLayer();

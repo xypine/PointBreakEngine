@@ -130,7 +130,7 @@ public class EffectsDemo extends JFrame implements Runnable, ActionListener {
         vA = new vectorArea();
         this.add(vA);
         content.add(vA);
-        vA.init((int)w, (int)h, 3);
+        vA.init((int)w, (int)h, 3, false);
         screen = "";
         
         //fresh();
