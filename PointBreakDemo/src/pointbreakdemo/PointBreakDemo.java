@@ -14,10 +14,13 @@ public class PointBreakDemo {
     /**
      * @param args the command line arguments
      */
-    static PBEngine.main pbengine = new main();
+    static PBEngine pbengine = new PBEngine();
     public static void main(String[] args) {
         // TODO code application logic here
-        pbengine.main(args);
+        String[] argss = new String[1];
+        argss[0] = "template";
+        pbengine.main(argss);
+        kick k = pbengine.k;
     }
     public void go(){
         

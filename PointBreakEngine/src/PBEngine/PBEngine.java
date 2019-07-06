@@ -23,8 +23,8 @@ public class PBEngine {
      * @param args the command line arguments
      */
     static LinkedList<Object> list;
-    static kick k;
-    engine main;
+    static public kick k;
+    public engine main;
     Editor editor;
     boolean running;
     public static void main(String[] args) {

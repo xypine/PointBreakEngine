@@ -148,7 +148,7 @@ class vectorArea extends JPanel{
         super.paintComponent(g);
         //master = quickEffects.zero(master);
         if(sSi){
-            g.drawImage(image, w, h, this);
+            g.drawImage(image, 0, 0, 100, 100, this);
         }
         for(int layer : new Range(layers.size())){
             if(sSi){break;}
@@ -249,3 +249,22 @@ class vectorLayer{
     }
 }
 
+class ImagePanel extends JPanel{
+
+    public BufferedImage image;
+
+    public ImagePanel() {
+       try {                
+          image = ImageIO.read(new File("image name and path"));
+       } catch (IOException ex) {
+            // handle exception...
+       }
+    }
+
+    @Override
+    protected void paintComponent(Graphics g) {
+        super.paintComponent(g);
+        g.drawImage(image, 0, 0, this); // see javadoc for more info on the parameters            
+    }
+
+}

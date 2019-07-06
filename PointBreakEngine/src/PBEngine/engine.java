@@ -10,13 +10,17 @@ import java.awt.Color;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.image.BufferedImage;
+import java.io.File;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import static java.lang.Math.round;
 import java.net.URISyntaxException;
 import java.util.LinkedList;
+import java.util.concurrent.TimeUnit;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.imageio.ImageIO;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.Timer;
@@ -83,11 +87,11 @@ public class engine extends JFrame implements Runnable, ActionListener {
     
     @Override
     public void run() {
+        System.out.println("Initializing engine...");
         ready = false;
         this.rads = new VSRadManager(xd, yd, oM);
         
         timer.setRepeats(true);
-        timer.start();
         
         //Initiate screen size
         float size = 1F;
@@ -103,6 +107,31 @@ public class engine extends JFrame implements Runnable, ActionListener {
         this.setTitle("PointBreakEngine");
         this.setSize((int) Math.ceil(w), (int) Math.ceil(h*1.05F));
         this.setDefaultCloseOperation(EXIT_ON_CLOSE);
+        
+        this.requestFocusInWindow();
+        this.addKeyListener(input);
+        this.addMouseMotionListener(input);
+        this.setVisible(true);
+        getContentPane().setBackground( Color.black );
+        
+        vA = new vectorArea();
+        vA.init((int)w, (int)h, 3, false);
+        //try {vA.setImage(new directory().textures + "splash.png");}
+        //catch (IOException ex) {quickEffects.alert(ex.getMessage());}
+        this.add(vA);
+        content.add(vA);
+        if(vA.sSi){
+            vA.setVisible(true);
+        }
+        ImagePanel splash = new ImagePanel();
+        try{
+            File img = new File(new directory().textures + "splash.png");
+            BufferedImage image = ImageIO.read(img);
+            splash.image = image;
+            this.add(splash);
+        } catch (IOException ex) {
+            quickEffects.alert(ex.getMessage());
+        }
         
         area = new JLabel(screen);
         float Daspect = xd / yd;
@@ -120,24 +149,13 @@ public class engine extends JFrame implements Runnable, ActionListener {
         this.add(area);
         content.add(area);
         //fresh();
-        System.out.println("Initializing engine...");
-        this.requestFocusInWindow();
-        this.addKeyListener(input);
-        this.addMouseMotionListener(input);
-        this.setVisible(true);
-        getContentPane().setBackground( Color.black );
+        
         
         //synchronized(renderer) {
             //renderer.init(xd, yd, this);
         //}
         red = new float[xd][yd];
         //canvas = renderer.canvas;
-        vA = new vectorArea();
-        this.add(vA);
-        content.add(vA);
-        vA.init((int)w, (int)h, 3, true);
-        try {vA.setImage(new directory().textures + "splash.png");}
-        catch (IOException ex) {quickEffects.alert(ex.getMessage());}
         
         //rads = new VSRadManager(xd, yd, oM);
         //rads.add(25, 12, 4, new Color(1, 1, 1), 0);
@@ -188,6 +206,16 @@ public class engine extends JFrame implements Runnable, ActionListener {
         }
          */
         ready = true;
+        revalidate();
+        repaint();
+        try {
+            TimeUnit.SECONDS.sleep(2);
+        } catch (InterruptedException ex) {
+            quickEffects.alert(ex.getMessage());
+        }
+        try{this.remove(splash);}catch(Exception e){}
+        vA.sSi = false;
+        timer.start();
     }
     //Function for reshfreshing the screen
     private void fresh(){
