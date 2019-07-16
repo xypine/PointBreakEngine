@@ -6,6 +6,7 @@
 package PBEngine;
 
 import java.awt.Color;
+import java.util.Arrays;
 import java.util.LinkedList;
 
 /**
@@ -210,6 +211,11 @@ class VSRadManager{
         this.directions = director.directions;
         this.colors = new Color[w][h];
         quickEffects.zero(colors);
+        for(Color [] lane : colors){
+            for (Color c : lane){
+                c = Color.black;
+            }
+        }
     }
     public void add(int x, int y, float s, Color color, int type){
         VSRad tmp = new VSRad(oM, color, type);        
@@ -217,12 +223,14 @@ class VSRadManager{
         tmp.calculate(new dVector(x,y), s, "null");
         System.out.println(tmp.sum);
         this.VSRad.add(tmp);
+        this.oM.object.get(0).masterParent.wM.red = this.read(0);
     }
     int lasthash = 0;
     public float[][] read(int type){
         float[][] sum = new float[w][h];
         int xp = 0, yp = 0;
-        for(VSRad ray : VSRad){
+        LinkedList<VSRad> list = VSRad;
+        for(VSRad ray : list){
             if(ray.type != type){
                 for(float[] line : ray.grid){
                     for(float i : line){
@@ -230,9 +238,9 @@ class VSRadManager{
                             sum[xp][yp] = sum[xp][yp] + i;
                             //System.out.println(colors[xp][yp] + " " + ray.color.getRGB());
                             float r,g,b;
-                            try{r = colors[xp][yp].getRed() + (ray.color.getRed() * ray.grid[xp][yp]);}catch(Exception e){r = ray.color.getRed() * ray.grid[xp][yp];}
-                            try{g = colors[xp][yp].getGreen()+ (ray.color.getGreen() * ray.grid[xp][yp]);}catch(Exception e){g = ray.color.getGreen() * ray.grid[xp][yp];}
-                            try{b = colors[xp][yp].getBlue()+ (ray.color.getBlue() * ray.grid[xp][yp]);}catch(Exception e){b = ray.color.getBlue() * ray.grid[xp][yp];}
+                            try{r = colors[xp][yp].getRed() + (ray.color.getRed() * ray.grid[xp][yp]);}catch(Exception e){/*r = ray.color.getRed() * ray.grid[xp][yp];*/ r=0;}
+                            try{g = colors[xp][yp].getGreen()+ (ray.color.getGreen() * ray.grid[xp][yp]);}catch(Exception e){/*g = ray.color.getGreen() * ray.grid[xp][yp];*/g=0;}
+                            try{b = colors[xp][yp].getBlue()+ (ray.color.getBlue() * ray.grid[xp][yp]);}catch(Exception e){/*b = ray.color.getBlue() * ray.grid[xp][yp];*/b=0;}
                             //r = r / 2;g = g / 2;b = b / 2;
                             if(r > 255){r = 255;}
                             if(g > 255){g = 255;}

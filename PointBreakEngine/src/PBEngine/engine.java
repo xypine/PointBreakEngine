@@ -81,6 +81,7 @@ public class engine extends JFrame implements Runnable, ActionListener {
         this.k = ki;
         input = new Input(k);
         System.out.println("out main input: " + k);
+        this.rads = new VSRadManager(xd, yd, oM);
     }
     private AudioSource aM;
     VSRadManager rads;
@@ -89,7 +90,7 @@ public class engine extends JFrame implements Runnable, ActionListener {
     public void run() {
         System.out.println("Initializing engine...");
         ready = false;
-        this.rads = new VSRadManager(xd, yd, oM);
+        
         
         timer.setRepeats(true);
         

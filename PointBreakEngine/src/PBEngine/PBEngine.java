@@ -29,14 +29,31 @@ public class PBEngine {
     boolean running;
     public static void main(String[] args) {
         // TODO code application logic here
-        if(args.length != 0){if(args[0].equals("template")){
+        boolean demo = true;
+        
+        if (args.length > 0) {
+            System.out.println("Arguments: ");
+            System.out.println("////");
+            for (String arg : args) {
+                System.out.println("    " + arg);
+                if(arg.matches("nodemo")){
+                    demo = false;
+                }
+            }
+            System.out.println("////");
+        } else {
+            System.out.println("Starting without arguments");
+        }
+        if(demo){
+            System.out.println("If you wish not to use the demo, please add the 'nodemo' argument");
+        
+        //if(args.length != 0){if(args[0].equals("template")){
             k = new kick(3);
         }else{
             k = new kick(0);
-        }}
-        else{
-            k = new kick(0);
         }
+//        else{
+//            k = new kick(0);
     }
     public void start(){
         running = true;

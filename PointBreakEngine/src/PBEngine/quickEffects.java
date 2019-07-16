@@ -110,11 +110,22 @@ public class quickEffects {
         }
         return out;
     }
+    public static Color[][] black(int w, int h){
+        Color[][] o = new Color[w][h];
+        for(Color [] lane : o){
+            for (Color c : lane){
+                c = Color.black;
+            }
+        }
+        return o;
+    }
     
     public static void alert(String msg){
         JOptionPane.showMessageDialog(null, msg);
     }
-    
+    public static void alert(String from, String msg){
+        JOptionPane.showMessageDialog(null, msg, from, 0);
+    }
     
     public float[][] getR(int xd, int yd, Color[][] colors){
         float[][] out = new float[xd][yd];
