@@ -9,6 +9,5 @@ A demo is available at the releases section.
 !!!!!
 
 <h1>Documentation:</h1>
-<hr \>
 Demo:
 press 'e' in default window to enter edit mode, in edit mode press 'r' to toggle the brush and 'l' to save the level. The level will load on next startup.
