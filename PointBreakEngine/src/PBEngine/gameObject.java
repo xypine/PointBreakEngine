@@ -133,7 +133,7 @@ public class gameObject {
         if(this.parent.equals(this)){
             if(this.tag.contains(new String("cursor"))){}
             else{
-                this.checkCollisions(oMb, this);
+                this.checkAdvancedCollisions(oMb, this);
             }
             //if(this.tag.contains(new String("player1")) || this.tag.contains(new String("cursor"))){
             if(!this.tag.contains(new String("static"))){
@@ -146,13 +146,13 @@ public class gameObject {
 
                         if(this.velx < 0){this.x = this.x - 0.1F;}
                         if(this.velx > 0){this.x = this.x + 0.1F;}
-                        this.checkCollisions(oMb, this);
+                        checkAdvancedCollisions(oMb, this);
                     }
                     for (int i : new Range(round(Math.abs(this.vely) * 10))) {
 
                         if(this.vely < 0){this.y = this.y - 0.1F;}
                         if(this.vely > 0){this.y = this.y + 0.1F;}
-                        this.checkCollisions(oMb, this);
+                        checkAdvancedCollisions(oMb, this);
                     }
 
                 }
@@ -215,8 +215,8 @@ public class gameObject {
         colliding = true;
                         float ivx = i.velx * -0.15F;
                         float ivy = i.vely * -0.15F;
-                        float xvx = x.velx * -0.15F;
-                        float xvy = x.vely * -0.15F;
+//                        float xvx = x.velx * -0.15F;
+//                        float xvy = x.vely * -0.15F;
                         i.x = i.x + i.velx * -1F;
                         i.y = i.y + i.vely * -1F;
                         i.velx = ivx;
@@ -224,16 +224,39 @@ public class gameObject {
     }
     public void point2(gameObject i, gameObject x){
         colliding = true;
-                        float ivx = i.velx * -0.15F;
+//                        float ivx = i.velx * -0.15F;
                         float ivy = i.vely * -0.15F;
-                        float xvx = x.velx * -0.15F;
-                        float xvy = x.vely * -0.15F;
+//                        float xvx = x.velx * -0.15F;
+//                        float xvy = x.vely * -0.15F;
                         i.x = i.x + i.velx * -1F;
                         i.y = i.y + i.vely * -1F;
                         //i.velx = ivx;
                         i.vely = ivy;
     }
     int po = 0;
+    private void checkAdvancedCollisions(objectManager o, gameObject i){
+        LinkedList<String> ignore = tag;
+        for(gameObject ga : children){
+            ignore.addAll(ga.tag);
+        }
+        for(int xc : new Range(size)){
+            for(int yc : new Range(size)){
+                if(o.colliding(Math.round(i.x + xc), Math.round(i.y + yc), ignore)){
+                    colliding = true;
+                    point1(i, o.collidingGA(xc, yc, ignore));
+                }
+                else if(o.colliding(Math.round(i.x + xc), Math.round(i.y + yc + 1), ignore)){
+                    colliding = true;
+                    point2 = true;
+                    point2(i, o.collidingGA(Math.round(i.x + xc), Math.round(i.y + yc + 1), ignore));
+                }
+                else{
+                    colliding = false;
+                    point2 = false;
+                }
+            }
+        }
+    }
     public void checkCollisions(objectManager o, gameObject i){
         LinkedList<gameObject> tmpoa = o.getObjects();
         if(this.collision_type == 1){

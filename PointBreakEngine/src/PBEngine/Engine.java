@@ -240,6 +240,9 @@ public class Engine extends JFrame implements Runnable, ActionListener {
         }
         if(running == true){
             tick();
+            if((tickC % 1) == 0){
+                System.out.print(".");
+            }
             tickC++;
         }
         revalidate();

@@ -13,6 +13,7 @@ import java.awt.Color;
  * @author Jonnelafin
  */
 public class Player extends gameObject{
+    int collision_type = 2;
     boolean canjump = true;
     private final directory dir = new directory();
     public boolean point2_2 = false;

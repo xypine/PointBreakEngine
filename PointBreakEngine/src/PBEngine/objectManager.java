@@ -69,18 +69,38 @@ public class objectManager {
         }
         return false;
     }
+    public gameObject collidingGA(int x, int y, String ignore){
+        for(gameObject i : object){
+            if(i.getTag().contains("cursor") || i.getTag().contains(ignore)){}
+            else{
+                if((round(i.x) == x && round(i.y) == y)){
+                    return i;
+                }
+            }
+        }
+        return null;
+    }
     public boolean colliding(int x, int y, LinkedList<String> ignore){
         for(gameObject i : object){
-            for(int ix : new Range(ignore.size())){
-                if(i.getTag().contains("cursor") || i.equals(ignore.get(ix))){}
-                else{
-                    if((round(i.x) == x && round(i.y) == y)){
-                        return true;
-                    }
+            if(i.getTag().contains("cursor") || i.getTag().containsAll(ignore)){}
+            else{
+                if((round(i.x) == x && round(i.y) == y)){
+                    return true;
                 }
             }
         }
         return false;
+    }
+    public gameObject collidingGA(int x, int y, LinkedList<String> ignore){
+        for(gameObject i : object){
+            if(i.getTag().contains("cursor") || i.getTag().containsAll(ignore)){}
+            else{
+                if((round(i.x) == x && round(i.y) == y)){
+                    return i;
+                }
+            }
+        }
+        return null;
     }
     public void removeLevel(){
         for(gameObject ga : object){
