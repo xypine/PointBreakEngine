@@ -138,7 +138,7 @@ public class Editor extends JFrame implements Runnable, ActionListener {
             Logger.getLogger(Editor.class.getName()).log(Level.SEVERE, null, ex);
         }
         
-        oM.addObject(new Player(5, 5, "cursor", "█", 1F, Color.black, 1, k));
+        oM.addObject(new Player(5, 5, 1, "cursor", "█", 1F, Color.black, 1, k));
         
 //        p1 = oM.getPlayer("player1");
 //        oM.addObject(new Player(5, 0, "player2", "█", 1F, Color.black, 2));
@@ -197,7 +197,7 @@ public class Editor extends JFrame implements Runnable, ActionListener {
         int zx = round(z.getX());
         int zy = round(z.getY());
         if(input.tog && !oM.colliding(zx,zy,"null")){
-            oM.addObject(new gameObject(zx, zy, "static", "█", 1F, Color.red, 1, k));
+            oM.addObject(new gameObject(zx, zy, 1, "static", "█", 1F, Color.red, 1, k));
             saved = false;
         }
         class xyac

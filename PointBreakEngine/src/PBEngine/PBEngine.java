@@ -70,7 +70,7 @@ public class PBEngine {
         } catch (URISyntaxException ex) {
             Logger.getLogger(PBEngine.class.getName()).log(Level.SEVERE, null, ex);
         }
-        main.oM.addObject(new Player(5, 5, "player1", "█", 1F, Color.black, 1, main.k));
+        main.oM.addObject(new Player(5, 5, 2, "player1", "█", 1F, Color.black, 1, main.k));
     }
     public void stop(){
         k.stop();

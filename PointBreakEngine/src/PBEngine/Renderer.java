@@ -196,12 +196,12 @@ class vectorArea extends JPanel{
         BufferedImage image = ImageIO.read(img);
         this.image = image;
     }
-    public void update(LinkedList<Vector> p,LinkedList<Color> c, LinkedList<String> images, float f, int layer){
+    public void update(LinkedList<Vector> p,LinkedList<Color> c, LinkedList<String> images, LinkedList<Integer> sizes, float f, int layer){
         vectorLayer tmp = layers.get(layer);
-        tmp.update(p, c, images, factor);
+        tmp.update(p, c, images, sizes, factor);
     }
-    public void update(LinkedList<Vector> p,LinkedList<Color> c, LinkedList<String> images, float f, vectorLayer layer){
-        layer.update(p, c, images, factor);
+    public void update(LinkedList<Vector> p,LinkedList<Color> c, LinkedList<String> images, LinkedList<Integer> sizes, float f, vectorLayer layer){
+        layer.update(p, c, images, sizes, factor);
     }
     public void init(int w, int h, int num_layers, boolean showStartingImage){
         this.w = w;
@@ -230,6 +230,7 @@ class vectorLayer{
     LinkedList<Vector> points = new LinkedList<>();
     LinkedList<String> images = new LinkedList<>();
     LinkedList<Color> colors = new LinkedList<>();
+    LinkedList<Integer> sizes = new LinkedList<>();
     public int blur;
     float x = 15.34F;
     float y = 22.48F;
@@ -241,11 +242,12 @@ class vectorLayer{
         this.title = title;
     }
     
-    public void update(LinkedList<Vector> p,LinkedList<Color> c, LinkedList<String> images, float factor){
+    public void update(LinkedList<Vector> p,LinkedList<Color> c, LinkedList<String> images, LinkedList<Integer> sizes, float factor){
         this.points = p;
         this.colors = c;
         this.images = images;
         this.factor = factor;
+        this.sizes = sizes;
     }
 }
 

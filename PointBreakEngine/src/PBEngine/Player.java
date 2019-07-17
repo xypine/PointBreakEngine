@@ -16,9 +16,9 @@ public class Player extends gameObject{
     boolean canjump = true;
     private final directory dir = new directory();
     public boolean point2_2 = false;
-    public Player(int ypos, int xpos, String tag, String ap, float mas, Color cot, int ID, kick master) {
-        super(ypos, xpos, tag, ap, mas, cot, ID, master);
-        this.imageName = dir.textures + "player/player.png";
+    public Player(int ypos, int xpos, int size, String tag, String ap, float mas, Color cot, int ID, kick master) {
+        super(ypos, xpos, size, tag, ap, mas, cot, ID, master);
+        this.imageName = dir.textures + "player/player2.png";
 //        this.summon(ypos, xpos, tag, ap, mas);
     }
     
@@ -57,7 +57,7 @@ public class Player extends gameObject{
             }
             else{
                 if(in.keyPressed.getKeyCode() == 32){
-                    gameObject projectile = new gameObject((int)this.x,(int) this.y, "projectile", "", 1, Color.white, 919, masterParent);
+                    gameObject projectile = new gameObject((int)this.x,(int) this.y, 1, "projectile", "", 1, Color.white, 919, masterParent);
                     masterParent.forwM.addObject(projectile);
                     projectile.velx = this.velx * 3;
                     projectile.vely = this.vely * 3;

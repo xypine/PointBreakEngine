@@ -298,10 +298,12 @@ public class Engine extends JFrame implements Runnable, ActionListener {
         LinkedList<Vector> points = new LinkedList<>();
         LinkedList<Color> colors = new LinkedList<>();
         LinkedList<String> images = new LinkedList<>();
+        LinkedList<Integer> sizes = new LinkedList<>();
         
         LinkedList<Vector> points2 = new LinkedList<>();
         LinkedList<Color> colors2 = new LinkedList<>();
         LinkedList<String> images2 = new LinkedList<>();
+        LinkedList<Integer> sizes2 = new LinkedList<>();
         objects = oM.getObjects();
         int xp = 0, yp = 0;
         
@@ -333,6 +335,7 @@ public class Engine extends JFrame implements Runnable, ActionListener {
                 points2.add(new Vector(xp,yp));
                 colors2.add(new Color((int) r,(int) g,(int) b));
                 images2.add("");
+                sizes2.add(1);
 //                renderer.change(xp, yp,"█",new Color((int) i,(int) i,(int) i), "n");
                 //renderer.vChange(xp * 15.34F, yp * 22.48F, new Color((int) i,(int) i,(int) i));
                 yp++;
@@ -399,7 +402,7 @@ public class Engine extends JFrame implements Runnable, ActionListener {
             
             colors.add(new Color((int)r,(int)g,(int)b));
             lis.add(new xyac(tx,ty,ta,tc,las));
-
+            sizes.add(p.size);
 
             //RENDER
 //            renderer.fill(Integer.toString(number));
@@ -409,8 +412,8 @@ public class Engine extends JFrame implements Runnable, ActionListener {
         //Render
         
         //renderer.canvas.clean();
-        vA.update(points, colors, images, 2F, 1);
-        vA.update(points2, colors2, images2, 2F, 0);
+        vA.update(points, colors, images, sizes, 2F, 1);
+        vA.update(points2, colors2, images2, sizes2, 2F, 0);
         for(xyac a : lis){
 //            renderer.change((int) (a.x), (int) (a.y), a.a, a.c, "n");
             //lM.vChange(a.last.x * 15.34F, a.last.y * 22.48F, a.a, Color.black, vector);

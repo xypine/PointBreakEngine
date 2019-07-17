@@ -41,16 +41,18 @@ public class gameObject {
 //    Renderer re = new Renderer();
     //objectManager oM = new objectManager();
     kick masterParent;
-    public gameObject(int xpos, int ypos, String tag, String ap, float mas, Color cot, int ID, kick master){
+    public gameObject(int xpos, int ypos, int size, String tag, String ap, float mas, Color cot, int ID, kick master){
         this.masterParent = master;
         this.summon(ypos, xpos, tag, ap, mas, cot, ID);
         this.children.add(this);
+        this.size = size;
     }
     
     float mass = 1F;
     
     float vely = 0;
     float velx = 0;
+    public int size = 1;
     
     public float lastX = 0;
     public float lastY = 0;
