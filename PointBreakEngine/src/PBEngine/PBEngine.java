@@ -24,7 +24,7 @@ public class PBEngine {
      */
     static LinkedList<Object> list;
     static public kick k;
-    public engine main;
+    public Engine main;
     Editor editor;
     boolean running;
     public static void main(String[] args) {

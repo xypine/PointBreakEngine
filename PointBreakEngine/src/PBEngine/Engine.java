@@ -29,7 +29,7 @@ import javax.swing.Timer;
  *
  * @author Jonnelafin
  */
-public class engine extends JFrame implements Runnable, ActionListener {
+public class Engine extends JFrame implements Runnable, ActionListener {
     public boolean ready = false;
     public boolean running = true;
     //Screen components
@@ -72,7 +72,7 @@ public class engine extends JFrame implements Runnable, ActionListener {
     public vectorArea vA;
     kick k;
     private Input input;
-    public engine(kick ki, objectManager o, int xd, int yd, VSRadManager a, dVector g){
+    public Engine(kick ki, objectManager o, int xd, int yd, VSRadManager a, dVector g){
         
         this.oM = o;
         this.xd = xd;
@@ -199,11 +199,11 @@ public class engine extends JFrame implements Runnable, ActionListener {
 /*        try {
         aM = new AudioSource();
         } catch (LineUnavailableException ex) {
-        Logger.getLogger(engine.class.getName()).log(Level.SEVERE, null, ex);
+        Logger.getLogger(Engine.class.getName()).log(Level.SEVERE, null, ex);
         } catch (UnsupportedAudioFileException ex) {
-        Logger.getLogger(engine.class.getName()).log(Level.SEVERE, null, ex);
+        Logger.getLogger(Engine.class.getName()).log(Level.SEVERE, null, ex);
         } catch (IOException ex) {
-        Logger.getLogger(engine.class.getName()).log(Level.SEVERE, null, ex);
+        Logger.getLogger(Engine.class.getName()).log(Level.SEVERE, null, ex);
         }
          */
         ready = true;
@@ -304,12 +304,12 @@ public class engine extends JFrame implements Runnable, ActionListener {
         LinkedList<String> images2 = new LinkedList<>();
         objects = oM.getObjects();
         int xp = 0, yp = 0;
-        /*
-        float rb[][] = effects.blur(rads.getR(xd, yd), xd, yd, blurStrenght);
-        float gb[][] = effects.blur(rads.getG(xd, yd), xd, yd, blurStrenght);
-        float bb[][] = effects.blur(rads.getB(xd, yd), xd, yd, blurStrenght);
+        
+        float rb[][] = quickEffects.blur(rads.getR(xd, yd), xd, yd, blurStrenght);
+        float gb[][] = quickEffects.blur(rads.getG(xd, yd), xd, yd, blurStrenght);
+        float bb[][] = quickEffects.blur(rads.getB(xd, yd), xd, yd, blurStrenght);
         Color[][] colored = quickEffects.parseColor(xd, yd, rb, gb, bb);
-        */
+        
         float[][] out = quickEffects.blur(red, xd, yd, blurStrenght);
         for(float[] x : out){
             for(float y : x){
@@ -383,17 +383,17 @@ public class engine extends JFrame implements Runnable, ActionListener {
                     //global brightness
                     
             try{                                //.readColor(tx, ty).getRed()
-                try{r = (r * global_brightness + (rads.readColor(tx, ty).getRed()));if(r > 255){r = 255;}}catch(Exception e2){r = 0;}
-                try{g = (g * global_brightness + (rads.readColor(tx, ty).getGreen()));if(g > 255){g = 255;}}catch(Exception e2){g = 0;}
-                try{b = (b * global_brightness + (rads.readColor(tx, ty).getBlue()));if(b > 255){b = 255;}}catch(Exception e2){b = 0;}
+                try{r = (r * global_brightness + (colored[tx][ty].getRed()));if(r > 255){r = 255;}}catch(Exception e2){r = 0;throw e2;}
+                try{g = (g * global_brightness + (colored[tx][ty].getGreen()));if(g > 255){g = 255;}}catch(Exception e2){g = 0;}
+                try{b = (b * global_brightness + (colored[tx][ty].getBlue()));if(b > 255){b = 255;}}catch(Exception e2){b = 0;}
             //    r = (r * global_brightness + (rads.colors[tx][ty].getRed() * 0.5F) / 2 );if(r > 255){r = 255;}
             //    g = (g * global_brightness + (rads.colors[tx][ty].getGreen() * 0.5F) / 2 );if(g > 255){g = 255;}
             //    b = (b * global_brightness + (rads.colors[tx][ty].getBlue() * 0.5F) / 2 );if(b > 255){b = 255;}
             }catch(Exception e){
                 
-                try{r = (r * global_brightness + (red[tx][ty] * 0.55F) / 2 );if(r > 255){r = 255;}}catch(Exception e2){r = 0;}
-                try{g = (g * global_brightness + (red[tx][ty] * 0.55F) / 2 );if(g > 255){g = 255;}}catch(Exception e2){g = 0;}
-                try{b = (b * global_brightness + (red[tx][ty] * 0.55F) / 2 );if(b > 255){b = 255;}}catch(Exception e2){b = 0;}
+                try{r = (r * global_brightness * (red[tx][ty] * 0.55F) / 2 );if(r > 255){r = 255;}}catch(Exception e2){r = 0;}
+                try{g = (g * global_brightness * (red[tx][ty] * 0.55F) / 2 );if(g > 255){g = 255;}}catch(Exception e2){g = 0;}
+                try{b = (b * global_brightness * (red[tx][ty] * 0.55F) / 2 );if(b > 255){b = 255;}}catch(Exception e2){b = 0;}
                 throw(e);
             }
             
@@ -467,9 +467,9 @@ public class engine extends JFrame implements Runnable, ActionListener {
             
             recorder.write(recorder.recorded, "/src/com/viridistudios/viridiengine/records/recorded.txt");
         } catch (UnsupportedEncodingException ex) {
-            Logger.getLogger(engine.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(Engine.class.getName()).log(Level.SEVERE, null, ex);
         } catch (IOException ex) {
-            Logger.getLogger(engine.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(Engine.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 

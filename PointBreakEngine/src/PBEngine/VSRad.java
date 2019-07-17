@@ -223,7 +223,7 @@ class VSRadManager{
         tmp.calculate(new dVector(x,y), s, "null");
         System.out.println(tmp.sum);
         this.VSRad.add(tmp);
-        this.oM.object.get(0).masterParent.wM.red = this.read(0);
+        this.oM.object.get(0).masterParent.wM.red = this.read(999999);
     }
     int lasthash = 0;
     public float[][] read(int type){
@@ -329,6 +329,7 @@ class VSRadManager{
         float[][] out = new float[xd][yd];
         for(int x : new Range(xd)){
             for(int y : new Range(yd)){
+                out[x][y] = 0;
                 try{out[x][y] = colors[x][y].getRed();}catch(Exception e){out[x][y] = 0;}
             }
         }
@@ -338,6 +339,7 @@ class VSRadManager{
         float[][] out = new float[xd][yd];
         for(int x : new Range(xd)){
             for(int y : new Range(yd)){
+                out[x][y] = 0;
                 try{out[x][y] = colors[x][y].getGreen();}catch(Exception e){out[x][y] = 0;}
             }
         }
@@ -347,6 +349,7 @@ class VSRadManager{
         float[][] out = new float[xd][yd];
         for(int x : new Range(xd)){
             for(int y : new Range(yd)){
+                out[x][y] = 0;
                 try{out[x][y] = colors[x][y].getBlue();}catch(Exception e){out[x][y] = 0;}
             }
         }

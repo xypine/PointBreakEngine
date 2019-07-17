@@ -62,14 +62,17 @@ public class quickEffects {
         int y = 0;
         x = 0;y = 0;
         float sum = 0;
+        int calcd = 0;
         float[][] out = new float[w][h];
         for(float[] lane : sauce){
             for(float lany : lane){
                 sum = sauce[x][y];
+                calcd = 0;
                 for(dVector i : dirs){
                     try{
+                        calcd++;
                         sum = sum + sauce[x + (int) i.x][y + (int) i.y];
-                    }catch(Exception e){}
+                    }catch(Exception e){calcd++;sum = sum + (sum / calcd);}
                 }
                 try{out[x][y] = sum / 9;}catch(Exception e){System.out.println(new Vector(x,y).represent());}
                 y = y + 1;
@@ -156,8 +159,7 @@ public class quickEffects {
     }
     
     public static Color[][] parseColor(int w, int h, float[][] r, float[][] g, float[][] b){
-        Color[][] out = new Color[w][h];
-        out = quickEffects.zero(out);
+        Color[][] out = quickEffects.black(w, h);
         LinkedList<float[][]> rgb = new LinkedList<>();
         rgb.add(r);rgb.add(g);rgb.add(b);
         int xp = 0, yp = 0;
@@ -167,6 +169,7 @@ public class quickEffects {
                 int gi = (int) g[xp][yp];
                 int bi = (int) b[xp][yp];
                 i = new Color(ri,gi,bi);
+                out[xp][yp] = i;
                 yp++;
             }
             xp++;
@@ -206,7 +209,7 @@ public class quickEffects {
         */
         Color rgb = new Color(red,green,blue);
         BufferedImage mask = generateMask(loadImg, rgb, alpha);
-        BufferedImage out = tint(loadImg, mask);
+        BufferedImage out = multiply(loadImg, mask);
         return out;
     }
     public static BufferedImage generateMask(BufferedImage imgSource, Color color, float alpha) {
@@ -237,9 +240,23 @@ public class quickEffects {
         g2.drawImage(master, 0, 0, null);
         g2.drawImage(tint, 0, 0, null);
         g2.dispose();
-
         return tinted;
     }
+    public BufferedImage multiply(BufferedImage master, BufferedImage tint) {
+        int imgWidth = master.getWidth();
+        int imgHeight = master.getHeight();
+
+        BufferedImage tinted = createCompatibleImage(imgWidth, imgHeight, Transparency.OPAQUE);
+        Graphics2D g2 = tinted.createGraphics();
+        applyQualityRenderingHints(g2);
+        g2.drawImage(master, 0, 0, null);
+        g2.setComposite(MultiplyComposite.Multiply);
+        g2.drawImage(tint, 0, 0, null);
+        g2.dispose();
+        
+        return tinted;
+    }
+    
     public static BufferedImage createCompatibleImage(int width, int height, int transparency) {
         BufferedImage image = getGraphicsConfiguration().createCompatibleImage(width, height, transparency);
         image.coerceData(true);

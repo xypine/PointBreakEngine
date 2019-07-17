@@ -164,8 +164,8 @@ class vectorArea extends JPanel{
                 else{
                     try{
                         File img = new File(imageloc);
-                        BufferedImage image = ImageIO.read(img);
-                        image = new quickEffects().colorImage(image, c.getRed(), c.getGreen(), c.getBlue(), 0.75F);
+                        BufferedImage image = ImageIO.read(img);                                          //0.75F
+                        image = new quickEffects().colorImage(image, c.getRed(), c.getGreen(), c.getBlue(), 1F);
                         g.drawImage(image, (int)(rl.x*factor),(int) (rl.y*factor), (int) factor, (int) factor, this);
                     }catch(Exception e){
                         g.setColor(Color.MAGENTA);

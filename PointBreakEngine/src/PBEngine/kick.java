@@ -19,7 +19,7 @@ import javax.swing.SwingUtilities;
  */
 public class kick {
     dVector engine_gravity = new dVector(0D, 0.1D);
-    engine wM;
+    Engine wM;
     Editor ea;
     //radiosity rad;
     VSRadManager rad;
@@ -50,7 +50,7 @@ public class kick {
         a = new Thread(){
                 @Override
                 public void run(){
-        wM = new engine(ref , forwM, xd, yd, rad, engine_gravity);
+        wM = new Engine(ref , forwM, xd, yd, rad, engine_gravity);
         
         
         //rad = new radiosity(ref);
@@ -70,7 +70,7 @@ public class kick {
                 Logger.getLogger(kick.class.getName()).log(Level.SEVERE, null, ex);
             }
             //wM.oM.addObject(new Player(5, 5, "player1", "█", 1F, Color.black, 1, ref));
-            gameObject p = new Player(5, 5, "player1", "█", 1F, Color.black, 1, ref);
+            gameObject p = new Player(25, 5, "player1", "█", 1F, Color.black, 1, ref);
             int id = 2;
             /*
             for(int x : new Range(10)){
@@ -87,8 +87,8 @@ public class kick {
             //wM.oM.addObject(new Player(5, 6, "player1", "█", 1F, Color.black, 3, ref));
             //wM.oM.addObject(new Player(6, 6, "player1", "█", 1F, Color.black, 4, ref));
             //rad.setTitle("VSRad");
-            wM.rads.add(1, 1, 2, new Color(1, 1, 0), 1);
-            wM.rads.add(49, 1, 2, new Color(0, 0, 1), 1);
+            wM.rads.add(1, 1, 2, new Color(1, 1, 1), 1);
+            wM.rads.add(49, 1, 2, new Color(1, 1, 1), 1);
             //wM.rads.add(25, 1, 1, new Color(1, 1, 1), 1);
         }
         //wM.running = true;

@@ -43,6 +43,9 @@ public class levelLoader {
     int id;
     String filePath = dir.levels;
     public levelLoader(String file, objectManager oM, kick master) throws URISyntaxException{
+        if(file == "null"){
+            return;
+        }
         this.master = master;
         try {
             Scanner in = new Scanner(new FileReader(filePath + file));

@@ -133,7 +133,7 @@ public class Editor extends JFrame implements Runnable, ActionListener {
         try {
             //SUMMON TEST
             
-            aol = new levelLoader("null.txt", oM, k);
+            aol = new levelLoader("null", oM, k);
         } catch (URISyntaxException ex) {
             Logger.getLogger(Editor.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -181,7 +181,9 @@ public class Editor extends JFrame implements Runnable, ActionListener {
 //        area.setFont(new Font("monospaced", Font.PLAIN, (int) fontSize));
         
         if(running == true){
-            tick();
+            if((tickC % 15) == 0){
+                tick();
+            }
         }
         
 //        System.out.println(this.getWidth() + ", " + this.getHeight());
