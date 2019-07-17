@@ -321,7 +321,7 @@ public class Engine extends JFrame implements Runnable, ActionListener {
                 }
                 float r = 0,g = 0,b = 0;
                 //System.out.println();
-                float brightness = 0.001F;
+                float brightness = 0.0005F;
                       //rads.colors[....
                 try{r = rads.colors[xp][yp].getRed() * (y*brightness);}catch(Exception e){r = 0F;}
                 try{g = rads.colors[xp][yp].getGreen() * (y*brightness);}catch(Exception e){g = 0F;}

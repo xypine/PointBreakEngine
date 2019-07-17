@@ -181,7 +181,7 @@ public class Editor extends JFrame implements Runnable, ActionListener {
 //        area.setFont(new Font("monospaced", Font.PLAIN, (int) fontSize));
         
         if(running == true){
-            if((tickC % 15) == 0){
+            if((tickC % 1) == 0){
                 tick();
             }
         }
