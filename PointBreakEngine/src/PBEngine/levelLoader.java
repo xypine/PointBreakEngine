@@ -62,12 +62,13 @@ public class levelLoader {
             try{
             fetch(fallback, oM);
             System.out.println("!!! level " + filePath + file + " FAILED TO LOAD!!!");
-            JOptionPane.showMessageDialog(null, "!!! level " + filePath + file + " FAILED TO LOAD!!!");
+            quickEffects.alert("Level not found!", "!!! level " + filePath + file + " FAILED TO LOAD!!!");
             System.out.println("fallback level loaded with " + count + " objects!");
 //            fetch(in.toString(), oM);
             }
             catch(Exception o){
                 Logger.getLogger(levelLoader.class.getName()).log(Level.SEVERE, null, o);
+                quickEffects.alert("LevelLoading", o.getMessage());
             }
             
         }
