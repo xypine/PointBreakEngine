@@ -156,17 +156,18 @@ class vectorArea extends JPanel{
             for(int i : new Range(vL.points.size())){
                 Vector rl = vL.points.get(i);
                 Color c = vL.colors.get(i);
+                int size = vL.sizes.get(i);
                 String imageloc = vL.images.get(i);
                 if(Objects.equals(imageloc, new String(""))){
                     g.setColor(c);
-                    g.fillRect((int)(rl.x*factor),(int) (rl.y*factor), (int) factor, (int) factor);
+                    g.fillRect((int)(rl.x*factor),(int) (rl.y*factor), (int) factor * size, (int) factor * size);
                 }
                 else{
                     try{
                         File img = new File(imageloc);
                         BufferedImage image = ImageIO.read(img);                                          //0.75F
                         image = new quickEffects().colorImage(image, c.getRed(), c.getGreen(), c.getBlue(), 1F);
-                        g.drawImage(image, (int)(rl.x*factor),(int) (rl.y*factor), (int) factor, (int) factor, this);
+                        g.drawImage(image, (int)(rl.x*factor),(int) (rl.y*factor), (int) factor * size, (int) factor * size, this);
                     }catch(Exception e){
                         g.setColor(Color.MAGENTA);
                         g.fillRect((int)(rl.x*factor),(int) (rl.y*factor), (int) factor, (int) factor);
