@@ -19,7 +19,7 @@ public class VSRad {
     public Color color = new Color(0,0,0);
     public float[][] grid;
     public LinkedList<float[][]> rays = new LinkedList<>();
-    public int resolution = 360;
+    public int resolution = 1000;
     public float shutter = 0.01F;
     private Vector source;
     public int width, height;
@@ -120,8 +120,8 @@ public class VSRad {
         grid[(int) from.x][(int) from.y] = strenght;
         fill(0);
         s = strenght;
-        float bOut = 0.999F;
-        float decay = 0.999F;
+        float bOut = 0.9999F;
+        float decay = 0.9999F;
         float nullDecay = 0.9975F;
         if(this.type == 0){
             bOut = 0;
@@ -178,7 +178,7 @@ public class VSRad {
                     //bounce(hp, dir, s);
                 }
                 s = s * nullDecay;
-                if(s <= 0.0001){
+                if(s <= 0.00001){
                     inside = false;
                 }
             }

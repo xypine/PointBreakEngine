@@ -163,27 +163,27 @@ public class gameObject {
                 }
                 if(this.x > xd - 1){
                     this.x = xd - 1;
-                    this.velx = this.velx * -0.5F;
+                    this.velx = this.velx * -0.2F;
 
                 }
                 if(this.y < 0){
                     this.y = 0;
-                    this.vely = this.vely * -0.55F;
+                    this.vely = this.vely * -0.2F;
                 }
                 if(this.x < 0){
                     this.x = 0;
-                    this.velx = this.velx * -0.5F;
+                    this.velx = this.velx * -0.2F;
                 }
 
                 if(point2 || Math.round(this.y) > 23.7F){velx = velx * 0.65F;}
     //            if(velx != 0 && Math.round(this.y) > 23.7F){velx = velx * 0.65F;}
 
-                if(Math.round(this.y) > 23.99F){colliding = true;}
+                if(Math.round(this.y) > 23.99F){this.vely = this.vely * -0.2F;}
                 else{colliding = false;}
     //            if(velx != 0 && Math.round(this.y) > 23.7F){colliding = true;}
-                if(colliding){velx = velx * 0.65F;}
-
-                if(!colliding || point2){
+                if(colliding || point2){velx = velx * 0.025F;}
+                if(!colliding){velx = velx * 0.95F;}
+                if(!colliding || !point2){
                     if(vely > 100F){vely = 100.1F;}
                     else{vely = (float) (vely + masterParent.engine_gravity.y);}
                 }
@@ -212,23 +212,23 @@ public class gameObject {
 //        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
     public void point1(gameObject i, gameObject x){
-        colliding = true;
+                colliding = true;
                         float ivx = i.velx * -0.15F;
-                        float ivy = i.vely * -0.15F;
+                        float ivy = i.vely * -0.05F;
 //                        float xvx = x.velx * -0.15F;
 //                        float xvy = x.vely * -0.15F;
-                        i.x = i.x + i.velx * -1F;
+                        i.x = i.x + i.velx * -0.5F;
                         i.y = i.y + i.vely * -1F;
                         i.velx = ivx;
                         i.vely = ivy;
     }
     public void point2(gameObject i, gameObject x){
-        colliding = true;
+                colliding = true;
 //                        float ivx = i.velx * -0.15F;
-                        float ivy = i.vely * -0.15F;
+                        float ivy = i.vely * -0.05F;
 //                        float xvx = x.velx * -0.15F;
 //                        float xvy = x.vely * -0.15F;
-                        i.x = i.x + i.velx * -1F;
+                        i.x = i.x + i.velx * -0.15F;
                         i.y = i.y + i.vely * -1F;
                         //i.velx = ivx;
                         i.vely = ivy;

@@ -17,7 +17,7 @@ import javax.swing.SwingUtilities;
  *
  * @author Elias
  */
-public class PBEngine {
+public class Main {
 
     /**
      * @param args the command line arguments
@@ -68,7 +68,7 @@ public class PBEngine {
         try {
             main.loadLevel("out.txt");
         } catch (URISyntaxException ex) {
-            Logger.getLogger(PBEngine.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);
         }
         main.oM.addObject(new Player(5, 5, 2, "player1", "█", 1F, Color.black, 1, main.k));
     }
