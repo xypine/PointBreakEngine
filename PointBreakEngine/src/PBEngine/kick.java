@@ -20,7 +20,7 @@ import javax.swing.SwingUtilities;
 public class kick {
     //Global variables
     public dVector engine_gravity = new dVector(0D, 0.1D);
-    public boolean engine_collisions = false;
+    public boolean engine_collisions = true;
     
     Engine wM;
     Editor ea;

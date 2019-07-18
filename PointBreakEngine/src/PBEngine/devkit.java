@@ -87,7 +87,7 @@ class BListener implements ActionListener{
             
             if(k.lum.getText().charAt(0) == '/'){
                 switch(arr[0]){
-                    case "/engine_coll":
+                    case "/collisions":
                         if(arr[1].matches("true")){k.k.engine_collisions = true;}
                         else if(arr[1].matches("false")){k.k.engine_collisions = false;}
                         else{
