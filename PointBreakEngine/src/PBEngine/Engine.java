@@ -229,6 +229,7 @@ public class Engine extends JFrame implements Runnable, ActionListener {
     @Override
     public void actionPerformed(ActionEvent e) {
         //fresh();
+        System.out.println(",");
         this.number = Integer.parseInt(Integer.toString(tickC).substring(0, 1));
         if(vector == 0){
             area.setVisible(true);
@@ -242,6 +243,7 @@ public class Engine extends JFrame implements Runnable, ActionListener {
             tick();
             if((tickC % 1) == 0){
                 System.out.print(".");
+                System.out.println(tickC);
             }
             tickC++;
         }

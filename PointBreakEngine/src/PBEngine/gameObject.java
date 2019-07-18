@@ -124,6 +124,11 @@ public class gameObject {
         this.y = v.y;
     }
     public void update(int xd, int yd, objectManager oMb){
+        if(colliding){
+            System.out.println("");
+            System.out.println(this.tag.get(0) + " is colliding");
+            System.out.println("");
+        }
         if(this.collision_Explode){
             if(colliding || po != 0 || point2){
                 oMb.removeObject(this);
@@ -235,6 +240,9 @@ public class gameObject {
     }
     int po = 0;
     private void checkAdvancedCollisions(objectManager o, gameObject i){
+        if(!i.masterParent.engine_collisions){
+            return;
+        }
         LinkedList<String> ignore = tag;
         for(gameObject ga : children){
             ignore.addAll(ga.tag);
@@ -242,11 +250,9 @@ public class gameObject {
         for(int xc : new Range(size)){
             for(int yc : new Range(size)){
                 if(o.colliding(Math.round(i.x + xc), Math.round(i.y + yc), ignore)){
-                    colliding = true;
                     point1(i, o.collidingGA(xc, yc, ignore));
                 }
                 else if(o.colliding(Math.round(i.x + xc), Math.round(i.y + yc + 1), ignore)){
-                    colliding = true;
                     point2 = true;
                     point2(i, o.collidingGA(Math.round(i.x + xc), Math.round(i.y + yc + 1), ignore));
                 }

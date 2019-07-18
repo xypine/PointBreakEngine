@@ -18,7 +18,10 @@ import javax.swing.SwingUtilities;
  * @author Jonnelafin
  */
 public class kick {
-    dVector engine_gravity = new dVector(0D, 0.1D);
+    //Global variables
+    public dVector engine_gravity = new dVector(0D, 0.1D);
+    public boolean engine_collisions = false;
+    
     Engine wM;
     Editor ea;
     //radiosity rad;
@@ -70,7 +73,7 @@ public class kick {
                 Logger.getLogger(kick.class.getName()).log(Level.SEVERE, null, ex);
             }
             //wM.oM.addObject(new Player(5, 5, "player1", "█", 1F, Color.black, 1, ref));
-            gameObject p = new Player(25, 5, 2, "player1", "█", 1F, Color.black, 1, ref);
+            gameObject p = new Player(25, 5, 1, "player1", "█", 1F, Color.black, 1, ref);
             int id = 2;
             /*
             for(int x : new Range(10)){

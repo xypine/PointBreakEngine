@@ -83,10 +83,25 @@ class BListener implements ActionListener{
             k.togV();
         }
         try{
-            //k.k.wM.global_brightness = Integer.parseInt(k.lum.getText());
-            k.k.wM.blurStrenght = Integer.parseInt(k.lum.getText());
-            //k.k.wM.vA.blur = Integer.parseInt(k.lum.getText());
-            //k.k.ED.blur = Integer.parseInt(k.lum.getText());
+            String arr[] = k.lum.getText().split(" ", 2);
+            
+            if(k.lum.getText().charAt(0) == '/'){
+                switch(arr[0]){
+                    case "/engine_coll":
+                        if(arr[1].matches("true")){k.k.engine_collisions = true;}
+                        else if(arr[1].matches("false")){k.k.engine_collisions = false;}
+                        else{
+                            quickEffects.alert("devkit", "value :"+ arr[1] +": not understood");
+                        }
+                        break;
+                    case "/blur":
+                        k.k.wM.blurStrenght = Integer.parseInt(arr[1]);
+                        break;
+                    default:
+                        quickEffects.alert("devkit", "command not understood");
+                        break;
+                }
+            }
         }
         catch(Exception e){}
         k.raysL.setText(Boolean.toString(k.togV));

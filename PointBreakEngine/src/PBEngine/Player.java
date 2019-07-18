@@ -28,6 +28,11 @@ public class Player extends gameObject{
         //System.out.println("VELX, VELY: " + velx + " , " + vely + "     " + "up, down, left, right: " + in.up() + " " + in.down() + " " + in.right() + " " + in.left() + "      " + "x, y, mouse x, y: " + this.getX() + " , " + this.getY() + "MOUSE:"+ in.mouseX() + ", " + in.mouseY());
         //System.out.println(this.colliding);
         
+        if(colliding){
+            System.out.println("");
+            System.out.println("Player is colliding!");
+            System.out.println("");
+        }
         if(this.vely < -0.5F && !this.getTag().contains("cursor"))
         {
             canjump = false;
