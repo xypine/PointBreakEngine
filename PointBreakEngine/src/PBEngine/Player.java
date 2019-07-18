@@ -29,9 +29,6 @@ public class Player extends gameObject{
         //System.out.println(this.colliding);
         
         if(colliding){
-            System.out.println("");
-            System.out.println("Player is colliding!");
-            System.out.println("");
         }
         if(this.vely < -0.5F && !this.getTag().contains("cursor"))
         {
