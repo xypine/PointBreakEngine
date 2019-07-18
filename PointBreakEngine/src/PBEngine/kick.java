@@ -73,18 +73,7 @@ public class kick {
                 Logger.getLogger(kick.class.getName()).log(Level.SEVERE, null, ex);
             }
             //wM.oM.addObject(new Player(5, 5, "player1", "█", 1F, Color.black, 1, ref));
-            gameObject p = new Player(25, 5, 1, "player1", "█", 1F, Color.black, 1, ref);
-            int id = 2;
-            /*
-            for(int x : new Range(10)){
-                for(int y : new Range(15)){
-                    Player p1 = new Player(x+2, y+2, "player1", "█", 1F, Color.black, id, ref);
-                    p1.setParent(p);
-                    wM.oM.addObject(p1);
-                    id++;
-                }
-            }
-            */
+            gameObject p = new Player(25, 5, 2, "player1", "█", 1F, Color.black, 1, ref);
             
             wM.oM.addObject(p);
             //wM.oM.addObject(new Player(5, 6, "player1", "█", 1F, Color.black, 3, ref));
@@ -92,6 +81,7 @@ public class kick {
             //rad.setTitle("VSRad");
             wM.rads.add(1, 1, 2, new Color(1, 1, 1), 1);
             wM.rads.add(49, 1, 2, new Color(1, 1, 1), 1);
+            wM.rads.add(40, 20, 2, new Color(1, 1, 1), 1);
             //wM.rads.add(25, 1, 1, new Color(1, 1, 1), 1);
         }
         //wM.running = true;

@@ -13,6 +13,7 @@ import java.awt.Color;
  * @author Jonnelafin
  */
 public class Player extends gameObject{
+    private boolean noclip = false;
     int collision_type = 2;
     boolean canjump = true;
     private final directory dir = new directory();
@@ -83,8 +84,11 @@ public class Player extends gameObject{
 //            this.setColor(new Color(0 + orange * 0.25F, 0 + orange * 0.5F, 0 + orange));
             //this.setColor(Color.blue);
         }
-        if(this.getTag().contains("cursor")){
+        if(this.getTag().contains("cursor") || noclip){
 //            System.out.println("VELX, VELY: " + velx + " , " + vely + "     " + "up, down, left, right: " + in.up() + " " + in.down() + " " + in.right() + " " + in.left() + "      " + "x, y, mouse x, y: " + this.getX() + " , " + this.getY() + "MOUSE:"+ in.MX() + ", " + in.MY());
+            this.velx = 0F;
+            this.vely = 0F;
+            
             if(in.left() == -1){
                 this.x = this.x - 1;
             }
@@ -103,5 +107,16 @@ public class Player extends gameObject{
 //            this.setColor(new Color(0 + orange * 0.25F, 0 + orange * 0.5F, 0 + orange));
             //this.setColor(Color.green);
         }
+    }
+
+    /**
+     *Toggle noclip
+     */
+    @Override
+    public void noclip(){
+        collisions = !collisions;
+        noclip = !noclip;
+        gravity = !gravity;
+        System.out.println("Noclip set to " + noclip);
     }
 }

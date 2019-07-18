@@ -108,6 +108,9 @@ class BListener implements ActionListener{
                             
                         }
                         break;
+                    case "/noclip":
+                        k.k.wM.oM.getObjectByTag("player1").noclip();
+                        break;
                     default:
                         quickEffects.alert("devkit", "command not understood");
                         break;

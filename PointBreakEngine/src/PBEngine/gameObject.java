@@ -19,6 +19,9 @@ import java.util.LinkedList;
  */
 public class gameObject {
     
+    public boolean collisions = true;
+    boolean gravity = true;
+    
     private gameObject parent = this;
     public boolean isParent = false;
     private LinkedList<gameObject> children = new LinkedList<>();
@@ -183,7 +186,7 @@ public class gameObject {
     //            if(velx != 0 && Math.round(this.y) > 23.7F){colliding = true;}
                 if(colliding){velx = velx * 0.65F;}
 
-                if(!colliding || point2){
+                if((!colliding || point2) && gravity){
                     if(vely > 100F){vely = 100.1F;}
                     else{vely = (float) (vely + masterParent.engine_gravity.y);}
                 }
@@ -235,7 +238,7 @@ public class gameObject {
     }
     int po = 0;
     private void checkAdvancedCollisions(objectManager o, gameObject i){
-        if(!i.masterParent.engine_collisions){
+        if(!i.masterParent.engine_collisions || !collisions){
             return;
         }
         LinkedList<String> ignore = tag;
@@ -334,5 +337,7 @@ public class gameObject {
                 }
         }
     }
-    
+    public void noclip(){
+        
+    }
 }
