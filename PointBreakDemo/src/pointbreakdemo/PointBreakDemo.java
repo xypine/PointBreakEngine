@@ -14,7 +14,7 @@ public class PointBreakDemo {
     /**
      * @param args the command line arguments
      */
-    static PBEngine pbengine = new PBEngine();
+    static Main pbengine = new Main();
     public static void main(String[] args) {
         // TODO code application logic here
         String[] argss = new String[1];

@@ -14,6 +14,7 @@ import java.awt.Color;
  */
 public class Player extends gameObject{
     private boolean noclip = false;
+    public int fuel = 136;
     int collision_type = 2;
     boolean canjump = true;
     private final directory dir = new directory();
@@ -29,7 +30,8 @@ public class Player extends gameObject{
         //System.out.println("VELX, VELY: " + velx + " , " + vely + "     " + "up, down, left, right: " + in.up() + " " + in.down() + " " + in.right() + " " + in.left() + "      " + "x, y, mouse x, y: " + this.getX() + " , " + this.getY() + "MOUSE:"+ in.mouseX() + ", " + in.mouseY());
         //System.out.println(this.colliding);
         
-        if(colliding){
+        if(colliding || point2){
+            fuel = 100;
         }
         if(this.vely < -0.5F && !this.getTag().contains("cursor"))
         {
@@ -41,12 +43,21 @@ public class Player extends gameObject{
         else{
             canjump = true;
         }
-        if(canjump && this.getTag().contains("player1")){
+        System.out.println(fuel);
+        
+        if(this.getTag().contains("player1")){
+            if(fuel > 49 && in.up() != 0){
+                fuel = fuel - 54;
+                this.vely = this.vely + (in.up() + in.down()) * 1.7F;
+            }
+            else if(fuel < 100){
+                fuel = fuel + 1;
+            }
             
-            this.vely = this.vely + (in.up() + in.down()) * 1.7F;
 //            if(point2_2){this.vely = this.vely * -1;}
 //            canjump = false;
         }
+        
         if(canjump && this.getTag().contains("player2")){
             
             //this.vely = this.vely + (in.up2() + in.down2()) * 1.7F;
@@ -54,7 +65,7 @@ public class Player extends gameObject{
 //            canjump = false;
         }
         if(this.getTag().contains("player1")){
-            this.velx = this.velx + ((in.right() + in.left()) * 0.4F);
+            this.velx = this.velx + ((in.right() + in.left()) * 0.15F);
             
             if(in.keyPressed == null){
                 
