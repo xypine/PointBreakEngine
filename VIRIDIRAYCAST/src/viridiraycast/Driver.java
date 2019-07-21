@@ -22,7 +22,7 @@ import javax.swing.JFrame;
  * @author Jonnelafin
  */
 public class Driver implements Runnable, MouseMotionListener{
-    int res = 360;
+    int res = 720;
     private int mouseX=0, mouseY=0;
     private Canvas canvas;
     private Canvas canvas2;
@@ -125,8 +125,8 @@ public class Driver implements Runnable, MouseMotionListener{
     private LinkedList<Line2D.Float> calcRays(LinkedList<Line2D.Float> lines, int mx, int my, int resolution, int maxDistance) {
         LinkedList<Line2D.Float> rays = new LinkedList<>();
         for(int i = 0; i < resolution; i++){
-            double dir = (Math.PI * 2) * ((double)i / resolution);
-//            double dir = 2 * ((double)i / resolution);
+//            double dir = (Math.PI * 2) * ((double)i / resolution);
+            double dir = 1 * ((double)i / resolution) - 90;
 //            double dir = 2 * ((double)i / resolution) + (tick / 1000);
             float minDist = maxDistance;
             for(Line2D.Float line: lines){
