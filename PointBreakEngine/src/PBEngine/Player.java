@@ -30,7 +30,7 @@ public class Player extends gameObject{
         //System.out.println("VELX, VELY: " + velx + " , " + vely + "     " + "up, down, left, right: " + in.up() + " " + in.down() + " " + in.right() + " " + in.left() + "      " + "x, y, mouse x, y: " + this.getX() + " , " + this.getY() + "MOUSE:"+ in.mouseX() + ", " + in.mouseY());
         //System.out.println(this.colliding);
         
-        if(colliding || point2){
+        if(colliding || point2 || y > 23F){
             fuel = 100;
         }
         if(this.vely < -0.5F && !this.getTag().contains("cursor"))
@@ -43,7 +43,6 @@ public class Player extends gameObject{
         else{
             canjump = true;
         }
-        System.out.println(fuel);
         
         if(this.getTag().contains("player1")){
             if(fuel > 49 && in.up() != 0){

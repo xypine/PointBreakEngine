@@ -199,7 +199,7 @@ public class gameObject {
                     else{velx = (float) (velx + masterParent.engine_gravity.x);}
                 }
             }
-            if(this.tag.contains(new String("static"))){
+            if(this.tag.contains("static")){
                 vely = 0F;
                 velx = 0F;
             }
