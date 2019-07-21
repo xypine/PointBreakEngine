@@ -25,7 +25,7 @@ import javax.swing.JFrame;
  */
 public class Driver implements Runnable, MouseMotionListener, KeyListener{
     int res = 720;
-    float rotation = 93.57F;
+    float rotation = 0F;
     private int mouseX=698, mouseY=129;
     private Canvas canvas;
     private Canvas canvas2;
@@ -135,7 +135,7 @@ public class Driver implements Runnable, MouseMotionListener, KeyListener{
     private LinkedList<Line2D.Float> calcRays(LinkedList<Line2D.Float> lines, int mx, int my, int resolution, int maxDistance) {
         LinkedList<Line2D.Float> rays = new LinkedList<>();
         for(int i = 0; i < resolution; i++){
-            double dir = (Math.PI * 0.5) * ((double)i / resolution) - rotation;
+            double dir = (Math.PI * 0.25F) * ((double)i / resolution) + rotation;
 //            double dir = 1 * ((double)i / resolution) - rotation;
 //            double dir = 2 * ((double)i / resolution) + (tick / 1000);
             float minDist = maxDistance;
@@ -199,9 +199,11 @@ public class Driver implements Runnable, MouseMotionListener, KeyListener{
     float result;
     @Override
     public void mouseDragged(MouseEvent e) {
-        rotation = (float) (rotation - ((mouseX - e.getX()) * 0.001));
-        System.out.println("new rotation: " + rotation);
+        //rotation = (float) (rotation - ((mouseX - e.getX()) * 0.001));
+       // System.out.println("new rotation: " + rotation);
         System.out.println(mouseX + " "+ mouseY);
+        mouseX = e.getX();
+        mouseY = e.getY();
     }
 
     @Override
@@ -228,36 +230,31 @@ public class Driver implements Runnable, MouseMotionListener, KeyListener{
         switch(e.getKeyChar()){
             case 'w':
                 //mouseY = mouseY + 3;
-                //mouseY = mouseY + (int) Math.cos(rotation);
-                mouseX += Math.cos(rotation) *  3 + Math.sin(rotation) * 3;
-                mouseY -= -Math.cos(rotation) * 3 + Math.sin(rotation) * 3;
+                moveForward(rotation + 180);
                 break;
             case 's':
                 //mouseY = mouseY - 3;
-                //mouseY = mouseY + (int) Math.cos(rotation * -1);
-                mouseX += (Math.cos(rotation + 180) *  3 + Math.sin(rotation) * 3);
-                mouseY -= -Math.cos(rotation) * 3 + Math.sin(rotation) * 3;
+                moveForward(rotation);
                 break;
             case 'a':
                 //rotation = rotation + 0.05F;
-                //System.out.println(rotation);
+                moveForward(rotation + 270);
                 //mouseX = mouseX + 3;
-                //mouseX = mouseX + (int) Math.sin(rotation);
-                mouseX += Math.cos(rotation) *  3 + Math.sin(rotation) * 3;
-                mouseY -= -Math.cos(rotation) * 3 + Math.sin(rotation) * 3;
                 break;
             case 'd':
                 //rotation = rotation - 0.05F;
-                //System.out.println(rotation);
+                moveForward(rotation + 90);
                 //mouseX = mouseX - 3;
-                //mouseX = mouseX + (int) Math.sin(rotation * -1);
-                mouseX += Math.cos(rotation) *  3 + Math.sin(rotation) * 3;
-                mouseY -= -Math.cos(rotation) * 3 + Math.sin(rotation) * 3;
                 break;
         }
+        
                 
     }
-
+    void moveForward(float angle)
+    {
+        mouseX += 3 * Math.sin(angle);
+        mouseY += 3 * Math.cos(angle);
+    }
     @Override
     public void keyReleased(KeyEvent e) {
         //throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
