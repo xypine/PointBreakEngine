@@ -22,17 +22,24 @@ import javax.swing.JFrame;
  * @author Jonnelafin
  */
 public class Driver implements Runnable, MouseMotionListener{
-    int res = 720;
+    int res = 125;
+    float rotation = 90;
     private int mouseX=0, mouseY=0;
     private Canvas canvas;
     private Canvas canvas2;
     LinkedList<Line2D.Float> lines;
+    LinkedList<LinkedList> three = new LinkedList<>();
     private static final int WIDTH = 800, HEIGHT = 800;
     int[] distances;
+    LinkedList<int[]> dists = new LinkedList<>();
     private static final Random random = new Random(100);
     public Driver(){
         distances = new int[res];
         lines = buildLines(12);
+        for(int i=0;i<res;i++){
+            LinkedList<Line2D.Float> tmp = buildLines(i);
+            three.add(tmp);
+        }
         JFrame frame = new JFrame();
         JFrame frame2 = new JFrame();
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -105,19 +112,19 @@ public class Driver implements Runnable, MouseMotionListener{
         g2.setColor(Color.blue);
         g2.fillRect(0, 0, canvas2.getWidth(), canvas2.getHeight());
         
-        int i = 1;
-        for(int dist : distances){
-            int c = dist;
-            if(c > 255){
-                c = 255;
+            int i = 1;
+            for(int dist : distances){
+                int c = dist;
+                if(c > 255){
+                    c = 255;
+                }
+                if(c < 0){
+                    c = 0;
+                }
+                g2.setColor(new Color(c, c, c));
+                g2.fillRect(WIDTH / res * i, 0, WIDTH / res, HEIGHT);
+                i++;
             }
-            if(c < 0){
-                c = 0;
-            }
-            g2.setColor(new Color(c, c, c));
-            g2.fillRect(WIDTH / res * i, 0, WIDTH / res, HEIGHT);
-            i++;
-        }
         g2.dispose();
         
         bs2.show();
@@ -125,8 +132,8 @@ public class Driver implements Runnable, MouseMotionListener{
     private LinkedList<Line2D.Float> calcRays(LinkedList<Line2D.Float> lines, int mx, int my, int resolution, int maxDistance) {
         LinkedList<Line2D.Float> rays = new LinkedList<>();
         for(int i = 0; i < resolution; i++){
-//            double dir = (Math.PI * 2) * ((double)i / resolution);
-            double dir = 1 * ((double)i / resolution) - 90;
+            double dir = (Math.PI * 0.25) * ((double)i / resolution) - rotation;
+//            double dir = 1 * ((double)i / resolution) - rotation;
 //            double dir = 2 * ((double)i / resolution) + (tick / 1000);
             float minDist = maxDistance;
             for(Line2D.Float line: lines){
@@ -141,7 +148,25 @@ public class Driver implements Runnable, MouseMotionListener{
         }
         return rays;
     }
-    
+    private LinkedList<Line2D.Float> calcRays(LinkedList<Line2D.Float> lines, int mx, int my, int resolution, int maxDistance, int layer) {
+        LinkedList<Line2D.Float> rays = new LinkedList<>();
+        for(int i = 0; i < resolution; i++){
+            double dir = (Math.PI * 0.25) * ((double)i / resolution) - rotation;
+//            double dir = 1 * ((double)i / resolution) - rotation;
+//            double dir = 2 * ((double)i / resolution) + (tick / 1000);
+            float minDist = maxDistance;
+            for(Line2D.Float line: lines){
+                float dist = getRayCast(mx, my, mx+(float)Math.cos(dir) * maxDistance, my+(float)Math.sin(dir) * maxDistance, line.x1, line.y1, line.x2, line.y2);
+                result = getRayCast(mx, my, mx+(float)Math.cos(dir) * maxDistance, my+(float)Math.sin(dir) * maxDistance, line.x1, line.y1, line.x2, line.y2);
+                if(dist < minDist && dist > 0){
+                    minDist = dist;
+                }
+            }
+            rays.add( new Line2D.Float(mx, my, mx+(float)Math.cos(dir) * minDist, my+(float)Math.sin(dir) * minDist));
+            dists.get(layer)[i] = (int) (minDist);
+        }
+        return rays;
+    }
     public static float dist(float x1, float y1, float x2, float y2) {
         return (float) Math.sqrt((x2 - x1) * (x2 - x1) + (y2 - y1) * (y2 - y1));
     }
@@ -171,7 +196,8 @@ public class Driver implements Runnable, MouseMotionListener{
     float result;
     @Override
     public void mouseDragged(MouseEvent e) {
-        
+        rotation = (float) (rotation - ((mouseX - e.getX()) * 0.001));
+        System.out.println("new rotation: " + rotation);
     }
 
     @Override
