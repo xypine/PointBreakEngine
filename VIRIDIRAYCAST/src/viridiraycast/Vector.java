@@ -4,7 +4,7 @@
  * and open the template in the editor.
  */
 
-package PBEngine;
+package viridiraycast;
 
 /**
  *
@@ -38,6 +38,12 @@ class Vector {
         return(new Vector(Math.round(in.x), Math.round(in.y)));
     }
     public static Vector norm(int x, int y){
+        if(x == 0){
+            x = 1;
+        }
+        if(y == 0){
+            y = 1;
+        }
         return new Vector(x/(x^2 + y^2)^(1/2), y/(x^2 + y^2)^(1/2));
     }
     public static dVector[] dir(){
