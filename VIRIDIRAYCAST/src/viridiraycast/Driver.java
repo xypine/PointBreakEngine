@@ -24,8 +24,8 @@ import javax.swing.JFrame;
  * @author Jonnelafin
  */
 public class Driver implements Runnable, MouseMotionListener, KeyListener{
-    int res = 720;
-    float rotation = 0F;
+    int res = 801;
+    double rotation = 0;
     private int mouseX=698, mouseY=129;
     private Canvas canvas;
     private Canvas canvas2;
@@ -66,6 +66,17 @@ public class Driver implements Runnable, MouseMotionListener, KeyListener{
         while(true){
             render();
             render2();
+            //moveForwarddir(rotation);
+            if(mouseX > 0){
+            //    mouseX--;
+                //mouseY++;
+            }
+            else{
+            //    lines = buildLines(3);
+            //    mouseX = 1000;
+            //    mouseY = 400;
+                
+            }
             tick++;
         }
     }
@@ -81,6 +92,10 @@ public class Driver implements Runnable, MouseMotionListener, KeyListener{
         return lines;
     }
     public void render(){
+        Vector guide = new Vector(mouseX, mouseY);
+        double radians = (rotation) * Math.PI/180.0;
+        guide.x += 30 * Math.sin(radians);
+        guide.y += 30 * Math.cos(radians);
         BufferStrategy bs = canvas.getBufferStrategy();
         if (bs == null){canvas.createBufferStrategy(2);return;}
         Graphics g = bs.getDrawGraphics();
@@ -89,6 +104,8 @@ public class Driver implements Runnable, MouseMotionListener, KeyListener{
         g.setColor(Color.black);
         g.fillRect(0, 0, canvas.getWidth(), canvas.getHeight());
         
+        g.setColor(Color.green);
+        g.drawLine((int) mouseX, (int) mouseY, (int)guide.x, (int)guide.y);
         
         g.setColor(Color.red);
         for(Line2D.Float line : lines){
@@ -97,7 +114,7 @@ public class Driver implements Runnable, MouseMotionListener, KeyListener{
         g.setColor(Color.white);
         LinkedList<Line2D.Float> rays = calcRays(lines, mouseX, mouseY, res, 3000);
         for(Line2D.Float ray : rays){
-            g.drawLine((int) ray.x1, (int) ray.y1, (int)ray.x2, (int)ray.y2);
+            //g.drawLine((int) ray.x1, (int) ray.y1, (int)ray.x2, (int)ray.y2);
         //    g2.drawLine((int) ray.x2, (int) ray.y1, (int)ray.x1, (int)ray.y2);
         }
         
@@ -117,15 +134,22 @@ public class Driver implements Runnable, MouseMotionListener, KeyListener{
         
             int i = 1;
             for(int dist : distances){
-                int c = dist -25;
+                int c = 255 - dist;
                 if(c > 255){
                     c = 255;
                 }
                 if(c < 0){
                     c = 0;
                 }
-                g2.setColor(new Color(c, c, c));
-                g2.fillRect(WIDTH / res * i, 0, WIDTH / res, HEIGHT);
+                g2.setColor(new Color(0, c, 0));
+                if(res <= WIDTH){
+                    g2.fillRect(WIDTH / res * i, 0, WIDTH / res, HEIGHT);
+                }
+                else{
+                    System.out.println("resolution too high, setting it to the max (screen width): " + WIDTH);
+                    res = WIDTH;
+                    break;
+                }
                 i++;
             }
         g2.dispose();
@@ -135,7 +159,8 @@ public class Driver implements Runnable, MouseMotionListener, KeyListener{
     private LinkedList<Line2D.Float> calcRays(LinkedList<Line2D.Float> lines, int mx, int my, int resolution, int maxDistance) {
         LinkedList<Line2D.Float> rays = new LinkedList<>();
         for(int i = 0; i < resolution; i++){
-            double dir = (Math.PI * 0.25F) * ((double)i / resolution) + rotation;
+            //double dir = (2 * ((double)i / resolution)) + (((rotation)/(-2 * Math.PI)) / 3)/3;
+            double dir = (Math.PI * 2) * ((double)i / resolution);
 //            double dir = 1 * ((double)i / resolution) - rotation;
 //            double dir = 2 * ((double)i / resolution) + (tick / 1000);
             float minDist = maxDistance;
@@ -226,34 +251,45 @@ public class Driver implements Runnable, MouseMotionListener, KeyListener{
         dir.x = (float) Math.cos(Math.toRadians(rotation));
         dir.y = (float) Math.sin(Math.toRadians(rotation));
         //dir = Vector.norm((int)dir.x, (int)dir.y);
-        System.out.println(dir.represent());
-        switch(e.getKeyChar()){
+        //System.out.println(dir.represent());
+        System.out.println(rotation);
+        switch(e.getKeyCode()){
             case 'w':
                 //mouseY = mouseY + 3;
-                moveForward(rotation + 180);
+                moveForward(toRadians(rotation));
                 break;
             case 's':
                 //mouseY = mouseY - 3;
-                moveForward(rotation);
+                moveForward(toRadians(rotation + 180));
                 break;
             case 'a':
-                //rotation = rotation + 0.05F;
-                moveForward(rotation + 270);
+                rotation = rotation + 1F;
+                //moveForwarddir(rotation + 90);
                 //mouseX = mouseX + 3;
                 break;
             case 'd':
-                //rotation = rotation - 0.05F;
-                moveForward(rotation + 90);
+                rotation = rotation - 1F;
+                //moveForwarddir(rotation - 90);
                 //mouseX = mouseX - 3;
                 break;
         }
         
                 
     }
-    void moveForward(float angle)
+    void moveForward(double angle)
     {
-        mouseX += 3 * Math.sin(angle);
-        mouseY += 3 * Math.cos(angle);
+        mouseX += 5 * Math.sin(angle);
+        mouseY += 5 * Math.cos(angle);
+    }
+    void moveForwarddir(double angle)
+    {
+        double radians = (angle) * Math.PI/180.0;
+        mouseX += 3 * Math.sin(radians);
+        mouseY += 3 * Math.cos(radians);
+    }
+    double toRadians(double rotation)
+    {
+        return (rotation) * Math.PI/180.0;
     }
     @Override
     public void keyReleased(KeyEvent e) {
