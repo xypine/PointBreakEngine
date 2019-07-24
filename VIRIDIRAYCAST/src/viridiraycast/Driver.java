@@ -9,6 +9,7 @@ package viridiraycast;
 import java.awt.AWTException;
 import java.awt.Canvas;
 import java.awt.Color;
+import java.awt.Cursor;
 import java.awt.Graphics;
 import java.awt.GraphicsConfiguration;
 import java.awt.GraphicsDevice;
@@ -16,12 +17,14 @@ import java.awt.GraphicsEnvironment;
 import java.awt.Point;
 import java.awt.Rectangle;
 import java.awt.Robot;
+import java.awt.Toolkit;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseMotionListener;
 import java.awt.geom.Line2D;
 import java.awt.image.BufferStrategy;
+import java.awt.image.BufferedImage;
 import java.util.LinkedList;
 import java.util.Random;
 import javax.swing.JFrame;
@@ -33,7 +36,8 @@ import javax.swing.JFrame;
 public class Driver implements Runnable, MouseMotionListener, KeyListener{
     int res = 800;
     double rotation = 0;
-    private int CameraX=698, CameraY=129;
+    //private int CameraX=698, CameraY=129;
+    private int CameraX=300, CameraY=300;
     private Canvas canvas;
     private Canvas canvas2;
     LinkedList<Line2D.Float> lines;
@@ -42,6 +46,8 @@ public class Driver implements Runnable, MouseMotionListener, KeyListener{
     int[] distances;
     LinkedList<int[]> dists = new LinkedList<>();
     private static final Random random = new Random(100);
+    JFrame frame;
+    JFrame frame2;
     public Driver(){
         distances = new int[res];
         lines = buildLines(12);
@@ -49,8 +55,8 @@ public class Driver implements Runnable, MouseMotionListener, KeyListener{
             LinkedList<Line2D.Float> tmp = buildLines(i);
             three.add(tmp);
         }
-        JFrame frame = new JFrame();
-        JFrame frame2 = new JFrame();
+        frame = new JFrame();
+        frame2 = new JFrame();
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setTitle("rays");
         frame2.setTitle("raster");
@@ -65,12 +71,25 @@ public class Driver implements Runnable, MouseMotionListener, KeyListener{
         frame2.setLocationRelativeTo(null);
         frame.setVisible(true);
         frame2.setVisible(true);
+        frame2.requestFocusInWindow();
+        frame2.requestFocus();
+        canvas2.requestFocusInWindow();
+        canvas2.requestFocus();
         new Thread(this).start();
     }
     int tick = 0;
     @Override
     public void run() {
+        // Transparent 16 x 16 pixel cursor image.
+    BufferedImage cursorImg = new BufferedImage(16, 16, BufferedImage.TYPE_INT_ARGB);
+
+    // Create a new blank cursor.
+    Cursor blankCursor = Toolkit.getDefaultToolkit().createCustomCursor(
+    cursorImg, new Point(0, 0), "blank cursor");
+    //frame2.getContentPane().setCursor(blankCursor);
         while(true){
+            CameraX += toX;
+            CameraX += toY;
             render();
             render2();
             //moveForwarddir(rotation);
@@ -89,13 +108,17 @@ public class Driver implements Runnable, MouseMotionListener, KeyListener{
     }
     private LinkedList<Line2D.Float> buildLines(int num){
         LinkedList<Line2D.Float> lines = new LinkedList<>();
-        for(int i = 0; i < num; i++){
+/*        for(int i = 0; i < num; i++){
             int x1 = random.nextInt(WIDTH);
             int y1 = random.nextInt(HEIGHT);
             int x2 = random.nextInt(WIDTH);
             int y2 = random.nextInt(HEIGHT);
             lines.add(new Line2D.Float(x1, y1, x2, y2));
-        }
+        }*/
+        lines.add(new Line2D.Float(200, 200, 400, 200));
+        lines.add(new Line2D.Float(200, 200, 200, 400));
+        lines.add(new Line2D.Float(200, 400, 400, 400));
+        lines.add(new Line2D.Float(400, 200, 400, 400));
         return lines;
     }
     public void render(){
@@ -142,13 +165,15 @@ public class Driver implements Runnable, MouseMotionListener, KeyListener{
             int i = 1;
             for(int dist : distances){
                 int c = 255 - dist;
+              //int c = (int) (dist);
                 if(c > 255){
                     c = 255;
                 }
                 if(c < 0){
                     c = 0;
                 }
-                g2.setColor(new Color(0, c, 0));
+                g2.setColor(new Color(c/2, c, 155 - (c / 2)));
+                //g2.setColor(new Color(c/2, c, c/4));
                 if(res <= WIDTH){
                     g2.fillRect(WIDTH / res * i, 0, WIDTH / res, HEIGHT);
                 }
@@ -238,7 +263,7 @@ public class Driver implements Runnable, MouseMotionListener, KeyListener{
         rotation = rotation + ((lastX - e.getX()) * 1);
         lastX = e.getX();
         lastY = e.getY();
-        moveMouse(new Point(lastX,lastY));
+        //moveMouse(new Point(lastX,lastY));
        // System.out.println("new rotation: " + rotation);
         //System.out.println(mouseX + " "+ mouseY);
         //mouseX = e.getX();
@@ -247,6 +272,9 @@ public class Driver implements Runnable, MouseMotionListener, KeyListener{
 
     @Override
     public void mouseMoved(MouseEvent e) {
+        rotation = rotation + ((lastX - e.getX()) * 1);
+        lastX = e.getX();
+        lastY = e.getY();
         //mouseX = e.getX();
         //mouseY = e.getY();
 //    mouseX = 250;
@@ -295,11 +323,13 @@ public class Driver implements Runnable, MouseMotionListener, KeyListener{
         CameraX += 5 * Math.sin(angle);
         CameraY += 5 * Math.cos(angle);
     }
+    int toX;
+    int toY;
     void moveForwarddir(double angle)
     {
         double radians = (angle) * Math.PI/180.0;
-        CameraX += 3 * Math.sin(radians);
-        CameraY += 3 * Math.cos(radians);
+        toX += 3 * Math.sin(radians);
+        toY += 3 * Math.cos(radians);
     }
     double toRadians(double rotation)
     {
