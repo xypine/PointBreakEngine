@@ -6,9 +6,16 @@
 
 package viridiraycast;
 
+import java.awt.AWTException;
 import java.awt.Canvas;
 import java.awt.Color;
 import java.awt.Graphics;
+import java.awt.GraphicsConfiguration;
+import java.awt.GraphicsDevice;
+import java.awt.GraphicsEnvironment;
+import java.awt.Point;
+import java.awt.Rectangle;
+import java.awt.Robot;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.awt.event.MouseEvent;
@@ -24,9 +31,9 @@ import javax.swing.JFrame;
  * @author Jonnelafin
  */
 public class Driver implements Runnable, MouseMotionListener, KeyListener{
-    int res = 801;
+    int res = 800;
     double rotation = 0;
-    private int mouseX=698, mouseY=129;
+    private int CameraX=698, CameraY=129;
     private Canvas canvas;
     private Canvas canvas2;
     LinkedList<Line2D.Float> lines;
@@ -50,7 +57,7 @@ public class Driver implements Runnable, MouseMotionListener, KeyListener{
         frame2.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.add(canvas = new Canvas());
         frame2.add(canvas2 = new Canvas());
-        canvas.addMouseMotionListener(this);
+        canvas2.addMouseMotionListener(this);
         canvas2.addKeyListener(this);
         frame.setSize(WIDTH, HEIGHT);
         frame2.setSize(WIDTH, HEIGHT);
@@ -67,7 +74,7 @@ public class Driver implements Runnable, MouseMotionListener, KeyListener{
             render();
             render2();
             //moveForwarddir(rotation);
-            if(mouseX > 0){
+            if(CameraX > 0){
             //    mouseX--;
                 //mouseY++;
             }
@@ -92,8 +99,8 @@ public class Driver implements Runnable, MouseMotionListener, KeyListener{
         return lines;
     }
     public void render(){
-        Vector guide = new Vector(mouseX, mouseY);
-        double radians = (rotation) * Math.PI/180.0;
+        Vector guide = new Vector(CameraX, CameraY);
+        double radians = (rotation - 180) * Math.PI/180.0;
         guide.x += 30 * Math.sin(radians);
         guide.y += 30 * Math.cos(radians);
         BufferStrategy bs = canvas.getBufferStrategy();
@@ -105,16 +112,16 @@ public class Driver implements Runnable, MouseMotionListener, KeyListener{
         g.fillRect(0, 0, canvas.getWidth(), canvas.getHeight());
         
         g.setColor(Color.green);
-        g.drawLine((int) mouseX, (int) mouseY, (int)guide.x, (int)guide.y);
+        g.drawLine((int) CameraX, (int) CameraY, (int)guide.x, (int)guide.y);
         
         g.setColor(Color.red);
         for(Line2D.Float line : lines){
             g.drawLine((int) line.x1, (int) line.y1, (int)line.x2, (int)line.y2);
         }
         g.setColor(Color.white);
-        LinkedList<Line2D.Float> rays = calcRays(lines, mouseX, mouseY, res, 3000);
+        LinkedList<Line2D.Float> rays = calcRays(lines, CameraX, CameraY, res, 3000);
         for(Line2D.Float ray : rays){
-            //g.drawLine((int) ray.x1, (int) ray.y1, (int)ray.x2, (int)ray.y2);
+            g.drawLine((int) ray.x1, (int) ray.y1, (int)ray.x2, (int)ray.y2);
         //    g2.drawLine((int) ray.x2, (int) ray.y1, (int)ray.x1, (int)ray.y2);
         }
         
@@ -160,7 +167,7 @@ public class Driver implements Runnable, MouseMotionListener, KeyListener{
         LinkedList<Line2D.Float> rays = new LinkedList<>();
         for(int i = 0; i < resolution; i++){
             //double dir = (2 * ((double)i / resolution)) + (((rotation)/(-2 * Math.PI)) / 3)/3;
-            double dir = (Math.PI * 2) * ((double)i / resolution);
+            double dir = (2 * ((double)i / resolution)) + (toRadians(rotation - Math.PI * 10)) * -1;
 //            double dir = 1 * ((double)i / resolution) - rotation;
 //            double dir = 2 * ((double)i / resolution) + (tick / 1000);
             float minDist = maxDistance;
@@ -222,13 +229,20 @@ public class Driver implements Runnable, MouseMotionListener, KeyListener{
         return -1; // No collision
     }
     float result;
+    
+    int lastX = 0;
+    int lastY = 0;
+    
     @Override
     public void mouseDragged(MouseEvent e) {
-        //rotation = (float) (rotation - ((mouseX - e.getX()) * 0.001));
+        rotation = rotation + ((lastX - e.getX()) * 1);
+        lastX = e.getX();
+        lastY = e.getY();
+        moveMouse(new Point(lastX,lastY));
        // System.out.println("new rotation: " + rotation);
-        System.out.println(mouseX + " "+ mouseY);
-        mouseX = e.getX();
-        mouseY = e.getY();
+        //System.out.println(mouseX + " "+ mouseY);
+        //mouseX = e.getX();
+        //mouseY = e.getY();
     }
 
     @Override
@@ -253,7 +267,7 @@ public class Driver implements Runnable, MouseMotionListener, KeyListener{
         //dir = Vector.norm((int)dir.x, (int)dir.y);
         //System.out.println(dir.represent());
         System.out.println(rotation);
-        switch(e.getKeyCode()){
+        switch(e.getKeyChar()){
             case 'w':
                 //mouseY = mouseY + 3;
                 moveForward(toRadians(rotation));
@@ -263,13 +277,13 @@ public class Driver implements Runnable, MouseMotionListener, KeyListener{
                 moveForward(toRadians(rotation + 180));
                 break;
             case 'a':
-                rotation = rotation + 1F;
-                //moveForwarddir(rotation + 90);
+                //rotation = rotation + 1F;
+                moveForward(toRadians(rotation + 90));
                 //mouseX = mouseX + 3;
                 break;
             case 'd':
-                rotation = rotation - 1F;
-                //moveForwarddir(rotation - 90);
+                //rotation = rotation - 1F;
+                moveForward(toRadians(rotation - 90));
                 //mouseX = mouseX - 3;
                 break;
         }
@@ -278,14 +292,14 @@ public class Driver implements Runnable, MouseMotionListener, KeyListener{
     }
     void moveForward(double angle)
     {
-        mouseX += 5 * Math.sin(angle);
-        mouseY += 5 * Math.cos(angle);
+        CameraX += 5 * Math.sin(angle);
+        CameraY += 5 * Math.cos(angle);
     }
     void moveForwarddir(double angle)
     {
         double radians = (angle) * Math.PI/180.0;
-        mouseX += 3 * Math.sin(radians);
-        mouseY += 3 * Math.cos(radians);
+        CameraX += 3 * Math.sin(radians);
+        CameraY += 3 * Math.cos(radians);
     }
     double toRadians(double rotation)
     {
@@ -295,6 +309,35 @@ public class Driver implements Runnable, MouseMotionListener, KeyListener{
     public void keyReleased(KeyEvent e) {
         //throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
+    public void moveMouse(Point p) {
+    GraphicsEnvironment ge = 
+        GraphicsEnvironment.getLocalGraphicsEnvironment();
+    GraphicsDevice[] gs = ge.getScreenDevices();
 
+    // Search the devices for the one that draws the specified point.
+    for (GraphicsDevice device: gs) { 
+        GraphicsConfiguration[] configurations =
+            device.getConfigurations();
+        for (GraphicsConfiguration config: configurations) {
+            Rectangle bounds = config.getBounds();
+            if(bounds.contains(p)) {
+                // Set point to screen coordinates.
+                Point b = bounds.getLocation(); 
+                Point s = new Point(p.x - b.x, p.y - b.y);
+
+                try {
+                    Robot r = new Robot(device);
+                    r.mouseMove(s.x, s.y);
+                } catch (AWTException e) {
+                    e.printStackTrace();
+                }
+
+                return;
+            }
+        }
+    }
+    // Couldn't move to the point, it may be off screen.
+    return;
+}
     
 }
