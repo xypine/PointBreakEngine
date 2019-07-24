@@ -88,10 +88,18 @@ public class Driver implements Runnable, MouseMotionListener, KeyListener{
     cursorImg, new Point(0, 0), "blank cursor");
     //frame2.getContentPane().setCursor(blankCursor);
         while(true){
-            CameraX += toX;
-            CameraX += toY;
+            //CameraX += toX;
+            //CameraX += toY;
             render();
             render2();
+            for(int i = 0;i<toX;i++){
+                CameraX++;
+                for(int d = 0;d<toY;d++){
+                    CameraY++;
+                    render();
+                    render2();
+                }
+            }
             //moveForwarddir(rotation);
             if(CameraX > 0){
             //    mouseX--;
