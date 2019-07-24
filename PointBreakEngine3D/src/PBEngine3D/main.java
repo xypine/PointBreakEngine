@@ -3,13 +3,13 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package viridiraycast;
+package PBEngine3D;
 
 /**
  *
  * @author Elias
  */
-public class VIRIDIRAYCAST {
+public class main {
 
     /**
      * @param args the command line arguments

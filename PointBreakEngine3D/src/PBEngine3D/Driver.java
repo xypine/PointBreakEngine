@@ -4,7 +4,7 @@
  * and open the template in the editor.
  */
 
-package viridiraycast;
+package PBEngine3D;
 
 import java.awt.AWTException;
 import java.awt.Canvas;
@@ -58,8 +58,8 @@ public class Driver implements Runnable, MouseMotionListener, KeyListener{
         frame = new JFrame();
         frame2 = new JFrame();
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        frame.setTitle("rays");
-        frame2.setTitle("raster");
+        frame.setTitle("PointBreak3D - rays");
+        frame2.setTitle("PointBreak3D - raster");
         frame2.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.add(canvas = new Canvas());
         frame2.add(canvas2 = new Canvas());
