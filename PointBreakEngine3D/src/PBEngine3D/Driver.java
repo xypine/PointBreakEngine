@@ -123,10 +123,20 @@ public class Driver implements Runnable, MouseMotionListener, KeyListener{
             int y2 = random.nextInt(HEIGHT);
             lines.add(new Line2D.Float(x1, y1, x2, y2));
         }*/
-        lines.add(new Line2D.Float(200, 200, 400, 200));
+        /*lines.add(new Line2D.Float(200, 200, 400, 200));
         lines.add(new Line2D.Float(200, 200, 200, 400));
         lines.add(new Line2D.Float(200, 400, 400, 400));
-        lines.add(new Line2D.Float(400, 200, 400, 400));
+        lines.add(new Line2D.Float(400, 200, 400, 400));*/
+        lines.addAll(newBox(300, 300, 100));
+        lines.addAll(newBox(600, 450, 125));
+        return lines;
+    }
+    private LinkedList<Line2D.Float> newBox(int x, int y, int size){
+        LinkedList<Line2D.Float> lines = new LinkedList<>();
+        lines.add(new Line2D.Float(x-size, y+size, x+size, y+size));
+        lines.add(new Line2D.Float(x-size, y+size, x-size, y-size));
+        lines.add(new Line2D.Float(x+size, y+size, x+size, y-size));
+        lines.add(new Line2D.Float(x-size, y-size, x+size, y-size));
         return lines;
     }
     public void render(){
@@ -207,7 +217,7 @@ public class Driver implements Runnable, MouseMotionListener, KeyListener{
             float minDist = maxDistance;
             for(Line2D.Float line: lines){
                 float dist = getRayCast(mx, my, mx+(float)Math.cos(dir) * maxDistance, my+(float)Math.sin(dir) * maxDistance, line.x1, line.y1, line.x2, line.y2);
-                result = getRayCast(mx, my, mx+(float)Math.cos(dir) * maxDistance, my+(float)Math.sin(dir) * maxDistance, line.x1, line.y1, line.x2, line.y2);
+                //result = getRayCast(mx, my, mx+(float)Math.cos(dir) * maxDistance, my+(float)Math.sin(dir) * maxDistance, line.x1, line.y1, line.x2, line.y2);
                 if(dist < minDist && dist > 0){
                     minDist = dist;
                 }
@@ -217,25 +227,7 @@ public class Driver implements Runnable, MouseMotionListener, KeyListener{
         }
         return rays;
     }
-    private LinkedList<Line2D.Float> calcRays(LinkedList<Line2D.Float> lines, int mx, int my, int resolution, int maxDistance, int layer) {
-        LinkedList<Line2D.Float> rays = new LinkedList<>();
-        for(int i = 0; i < resolution; i++){
-            double dir = (Math.PI * 0.25) * ((double)i / resolution) - rotation;
-//            double dir = 1 * ((double)i / resolution) - rotation;
-//            double dir = 2 * ((double)i / resolution) + (tick / 1000);
-            float minDist = maxDistance;
-            for(Line2D.Float line: lines){
-                float dist = getRayCast(mx, my, mx+(float)Math.cos(dir) * maxDistance, my+(float)Math.sin(dir) * maxDistance, line.x1, line.y1, line.x2, line.y2);
-                result = getRayCast(mx, my, mx+(float)Math.cos(dir) * maxDistance, my+(float)Math.sin(dir) * maxDistance, line.x1, line.y1, line.x2, line.y2);
-                if(dist < minDist && dist > 0){
-                    minDist = dist;
-                }
-            }
-            rays.add( new Line2D.Float(mx, my, mx+(float)Math.cos(dir) * minDist, my+(float)Math.sin(dir) * minDist));
-            dists.get(layer)[i] = (int) (minDist);
-        }
-        return rays;
-    }
+    
     public static float dist(float x1, float y1, float x2, float y2) {
         return (float) Math.sqrt((x2 - x1) * (x2 - x1) + (y2 - y1) * (y2 - y1));
     }
@@ -262,6 +254,29 @@ public class Driver implements Runnable, MouseMotionListener, KeyListener{
 
         return -1; // No collision
     }
+    public static float getRayCast(float p0_x, float p0_y,float p0_z, float p1_x, float p1_y,float p1_z, float p2_x, float p2_y, float p2_z, float p3_x, float p3_y, float p3_z) {
+        float s1_x, s1_y, s1_z, s2_x, s2_y, s2_z;
+        s1_x = p1_x - p0_x;
+        s1_y = p1_y - p0_y;
+        s1_z = p1_z - p0_z;
+        s2_x = p3_x - p2_x;
+        s2_y = p3_y - p2_y;
+        s2_z = p3_z - p2_z;
+        float s, t;
+        s = (-s1_y * (p0_x - p2_x) + s1_x * (p0_y - p2_y)) / (-s2_x * s1_y + s1_x * s2_y);
+        t = (s2_x * (p0_y - p2_y) - s2_y * (p0_x - p2_x)) / (-s2_x * s1_y + s1_x * s2_y);
+
+        if (s >= 0 && s <= 1 && t >= 0 && t <= 1) {
+            // Collision detected
+            float x = p0_x + (t * s1_x);
+            float y = p0_y + (t * s1_y);
+
+
+            return dist(p0_x, p0_y, x, y);
+        }
+
+        return -1; // No collision
+    }
     float result;
     
     int lastX = 0;
@@ -269,6 +284,7 @@ public class Driver implements Runnable, MouseMotionListener, KeyListener{
     
     @Override
     public void mouseDragged(MouseEvent e) {
+        
         rotation = rotation + ((lastX - e.getX()) * 1);
         lastX = e.getX();
         lastY = e.getY();
