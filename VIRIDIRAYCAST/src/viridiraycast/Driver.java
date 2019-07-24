@@ -164,15 +164,16 @@ public class Driver implements Runnable, MouseMotionListener, KeyListener{
         
             int i = 1;
             for(int dist : distances){
-                int c = 255 - dist;
-              //int c = (int) (dist);
+                //int c = 255 - dist;
+                int c = (int) (dist * 0.75);
                 if(c > 255){
                     c = 255;
                 }
                 if(c < 0){
                     c = 0;
                 }
-                g2.setColor(new Color(c/2, c, 155 - (c / 2)));
+                //g2.setColor(new Color(c/2, c, 155 - (c / 2)));
+                g2.setColor(new Color(c/2, c, c));
                 //g2.setColor(new Color(c/2, c, c/4));
                 if(res <= WIDTH){
                     g2.fillRect(WIDTH / res * i, 0, WIDTH / res, HEIGHT);
