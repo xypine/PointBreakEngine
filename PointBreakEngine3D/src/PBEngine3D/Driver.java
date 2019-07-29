@@ -355,6 +355,7 @@ public class Driver implements Runnable, MouseMotionListener, KeyListener{
         double radians = (angle) * Math.PI/180.0;
         toX += 3 * Math.sin(radians);
         toY += 3 * Math.cos(radians);
+        
     }
     double toRadians(double rotation)
     {

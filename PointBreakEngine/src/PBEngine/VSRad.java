@@ -6,7 +6,6 @@
 package PBEngine;
 
 import java.awt.Color;
-import java.util.Arrays;
 import java.util.LinkedList;
 
 /**
@@ -20,6 +19,7 @@ public class VSRad {
     public float[][] grid;
     public LinkedList<float[][]> rays = new LinkedList<>();
     public int resolution = 1000;
+    public int newResolution = 10000;
     public float shutter = 0.01F;
     private Vector source;
     public int width, height;
@@ -31,15 +31,30 @@ public class VSRad {
         this.color = c;
         this.type = type;
     }
-    public void init(int w, int h){
+    int resType = 1;
+    public void init(int w, int h, int type){
+        resType = type;
+      //TYPE
+      //0: Old
+      //1: New
         int state = 0;
         grid = new float[w][h];
         this.width = w;
         this.height = h;
         dVector cur = new dVector(0,1);
-        System.out.println(dVector.add(cur, new dVector(0.1, -0.1)).represent());
+        //System.out.println(dVector.add(cur, new dVector(0.1, -0.1)).represent());
         Range r = new Range(resolution);
+        Range nr = new Range(newResolution);
+        if(type != 0){directions = new dVector[newResolution];}
+        for(int i : nr){
+            double dir = (Math.PI * 2) * ((double)i/newResolution);
+            dir = (dir) * Math.PI/180.0;
+            dVector direc = new dVector(Math.sin(dir), Math.cos(dir));
+            directions[i] = direc;
+            
+        }
         for(int i : r){
+            if(type != 0){break;}
             if(state == 0){
                 if(cur.x < 1){
                     //System.out.println("Calculating directions phase 0: " + cur.represent());
@@ -87,6 +102,8 @@ public class VSRad {
             //directions[i] = new Vector(0,1);
             fill(0F);
         }
+        fill(0F);
+        System.out.println("done intializing ray");
     }
     
     public void fill(float to){
@@ -108,12 +125,13 @@ public class VSRad {
     public dVector from;
     public float lastS;
     public void calculate(dVector from, float strenght, String ignore){
+        strenght = strenght / 100;
         this.from = from;
         this.lastS = strenght;
         float[][] ray = new float[width][height];
         requests++;
         for(dVector d: directions){
-            //System.out.println("direction " + d.represent());
+        //    System.out.println("direction " + d.represent());
         }
         //System.out.println("Calculating rays...");
         cursor = from;
@@ -128,7 +146,11 @@ public class VSRad {
             decay = 0.99F;
             nullDecay = 0.995F;
         }
-        for(int i : new Range(resolution)){
+        int res = 0;
+        if(resType == 0){
+            res = resolution;
+        }else{res = newResolution;}
+        for(int i : new Range(res)){
             //System.out.println(done / resolution * 100 + "%: ");
             int hp = 1;
             int hits =0;
@@ -207,7 +229,7 @@ class VSRadManager{
         this.oM = oM;
         last = new float[w][h];
         director = new VSRad(this.oM, Color.BLACK, 1999);
-        director.init(this.w, this.h);
+        director.init(this.w, this.h, 1);
         this.directions = director.directions;
         this.colors = new Color[w][h];
         quickEffects.zero(colors);
@@ -217,13 +239,14 @@ class VSRadManager{
             }
         }
     }
-    public void add(int x, int y, float s, Color color, int type){
+    public void add(int x, int y, float s, Color color, int type, boolean recalculate){
         VSRad tmp = new VSRad(oM, color, type);        
-        tmp.init(w, h);
+        tmp.init(w, h, 1);
         tmp.calculate(new dVector(x,y), s, "null");
         System.out.println(tmp.sum);
         this.VSRad.add(tmp);
-        this.oM.object.get(0).masterParent.wM.red = this.read(999999);
+        if(recalculate){this.oM.object.get(0).masterParent.wM.red = this.read(999999);}
+        
     }
     int lasthash = 0;
     public float[][] read(int type){
