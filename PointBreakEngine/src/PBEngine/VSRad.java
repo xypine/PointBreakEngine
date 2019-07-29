@@ -195,7 +195,7 @@ public class VSRad {
                         s = s * decay;
                         //System.out.println(dVector.round(cursor).represent() + " " + requests);
                     }
-                    grid[(int) cursor.x][(int) cursor.y] = grid[(int) cursor.x][(int) cursor.y] + s * 100;
+                    grid[(int) cursor.x][(int) cursor.y] = grid[(int) cursor.x][(int) cursor.y] + s;
                     sum = sum + s;
                 }
                 catch(Exception e){
@@ -250,7 +250,7 @@ class VSRadManager{
         tmp.id = id;
         System.out.println("ADDING A RAY");
         System.out.println("RAY ID "+id);
-        tmp.init(w, h, 1, id);
+        tmp.init(w, h, 0, id);
         //tmp.directions = directions;
         tmp.calculate(new dVector(x,y), s, "null");
         System.out.println(tmp.sum);

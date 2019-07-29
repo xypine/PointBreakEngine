@@ -299,11 +299,13 @@ public class Engine extends JFrame implements Runnable, ActionListener {
         LinkedList<xyac> lis = new LinkedList<xyac>();
         
         LinkedList<Vector> points = new LinkedList<>();
+        LinkedList<renderContainer> cont1 = new LinkedList<>();
         LinkedList<Color> colors = new LinkedList<>();
         LinkedList<String> images = new LinkedList<>();
         LinkedList<Integer> sizes = new LinkedList<>();
         
         LinkedList<Vector> points2 = new LinkedList<>();
+        LinkedList<renderContainer> cont2 = new LinkedList<>();
         LinkedList<Color> colors2 = new LinkedList<>();
         LinkedList<String> images2 = new LinkedList<>();
         LinkedList<Integer> sizes2 = new LinkedList<>();
@@ -335,6 +337,7 @@ public class Engine extends JFrame implements Runnable, ActionListener {
                 if(g > 255){g = 255;}
                 if(b > 255){b = 255;}
                 
+                cont2.add( new renderContainer(new Vector(xp,yp), "", new Color((int) r,(int) g,(int) b), 1));
                 points2.add(new Vector(xp,yp));
                 colors2.add(new Color((int) r,(int) g,(int) b));
                 images2.add("");
@@ -402,7 +405,7 @@ public class Engine extends JFrame implements Runnable, ActionListener {
                 try{b = (b * global_brightness * (red[tx][ty] * 0.55F) / 2 );if(b > 255){b = 255;}}catch(Exception e2){b = 0;}
                 throw(e);
             }
-            
+            cont1.add( new renderContainer(new Vector(txf, tyf), p.imageName, new Color((int)r,(int)g,(int)b), p.size));
             colors.add(new Color((int)r,(int)g,(int)b));
             lis.add(new xyac(tx,ty,ta,tc,las));
             sizes.add(p.size);
@@ -415,8 +418,11 @@ public class Engine extends JFrame implements Runnable, ActionListener {
         //Render
         
         //renderer.canvas.clean();
-        vA.update(points, colors, images, sizes, 2F, 1);
-        vA.update(points2, colors2, images2, sizes2, 2F, 0);
+        
+//        vA.update(points, colors, images, sizes, 2F, 1);
+//        vA.update(points2, colors2, images2, sizes2, 2F, 0);
+        vA.update(cont1, 1);
+        vA.update(cont2, 0);
         for(xyac a : lis){
 //            renderer.change((int) (a.x), (int) (a.y), a.a, a.c, "n");
             //lM.vChange(a.last.x * 15.34F, a.last.y * 22.48F, a.a, Color.black, vector);

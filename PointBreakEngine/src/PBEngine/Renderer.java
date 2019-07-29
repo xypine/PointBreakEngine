@@ -157,16 +157,23 @@ class vectorArea extends JPanel{
                 Vector rl = vL.containers.get(i).location;
                 Color c = vL.containers.get(i).color;
                 int size = vL.containers.get(i).size;
-                String imageloc = vL.images.get(i);
-                if(Objects.equals(imageloc, new String(""))){
+                BufferedImage imaged = vL.containers.get(i).image;
+                String imageloc = vL.containers.get(i).ImageName;
+                if(Objects.equals(imageloc, "")){
                     g.setColor(c);
                     g.fillRect((int)(rl.x*factor),(int) (rl.y*factor), (int) factor * size, (int) factor * size);
                 }
                 else{
                     try{
-                        File img = new File(imageloc);
-                        BufferedImage image = ImageIO.read(img);                                          //0.75F
-                        image = new quickEffects().colorImage(image, c.getRed(), c.getGreen(), c.getBlue(), 1F);
+                        if(imaged == null){
+                            File img = new File(imageloc);
+                            BufferedImage image = ImageIO.read(img);
+                            vL.containers.get(i).image = image;
+                            imaged = vL.containers.get(i).image;
+                        }
+                        
+                                                     //0.75F
+                        image = new quickEffects().colorImage(imaged, c.getRed(), c.getGreen(), c.getBlue(), 1F);
                         g.drawImage(image, (int)(rl.x*factor),(int) (rl.y*factor), (int) factor * size, (int) factor * size, this);
                     }catch(Exception e){
                         g.setColor(Color.MAGENTA);
@@ -197,16 +204,16 @@ class vectorArea extends JPanel{
         BufferedImage image = ImageIO.read(img);
         this.image = image;
     }
-    public void update(LinkedList<Vector> p,LinkedList<Color> c, LinkedList<String> images, LinkedList<Integer> sizes, float f, int layer){
-        vectorLayer tmp = layers.get(layer);
+/*    public void update(LinkedList<Vector> p,LinkedList<Color> c, LinkedList<String> images, LinkedList<Integer> sizes, float f, int layer){
+        newVectorLayer tmp = layers.get(layer);
         tmp.update(p, c, images, sizes, factor);
     }
     public void update(LinkedList<Vector> p,LinkedList<Color> c, LinkedList<String> images, LinkedList<Integer> sizes, float f, vectorLayer layer){
         layer.update(p, c, images, sizes, factor);
-    }
+    }*/
     
     public void update(LinkedList<renderContainer> containers, int layer){
-        
+        layers.get(layer).update(containers);
     }
     public void update(LinkedList<renderContainer> containers, newVectorLayer layer){
         layer.update(containers);
@@ -259,7 +266,7 @@ class vectorLayer{
     }
 }
 class newVectorLayer{
-    LinkedList<renderContainer> containers;
+    LinkedList<renderContainer> containers = new LinkedList<>();
     public int blur;
     float x = 15.34F;
     float y = 22.48F;
@@ -299,6 +306,7 @@ class renderContainer{
     String ImageName;
     Color color;
     int size;
+    BufferedImage image;
     public renderContainer(Vector location, String ImageName, Color color, int size){
         this.location = location;
         this.ImageName = ImageName;
