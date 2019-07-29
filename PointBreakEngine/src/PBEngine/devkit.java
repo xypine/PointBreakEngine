@@ -6,8 +6,6 @@
 package PBEngine;
 
 import java.awt.BorderLayout;
-import java.awt.Button;
-import java.awt.HeadlessException;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import javax.swing.JButton;
@@ -96,6 +94,9 @@ class BListener implements ActionListener{
                         break;
                     case "/blur":
                         k.k.wM.blurStrenght = Integer.parseInt(arr[1]);
+                        break;
+                    case "/bright":
+                        k.k.wM.global_brightness = Float.parseFloat(arr[1]);
                         break;
                     case "/tp":
                         try {

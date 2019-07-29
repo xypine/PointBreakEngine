@@ -13,26 +13,29 @@ import java.util.LinkedList;
  * @author elias
  */
 public class VSRad {
+    int id;
     public int type = 0;
     //type 1 = baked, type 0 = realtime
     public Color color = new Color(0,0,0);
     public float[][] grid;
     public LinkedList<float[][]> rays = new LinkedList<>();
     public int resolution = 1000;
-    public int newResolution = 10000;
+    public int newResolution = 3600;
     public float shutter = 0.01F;
     private Vector source;
     public int width, height;
     dVector[] directions = new dVector[resolution];
     private objectManager oM;
-    private radiosity demo;
+    //private radiosity demo;
     public VSRad(objectManager oM, Color c, int type){
         this.oM = oM;
         this.color = c;
         this.type = type;
     }
     int resType = 1;
-    public void init(int w, int h, int type){
+    public void init(int w, int h, int type, int id){
+        this.id = id;
+        System.out.println("Init raycaster " + id);
         resType = type;
       //TYPE
       //0: Old
@@ -47,6 +50,7 @@ public class VSRad {
         Range nr = new Range(newResolution);
         if(type != 0){directions = new dVector[newResolution];}
         for(int i : nr){
+            if(type == 0){break;}
             double dir = (Math.PI * 2) * ((double)i/newResolution);
             dir = (dir) * Math.PI/180.0;
             dVector direc = new dVector(Math.sin(dir), Math.cos(dir));
@@ -94,7 +98,7 @@ public class VSRad {
                 else{
                     state = 4; //Finished
                     //System.out.println("Calculating directions phase 4: " + cur.represent());
-                    System.out.println("finished calculating directions");
+                    //System.out.println("finished calculating directions");
                 }
             }
             //directions[i] = new Vector(0,1);
@@ -103,7 +107,7 @@ public class VSRad {
             fill(0F);
         }
         fill(0F);
-        System.out.println("done intializing ray");
+        System.out.println("done intializing raycaser " + id);
     }
     
     public void fill(float to){
@@ -130,10 +134,10 @@ public class VSRad {
         this.lastS = strenght;
         float[][] ray = new float[width][height];
         requests++;
-        for(dVector d: directions){
+//        for(dVector d: directions){
         //    System.out.println("direction " + d.represent());
-        }
-        //System.out.println("Calculating rays...");
+//        }
+        System.out.println("Calculating raycaster "+id+"...");
         cursor = from;
         grid[(int) from.x][(int) from.y] = strenght;
         fill(0);
@@ -191,7 +195,7 @@ public class VSRad {
                         s = s * decay;
                         //System.out.println(dVector.round(cursor).represent() + " " + requests);
                     }
-                    grid[(int) cursor.x][(int) cursor.y] = grid[(int) cursor.x][(int) cursor.y] + s;
+                    grid[(int) cursor.x][(int) cursor.y] = grid[(int) cursor.x][(int) cursor.y] + s * 100;
                     sum = sum + s;
                 }
                 catch(Exception e){
@@ -210,7 +214,7 @@ public class VSRad {
             done++;
         }
         //rays.add(ray);
-        //System.out.println("rays calculated");
+        System.out.println("raycaster "+id+" calculated");
     }
 }
 class VSRadManager{
@@ -228,9 +232,10 @@ class VSRadManager{
         this.h = h;
         this.oM = oM;
         last = new float[w][h];
-        director = new VSRad(this.oM, Color.BLACK, 1999);
-        director.init(this.w, this.h, 1);
-        this.directions = director.directions;
+        //director = new VSRad(this.oM, Color.BLACK, 1999);
+        //director.init(this.w, this.h, 1, id);
+        id++;
+        //this.directions = director.directions;
         this.colors = new Color[w][h];
         quickEffects.zero(colors);
         for(Color [] lane : colors){
@@ -239,14 +244,19 @@ class VSRadManager{
             }
         }
     }
+    int id = 0;
     public void add(int x, int y, float s, Color color, int type, boolean recalculate){
         VSRad tmp = new VSRad(oM, color, type);        
-        tmp.init(w, h, 1);
+        tmp.id = id;
+        System.out.println("ADDING A RAY");
+        System.out.println("RAY ID "+id);
+        tmp.init(w, h, 1, id);
+        //tmp.directions = directions;
         tmp.calculate(new dVector(x,y), s, "null");
         System.out.println(tmp.sum);
         this.VSRad.add(tmp);
         if(recalculate){this.oM.object.get(0).masterParent.wM.red = this.read(999999);}
-        
+        id++;
     }
     int lasthash = 0;
     public float[][] read(int type){

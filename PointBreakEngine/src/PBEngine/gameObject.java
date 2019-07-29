@@ -40,6 +40,7 @@ public class gameObject {
     public int collision_type = 0;
     
     public String imageName = "";
+    public int imageid = -1;
     public int preferredLayer = -1;
 //    Renderer re = new Renderer();
     //objectManager oM = new objectManager();

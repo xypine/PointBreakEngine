@@ -135,7 +135,7 @@ class vectorArea extends JPanel{
     public int blur = 0;
     LinkedList<Vector> points = new LinkedList<>();
     LinkedList<Color> colors = new LinkedList<>();
-    LinkedList<vectorLayer> layers = new LinkedList<>();
+    LinkedList<newVectorLayer> layers = new LinkedList<>();
     float x = 15.34F;
     float y = 22.48F;
     float factor = 20F / 1F;
@@ -152,11 +152,11 @@ class vectorArea extends JPanel{
         }
         for(int layer : new Range(layers.size())){
             if(sSi){break;}
-            vectorLayer vL = layers.get(layer);
-            for(int i : new Range(vL.points.size())){
-                Vector rl = vL.points.get(i);
-                Color c = vL.colors.get(i);
-                int size = vL.sizes.get(i);
+            newVectorLayer vL = layers.get(layer);
+            for(int i : new Range(vL.containers.size())){
+                Vector rl = vL.containers.get(i).location;
+                Color c = vL.containers.get(i).color;
+                int size = vL.containers.get(i).size;
                 String imageloc = vL.images.get(i);
                 if(Objects.equals(imageloc, new String(""))){
                     g.setColor(c);
@@ -204,6 +204,13 @@ class vectorArea extends JPanel{
     public void update(LinkedList<Vector> p,LinkedList<Color> c, LinkedList<String> images, LinkedList<Integer> sizes, float f, vectorLayer layer){
         layer.update(p, c, images, sizes, factor);
     }
+    
+    public void update(LinkedList<renderContainer> containers, int layer){
+        
+    }
+    public void update(LinkedList<renderContainer> containers, newVectorLayer layer){
+        layer.update(containers);
+    }
     public void init(int w, int h, int num_layers, boolean showStartingImage){
         this.w = w;
         this.h = h;
@@ -222,7 +229,7 @@ class vectorArea extends JPanel{
         this.sSi = showStartingImage;
     }
     public void addLayer(int position, String title, int blur){
-        vectorLayer tmp = new vectorLayer();
+        newVectorLayer tmp = new newVectorLayer();
         tmp.init(title, blur);
         this.layers.add(position, tmp);
     }
@@ -251,7 +258,23 @@ class vectorLayer{
         this.sizes = sizes;
     }
 }
-
+class newVectorLayer{
+    LinkedList<renderContainer> containers;
+    public int blur;
+    float x = 15.34F;
+    float y = 22.48F;
+    float factor = 2F;
+    public int w = 0;
+    public int h = 0;
+    public String title = "";
+    public void init(String title, int blur){
+        this.title = title;
+    }
+    
+    public void update(LinkedList<renderContainer> containers){
+        this.containers = containers;
+    }
+}
 class ImagePanel extends JPanel{
 
     public BufferedImage image;
@@ -270,4 +293,16 @@ class ImagePanel extends JPanel{
         g.drawImage(image, 0, 0, this); // see javadoc for more info on the parameters            
     }
 
+}
+class renderContainer{
+    Vector location;
+    String ImageName;
+    Color color;
+    int size;
+    public renderContainer(Vector location, String ImageName, Color color, int size){
+        this.location = location;
+        this.ImageName = ImageName;
+        this.color = color;
+        this.size = size;
+    }
 }
