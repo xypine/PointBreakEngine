@@ -194,8 +194,8 @@ public class Editor extends JFrame implements Runnable, ActionListener {
 //        System.out.println(oM.getObjects().size());
         //UPDATE ARRAY
         gameObject z = oM.getObjectByTag("cursor");
-        int zx = round(z.getX());
-        int zy = round(z.getY());
+        int zx = (int) round(z.getX());
+        int zy = (int) round(z.getY());
         if(input.tog && !oM.colliding(zx,zy,"null")){
             oM.addObject(new gameObject(zx, zy, 1, "static", "█", 1F, Color.red, 1, k));
             saved = false;
@@ -234,10 +234,10 @@ public class Editor extends JFrame implements Runnable, ActionListener {
             p.checkInput(input);
             p.update(xd, yd, oM);
 //            oM.doPhysics(lM, p);
-            this.txf = p.getX();
-            this.tyf = p.getY();
-            this.tx = round(p.getX());
-            this.ty = round(p.getY());
+            this.txf = (float) p.getX();
+            this.tyf = (float) p.getY();
+            this.tx = (int) round(p.getX());
+            this.ty = (int) round(p.getY());
             ta = p.gAppearance();
             Color tc = p.getColor();
 //            p.update(lM);

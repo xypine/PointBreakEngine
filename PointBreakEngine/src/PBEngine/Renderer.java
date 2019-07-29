@@ -154,7 +154,7 @@ class vectorArea extends JPanel{
             if(sSi){break;}
             newVectorLayer vL = layers.get(layer);
             for(int i : new Range(vL.containers.size())){
-                Vector rl = vL.containers.get(i).location;
+                dVector rl = vL.containers.get(i).location;
                 Color c = vL.containers.get(i).color;
                 int size = vL.containers.get(i).size;
                 BufferedImage imaged = vL.containers.get(i).image;
@@ -302,12 +302,12 @@ class ImagePanel extends JPanel{
 
 }
 class renderContainer{
-    Vector location;
+    dVector location;
     String ImageName;
     Color color;
     int size;
     BufferedImage image;
-    public renderContainer(Vector location, String ImageName, Color color, int size){
+    public renderContainer(dVector location, String ImageName, Color color, int size){
         this.location = location;
         this.ImageName = ImageName;
         this.color = color;

@@ -88,7 +88,7 @@ public class Player extends gameObject{
         }
         if(this.getTag().contains("player2")){
             this.velx = this.velx + ((in.right2() + in.left2()) * -0.4F);
-            float orange = ((this.getVX() + 1) * (this.getVY() + 1)) * 0.5F - 0.1F;
+            double orange = ((this.getVX() + 1) * (this.getVY() + 1)) * 0.5F - 0.1F;
             if(orange < 0F){orange = 0F;}
             if(orange > 1F){orange = 0.9F;}
 //            this.setColor(new Color(0 + orange * 0.25F, 0 + orange * 0.5F, 0 + orange));

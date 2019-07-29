@@ -45,26 +45,26 @@ public class gameObject {
 //    Renderer re = new Renderer();
     //objectManager oM = new objectManager();
     kick masterParent;
-    public gameObject(int xpos, int ypos, int size, String tag, String ap, float mas, Color cot, int ID, kick master){
+    public gameObject(int xpos, int ypos, int size, String tag, String ap, double mas, Color cot, int ID, kick master){
         this.masterParent = master;
         this.summon(ypos, xpos, tag, ap, mas, cot, ID);
         this.children.add(this);
         this.size = size;
     }
     
-    float mass = 1F;
+    double mass = 1F;
     
-    float vely = 0;
-    float velx = 0;
+    double vely = 0;
+    double velx = 0;
     public int size = 1;
     
-    public float lastX = 0;
-    public float lastY = 0;
+    public double lastX = 0;
+    public double lastY = 0;
     
     public int hits = 0;
     public boolean collision_Explode = false;
-    public float y = 1;
-    public float x = 1;
+    public double y = 1;
+    public double x = 1;
     
     private int id;
     public boolean point2 = false;
@@ -72,14 +72,14 @@ public class gameObject {
     private String appereance;
     private Color acolor = Color.RED;
 
-//    gameObject(int y, int x, String tag, String skin, float mass, String type) {
+//    gameObject(int y, int x, String tag, String skin, double mass, String type) {
 //        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
 //    }
     public boolean colliding = false;
-    public float getY(){return(this.y);}
-    public float getX(){return(this.x);}
-    public float getVY(){return(this.vely);}
-    public float getVX(){return(this.velx);}
+    public double getY(){return(this.y);}
+    public double getX(){return(this.x);}
+    public double getVY(){return(this.vely);}
+    public double getVX(){return(this.velx);}
     public Color getColor(){return(this.acolor);}
     public void setColor(Color cat){this.acolor = cat;}
     
@@ -103,18 +103,18 @@ public class gameObject {
     public int getID(){return(this.id);}
     public LinkedList<String> getTag(){return(this.tag);}
     
-    public float getDistance(float tx, float ty){
-        float ry = (float) pow(this.y - ty, 2.0);
-        float rx = (float) pow(this.x - tx, 2.0);
-        float finish = (float) sqrt(rx + ry);
+    public double getDistance(double tx, double ty){
+        double ry = (double) pow(this.y - ty, 2.0);
+        double rx = (double) pow(this.x - tx, 2.0);
+        double finish = (double) sqrt(rx + ry);
         return(finish);
     }
-    public Vector getLocation(){
-        return(new Vector(this.x, this.y));
+    public dVector getLocation(){
+        return(new dVector(this.x, this.y));
     }
     public String gAppearance(){return(this.appereance);}
     
-    public void summon(int ypos, int xpos, String tag, String ap, float mas, Color cat, int ID){
+    public void summon(int ypos, int xpos, String tag, String ap, double mas, Color cat, int ID){
         this.mass = mas;
         this.y = ypos;
         this.x = xpos;
@@ -142,17 +142,40 @@ public class gameObject {
             //if(this.tag.contains(new String("player1")) || this.tag.contains(new String("cursor"))){
             if(!this.tag.contains(new String("static"))){
     //        System.out.println(colliding);
+                checkInput(masterParent.wM.input);
+                
+
+                if(point2 || Math.round(this.y) > 23.7F){velx = velx * 0.65F;}
+    //            if(velx != 0 && Math.round(this.y) > 23.7F){velx = velx * 0.65F;}
+
+                if(Math.round(this.y) > 23.99F){this.vely = this.vely * -0.2F;}
+                else{colliding = false;}
+    //            if(velx != 0 && Math.round(this.y) > 23.7F){colliding = true;}
+                if(colliding){velx = velx * 0.65F;}
+
+                
+                if(colliding || point2){velx = velx * 0.025F;}
+                if(!colliding){velx = velx * 0.95F;}
+                if((!colliding || point2) && gravity){
+                    if(vely > 100F){vely = 100.1F;}
+                    else{vely = vely + masterParent.engine_gravity.y;}
+                }
+                else{this.vely = this.vely * -0.75F;}
+                if(!colliding){
+                    if(velx > 100F){velx = 100.1F;}
+                    else{velx = velx + masterParent.engine_gravity.x;}
+                }
                 if(this.tag.contains(new String("cursor"))){}
                 else{
     //                this.y = this.y + (this.vely);
     //                this.x = this.x + (this.velx);
-                    for (int i : new Range(round(Math.abs(this.velx) * 10))) {
+                    for (int i : new Range((int) round(Math.abs(this.velx) * 10))) {
 
                         if(this.velx < 0){this.x = this.x - 0.1F;}
                         if(this.velx > 0){this.x = this.x + 0.1F;}
                         checkAdvancedCollisions(oMb, this);
                     }
-                    for (int i : new Range(round(Math.abs(this.vely) * 10))) {
+                    for (int i : new Range((int) round(Math.abs(this.vely) * 10))) {
 
                         if(this.vely < 0){this.y = this.y - 0.1F;}
                         if(this.vely > 0){this.y = this.y + 0.1F;}
@@ -160,6 +183,7 @@ public class gameObject {
                     }
 
                 }
+                checkAdvancedCollisions(oMb, this, x + velx, y + vely);
                 if(this.y > yd - 1){
                     this.y = yd - 1;
     //                this.vely = this.vely * -0.55F;
@@ -178,27 +202,6 @@ public class gameObject {
                     this.x = 0;
                     this.velx = this.velx * -0.2F;
                 }
-
-                if(point2 || Math.round(this.y) > 23.7F){velx = velx * 0.65F;}
-    //            if(velx != 0 && Math.round(this.y) > 23.7F){velx = velx * 0.65F;}
-
-                if(Math.round(this.y) > 23.99F){this.vely = this.vely * -0.2F;}
-                else{colliding = false;}
-    //            if(velx != 0 && Math.round(this.y) > 23.7F){colliding = true;}
-                if(colliding){velx = velx * 0.65F;}
-
-                
-                if(colliding || point2){velx = velx * 0.025F;}
-                if(!colliding){velx = velx * 0.95F;}
-                if((!colliding || point2) && gravity){
-                    if(vely > 100F){vely = 100.1F;}
-                    else{vely = (float) (vely + masterParent.engine_gravity.y);}
-                }
-                else{this.vely = this.vely * -0.75F;}
-                if(!colliding){
-                    if(velx > 100F){velx = 100.1F;}
-                    else{velx = (float) (velx + masterParent.engine_gravity.x);}
-                }
             }
             if(this.tag.contains("static")){
                 vely = 0F;
@@ -206,8 +209,8 @@ public class gameObject {
             }
         }
         else{
-            this.x = (float) (parent.x + parent_offsetX);
-            this.y = (float) (parent.y + parent_offsetY);
+            this.x = parent.x + parent_offsetX;
+            this.y = parent.y + parent_offsetY;
         }
     }
     public void addForce(Vector force){
@@ -220,8 +223,8 @@ public class gameObject {
     }
     public void point1(gameObject i, gameObject x){
                 colliding = true;
-                        float ivx = i.velx * -0.15F;
-                        float ivy = i.vely * -0.05F;
+                        double ivx = i.velx * -0.15F;
+                        double ivy = i.vely * -0.05F;
 //                        float xvx = x.velx * -0.15F;
 //                        float xvy = x.vely * -0.15F;
                         i.x = i.x + i.velx * -0.5F;
@@ -232,7 +235,7 @@ public class gameObject {
     public void point2(gameObject i, gameObject x){
                 colliding = true;
 //                        float ivx = i.velx * -0.15F;
-                        float ivy = i.vely * -0.05F;
+                        double ivy = i.vely * -0.05F;
 //                        float xvx = x.velx * -0.15F;
 //                        float xvy = x.vely * -0.15F;
                         i.x = i.x + i.velx * -0.15F;
@@ -255,12 +258,40 @@ public class gameObject {
         }
         for(int xc : new Range(size)){
             for(int yc : new Range(size)){
-                if(o.colliding(Math.round(i.x + xc), Math.round(i.y + yc), ignore)){
+                if(o.colliding((int)Math.round(i.x + xc), (int)Math.round(i.y + yc), ignore)){
                     point1(i, o.collidingGA(xc, yc, ignore));
                 }
-                else if(o.colliding(Math.round(i.x + xc), (int) Math.ceil(i.y + yc), ignore)){
+                else if(o.colliding((int)Math.round(i.x + xc), (int) Math.ceil(i.y + yc), ignore)){
                     point2 = true;
-                    point2(i, o.collidingGA(Math.round(i.x + xc), Math.round(i.y + yc + 1), ignore));
+                    point2(i, o.collidingGA((int)Math.round(i.x + xc),(int) Math.round(i.y + yc + 1), ignore));
+                }
+                else{
+                    colliding = false;
+                    point2 = false;
+                }
+            }
+        }
+    }
+    private void checkAdvancedCollisions(objectManager o, gameObject i, double x, double y){
+        if(!i.masterParent.engine_collisions || !collisions){
+            return;
+        }
+        LinkedList<String> ignore = tag;
+        for(gameObject ga : children){
+            for(String tag : ga.getTag()){
+                if(!ignore.contains(tag)){
+                    ignore.add(tag);
+                }
+            }
+        }
+        for(int xc : new Range(size)){
+            for(int yc : new Range(size)){
+                if(o.colliding((int)Math.round(x + xc), (int)Math.round(x + yc), ignore)){
+                    point1(i, o.collidingGA(xc, yc, ignore));
+                }
+                else if(o.colliding((int)Math.round(x + xc), (int) Math.ceil(y + yc), ignore)){
+                    point2 = true;
+                    point2(i, o.collidingGA((int)Math.round(x + xc),(int) Math.round(y + yc + 1), ignore));
                 }
                 else{
                     colliding = false;
@@ -291,11 +322,11 @@ public class gameObject {
 
                     }
                     else{
-                        int x1 = round(i.getX());
-                        int y1 = round(i.getY());
+                        int x1 = (int) round(i.getX());
+                        int y1 = (int) round(i.getY());
 
-                        float x2 = x.getX();
-                        float y2 = x.getY();
+                        double x2 = x.getX();
+                        double y2 = x.getY();
 
     //                    if(x.tag != "static"){
     //                        System.out.print(colliding);

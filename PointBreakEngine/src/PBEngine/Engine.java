@@ -66,12 +66,12 @@ public class Engine extends JFrame implements Runnable, ActionListener {
     int tx;
     int ty;
     String ta;
-    private float txf;
-    private float tyf;
+    private double txf;
+    private double tyf;
 //    
     public vectorArea vA;
     kick k;
-    private Input input;
+    public Input input;
     public Engine(kick ki, objectManager o, int xd, int yd, VSRadManager a, dVector g){
         
         this.oM = o;
@@ -252,7 +252,7 @@ public class Engine extends JFrame implements Runnable, ActionListener {
         oM.removeLevel();
         levelLoader lL = new levelLoader(level, oM, k);
     }
-    Vector las;
+    dVector las;
     public Recorder recorder = new Recorder();
     boolean ve = false;
     void tick(){
@@ -286,25 +286,25 @@ public class Engine extends JFrame implements Runnable, ActionListener {
         //UPDATE ARRAY
         class xyac
         {
-            float x;
-            float y;  
+            double x;
+            double y;  
             String a;
             Color c;
-            Vector last;
-            private xyac(float tx, float ty, String ta, Color tc, Vector last) {
+            dVector last;
+            private xyac(double tx, double ty, String ta, Color tc, dVector last) {
                 this.x = tx; this.y = ty; this.a = ta; this.c = tc; this.last = last;
             }
         }
 ;
         LinkedList<xyac> lis = new LinkedList<xyac>();
         
-        LinkedList<Vector> points = new LinkedList<>();
+        LinkedList<dVector> points = new LinkedList<>();
         LinkedList<renderContainer> cont1 = new LinkedList<>();
         LinkedList<Color> colors = new LinkedList<>();
         LinkedList<String> images = new LinkedList<>();
         LinkedList<Integer> sizes = new LinkedList<>();
         
-        LinkedList<Vector> points2 = new LinkedList<>();
+        LinkedList<dVector> points2 = new LinkedList<>();
         LinkedList<renderContainer> cont2 = new LinkedList<>();
         LinkedList<Color> colors2 = new LinkedList<>();
         LinkedList<String> images2 = new LinkedList<>();
@@ -337,8 +337,8 @@ public class Engine extends JFrame implements Runnable, ActionListener {
                 if(g > 255){g = 255;}
                 if(b > 255){b = 255;}
                 
-                cont2.add( new renderContainer(new Vector(xp,yp), "", new Color((int) r,(int) g,(int) b), 1));
-                points2.add(new Vector(xp,yp));
+                cont2.add( new renderContainer(new dVector(xp,yp), "", new Color((int) r,(int) g,(int) b), 1));
+                points2.add(new dVector(xp,yp));
                 colors2.add(new Color((int) r,(int) g,(int) b));
                 images2.add("");
                 sizes2.add(1);
@@ -354,14 +354,14 @@ public class Engine extends JFrame implements Runnable, ActionListener {
 //            renderer.change(tx, ty, "█", Color.WHITE);
 //            System.out.println(p.getTag().getClass() + " " + "static".getClass());
             p.update(xd, yd, oM);
-            p.checkInput(input);
+//            p.checkInput(input);
             
 //            oM.doPhysics(renderer, p);
             this.txf = p.getX();
             this.tyf = p.getY();
-            this.tx = round(p.getX());
-            this.ty = round(p.getY());
-            this.las = new Vector(p.lastX, p.lastY);
+            this.tx = (int) round(p.getX());
+            this.ty = (int) round(p.getY());
+            this.las = new dVector(p.lastX, p.lastY);
             p.lastX = txf;
             p.lastY = tyf;
             ta = p.gAppearance();
@@ -384,7 +384,7 @@ public class Engine extends JFrame implements Runnable, ActionListener {
         
 //          System.out.println("pelaaja: x:" + tx + " y:" + ty);
 /////////////////            renderer.change(tx, ty, ta, tc);
-            points.add(new Vector(txf, tyf));
+            points.add(new dVector(txf, tyf));
             images.add(p.imageName);
             float r = tc.getRed();
             float g = tc.getGreen();
@@ -405,7 +405,7 @@ public class Engine extends JFrame implements Runnable, ActionListener {
                 try{b = (b * global_brightness * (red[tx][ty] * 0.55F) / 2 );if(b > 255){b = 255;}}catch(Exception e2){b = 0;}
                 throw(e);
             }
-            cont1.add( new renderContainer(new Vector(txf, tyf), p.imageName, new Color((int)r,(int)g,(int)b), p.size));
+            cont1.add( new renderContainer(new dVector(txf, tyf), p.imageName, new Color((int)r,(int)g,(int)b), p.size));
             colors.add(new Color((int)r,(int)g,(int)b));
             lis.add(new xyac(tx,ty,ta,tc,las));
             sizes.add(p.size);
