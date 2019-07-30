@@ -258,6 +258,9 @@ class VSRadManager{
         if(recalculate){this.oM.object.get(0).masterParent.wM.red = this.read(999999);}
         id++;
     }
+    public void recalculate(){
+        this.oM.object.get(0).masterParent.wM.red = this.read(999999);
+    }
     int lasthash = 0;
     public float[][] read(int type){
         float[][] sum = new float[w][h];

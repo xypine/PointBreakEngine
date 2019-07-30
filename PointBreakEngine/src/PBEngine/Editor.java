@@ -198,8 +198,16 @@ public class Editor extends JFrame implements Runnable, ActionListener {
         int zy = (int) round(z.getY());
         if(input.tog && !oM.colliding(zx,zy,"null")){
             oM.addObject(new gameObject(zx, zy, 1, "static", "█", 1F, Color.red, 1, k));
+            System.out.println("new wall!");
             saved = false;
         }
+        if(input.keyPressed != null){//System.out.println(input.keyPressed.getKeyCode());
+        if(input.keyPressed.getKeyCode() == 16 && !oM.colliding(zx,zy,"null")){
+            int r = Integer.parseInt(new Question("light", "color", "continue").exit());
+            oM.addObject(new gameObject(zx, zy, 1, "light", "█", 1F, Color.red, 1, k));
+            System.out.println("new light!");
+            saved = false;
+        }}
         class xyac
         {
             int x;

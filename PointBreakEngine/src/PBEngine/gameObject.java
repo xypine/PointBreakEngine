@@ -142,8 +142,9 @@ public class gameObject {
             //if(this.tag.contains(new String("player1")) || this.tag.contains(new String("cursor"))){
             if(!this.tag.contains(new String("static"))){
     //        System.out.println(colliding);
+                checkAdvancedCollisions(oMb, this);
                 checkInput(masterParent.wM.input);
-                
+                checkAdvancedCollisions(oMb, this);
 
                 if(point2 || Math.round(this.y) > 23.7F){velx = velx * 0.65F;}
     //            if(velx != 0 && Math.round(this.y) > 23.7F){velx = velx * 0.65F;}
@@ -152,8 +153,6 @@ public class gameObject {
                 else{colliding = false;}
     //            if(velx != 0 && Math.round(this.y) > 23.7F){colliding = true;}
                 if(colliding){velx = velx * 0.65F;}
-
-                
                 if(colliding || point2){velx = velx * 0.025F;}
                 if(!colliding){velx = velx * 0.95F;}
                 if((!colliding || point2) && gravity){
@@ -165,6 +164,7 @@ public class gameObject {
                     if(velx > 100F){velx = 100.1F;}
                     else{velx = velx + masterParent.engine_gravity.x;}
                 }
+                checkAdvancedCollisions(oMb, this);
                 if(this.tag.contains(new String("cursor"))){}
                 else{
     //                this.y = this.y + (this.vely);
@@ -248,6 +248,7 @@ public class gameObject {
         if(!i.masterParent.engine_collisions || !collisions){
             return;
         }
+        checkAdvancedCollisions(o, i, x+(velx / 2), y+(vely / 2));
         LinkedList<String> ignore = tag;
         for(gameObject ga : children){
             for(String tag : ga.getTag()){

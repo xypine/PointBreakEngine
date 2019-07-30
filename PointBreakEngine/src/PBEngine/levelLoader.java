@@ -8,7 +8,6 @@ package PBEngine;
 
 import java.awt.Color;
 import java.io.BufferedWriter;
-import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.FileReader;
@@ -22,7 +21,6 @@ import java.util.LinkedList;
 import java.util.Scanner;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javax.swing.JOptionPane;
 
 /**
  *
@@ -55,12 +53,12 @@ public class levelLoader {
                 text = text + line;
             }
             in.close();
-            fetch(text, oM);
+            fetch(text, oM, master.wM.rads);
             System.out.println("Level ["+filePath.concat(file)+"] loaded with " + count + " objects!");
 //            fetch(in.toString(), oM);
         } catch (FileNotFoundException ex) {
             try{
-            fetch(fallback, oM);
+            fetch(fallback, oM, master.wM.rads);
             System.out.println("!!! level " + filePath + file + " FAILED TO LOAD!!!");
             quickEffects.alert("Level not found!", "!!! level " + filePath + file + " FAILED TO LOAD!!!");
             System.out.println("fallback level loaded with " + count + " objects!");
@@ -74,14 +72,37 @@ public class levelLoader {
         }
     }
     
-    public void fetch(String i, objectManager oM){
+    public void fetch(String i, objectManager oM, VSRadManager rads){
+        boolean meta = false;
+        int metachar = 0;
+        char version = 0;
+        String name = "";
         String tmp = "";
         for(char x : i.toCharArray()){
-            
-            if(x == ':'){                                                                          //this.c
-                gameObject tm = new gameObject(this.x, this.y, 1, this.tag, this.appereance, this.mass, Color.BLACK, this.id, master);
+            if(meta){
+                switch(metachar){
+                    case 0:
+                        version = x;metachar++;
+                        break;
+                    case 13:
+                        meta = false;
+                        System.out.println("Loading level that was created with version " + version +", level: " + name);
+                        break;
+                    default:
+                        if(x != '*'){
+                            name = name + x;
+                        }metachar++;
+                    
+                }
+            }
+            if(x == '#'){
+                meta = true;
+            }
+            else if(x == ':'){                                                                          //this.c
+                if(tag == "light"){rads.add(x, y, mass, c, 1, false);}
+                if(tag == "static"){gameObject tm = new gameObject(this.x, this.y, 1, this.tag, this.appereance, this.mass, c, this.id, master);
                 tm.imageName = dir.textures + "walls/walls0.png";
-                oM.addObject(tm);
+                oM.addObject(tm);}
                 count++;
                 //System.out.println(tm.getTag());
                 dotC = 0;
@@ -120,6 +141,7 @@ public class levelLoader {
             
             
         }
+        try{rads.recalculate();}catch(Exception e){quickEffects.alert("FAILED TO RECALCULATE VSRAD, nullpointerexception?", e.getMessage());}
     }
     public void write(LinkedList<gameObject> g, String file) throws FileNotFoundException, UnsupportedEncodingException, IOException{
 
@@ -129,7 +151,30 @@ public class levelLoader {
         String tmp = "";
         int idi = 90;
         for(gameObject p : g){
-            if(!p.getTag().contains(new String("cursor"))){
+            if(p.getTag().contains("static")){
+                tmp = tmp + round(p.x) + "." + round(p.y) + ".static.█.1.green." + idi + ".:";
+                System.out.print(".");
+                idi++;
+            }
+            else if(p.getTag().contains("light")){
+                tmp = tmp + round(p.x) + "." + round(p.y) + ".light.█."+p.mass+".green." + idi + ".:";
+                System.out.print(".");
+                idi++;
+            }
+        }
+        try (Writer writer = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(dir.levels + file), "utf-8"))) {
+            writer.write(tmp);
+        }
+    }
+    public void nwrite(LinkedList<gameObject> g, String file) throws FileNotFoundException, UnsupportedEncodingException, IOException{
+
+        System.out.println("Saving level to: "+dir.levels + file + "...");
+        System.out.println("");
+
+        String tmp = "";
+        int idi = 90;
+        for(gameObject p : g){
+            if(p.getTag().contains("static")){
                 tmp = tmp + round(p.x) + "." + round(p.y) + ".static.█.1.green." + idi + ".:";
                 System.out.print(".");
                 idi++;
