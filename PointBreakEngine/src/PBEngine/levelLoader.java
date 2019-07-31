@@ -99,8 +99,8 @@ public class levelLoader {
                 meta = true;
             }
             else if(x == ':'){                                                                          //this.c
-                if(tag == "light"){rads.add(x, y, mass, c, 1, false);}
-                if(tag == "static"){gameObject tm = new gameObject(this.x, this.y, 1, this.tag, this.appereance, this.mass, c, this.id, master);
+                //if(tag == "light"){rads.add(x, y, mass, c, 1, false);}
+                if(tag.equals("static")){gameObject tm = new gameObject(this.x, this.y, 1, this.tag, this.appereance, this.mass, Color.black, this.id, master);
                 tm.imageName = dir.textures + "walls/walls0.png";
                 oM.addObject(tm);}
                 count++;
@@ -141,7 +141,7 @@ public class levelLoader {
             
             
         }
-        try{rads.recalculate();}catch(Exception e){quickEffects.alert("FAILED TO RECALCULATE VSRAD, nullpointerexception?", e.getMessage());}
+        //try{rads.recalculate();}catch(Exception e){quickEffects.alert("FAILED TO RECALCULATE VSRAD, nullpointerexception?", e.getMessage());throw e;}
     }
     public void write(LinkedList<gameObject> g, String file) throws FileNotFoundException, UnsupportedEncodingException, IOException{
 
@@ -198,6 +198,7 @@ public class levelLoader {
         try {
             return (Color)Color.class.getField(name.toUpperCase()).get(null);
         } catch (IllegalArgumentException | IllegalAccessException | NoSuchFieldException | SecurityException e) {
+            quickEffects.alert(name);
             e.printStackTrace();
             return null;
         }

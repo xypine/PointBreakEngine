@@ -33,7 +33,7 @@ public class Engine extends JFrame implements Runnable, ActionListener {
     public boolean ready = false;
     public boolean running = true;
     //Screen components
-    int blurStrenght = 3;
+    int blurStrenght = 1;
     public dVector gravity;
     quickEffects effects = new quickEffects();
     public LinkedList<Object> content = new LinkedList<>();
@@ -330,9 +330,9 @@ public class Engine extends JFrame implements Runnable, ActionListener {
                 //System.out.println();
                 float brightness = 0.0005F;
                       //rads.colors[....
-                try{r = rads.colors[xp][yp].getRed() * (y*brightness);}catch(Exception e){r = 0F;}
-                try{g = rads.colors[xp][yp].getGreen() * (y*brightness);}catch(Exception e){g = 0F;}
-                try{b = rads.colors[xp][yp].getBlue() * (y*brightness);}catch(Exception e){b = 0F;}
+                try{r = rb[xp][yp] * (y*brightness);}catch(Exception e){r = 0F;}
+                try{g = gb[xp][yp] * (y*brightness);}catch(Exception e){g = 0F;}
+                try{b = bb[xp][yp] * (y*brightness);}catch(Exception e){b = 0F;}
                 if(r > 255){r = 255;}
                 if(g > 255){g = 255;}
                 if(b > 255){b = 255;}

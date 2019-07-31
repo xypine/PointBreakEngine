@@ -232,6 +232,17 @@ public class gameObject {
                         i.velx = ivx;
                         i.vely = ivy;
     }
+    public void point1(gameObject i, gameObject x, double amount){
+                colliding = true;
+                        double ivx = i.velx * (-0.15F *amount);
+                        double ivy = i.vely * (-0.05F *amount);
+//                        float xvx = x.velx * -0.15F;
+//                        float xvy = x.vely * -0.15F;
+                        i.x = i.x + i.velx * (-0.5F *amount);
+                        i.y = i.y + i.vely * (-1F *amount);
+                        i.velx = ivx;
+                        i.vely = ivy;
+    }
     public void point2(gameObject i, gameObject x){
                 colliding = true;
 //                        float ivx = i.velx * -0.15F;
@@ -288,7 +299,7 @@ public class gameObject {
         for(int xc : new Range(size)){
             for(int yc : new Range(size)){
                 if(o.colliding((int)Math.round(x + xc), (int)Math.round(x + yc), ignore)){
-                    point1(i, o.collidingGA(xc, yc, ignore));
+                    point1(i, o.collidingGA(xc, yc, ignore), 0.5);
                 }
                 else if(o.colliding((int)Math.round(x + xc), (int) Math.ceil(y + yc), ignore)){
                     point2 = true;

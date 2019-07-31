@@ -51,7 +51,7 @@ public class radiosity extends JFrame implements Runnable, ActionListener {
     //GAMEOBJECTS:
 //    Player p1;
     int co = 0;
-    objectManager oM = new objectManager();
+    objectManager oM = new objectManager(k);
     LinkedList<gameObject> objects;
     //VARIABLES FOR TICKS:
     int tx;

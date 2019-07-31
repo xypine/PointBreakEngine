@@ -16,21 +16,33 @@ import javax.swing.*;
  */
 public class Question {
     final JLabel output = new JLabel();;
+    boolean adding = false;
+    int r = 0;
+    int g = 0;
+    int b = 0;
+    int s = 0;
     public Question(String title,String msg,String confirm){
         JFrame frame = new JFrame(title);
-        frame.setVisible(true);
+        frame.setVisible(false);
         frame.setSize(300, 300);
-//        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
         JLabel label = new JLabel(msg);
         JPanel panel = new JPanel();
         frame.add(panel);
         panel.add(label);
 
-        final JTextField input = new JTextField(1); // The input field with a width of 5 columns
+        final JTextField input = new JTextField(1);
+        final JTextField input1 = new JTextField(1);
+        final JTextField input2 = new JTextField(1);
+        final JTextField input3 = new JTextField(1); // The input field with a width of 5 columns
         panel.add(input);
+        panel.add(input1);
+        panel.add(input2);
+        panel.add(input3);
 
-        JButton button = new JButton(confirm);
+        
+        JButton button = new JButton("add light");
         panel.add(button);
 
 //        JLabel output = new JLabel(); // A label for your output
@@ -42,13 +54,16 @@ public class Question {
         
         button.addActionListener(new ActionListener() { // The action listener which notices when the button is pressed
             public void actionPerformed(ActionEvent e) {
-                output.setText(input.getText());
+                r = Integer.parseInt(input1.getText());
+                g = Integer.parseInt(input2.getText());
+                b = Integer.parseInt(input3.getText());
+                s = Integer.parseInt(input.getText());
+                adding = true;
+                
             }
         });
+        
     }public String exit(){
         return output.getText();
-        }
-    public boolean ready(){
-        if(output.getText() != ""){return true;}return false;
     }
 }

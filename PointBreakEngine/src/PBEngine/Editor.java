@@ -44,7 +44,7 @@ public class Editor extends JFrame implements Runnable, ActionListener {
     //GAMEOBJECTS:
 //    Player p1;
     int co = 0;
-    objectManager oM = new objectManager();
+    objectManager oM = new objectManager(k);
     LinkedList<gameObject> players;
     //VARIABLES FOR TICKS:
     int tx;
@@ -67,8 +67,11 @@ public class Editor extends JFrame implements Runnable, ActionListener {
     float h = 562*size;
     int xd = (int) (w / 15.34);
     int yd = (int) (h / 22.48);
+    Question q;
     @Override
     public void run() {
+        q = new Question("Properties", "Value", "Set Value");
+        
         ready = false;
         
         timer.setRepeats(true);
@@ -202,12 +205,20 @@ public class Editor extends JFrame implements Runnable, ActionListener {
             saved = false;
         }
         if(input.keyPressed != null){//System.out.println(input.keyPressed.getKeyCode());
-        if(input.keyPressed.getKeyCode() == 16 && !oM.colliding(zx,zy,"null")){
-            int r = Integer.parseInt(new Question("light", "color", "continue").exit());
-            oM.addObject(new gameObject(zx, zy, 1, "light", "█", 1F, Color.red, 1, k));
-            System.out.println("new light!");
-            saved = false;
+        if(q.adding && !oM.colliding(zx,zy,"null")){
+            try{
+                
+                oM.addObject(new gameObject(zx, zy, 1, "light", "█", q.s, new Color(q.r,q.g,q.b), 1, k));
+                System.out.println("new light!");
+                saved = false;
+                q.adding = false;
+            }catch(Exception e){
+                quickEffects.alert("FAILED TO ADD A LIGHT", e.getMessage());
+            }
         }}
+        if(q.adding && oM.colliding(zx,zy,"null")){
+            q.adding = false;
+        }
         class xyac
         {
             int x;

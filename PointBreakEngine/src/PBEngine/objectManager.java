@@ -15,7 +15,7 @@ import java.util.LinkedList;
  * @author Jonnelafin
  */
 public class objectManager {
-    LinkedList<gameObject> object = new LinkedList<gameObject>();
+    LinkedList<gameObject> objects = new LinkedList<>();
 //    gameObject[] obs = new gameObject[];
 //    ArrayList<gameObject> objects = new ArrayList<gameObject>();
 //    ArrayList<Player> players = new ArrayList<Player>();
@@ -24,25 +24,35 @@ public class objectManager {
 //    Object tmpg;
     objectContainer tmp;
     int index = 0;
+    kick kick;
+    public objectManager(kick k){
+        this.kick = k;
+    }
     public void addObject(gameObject tmpO){
-        this.object.add(tmpO);
+        this.objects.add(tmpO);
     }
     
     public void removeObject(gameObject object){
-        this.object.remove(object);
+        this.objects.remove(object);
     }
     
 //    public String getTypebyTag(String tag){
-//        return(object.get(findGameObject(tag)));
+//        return(objects.get(findGameObject(tag)));
 //    }
     
     public gameObject getObjectByTag(String tagToGet){
-        return(object.get(findGameObject(tagToGet)));
+        return(objects.get(findGameObject(tagToGet)));
     }
-     
+    public LinkedList<gameObject> getObjectsByTag(String tagToGet){
+        LinkedList<gameObject> out = new LinkedList<gameObject>();
+        for(int i : findGameObjects(tagToGet)){
+            out.add(objects.get(i));
+        }
+        return out;
+    }
     public int findGameObject(String tagToGet){
-        for(int i = 0;i<object.size();i++){
-            gameObject tmp = object.get(i);
+        for(int i = 0;i<objects.size();i++){
+            gameObject tmp = objects.get(i);
             if(tmp.getTag().contains(new String(tagToGet))){
                 return(i);
             }
@@ -50,16 +60,27 @@ public class objectManager {
         //System.out.println("No gameobject with tag: " + tagToGet);
         return(99999999);
     }
+    public LinkedList<Integer> findGameObjects(String tagToGet){
+        LinkedList<Integer> out = new LinkedList<>();
+        for(int i = 0;i<objects.size();i++){
+            gameObject tmp = objects.get(i);
+            if(tmp.getTag().contains(new String(tagToGet))){
+                out.add(i);
+            }
+        }
+        //System.out.println("No gameobject with tag: " + tagToGet);
+        return(out);
+    }
     public LinkedList<gameObject> getObjects(){
         LinkedList<gameObject> tmpob = new LinkedList<gameObject>();
-        for(int i = 0;i<object.size();i++){
-            gameObject tmp = object.get(i);
+        for(int i = 0;i<objects.size();i++){
+            gameObject tmp = objects.get(i);
             tmpob.add(tmp);
         }
         return(tmpob);
     }
     public boolean colliding(int x, int y, String ignore){
-        for(gameObject i : object){
+        for(gameObject i : objects){
             if(i.getTag().contains("cursor") || i.getTag().contains(ignore)){}
             else{
                 if((round(i.x) == x && round(i.y) == y)){
@@ -70,7 +91,7 @@ public class objectManager {
         return false;
     }
     public gameObject collidingGA(int x, int y, String ignore){
-        for(gameObject i : object){
+        for(gameObject i : objects){
             if(i.getTag().contains("cursor") || i.getTag().contains(ignore)){}
             else{
                 if((round(i.x) == x && round(i.y) == y)){
@@ -81,7 +102,7 @@ public class objectManager {
         return null;
     }
     public boolean colliding(int x, int y, LinkedList<String> ignore){
-        for(gameObject i : object){
+        for(gameObject i : objects){
             if(i.getTag().contains("cursor") || i.getTag().containsAll(ignore)){}
             else{
                 if((round(i.x) == x && round(i.y) == y)){
@@ -92,7 +113,7 @@ public class objectManager {
         return false;
     }
     public gameObject collidingGA(int x, int y, LinkedList<String> ignore){
-        for(gameObject i : object){
+        for(gameObject i : objects){
             if(i.getTag().contains("cursor") || i.getTag().containsAll(ignore)){}
             else{
                 if((round(i.x) == x && round(i.y) == y)){
@@ -103,9 +124,9 @@ public class objectManager {
         return null;
     }
     public void removeLevel(){
-        for(gameObject ga : object){
+        for(gameObject ga : objects){
             if(ga.getTag().contains(new String("static"))){
-                object.remove(ga);
+                objects.remove(ga);
             }
         }
     }

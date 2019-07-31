@@ -103,7 +103,10 @@ class BListener implements ActionListener{
                             String values[] = arr[1].split(" ", 2);
                             int x = Integer.parseInt(values[1].split(" ", 2)[0]);
                             int y = Integer.parseInt(values[1].split(" ", 2)[1]);
-                            k.k.forwM.getObjectByTag(values[0]).setLocation(new Vector(x, y));
+                            for(gameObject o : k.k.forwM.getObjectsByTag(values[0])){
+                                o.setLocation(new Vector(x, y));
+                            }
+                            //k.k.forwM.getObjectByTag(values[0]).setLocation(new Vector(x, y));
                         } catch (NumberFormatException numberFormatException) {
                             quickEffects.alert("devkit", "value :"+ arr[1] +": not understood");
                             

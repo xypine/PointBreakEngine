@@ -8,7 +8,6 @@ package PBEngine;
 
 import java.awt.Color;
 import java.net.URISyntaxException;
-import java.util.LinkedList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.SwingUtilities;
@@ -34,7 +33,7 @@ public class kick {
     Thread c;
     Thread b;
     Thread a;
-    objectManager forwM = new objectManager();
+    objectManager forwM = new objectManager(this);
     public kick(int mode){
         devkit kit = new devkit(ref);
         //ED = new EffectsDemo(ref , forwM, 50, 25, rad, engine_gravity);
@@ -79,10 +78,10 @@ public class kick {
             //wM.oM.addObject(new Player(5, 6, "player1", "█", 1F, Color.black, 3, ref));
             //wM.oM.addObject(new Player(6, 6, "player1", "█", 1F, Color.black, 4, ref));
             //rad.setTitle("VSRad");
-//            wM.rads.add(1, 1, 200, new Color(1, 1, 1), 1, false);
-//            wM.rads.add(49, 1, 200, new Color(1, 1, 1), 1, false);
-//            wM.rads.add(40, 17, 60, new Color(1, 1, 0), 1, false);
-//            wM.red = wM.rads.read(999999);
+            wM.rads.add(1, 1, 200, new Color(1, 1, 1), 1, false);
+            wM.rads.add(49, 1, 200, new Color(1, 1, 1), 1, false);
+            wM.rads.add(39, 20, 120, new Color(1, 0, 0), 1, false);
+            wM.red = wM.rads.read(999999);
             //
             //wM.rads.add(25, 1, 1, new Color(1, 1, 1), 1);
         }

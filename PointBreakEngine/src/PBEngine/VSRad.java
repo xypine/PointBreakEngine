@@ -255,11 +255,12 @@ class VSRadManager{
         tmp.calculate(new dVector(x,y), s, "null");
         System.out.println(tmp.sum);
         this.VSRad.add(tmp);
-        if(recalculate){this.oM.object.get(0).masterParent.wM.red = this.read(999999);}
+        if(recalculate){this.oM.objects.get(0).masterParent.wM.red = this.read(999999);}
         id++;
     }
     public void recalculate(){
-        this.oM.object.get(0).masterParent.wM.red = this.read(999999);
+        
+        oM.kick.wM.red = this.read(999999);
     }
     int lasthash = 0;
     public float[][] read(int type){

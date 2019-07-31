@@ -74,7 +74,8 @@ public class quickEffects {
                         sum = sum + sauce[x + (int) i.x][y + (int) i.y];
                     }catch(Exception e){calcd++;sum = sum + (sum / calcd);}
                 }
-                try{out[x][y] = sum / 9;}catch(Exception e){System.out.println(new Vector(x,y).represent());}
+                out[x][y] = 0F;
+                try{out[x][y] = sum / 9;}catch(Exception e){throw e;}
                 y = y + 1;
             }
             x++;
