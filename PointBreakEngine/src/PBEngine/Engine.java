@@ -30,6 +30,8 @@ import javax.swing.Timer;
  * @author Jonnelafin
  */
 public class Engine extends JFrame implements Runnable, ActionListener {
+    public boolean abright = false;
+    
     public boolean ready = false;
     public boolean running = true;
     //Screen components
@@ -316,6 +318,18 @@ public class Engine extends JFrame implements Runnable, ActionListener {
         float gb[][] = quickEffects.blur(rads.getG(xd, yd), xd, yd, blurStrenght);
         float bb[][] = quickEffects.blur(rads.getB(xd, yd), xd, yd, blurStrenght);
         Color[][] colored = quickEffects.parseColor(xd, yd, rb, gb, bb);
+        if(abright){
+            for(Color[] lane : colored){
+                for(Color cl : lane){
+                    cl = new Color(255, 255, 255);
+                }
+            }
+            for(float[] lane : red){
+                for(float cl : lane){
+                    cl = 10000000000000F;
+                }
+            }
+        }
         
         float[][] out = quickEffects.blur(red, xd, yd, blurStrenght);
         for(float[] x : out){

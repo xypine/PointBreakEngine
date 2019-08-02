@@ -30,7 +30,7 @@ public class Player extends gameObject{
         //System.out.println("VELX, VELY: " + velx + " , " + vely + "     " + "up, down, left, right: " + in.up() + " " + in.down() + " " + in.right() + " " + in.left() + "      " + "x, y, mouse x, y: " + this.getX() + " , " + this.getY() + "MOUSE:"+ in.mouseX() + ", " + in.mouseY());
         //System.out.println(this.colliding);
         
-        if(colliding || point2 || y > 23F){
+        if(colliding || point2 || y > 22){
             fuel = 100;
         }
         if(this.vely < -0.5F && !this.getTag().contains("cursor"))
@@ -49,7 +49,7 @@ public class Player extends gameObject{
                 fuel = fuel - 54;
                 this.vely = this.vely + (in.up() + in.down()) * 1.7F;
             }
-            else if(fuel < 100){
+            else if(fuel < 101){
                 fuel = fuel + 1;
             }
             

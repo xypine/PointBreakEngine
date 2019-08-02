@@ -64,6 +64,7 @@ public class devkit extends JFrame{
     }
 }
 class BListener implements ActionListener{
+    boolean abright = false;
     int type;
     devkit k;
     public BListener(int t, devkit d){
@@ -114,6 +115,11 @@ class BListener implements ActionListener{
                         break;
                     case "/noclip":
                         k.k.wM.oM.getObjectByTag("player1").noclip();
+                        break;
+                    case "/abright":
+                        abright = !abright;
+                        k.k.wM.abright = abright;
+                        System.out.println(abright + ", " + k.k.wM.abright);
                         break;
                     default:
                         quickEffects.alert("devkit", "command not understood");

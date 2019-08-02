@@ -103,8 +103,8 @@ public class objectManager {
     }
     public boolean colliding(int x, int y, LinkedList<String> ignore){
         for(gameObject i : objects){
-            if(i.getTag().contains("cursor") || i.getTag().containsAll(ignore)){}
-            else{
+            if(i.getTag().contains("cursor") || containsany(ignore, i.getTag())){}
+            else{//System.out.println(i.getTag().get(0));
                 if((round(i.x) == x && round(i.y) == y)){
                     return true;
                 }
@@ -112,9 +112,17 @@ public class objectManager {
         }
         return false;
     }
+    private boolean containsany(LinkedList<String> list, LinkedList<String> st){
+        for(String s : list){
+            if(st.contains(s)){
+                return true;
+            }
+        }
+        return false;
+    }
     public gameObject collidingGA(int x, int y, LinkedList<String> ignore){
         for(gameObject i : objects){
-            if(i.getTag().contains("cursor") || i.getTag().containsAll(ignore)){}
+            if(i.getTag().contains("cursor") || containsany(ignore, i.getTag())){}
             else{
                 if((round(i.x) == x && round(i.y) == y)){
                     return i;
