@@ -10,7 +10,7 @@ package PBEngine;
  *
  * @author Jonnelafin
  */
-class Vector {
+class Vector implements java.io.Serializable{
     public float x;
     public float y;
     public Vector(float nx, float ny){
@@ -63,7 +63,7 @@ class Vector3{
         this.z = nz;
     }
 }
-class dVector{
+class dVector implements java.io.Serializable{
     public double x;
     public double y;
     public dVector(double nx, double ny){

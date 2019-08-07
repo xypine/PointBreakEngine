@@ -78,10 +78,10 @@ public class kick {
             //wM.oM.addObject(new Player(5, 6, "player1", "█", 1F, Color.black, 3, ref));
             //wM.oM.addObject(new Player(6, 6, "player1", "█", 1F, Color.black, 4, ref));
             //rad.setTitle("VSRad");
-            wM.rads.add(7, 20, 100, new Color(2, 2, 2), 1, true);
+            /*wM.rads.add(7, 20, 100, new Color(2, 2, 2), 1, true);
             wM.rads.add(49, 1, 200, new Color(1, 1, 1), 1, false);
             wM.rads.add(39, 20, 120, new Color(1, 0, 0), 1, false);
-            wM.red = wM.rads.read(999999);
+            wM.red = wM.rads.read(999999);*/
             //
             //wM.rads.add(25, 1, 1, new Color(1, 1, 1), 1);
         }

@@ -8,10 +8,13 @@ package PBEngine;
 
 import java.awt.Color;
 import java.io.BufferedWriter;
+import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.FileReader;
 import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 import java.io.OutputStreamWriter;
 import java.io.UnsupportedEncodingException;
 import java.io.Writer;
@@ -166,23 +169,21 @@ public class levelLoader {
             writer.write(tmp);
         }
     }
-    public void nwrite(LinkedList<gameObject> g, String file) throws FileNotFoundException, UnsupportedEncodingException, IOException{
-
-        System.out.println("Saving level to: "+dir.levels + file + "...");
-        System.out.println("");
-
-        String tmp = "";
-        int idi = 90;
-        for(gameObject p : g){
-            if(p.getTag().contains("static")){
-                tmp = tmp + round(p.x) + "." + round(p.y) + ".static.█.1.green." + idi + ".:";
-                System.out.print(".");
-                idi++;
-            }
-        }
-        try (Writer writer = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(dir.levels + file), "utf-8"))) {
-            writer.write(tmp);
-        }
+    public void writeObject(Object o, String file) throws FileNotFoundException, IOException{
+      ObjectOutputStream objOut = new ObjectOutputStream(new
+              ///"out_lights.txt"
+      FileOutputStream(dir.levels + file));
+      objOut.writeObject(o);
+      objOut.close();
+    }
+    public Object readObject(String file) throws IOException, ClassNotFoundException{
+        Object out;
+        FileInputStream fileIn =new FileInputStream(dir.levels + file);
+        ObjectInputStream in = new ObjectInputStream(fileIn);
+            out = in.readObject();
+            in.close();
+            fileIn.close();
+        return out;
     }
     public int toInt(String som){
         String result = "";

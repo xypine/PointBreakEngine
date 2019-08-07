@@ -15,6 +15,8 @@ import java.io.File;
 import java.io.IOException;
 import java.util.LinkedList;
 import java.util.Objects;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.imageio.ImageIO;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
@@ -133,6 +135,11 @@ public class Renderer {
 class vectorArea extends JPanel{
     private Color[][] master;
     public int blur = 0;
+    
+    int id = 0;
+    
+    LinkedList<imageWithId> images = new LinkedList<>();
+    
     LinkedList<Vector> points = new LinkedList<>();
     LinkedList<Color> colors = new LinkedList<>();
     LinkedList<newVectorLayer> layers = new LinkedList<>();
@@ -143,6 +150,35 @@ class vectorArea extends JPanel{
     private int h = 0;
     public boolean sSi = false;
     Image image;
+    public imageWithId getImage(String name){
+        imageWithId imgF = getWithName(name);
+        if(imgF != null){
+            return imgF;
+        }else{
+            System.out.println("adding image to memory: " + name);
+            File img = new File(name);
+            BufferedImage image = null;
+            try {
+                image = ImageIO.read(img);
+            } catch (IOException ex) {
+                Logger.getLogger(vectorArea.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            this.images.add(new imageWithId(image, name.hashCode()));
+            return new imageWithId(image, id);
+        }
+    }
+    public imageWithId getWithName(String name){
+        for(imageWithId i : images){
+            if(i.id==name.hashCode()){
+                return i;
+            }
+        }
+        return null;
+    }
+    public void removeImage(int id){
+        this.images.remove(id);
+    }
+    
     @Override
     public void paintComponent(Graphics g) {
         super.paintComponent(g);
@@ -157,7 +193,6 @@ class vectorArea extends JPanel{
                 dVector rl = vL.containers.get(i).location;
                 Color c = vL.containers.get(i).color;
                 int size = vL.containers.get(i).size;
-                BufferedImage imaged = vL.containers.get(i).image;
                 String imageloc = vL.containers.get(i).ImageName;
                 if(Objects.equals(imageloc, "")){
                     g.setColor(c);
@@ -165,19 +200,24 @@ class vectorArea extends JPanel{
                 }
                 else{
                     try{
-                        if(imaged == null){
+/*                        if(imaged == 999999999){
+                            System.out.println("adding to system: " + vL.containers.get(i).ImageName);
                             File img = new File(imageloc);
                             BufferedImage image = ImageIO.read(img);
-                            vL.containers.get(i).image = image;
-                            imaged = vL.containers.get(i).image;
-                        }
+                            addImage(image, id);
+                            vL.containers.get(i).imageId = id;
+                            imaged = getImageIndex(vL.containers.get(i).imageId);
+                            id++;
+                        }*/
                         
                                                      //0.75F
-                        image = new quickEffects().colorImage(imaged, c.getRed(), c.getGreen(), c.getBlue(), 1F);
+                        imageWithId gImage = getImage(imageloc);
+                        image = new quickEffects().colorImage(gImage.image, c.getRed(), c.getGreen(), c.getBlue(), 1F);
                         g.drawImage(image, (int)(rl.x*factor),(int) (rl.y*factor), (int) factor * size, (int) factor * size, this);
                     }catch(Exception e){
                         g.setColor(Color.MAGENTA);
                         g.fillRect((int)(rl.x*factor),(int) (rl.y*factor), (int) factor, (int) factor);
+                        throw e;
                     }
                 }
             }
@@ -301,16 +341,23 @@ class ImagePanel extends JPanel{
     }
 
 }
-class renderContainer{
+class renderContainer implements java.io.Serializable{
     dVector location;
     String ImageName;
     Color color;
     int size;
-    BufferedImage image;
     public renderContainer(dVector location, String ImageName, Color color, int size){
         this.location = location;
         this.ImageName = ImageName;
         this.color = color;
         this.size = size;
+    }
+}
+class imageWithId{
+    BufferedImage image;
+    int id;
+    public imageWithId(BufferedImage image, int id){
+        this.image = image;
+        this.id = id;
     }
 }

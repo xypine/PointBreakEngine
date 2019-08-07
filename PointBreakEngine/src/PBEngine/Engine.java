@@ -30,6 +30,12 @@ import javax.swing.Timer;
  * @author Jonnelafin
  */
 public class Engine extends JFrame implements Runnable, ActionListener {
+    LinkedList<renderContainer> LoadedRays;
+    Color[][] bakedcolor;
+    
+    public LinkedList<renderContainer> bakedRays;
+    public boolean raysBaked = false;
+    
     public boolean abright = false;
     
     public boolean ready = false;
@@ -89,6 +95,7 @@ public class Engine extends JFrame implements Runnable, ActionListener {
     VSRadManager rads;
     
     @Override
+    @SuppressWarnings("unchecked")
     public void run() {
         System.out.println("Initializing engine...");
         ready = false;
@@ -168,6 +175,20 @@ public class Engine extends JFrame implements Runnable, ActionListener {
         red = rads.read(99);
         screen = "";
         
+        System.out.println("Loading baked level lights");
+        
+        try {
+            bakedcolor = (Color[][]) new levelLoader("null", oM, k).readObject("out_illumination.txt");
+            LoadedRays = (LinkedList<renderContainer>) new levelLoader("null", oM, k).readObject("out_lights.txt");
+        } catch (URISyntaxException ex) {
+            Logger.getLogger(Engine.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (IOException ex) {
+            Logger.getLogger(Engine.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (ClassNotFoundException ex) {
+            Logger.getLogger(Engine.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+        
         //fresh();
         System.out.println("Done initializing engine!");
         
@@ -231,6 +252,21 @@ public class Engine extends JFrame implements Runnable, ActionListener {
     @Override
     public void actionPerformed(ActionEvent e) {
         //fresh();
+        if(input.keyPressed != null){
+            if(input.keyPressed.getKeyChar() == 'l' && !raysBaked){
+                raysBaked = true;
+                System.out.println("saving lights");
+                try {
+                    levelLoader lL = new levelLoader("null", oM, k);
+                    lL.writeObject(bakedRays, "out_lights.txt");
+                    lL.writeObject(colored, "out_illumination.txt");
+                } catch (URISyntaxException ex) {
+                    Logger.getLogger(Engine.class.getName()).log(Level.SEVERE, null, ex);
+                } catch (IOException ex) {
+                    Logger.getLogger(Engine.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            }
+        }
         this.number = Integer.parseInt(Integer.toString(tickC).substring(0, 1));
         if(vector == 0){
             area.setVisible(true);
@@ -257,6 +293,7 @@ public class Engine extends JFrame implements Runnable, ActionListener {
     dVector las;
     public Recorder recorder = new Recorder();
     boolean ve = false;
+    Color[][] colored;
     void tick(){
         //rads.removeA();
         //rads.add(25, 12, 4);
@@ -284,7 +321,7 @@ public class Engine extends JFrame implements Runnable, ActionListener {
         //vector = input.ve;
         
 //        aM.play();
-        recorder.record(oM);
+//        recorder.record(oM);
         //UPDATE ARRAY
         class xyac
         {
@@ -317,7 +354,7 @@ public class Engine extends JFrame implements Runnable, ActionListener {
         float rb[][] = quickEffects.blur(rads.getR(xd, yd), xd, yd, blurStrenght);
         float gb[][] = quickEffects.blur(rads.getG(xd, yd), xd, yd, blurStrenght);
         float bb[][] = quickEffects.blur(rads.getB(xd, yd), xd, yd, blurStrenght);
-        Color[][] colored = quickEffects.parseColor(xd, yd, rb, gb, bb);
+        colored = quickEffects.parseColor(xd, yd, rb, gb, bb);
         if(abright){
             for(Color[] lane : colored){
                 for(Color cl : lane){
@@ -435,8 +472,11 @@ public class Engine extends JFrame implements Runnable, ActionListener {
         
 //        vA.update(points, colors, images, sizes, 2F, 1);
 //        vA.update(points2, colors2, images2, sizes2, 2F, 0);
+        bakedRays = cont2;
         vA.update(cont1, 1);
-        vA.update(cont2, 0);
+        if(LoadedRays != null){vA.update(LoadedRays,0);}
+        else{vA.update(cont2, 0);}
+        
         for(xyac a : lis){
 //            renderer.change((int) (a.x), (int) (a.y), a.a, a.c, "n");
             //lM.vChange(a.last.x * 15.34F, a.last.y * 22.48F, a.a, Color.black, vector);
