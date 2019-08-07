@@ -157,12 +157,19 @@ public class gameObject {
                         if(this.velx < 0){this.x = this.x - 0.1F;}
                         if(this.velx > 0){this.x = this.x + 0.1F;}
                         checkAdvancedCollisions(oMb, this);
+                        for(dVector dir : Vector.dir()){
+                            checkAdvancedCollisions(oMb, this, x+dir.x, y+dir.y);
+                        }
+                        
                     }
                     for (int i : new Range((int) round(Math.abs(this.vely) * 10))) {
 
                         if(this.vely < 0){this.y = this.y - 0.1F;}
                         if(this.vely > 0){this.y = this.y + 0.1F;}
                         checkAdvancedCollisions(oMb, this);
+                        for(dVector dir : Vector.dir()){
+                            checkAdvancedCollisions(oMb, this, x+dir.x, y+dir.y);
+                        }
                     }
 
                 }
@@ -184,25 +191,8 @@ public class gameObject {
                     if(velx > 100F){velx = 100.1F;}
                     else{velx = velx + masterParent.engine_gravity.x;}
                 }
-                checkAdvancedCollisions(oMb, this, x + velx, y + vely);
-                if(this.tag.contains(new String("cursor"))){}
-                else{
-    //                this.y = this.y + (this.vely);
-    //                this.x = this.x + (this.velx);
-                    for (int i : new Range((int) round(Math.abs(this.corx) * 10))) {
-
-                        if(corx < 0){this.x = this.x - 0.1F;}
-                        if(corx > 0){this.x = this.x + 0.1F;}
-                        checkAdvancedCollisions(oMb, this);
-                    }
-                    for (int i : new Range((int) round(Math.abs(cory) * 10))) {
-
-                        if(cory < 0){this.y = this.y - 0.1F;}
-                        if(cory > 0){this.y = this.y + 0.1F;}
-                        checkAdvancedCollisions(oMb, this);
-                    }
-
-                }
+                //checkAdvancedCollisions(oMb, this, x + velx, y + vely);
+                
                 
                 if(this.y > yd - 1){
                     this.y = yd - 1;
@@ -279,7 +269,7 @@ public class gameObject {
         if(!i.masterParent.engine_collisions || !collisions){
             return;
         }
-        checkAdvancedCollisions(o, i, x+(velx / 2), y+(vely / 2));
+        //checkAdvancedCollisions(o, i, x+(velx / 2), y+(vely / 2));
         LinkedList<String> ignore = tag;
         for(gameObject ga : children){
             for(String tag : ga.getTag()){
@@ -291,11 +281,14 @@ public class gameObject {
         for(int xc : new Range(size)){
             for(int yc : new Range(size)){
                 if(o.colliding((int)Math.round(i.x + xc), (int)Math.round(i.y + yc), ignore)){
-                    point1(i, o.collidingGA(xc, yc, ignore));
+//                    point1(i, o.collidingGA(xc, yc, ignore));
+                    colliding = true;
+                    this.x = this.x + velx * -0.1;
+                    this.y = this.y + vely * -0.1;
                 }
                 else if(o.colliding((int)Math.round(i.x + xc), (int) Math.ceil(i.y + yc), ignore)){
-                    point2 = true;
-                    point2(i, o.collidingGA((int)Math.round(i.x + xc),(int) Math.round(i.y + yc + 1), ignore));
+//                    point2 = true;
+//                    point2(i, o.collidingGA((int)Math.round(i.x + xc),(int) Math.round(i.y + yc + 1), ignore));
                 }
                 else{
                     colliding = false;
@@ -319,7 +312,9 @@ public class gameObject {
         for(int xc : new Range(size)){
             for(int yc : new Range(size)){
                 if(o.colliding((int)Math.round(x + xc), (int)Math.round(x + yc), ignore)){
-                    point1(i, o.collidingGA(xc, yc, ignore));
+                    colliding = true;
+                    this.x = this.x + velx * -0.1;
+                    this.y = this.y + vely * -0.1;
                 }
                 else if(o.colliding((int)Math.round(x + xc), (int) Math.ceil(y + yc), ignore)){
                     //point2 = true;
