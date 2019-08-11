@@ -235,7 +235,6 @@ public class Engine extends JFrame implements Runnable, ActionListener {
         ready = true;
         revalidate();
         repaint();
-        vA.sSi = false;
         timer.start();
     }
     //Function for reshfreshing the screen

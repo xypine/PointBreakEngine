@@ -178,18 +178,11 @@ class vectorArea extends JPanel{
     public void removeImage(int id){
         this.images.remove(id);
     }
-    
+    BufferedImage full = null;
     @Override
     public void paintComponent(Graphics g) {
         super.paintComponent(g);
-        BufferedImage full = null;
-        try {
-            //master = quickEffects.zero(master);
-            full = ImageIO.read(new File(new directory().textures + "splash.png"));
-        } catch (IOException ex) {
-            
-            Logger.getLogger(vectorArea.class.getName()).log(Level.SEVERE, null, ex);
-        }
+        
         if(sSi){
             g.drawImage(full, 0, 0, w, h, this);
         }
@@ -288,6 +281,15 @@ class vectorArea extends JPanel{
         newVectorLayer tmp = new newVectorLayer();
         tmp.init(title, blur);
         this.layers.add(position, tmp);
+    }
+    public vectorArea(){
+        try {
+            //master = quickEffects.zero(master);
+            full = ImageIO.read(new File(new directory().textures + "splash.png"));
+        } catch (IOException ex) {
+            
+            Logger.getLogger(vectorArea.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 }
 class vectorLayer{

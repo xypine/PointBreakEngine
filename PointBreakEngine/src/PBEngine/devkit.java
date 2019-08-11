@@ -13,6 +13,8 @@ import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
+import javax.swing.JTextArea;
 import javax.swing.JTextField;
 
 /**
@@ -26,22 +28,29 @@ public class devkit extends JFrame{
     JButton graphic = new JButton("toggle vector");
     JButton rays = new JButton("toggle rays");
     JLabel time = new JLabel("RAYYYS");
+    JTextArea log = new JTextArea("PointBreakEngine devkit");
     JTextField lum = new JTextField(20);
+    JScrollPane logs = new JScrollPane(log);
     public devkit(kick k) {
         this.setTitle("PointBreakEngine devkit");
         this.k = k;
-        this.setSize(300, 550);
-        
+        this.setSize(400, 550);
+        this.setLocationRelativeTo(k.wM);
+        this.setLocation(1080, 0);
         
         graphic.addActionListener(new BListener(9, this));
         rays.addActionListener(new BListener(2, this));
         lum.addActionListener(new BListener(0, this));
+        logs.setWheelScrollingEnabled(true);
+        //log.setColumns(1);
+        log.setRows(15);
+        logs.setWheelScrollingEnabled(true);
         cont.add(graphic, BorderLayout.NORTH);
         cont.add(rays, BorderLayout.NORTH);
         cont.add(time, BorderLayout.SOUTH);
+        cont.add(logs, BorderLayout.NORTH);
         cont.add(lum, BorderLayout.NORTH);
         this.add(cont);
-        
         this.setVisible(true);
     }
     public void togG(){

@@ -277,4 +277,14 @@ public class quickEffects {
     public static GraphicsConfiguration getGraphicsConfiguration() {
         return GraphicsEnvironment.getLocalGraphicsEnvironment().getDefaultScreenDevice().getDefaultConfiguration();
     }
+    
+    public LinkedList<Object> log = new LinkedList<>();
+    public void println(Object in){
+        log.add(in);
+        System.out.println(in);
+    }
+    public void print(Object in){
+        log.add(in);
+        System.out.print(in);
+    }
 }
