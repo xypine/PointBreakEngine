@@ -182,42 +182,51 @@ class vectorArea extends JPanel{
     @Override
     public void paintComponent(Graphics g) {
         super.paintComponent(g);
-        //master = quickEffects.zero(master);
-        if(sSi){
-            g.drawImage(image, 0, 0, 100, 100, this);
+        BufferedImage full = null;
+        try {
+            //master = quickEffects.zero(master);
+            full = ImageIO.read(new File(new directory().textures + "splash.png"));
+        } catch (IOException ex) {
+            
+            Logger.getLogger(vectorArea.class.getName()).log(Level.SEVERE, null, ex);
         }
-        for(int layer : new Range(layers.size())){
-            if(sSi){break;}
-            newVectorLayer vL = layers.get(layer);
-            for(int i : new Range(vL.containers.size())){
-                dVector rl = vL.containers.get(i).location;
-                Color c = vL.containers.get(i).color;
-                int size = vL.containers.get(i).size;
-                String imageloc = vL.containers.get(i).ImageName;
-                if(Objects.equals(imageloc, "")){
-                    g.setColor(c);
-                    g.fillRect((int)(rl.x*factor),(int) (rl.y*factor), (int) factor * size, (int) factor * size);
-                }
-                else{
-                    try{
-/*                        if(imaged == 999999999){
-                            System.out.println("adding to system: " + vL.containers.get(i).ImageName);
-                            File img = new File(imageloc);
-                            BufferedImage image = ImageIO.read(img);
-                            addImage(image, id);
-                            vL.containers.get(i).imageId = id;
-                            imaged = getImageIndex(vL.containers.get(i).imageId);
-                            id++;
-                        }*/
-                        
-                                                     //0.75F
-                        imageWithId gImage = getImage(imageloc);
-                        image = new quickEffects().colorImage(gImage.image, c.getRed(), c.getGreen(), c.getBlue(), 1F);
-                        g.drawImage(image, (int)(rl.x*factor),(int) (rl.y*factor), (int) factor * size, (int) factor * size, this);
-                    }catch(Exception e){
-                        g.setColor(Color.MAGENTA);
-                        g.fillRect((int)(rl.x*factor),(int) (rl.y*factor), (int) factor, (int) factor);
-                        throw e;
+        if(sSi){
+            g.drawImage(full, 0, 0, w, h, this);
+        }
+        else{
+            for(int layer : new Range(layers.size())){
+                if(sSi){break;}
+                newVectorLayer vL = layers.get(layer);
+                for(int i : new Range(vL.containers.size())){
+                    dVector rl = vL.containers.get(i).location;
+                    Color c = vL.containers.get(i).color;
+                    int size = vL.containers.get(i).size;
+                    String imageloc = vL.containers.get(i).ImageName;
+                    if(Objects.equals(imageloc, "")){
+                        g.setColor(c);
+                        g.fillRect((int)(rl.x*factor),(int) (rl.y*factor), (int) factor * size, (int) factor * size);
+                    }
+                    else{
+                        try{
+    /*                        if(imaged == 999999999){
+                                System.out.println("adding to system: " + vL.containers.get(i).ImageName);
+                                File img = new File(imageloc);
+                                BufferedImage image = ImageIO.read(img);
+                                addImage(image, id);
+                                vL.containers.get(i).imageId = id;
+                                imaged = getImageIndex(vL.containers.get(i).imageId);
+                                id++;
+                            }*/
+
+                                                         //0.75F
+                            imageWithId gImage = getImage(imageloc);
+                            image = new quickEffects().colorImage(gImage.image, c.getRed(), c.getGreen(), c.getBlue(), 1F);
+                            g.drawImage(image, (int)(rl.x*factor),(int) (rl.y*factor), (int) factor * size, (int) factor * size, this);
+                        }catch(Exception e){
+                            g.setColor(Color.MAGENTA);
+                            g.fillRect((int)(rl.x*factor),(int) (rl.y*factor), (int) factor, (int) factor);
+                            throw e;
+                        }
                     }
                 }
             }

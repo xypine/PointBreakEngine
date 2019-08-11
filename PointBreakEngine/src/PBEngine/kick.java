@@ -21,6 +21,8 @@ public class kick {
     public dVector engine_gravity = new dVector(0D, 0.1D);
     public boolean engine_collisions = true;
     
+    boolean bakedLights = true;
+    
     Engine wM;
     Editor ea;
     //radiosity rad;
@@ -34,8 +36,9 @@ public class kick {
     Thread b;
     Thread a;
     objectManager forwM = new objectManager(this);
+    devkit kit;
     public kick(int mode){
-        devkit kit = new devkit(ref);
+        kit = new devkit(ref);
         //ED = new EffectsDemo(ref , forwM, 50, 25, rad, engine_gravity);
         b  = new Thread(){
             @Override
@@ -78,10 +81,12 @@ public class kick {
             //wM.oM.addObject(new Player(5, 6, "player1", "█", 1F, Color.black, 3, ref));
             //wM.oM.addObject(new Player(6, 6, "player1", "█", 1F, Color.black, 4, ref));
             //rad.setTitle("VSRad");
-            /*wM.rads.add(7, 20, 100, new Color(2, 2, 2), 1, true);
-            wM.rads.add(49, 1, 200, new Color(1, 1, 1), 1, false);
-            wM.rads.add(39, 20, 120, new Color(1, 0, 0), 1, false);
-            wM.red = wM.rads.read(999999);*/
+            if(!bakedLights){
+                wM.rads.add(7, 20, 100, new Color(2, 2, 2), 1, true);
+                wM.rads.add(49, 1, 200, new Color(1, 1, 1), 1, false);
+                wM.rads.add(39, 20, 120, new Color(1, 0, 0), 1, false);
+                wM.red = wM.rads.read(999999);
+            }
             //
             //wM.rads.add(25, 1, 1, new Color(1, 1, 1), 1);
         }

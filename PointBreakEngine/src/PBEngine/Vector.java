@@ -42,14 +42,14 @@ class Vector implements java.io.Serializable{
     }
     public static dVector[] dir(){
             dVector[] dirs = new dVector[8];
-            dirs[0] = new dVector(0.0F,1.0F);
-            dirs[1] = new dVector(1.0F,1.0F);
-            dirs[2] = new dVector(1.0F,0.0F);
-            dirs[3] = new dVector(-1.0F,-1.0F);
-            dirs[4] = new dVector(0F,-1.0F);
-            dirs[5] = new dVector(-1.0F,-1.0F);
-            dirs[6] = new dVector(-1.0F,0F);
-            dirs[7] = new dVector(-1.0F,1F);
+            dirs[0] = new dVector(0.0,1.0);
+            dirs[1] = new dVector(1.0,1.0);
+            dirs[2] = new dVector(1.0,0.0);
+            dirs[3] = new dVector(-1.0,-1.0);
+            dirs[4] = new dVector(0,-1.0);
+            dirs[5] = new dVector(-1.0,-1.0);
+            dirs[6] = new dVector(-1.0,0);
+            dirs[7] = new dVector(-1.0,1);
             return dirs;
     }
 }

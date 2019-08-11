@@ -6,6 +6,7 @@
 package PBEngine;
 
 import java.awt.BorderLayout;
+import java.awt.Color;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import javax.swing.JButton;
@@ -24,7 +25,7 @@ public class devkit extends JFrame{
     kick k;
     JButton graphic = new JButton("toggle vector");
     JButton rays = new JButton("toggle rays");
-    JLabel raysL = new JLabel("RAYYYS");
+    JLabel time = new JLabel("RAYYYS");
     JTextField lum = new JTextField(20);
     public devkit(kick k) {
         this.setTitle("PointBreakEngine devkit");
@@ -37,7 +38,7 @@ public class devkit extends JFrame{
         lum.addActionListener(new BListener(0, this));
         cont.add(graphic, BorderLayout.NORTH);
         cont.add(rays, BorderLayout.NORTH);
-        cont.add(raysL, BorderLayout.SOUTH);
+        cont.add(time, BorderLayout.SOUTH);
         cont.add(lum, BorderLayout.NORTH);
         this.add(cont);
         
@@ -121,6 +122,25 @@ class BListener implements ActionListener{
                         k.k.wM.abright = abright;
                         System.out.println(abright + ", " + k.k.wM.abright);
                         break;
+                    case "/add":
+                        try {
+                            String values[] = arr[1].split(" ", 2);
+                            int x = Integer.parseInt(values[1].split(" ", 2)[0]);
+                            int y = Integer.parseInt(values[1].split(" ", 2)[1]);
+                            String tag = values[0];
+                            k.k.forwM.addObject(new gameObject(x, y, 1, tag, "N", 1, Color.black, 1919, k.k));
+                            //k.k.forwM.getObjectByTag(values[0]).setLocation(new Vector(x, y));
+                        } catch (NumberFormatException numberFormatException) {
+                            quickEffects.alert("devkit", "value :"+ arr[1] +": not understood");
+                            
+                        }
+                        break;
+                    case "/rm":
+                        String values[] = arr[1].split(" ", 2);
+                        for(gameObject o : k.k.forwM.getObjectsByTag(values[0])){
+                                k.k.forwM.objects.remove(o);
+                            }
+                        break;
                     default:
                         quickEffects.alert("devkit", "command not understood");
                         break;
@@ -128,7 +148,7 @@ class BListener implements ActionListener{
             }
         }
         catch(Exception e){}
-        k.raysL.setText(Boolean.toString(k.togV));
+        k.time.setText(Boolean.toString(k.togV));
     }
     
 }

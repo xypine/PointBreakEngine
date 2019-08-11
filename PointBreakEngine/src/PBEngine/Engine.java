@@ -30,6 +30,12 @@ import javax.swing.Timer;
  * @author Jonnelafin
  */
 public class Engine extends JFrame implements Runnable, ActionListener {
+    long last_time = System.nanoTime();
+    int deltatime = 0;
+    
+    final int TARGET_FPS = 60;
+    final long OPTIMAL_TIME = 1000000000 / TARGET_FPS;   
+    
     LinkedList<renderContainer> LoadedRays;
     Color[][] bakedcolor;
     
@@ -125,23 +131,19 @@ public class Engine extends JFrame implements Runnable, ActionListener {
         getContentPane().setBackground( Color.black );
         
         vA = new vectorArea();
+        vA.sSi = true;
+        this.add(vA);
+        revalidate();
+        repaint();
         vA.init((int)w, (int)h, 3, false);
         //try {vA.setImage(new directory().textures + "splash.png");}
         //catch (IOException ex) {quickEffects.alert(ex.getMessage());}
-        this.add(vA);
+        
         content.add(vA);
         if(vA.sSi){
             vA.setVisible(true);
         }
-        ImagePanel splash = new ImagePanel();
-        try{
-            File img = new File(new directory().textures + "splash.png");
-            BufferedImage image = ImageIO.read(img);
-            splash.image = image;
-            this.add(splash);
-        } catch (IOException ex) {
-            quickEffects.alert(ex.getMessage());
-        }
+        
         
         area = new JLabel(screen);
         float Daspect = xd / yd;
@@ -175,19 +177,20 @@ public class Engine extends JFrame implements Runnable, ActionListener {
         red = rads.read(99);
         screen = "";
         
-        System.out.println("Loading baked level lights");
-        
-        try {
-            bakedcolor = (Color[][]) new levelLoader("null", oM, k).readObject("out_illumination.txt");
-            LoadedRays = (LinkedList<renderContainer>) new levelLoader("null", oM, k).readObject("out_lights.txt");
-        } catch (URISyntaxException ex) {
-            Logger.getLogger(Engine.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (IOException ex) {
-            Logger.getLogger(Engine.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (ClassNotFoundException ex) {
-            Logger.getLogger(Engine.class.getName()).log(Level.SEVERE, null, ex);
+        if(k.bakedLights){
+            System.out.println("Loading baked level lights");
+
+            try {
+                bakedcolor = (Color[][]) new levelLoader("null", oM, k).readObject("out_illumination.txt");
+                LoadedRays = (LinkedList<renderContainer>) new levelLoader("null", oM, k).readObject("out_lights.txt");
+            } catch (URISyntaxException ex) {
+                Logger.getLogger(Engine.class.getName()).log(Level.SEVERE, null, ex);
+            } catch (IOException ex) {
+                Logger.getLogger(Engine.class.getName()).log(Level.SEVERE, null, ex);
+            } catch (ClassNotFoundException ex) {
+                Logger.getLogger(Engine.class.getName()).log(Level.SEVERE, null, ex);
+            }
         }
-        
         
         //fresh();
         System.out.println("Done initializing engine!");
@@ -232,12 +235,6 @@ public class Engine extends JFrame implements Runnable, ActionListener {
         ready = true;
         revalidate();
         repaint();
-        try {
-            TimeUnit.SECONDS.sleep(2);
-        } catch (InterruptedException ex) {
-            quickEffects.alert(ex.getMessage());
-        }
-        try{this.remove(splash);}catch(Exception e){}
         vA.sSi = false;
         timer.start();
     }
@@ -252,6 +249,12 @@ public class Engine extends JFrame implements Runnable, ActionListener {
     @Override
     public void actionPerformed(ActionEvent e) {
         //fresh();
+        long time = System.nanoTime();
+        deltatime = (int) ((time - last_time) / 1000000);
+        last_time = time;
+        
+        k.kit.time.setText(deltatime + "");
+        
         if(input.keyPressed != null){
             if(input.keyPressed.getKeyChar() == 'l' && !raysBaked){
                 raysBaked = true;
