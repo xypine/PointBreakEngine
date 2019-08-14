@@ -61,7 +61,7 @@ public class Editor extends JFrame implements Runnable, ActionListener {
         System.out.println("out editor input: " + k);
     }
     //Input:
-    levelLoader aol;
+    FileLoader aol;
     float size = 1F;
     float w = 767*size;
     float h = 562*size;
@@ -136,7 +136,7 @@ public class Editor extends JFrame implements Runnable, ActionListener {
         try {
             //SUMMON TEST
             
-            aol = new levelLoader("null", oM, k);
+            aol = new FileLoader("null", oM, k);
         } catch (URISyntaxException ex) {
             Logger.getLogger(Editor.class.getName()).log(Level.SEVERE, null, ex);
         }

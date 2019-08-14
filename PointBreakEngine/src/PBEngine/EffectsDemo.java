@@ -205,7 +205,7 @@ public class EffectsDemo extends JFrame implements Runnable, ActionListener {
     }
     public void loadLevel(String level) throws URISyntaxException{
         oM.removeLevel();
-        levelLoader lL = new levelLoader(level, oM, k);
+        FileLoader lL = new FileLoader(level, oM, k);
     }
     Vector las;
     boolean ve = false;

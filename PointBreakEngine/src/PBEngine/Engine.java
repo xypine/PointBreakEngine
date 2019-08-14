@@ -10,17 +10,13 @@ import java.awt.Color;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.image.BufferedImage;
-import java.io.File;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import static java.lang.Math.round;
 import java.net.URISyntaxException;
 import java.util.LinkedList;
-import java.util.concurrent.TimeUnit;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javax.imageio.ImageIO;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.Timer;
@@ -181,8 +177,8 @@ public class Engine extends JFrame implements Runnable, ActionListener {
             System.out.println("Loading baked level lights");
 
             try {
-                bakedcolor = (Color[][]) new levelLoader("null", oM, k).readObject("out_illumination.txt");
-                LoadedRays = (LinkedList<renderContainer>) new levelLoader("null", oM, k).readObject("out_lights.txt");
+                bakedcolor = (Color[][]) new FileLoader("null", oM, k).readObject("out_illumination.txt");
+                LoadedRays = (LinkedList<renderContainer>) new FileLoader("null", oM, k).readObject("out_lights.txt");
             } catch (URISyntaxException ex) {
                 Logger.getLogger(Engine.class.getName()).log(Level.SEVERE, null, ex);
             } catch (IOException ex) {
@@ -259,7 +255,7 @@ public class Engine extends JFrame implements Runnable, ActionListener {
                 raysBaked = true;
                 System.out.println("saving lights");
                 try {
-                    levelLoader lL = new levelLoader("null", oM, k);
+                    FileLoader lL = new FileLoader("null", oM, k);
                     lL.writeObject(bakedRays, "out_lights.txt");
                     lL.writeObject(colored, "out_illumination.txt");
                 } catch (URISyntaxException ex) {
@@ -290,7 +286,7 @@ public class Engine extends JFrame implements Runnable, ActionListener {
     }
     public void loadLevel(String level) throws URISyntaxException{
         oM.removeLevel();
-        levelLoader lL = new levelLoader(level, oM, k);
+        FileLoader lL = new FileLoader(level, oM, k);
     }
     dVector las;
     public Recorder recorder = new Recorder();

@@ -6,20 +6,13 @@
 
 package PBEngine;
 
-import java.awt.BorderLayout;
 import java.awt.Color;
-import java.io.BufferedWriter;
 import java.io.ByteArrayOutputStream;
-import java.io.FilterOutputStream;
-import java.io.IOException;
-import java.io.OutputStream;
 import java.io.PrintStream;
 import java.net.URISyntaxException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javax.swing.JFrame;
-import javax.swing.JScrollPane;
-import javax.swing.JTextArea;
+import javax.swing.JScrollBar;
 import javax.swing.SwingUtilities;
 
 /**
@@ -52,6 +45,10 @@ public class kick {
     objectManager forwM = new objectManager(this);
     devkit kit;
     public kick(int mode){
+        //read config
+        System.out.println(FileLoader.readConfig("config.txt"));
+        
+        
         // Create a stream to hold the output
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
         PrintStream ps = new PrintStream(baos);
@@ -146,6 +143,9 @@ public class kick {
                 
                 //System.setOut(ps);
                 //System.out.flush();
+                JScrollBar vertical = kit.logs.getVerticalScrollBar();
+                vertical.setValue( vertical.getMaximum() );
+
                 oldo = newo;
             }
             

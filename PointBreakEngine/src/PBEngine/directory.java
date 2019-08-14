@@ -16,6 +16,7 @@ public class directory {
     public String textures = appendix+"assets/textures/";
     public String replays = appendix+"assets/replays/";
     public String music = appendix+"assets/music/";
+    public String root = appendix;
     public directory(){
         if(System.getProperty("os.name").equals("Linux")){
             appendix = System.getProperty("user.dir")+"/";
