@@ -354,18 +354,6 @@ public class Engine extends JFrame implements Runnable, ActionListener {
         float bb[][] = quickEffects.blur(rads.getB(xd, yd), xd, yd, blurStrenght);
         if(bakedcolor == null){colored = quickEffects.parseColor(xd, yd, rb, gb, bb);}
         else{colored = bakedcolor;}
-        if(abright){
-            for(Color[] lane : colored){
-                for(Color cl : lane){
-                    cl = new Color(255, 255, 255);
-                }
-            }
-            for(float[] lane : red){
-                for(float cl : lane){
-                    cl = 10000000000000F;
-                }
-            }
-        }
         
         float[][] out = quickEffects.blur(red, xd, yd, blurStrenght);
         for(float[] x : out){
@@ -440,9 +428,9 @@ public class Engine extends JFrame implements Runnable, ActionListener {
             float g = tc.getGreen();
             float b = tc.getBlue();
                     //global brightness
-                    
+            
             try{                                //.readColor(tx, ty).getRed()
-                try{r = (r * global_brightness + (colored[tx][ty].getRed()));if(r > 255){r = 255;}}catch(Exception e2){r = 0;throw e2;}
+                try{r = (r * global_brightness + (colored[tx][ty].getRed()));if(r > 255){r = 255;}}catch(Exception e2){r = 0;}
                 try{g = (g * global_brightness + (colored[tx][ty].getGreen()));if(g > 255){g = 255;}}catch(Exception e2){g = 0;}
                 try{b = (b * global_brightness + (colored[tx][ty].getBlue()));if(b > 255){b = 255;}}catch(Exception e2){b = 0;}
             //    r = (r * global_brightness + (rads.colors[tx][ty].getRed() * 0.5F) / 2 );if(r > 255){r = 255;}
@@ -454,6 +442,11 @@ public class Engine extends JFrame implements Runnable, ActionListener {
                 try{g = (g * global_brightness * (red[tx][ty] * 0.55F) / 2 );if(g > 255){g = 255;}}catch(Exception e2){g = 0;}
                 try{b = (b * global_brightness * (red[tx][ty] * 0.55F) / 2 );if(b > 255){b = 255;}}catch(Exception e2){b = 0;}
                 throw(e);
+            }
+            if(abright){
+                r = 255;
+                g = 255;
+                b = 255;
             }
             cont1.add( new renderContainer(new dVector(txf, tyf), p.imageName, new Color((int)r,(int)g,(int)b), p.size));
             colors.add(new Color((int)r,(int)g,(int)b));

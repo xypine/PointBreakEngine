@@ -67,6 +67,7 @@ public class kick {
         
         
         kit = new devkit(ref);
+        
         //ED = new EffectsDemo(ref , forwM, 50, 25, rad, engine_gravity);
         b  = new Thread(){
             @Override
@@ -76,9 +77,9 @@ public class kick {
                 ea.setVisible(false);
             }
         };
+        System.out.println("PointBreakEngine by Elias Eskelinen alias Jonnelafin");
         System.out.println("Starting PointBreakEngine on " + System.getProperty("os.name") + "...");
-        System.out.println("initializing");
-        System.out.println("////////////////");
+        
         b.start();
         a = new Thread(){
                 @Override
