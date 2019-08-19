@@ -28,7 +28,7 @@ public class kick {
     public dVector engine_gravity = new dVector(0D, 0.1D);
     public boolean engine_collisions = true;
     
-    boolean bakedLights = false;
+    boolean bakedLights = true;
     
     Engine wM;
     Editor ea;
