@@ -8,6 +8,7 @@ package PBEngine;
 
 import java.awt.Color;
 import java.awt.Dimension;
+import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.Image;
 import java.awt.image.BufferedImage;
@@ -179,12 +180,23 @@ class vectorArea extends JPanel{
         this.images.remove(id);
     }
     BufferedImage full = null;
+    public vectorArea(kick masterKick){
+        this.masterkick = masterKick;
+    }
+    kick masterkick = null;
     @Override
     public void paintComponent(Graphics g) {
         super.paintComponent(g);
         
         if(sSi){
-            g.drawImage(full, 0, 0, w, h, this);
+//            g.drawImage(full, 0, 0, w, h, this);
+            g.setColor(Color.black);
+            g.fillRect(0, 0, w, h);
+            g.setColor(new Color(0, 200, 0));
+            g.fillRect(w/(masterkick.loadingsteps+5), h/2-10, w/masterkick.loadingsteps*masterkick.loading_completed, 10);
+            g.setColor(Color.white);
+            g.setFont(new Font("Verdana", Font.PLAIN, 34)); 
+            g.drawString("Loading, step " + masterkick.loading_completed + " of " + masterkick.loadingsteps, w/3, h/2);
         }
         else{
             for(int layer : new Range(layers.size())){

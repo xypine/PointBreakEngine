@@ -15,7 +15,7 @@ import java.awt.Color;
 public class Player extends gameObject{
     private boolean noclip = false;
     public int fuel = 136;
-    int collision_type = 2;
+    int collision_type = 0;
     boolean canjump = true;
     private final directory dir = new directory();
     public boolean point2_2 = false;

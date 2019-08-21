@@ -126,7 +126,7 @@ public class Engine extends JFrame implements Runnable, ActionListener {
         this.setVisible(true);
         getContentPane().setBackground( Color.black );
         
-        vA = new vectorArea();
+        vA = new vectorArea(k);
         vA.sSi = true;
         this.add(vA);
         revalidate();

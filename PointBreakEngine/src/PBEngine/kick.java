@@ -20,7 +20,8 @@ import javax.swing.SwingUtilities;
  * @author Jonnelafin
  */
 public class kick {
-    
+    int loadingsteps = 4;
+    int loading_completed = 0;
     
     quickEffects tools = new quickEffects();
     
@@ -28,7 +29,7 @@ public class kick {
     public dVector engine_gravity = new dVector(0D, 0.1D);
     public boolean engine_collisions = true;
     
-    boolean bakedLights = true;
+    boolean bakedLights = false;
     
     Engine wM;
     Editor ea;
@@ -81,6 +82,9 @@ public class kick {
         System.out.println("Starting PointBreakEngine on " + System.getProperty("os.name") + "...");
         
         b.start();
+        
+        loading_completed++;
+        
         a = new Thread(){
                 @Override
                 public void run(){
@@ -100,6 +104,8 @@ public class kick {
         wM.vA.sSi = true;
         
         wM.running = true;
+        
+        loading_completed++;
         
         if(mode == 3){
             try {
@@ -124,8 +130,10 @@ public class kick {
             //
             //wM.rads.add(25, 1, 1, new Color(1, 1, 1), 1);
         }
+        loading_completed++;
         //wM.running = true;
         System.out.println("THREAD 'A' INITIATED");
+        System.out.println("Steps completed: " + loading_completed);
         wM.vA.sSi = false;
                 }
         };
@@ -134,6 +142,8 @@ public class kick {
         System.out.println("////////////////");
         System.out.println("done initializing");
         String oldo = "";
+        loading_completed++;
+        System.out.println("Steps completed: " + loading_completed);
         while(true){
             String newo = baos.toString();
             if(!oldo.equals(newo)){
