@@ -23,6 +23,8 @@ public class Main {
      */
     static LinkedList<Object> list;
     static public kick k;
+    private static boolean blights = true;
+    private static dVector grav = new dVector(0D, 0D);;
     public Engine main;
     Editor editor;
     boolean running;
@@ -38,6 +40,12 @@ public class Main {
                 if(arg.matches("nodemo")){
                     demo = false;
                 }
+                if(arg.matches("bakelights")){
+                    blights = false;
+                }
+                if(arg.matches("defgrav")){
+                    grav = new dVector(0D, 0.1D);
+                }
             }
             System.out.println("////");
         } else {
@@ -47,9 +55,9 @@ public class Main {
             System.out.println("If you wish not to use the demo, please add the 'nodemo' argument");
             quickEffects.alert("demo", "If you wish not to use the demo, please add the 'nodemo' argument");
         //if(args.length != 0){if(args[0].equals("template")){
-            k = new kick(3);
+            k = new kick(3, true, new dVector(0, 0.1D));
         }else{
-            k = new kick(0);
+            k = new kick(0, blights, grav);
         }
 //        else{
 //            k = new kick(0);
@@ -59,7 +67,7 @@ public class Main {
         main = k.wM;
         editor = k.ea;
         float c = 0F;
-        k = new kick(0);
+        k = new kick(3, true, new dVector(0, 0.1D));
         while(!main.ready){
             System.out.println("initializing main... " + c);
             c++;

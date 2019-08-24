@@ -40,7 +40,9 @@ public class Driver implements Runnable, MouseMotionListener, KeyListener{
     private int CameraX=300, CameraY=300;
     private Canvas canvas;
     private Canvas canvas2;
-    LinkedList<Line2D.Float> lines;
+    private Canvas canvas3;
+    LinkedList<Line2D.Float> linesX;
+    LinkedList<Line2D.Float> linesY;
     LinkedList<LinkedList> three = new LinkedList<>();
     private static final int WIDTH = 800, HEIGHT = 800;
     int[] distances;
@@ -48,28 +50,36 @@ public class Driver implements Runnable, MouseMotionListener, KeyListener{
     private static final Random random = new Random(100);
     JFrame frame;
     JFrame frame2;
+    JFrame frame3;
     public Driver(){
         distances = new int[res];
-        lines = buildLines(12);
+        linesX = buildLines(12);
         for(int i=0;i<res;i++){
             LinkedList<Line2D.Float> tmp = buildLines(i);
             three.add(tmp);
         }
         frame = new JFrame();
         frame2 = new JFrame();
+        frame3 = new JFrame();
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setTitle("PointBreak3D - rays");
         frame2.setTitle("PointBreak3D - raster");
         frame2.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        frame3.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        frame3.setTitle("PointBreak3D - raster2");
         frame.add(canvas = new Canvas());
         frame2.add(canvas2 = new Canvas());
+        frame3.add(canvas3 = new Canvas());
         canvas2.addMouseMotionListener(this);
         canvas2.addKeyListener(this);
         frame.setSize(WIDTH, HEIGHT);
         frame2.setSize(WIDTH, HEIGHT);
+        frame3.setSize(WIDTH, HEIGHT);
         frame.setLocationRelativeTo(null);
         frame2.setLocationRelativeTo(null);
+        frame3.setLocationRelativeTo(null);
         frame.setVisible(true);
+        frame3.setVisible(true);
         frame2.setVisible(true);
         frame2.requestFocusInWindow();
         frame2.requestFocus();
@@ -106,7 +116,7 @@ public class Driver implements Runnable, MouseMotionListener, KeyListener{
                 //mouseY++;
             }
             else{
-            //    lines = buildLines(3);
+            //    linesX = buildLines(3);
             //    mouseX = 1000;
             //    mouseY = 400;
                 
@@ -121,12 +131,12 @@ public class Driver implements Runnable, MouseMotionListener, KeyListener{
             int y1 = random.nextInt(HEIGHT);
             int x2 = random.nextInt(WIDTH);
             int y2 = random.nextInt(HEIGHT);
-            lines.add(new Line2D.Float(x1, y1, x2, y2));
+            linesX.add(new Line2D.Float(x1, y1, x2, y2));
         }*/
-        /*lines.add(new Line2D.Float(200, 200, 400, 200));
-        lines.add(new Line2D.Float(200, 200, 200, 400));
-        lines.add(new Line2D.Float(200, 400, 400, 400));
-        lines.add(new Line2D.Float(400, 200, 400, 400));*/
+        /*linesX.add(new Line2D.Float(200, 200, 400, 200));
+        linesX.add(new Line2D.Float(200, 200, 200, 400));
+        linesX.add(new Line2D.Float(200, 400, 400, 400));
+        linesX.add(new Line2D.Float(400, 200, 400, 400));*/
         lines.addAll(newBox(300, 300, 100));
         lines.addAll(newBox(600, 450, 125));
         return lines;
@@ -156,11 +166,11 @@ public class Driver implements Runnable, MouseMotionListener, KeyListener{
         g.drawLine((int) CameraX, (int) CameraY, (int)guide.x, (int)guide.y);
         
         g.setColor(Color.red);
-        for(Line2D.Float line : lines){
+        for(Line2D.Float line : linesX){
             g.drawLine((int) line.x1, (int) line.y1, (int)line.x2, (int)line.y2);
         }
         g.setColor(Color.white);
-        LinkedList<Line2D.Float> rays = calcRays(lines, CameraX, CameraY, res, 3000);
+        LinkedList<Line2D.Float> rays = calcRays(linesX, CameraX, CameraY, res, 3000);
         for(Line2D.Float ray : rays){
             g.drawLine((int) ray.x1, (int) ray.y1, (int)ray.x2, (int)ray.y2);
         //    g2.drawLine((int) ray.x2, (int) ray.y1, (int)ray.x1, (int)ray.y2);

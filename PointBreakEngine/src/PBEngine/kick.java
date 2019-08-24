@@ -20,32 +20,32 @@ import javax.swing.SwingUtilities;
  * @author Jonnelafin
  */
 public class kick {
-    int loadingsteps = 4;
-    int loading_completed = 0;
+    public int loadingsteps = 4;
+    public int loading_completed = 0;
     
-    quickEffects tools = new quickEffects();
+    public quickEffects tools = new quickEffects();
     
     //Global variables
     public dVector engine_gravity = new dVector(0D, 0.1D);
     public boolean engine_collisions = true;
     
-    boolean bakedLights = false;
+    public boolean bakedLights = false;
     
-    Engine wM;
-    Editor ea;
+    public Engine wM;
+    public Editor ea;
     //radiosity rad;
-    VSRadManager rad;
-    boolean tog;
-    kick ref = this;
-    int xd = 50;
-    int yd = 25;
-        EffectsDemo ED;
-    Thread c;
-    Thread b;
-    Thread a;
-    objectManager forwM = new objectManager(this);
-    devkit kit;
-    public kick(int mode){
+    public VSRadManager rad;
+    public boolean tog;
+    public kick ref = this;
+    public int xd = 50;
+    public int yd = 25;
+    public EffectsDemo ED;
+    public Thread c;
+    public Thread b;
+    public Thread a;
+    public objectManager objectManager = new objectManager(this);
+    public devkit kit;
+    public kick(int mode, boolean bakedLights, dVector gravity){
         //read config
         System.out.println(FileLoader.readConfig("config.txt"));
         
@@ -69,7 +69,7 @@ public class kick {
         
         kit = new devkit(ref);
         
-        //ED = new EffectsDemo(ref , forwM, 50, 25, rad, engine_gravity);
+        //ED = new EffectsDemo(ref , objectManager, 50, 25, rad, engine_gravity);
         b  = new Thread(){
             @Override
             public void run(){
@@ -88,7 +88,7 @@ public class kick {
         a = new Thread(){
                 @Override
                 public void run(){
-        wM = new Engine(ref , forwM, xd, yd, rad, engine_gravity);
+        wM = new Engine(ref , objectManager, xd, yd, rad, engine_gravity);
         
         
         //rad = new radiosity(ref);

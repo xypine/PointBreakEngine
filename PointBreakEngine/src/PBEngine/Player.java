@@ -72,7 +72,7 @@ public class Player extends gameObject{
             else{
                 if(in.keyPressed.getKeyCode() == 32){
                     gameObject projectile = new gameObject((int)this.x,(int) this.y, 1, "projectile", "", 1, Color.white, 919, masterParent);
-                    masterParent.forwM.addObject(projectile);
+                    masterParent.objectManager.addObject(projectile);
                     projectile.velx = this.velx * 3;
                     projectile.vely = this.vely * 3;
                     projectile.x = projectile.x + projectile.velx;

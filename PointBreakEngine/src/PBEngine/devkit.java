@@ -114,10 +114,10 @@ class BListener implements ActionListener{
                             String values[] = arr[1].split(" ", 2);
                             int x = Integer.parseInt(values[1].split(" ", 2)[0]);
                             int y = Integer.parseInt(values[1].split(" ", 2)[1]);
-                            for(gameObject o : k.k.forwM.getObjectsByTag(values[0])){
+                            for(gameObject o : k.k.objectManager.getObjectsByTag(values[0])){
                                 o.setLocation(new Vector(x, y));
                             }
-                            //k.k.forwM.getObjectByTag(values[0]).setLocation(new Vector(x, y));
+                            //k.k.objectManager.getObjectByTag(values[0]).setLocation(new Vector(x, y));
                         } catch (NumberFormatException numberFormatException) {
                             quickEffects.alert("devkit", "value :"+ arr[1] +": not understood");
                             
@@ -137,8 +137,8 @@ class BListener implements ActionListener{
                             int x = Integer.parseInt(values[1].split(" ", 2)[0]);
                             int y = Integer.parseInt(values[1].split(" ", 2)[1]);
                             String tag = values[0];
-                            k.k.forwM.addObject(new gameObject(x, y, 1, tag, "N", 1, Color.black, 1919, k.k));
-                            //k.k.forwM.getObjectByTag(values[0]).setLocation(new Vector(x, y));
+                            k.k.objectManager.addObject(new gameObject(x, y, 1, tag, "N", 1, Color.black, 1919, k.k));
+                            //k.k.objectManager.getObjectByTag(values[0]).setLocation(new Vector(x, y));
                         } catch (NumberFormatException numberFormatException) {
                             quickEffects.alert("devkit", "value :"+ arr[1] +": not understood");
                             
@@ -146,8 +146,8 @@ class BListener implements ActionListener{
                         break;
                     case "/rm":
                         String values[] = arr[1].split(" ", 2);
-                        for(gameObject o : k.k.forwM.getObjectsByTag(values[0])){
-                                k.k.forwM.objects.remove(o);
+                        for(gameObject o : k.k.objectManager.getObjectsByTag(values[0])){
+                                k.k.objectManager.objects.remove(o);
                             }
                         break;
                     default:
