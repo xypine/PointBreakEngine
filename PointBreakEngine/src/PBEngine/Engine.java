@@ -40,7 +40,7 @@ public class Engine extends JFrame implements Runnable, ActionListener {
     
     public boolean abright = false;
     
-    public boolean ready = false;
+    public volatile boolean ready = false;
     public boolean running = true;
     //Screen components
     int blurStrenght = 1;
@@ -91,7 +91,7 @@ public class Engine extends JFrame implements Runnable, ActionListener {
         this.k = ki;
         input = new Input(k);
         System.out.println("out main input: " + k);
-        this.rads = new VSRadManager(xd, yd, oM);
+        this.rads = a;
     }
     private AudioSource aM;
     VSRadManager rads;

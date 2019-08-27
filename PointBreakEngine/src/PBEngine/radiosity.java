@@ -119,7 +119,7 @@ public class radiosity extends JFrame implements Runnable, ActionListener {
         tmp = lM.gets();
         
         screen = "";
-        rads = new VSRadManager(yd, yd, oM);
+        rads = new VSRadManager(yd, yd, oM, k);
         //oM.addObject(new gameObject(9, 17, "static", "a", 1, Color.red, 71));
         //oM.addObject(new gameObject(9, 16, "static", "a", 1, Color.red, 72));
         //oM.addObject(new gameObject(10, 16, "static", "a", 1, Color.red, 73));

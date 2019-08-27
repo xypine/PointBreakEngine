@@ -65,7 +65,7 @@ public class Player extends gameObject{
         }
         if(this.getTag().contains("player1")){
             this.velx = this.velx + ((in.right() + in.left()) * 0.15F);
-            this.vely = this.vely + in.down();
+            this.vely = this.vely + in.down() * 0.15F;
             
             if(in.keyPressed == null){
                 

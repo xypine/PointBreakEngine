@@ -40,7 +40,7 @@ public class Main {
                 if(arg.matches("nodemo")){
                     demo = false;
                 }
-                if(arg.matches("bakelights")){
+                if(arg.matches("calclights")){
                     blights = false;
                 }
                 if(arg.matches("defgrav")){
@@ -55,16 +55,17 @@ public class Main {
             System.out.println("If you wish not to use the demo, please add the 'nodemo' argument");
             quickEffects.alert("demo", "If you wish not to use the demo, please add the 'nodemo' argument");
         //if(args.length != 0){if(args[0].equals("template")){
-            k = new kick(3, false, new dVector(0, 0.1D));
+            k = new kick(3, true, new dVector(0, 0.1D));
         }else{
             k = new kick(0, blights, grav);
         }
+        k.run();
 //        else{
 //            k = new kick(0);
     }
     public void start(){
         running = true;
-        main = k.wM;
+        main = k.Logic;
         editor = k.ea;
         float c = 0F;
         k = new kick(3, true, new dVector(0, 0.1D));

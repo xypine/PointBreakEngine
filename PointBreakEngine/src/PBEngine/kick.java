@@ -21,7 +21,7 @@ import javax.swing.SwingUtilities;
  *
  * @author Jonnelafin
  */
-public class kick {
+public class kick implements Runnable{
     
     public int loadingsteps = 4;
     public int loading_completed = 0;
@@ -34,7 +34,7 @@ public class kick {
     
     public boolean bakedLights = false;
     
-    public Engine wM;
+    public Engine Logic;
     public Editor ea;
     //radiosity rad;
     public VSRadManager rad;
@@ -49,6 +49,7 @@ public class kick {
     public objectManager objectManager = new objectManager(this);
     public devkit kit;
     int mode;
+    public volatile boolean ready = false;
     
     LinkedList<option> Options = new LinkedList<>();
     public kick(int mode, boolean bakedLights, dVector gravity){
@@ -66,16 +67,13 @@ public class kick {
                 }
             }
         }
+        rad = new VSRadManager(xd, yd, objectManager, ref);
+        Logic = new Engine(ref , objectManager, xd, yd, rad, engine_gravity);
+        ea = new Editor(ref);
         
         
         
-        // Create a stream to hold the output
-        ByteArrayOutputStream baos = new ByteArrayOutputStream();
-        PrintStream ps = new PrintStream(baos);
-        // IMPORTANT: Save the old System.out!
-        PrintStream old = System.out;
-        // Tell Java to use your special stream
-        System.setOut(ps);
+        
         
         // Print some output: goes to your special stream
 //        System.out.println("Foofoofoo!");
@@ -86,107 +84,13 @@ public class kick {
 //        System.out.println("Here: " + baos.toString());
         
         
-        kit = new devkit(ref);
-        
-        //ED = new EffectsDemo(ref , objectManager, 50, 25, rad, engine_gravity);
-        b  = new Thread(){
-            @Override
-            public void run(){
-                ea = new Editor(ref);
-                SwingUtilities.invokeLater(ea);
-                ea.setVisible(false);
-            }
-        };
-        System.out.println("PointBreakEngine by Elias Eskelinen alias Jonnelafin");
-        System.out.println("Starting PointBreakEngine on " + System.getProperty("os.name") + "...");
-        
-        b.start();
-        
-        loading_completed++;
-        
-        a = new Thread(){
-                @Override
-                public void run(){
-        wM = new Engine(ref , objectManager, xd, yd, rad, engine_gravity);
-        
-        
-        //rad = new radiosity(ref);
-        //SwingUtilities.invokeLater(ED);
-//        SwingUtilities.invokeLater(wM);
-        wM.run();
-           //Thread a = new Thread(wM, "Thread 1");
-           //Thread b = new Thread(ea, "Thread 2");
-           //a.start();
-           //b.start();
-        
-        //rad.running = true;
-        wM.vA.sSi = true;
-        
-        wM.running = true;
-        
-        loading_completed++;
-        
-        if(mode == 3){
-            try {
-                wM.loadLevel("out.txt");
-            } catch (URISyntaxException ex) {
-                Logger.getLogger(kick.class.getName()).log(Level.SEVERE, null, ex);
-            }
-            //wM.oM.addObject(new Player(5, 5, "player1", "█", 1F, Color.black, 1, ref));
-            gameObject p = new Player(25, 5, 1, "player1", "█", 1F, Color.black, 1, ref);
-            
-            wM.oM.addObject(p);
-            //wM.oM.addObject(new Player(5, 6, "player1", "█", 1F, Color.black, 3, ref));
-            //wM.oM.addObject(new Player(6, 6, "player1", "█", 1F, Color.black, 4, ref));
-            //rad.setTitle("VSRad");
-            if(!bakedLights){
-                wM.rads.add(7, 20, 100, new Color(2, 2, 2), 1, true);
-                wM.rads.add(49, 1, 200, new Color(1, 1, 1), 1, false);
-                wM.rads.add(39, 20, 120, new Color(1, 0, 0), 1, false);
-                wM.red = wM.rads.read(999999);
-                System.out.println("VSRAD COMPLETE");
-            }
-            //
-            //wM.rads.add(25, 1, 1, new Color(1, 1, 1), 1);
-        }
-        loading_completed++;
-        //wM.running = true;
-        System.out.println("THREAD 'A' INITIATED");
-        System.out.println("Steps completed: " + loading_completed);
-        wM.vA.sSi = false;
-                }
-        };
-        a.start();
-        
-        System.out.println("////////////////");
-        System.out.println("done initializing");
-        String oldo = "";
-        loading_completed++;
-        System.out.println("Steps completed: " + loading_completed);
-        while(true){
-            String newo = baos.toString();
-            if(!oldo.equals(newo)){
-                String diff = difference(oldo, newo);
-                //System.setOut(old);
-                old.print(diff);
-                kit.log.setText(newo);
-                
-                //System.setOut(ps);
-                //System.out.flush();
-                JScrollBar vertical = kit.logs.getVerticalScrollBar();
-                vertical.setValue( vertical.getMaximum() );
-
-                oldo = newo;
-            }
-            
-        }
     }
     public void tog(){
         if(tog){
-            wM.record();
+            Logic.record();
         }
-        wM.setVisible(tog);
-        wM.running = tog;
+        Logic.setVisible(tog);
+        Logic.running = tog;
 //        rad.setVisible(tog);
 //        rad.running = tog;
         ea.setVisible(!tog);
@@ -195,11 +99,11 @@ public class kick {
         tog = !tog;
     }
     public void stop(){
-        wM.running = false;
+        Logic.running = false;
         ea.running = false;
     }
     public void continu(){
-        wM.running = tog;
+        Logic.running = tog;
         ea.running = !tog;
     }
     public static String difference(String str1, String str2) {
@@ -232,6 +136,113 @@ public class kick {
             return i;
         }
         return -1;
+    }
+
+    @Override
+    public void run() {
+        // Create a stream to hold the output
+        ByteArrayOutputStream baos = new ByteArrayOutputStream();
+        PrintStream ps = new PrintStream(baos);
+        // IMPORTANT: Save the old System.out!
+        PrintStream old = System.out;
+        // Tell Java to use your special stream
+        System.setOut(ps);
+        kit = new devkit(ref);
+        
+        //ED = new EffectsDemo(ref , objectManager, 50, 25, rad, engine_gravity);
+        b  = new Thread(){
+            @Override
+            public void run(){
+                SwingUtilities.invokeLater(ea);
+                ea.setVisible(false);
+            }
+        };
+        System.out.println("PointBreakEngine by Elias Eskelinen alias Jonnelafin");
+        System.out.println("Starting PointBreakEngine on " + System.getProperty("os.name") + "...");
+        
+        b.start();
+        
+        loading_completed++;
+        
+        a = new Thread(){
+                @Override
+                public void run(){
+        
+        
+        //rad = new radiosity(ref);
+        //SwingUtilities.invokeLater(ED);
+//        SwingUtilities.invokeLater(Logic);
+        Logic.run();
+           //Thread a = new Thread(Logic, "Thread 1");
+           //Thread b = new Thread(ea, "Thread 2");
+           //a.start();
+           //b.start();
+        
+        //rad.running = true;
+        Logic.vA.sSi = true;
+        
+        Logic.running = true;
+        
+        loading_completed++;
+        
+        if(mode == 3){
+            try {
+                Logic.loadLevel("out.txt");
+            } catch (URISyntaxException ex) {
+                Logger.getLogger(kick.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            //wM.oM.addObject(new Player(5, 5, "player1", "█", 1F, Color.black, 1, ref));
+            gameObject p = new Player(25, 5, 1, "player1", "█", 1F, Color.black, 1, ref);
+            
+            Logic.oM.addObject(p);
+            //wM.oM.addObject(new Player(5, 6, "player1", "█", 1F, Color.black, 3, ref));
+            //wM.oM.addObject(new Player(6, 6, "player1", "█", 1F, Color.black, 4, ref));
+            //rad.setTitle("VSRad");
+            if(!bakedLights){
+                Logic.rads.add(7, 20, 100, new Color(2, 2, 2), 1, true);
+                Logic.rads.add(49, 1, 200, new Color(1, 1, 1), 1, false);
+                Logic.rads.add(39, 20, 120, new Color(1, 0, 0), 1, false);
+                Logic.red = Logic.rads.read(999999);
+                System.out.println("VSRAD COMPLETE");
+            }
+            //
+            //wM.rads.add(25, 1, 1, new Color(1, 1, 1), 1);
+        }
+        loading_completed++;
+        //wM.running = true;
+        System.out.println("THREAD 'A' INITIATED");
+        System.out.println("Steps completed: " + loading_completed);
+        Logic.vA.sSi = false;
+                }
+        };
+        a.start();
+        
+        System.out.println("////////////////");
+        System.out.println("done initializing");
+        String oldo = "";
+        loading_completed++;
+        System.out.println("Steps completed: " + loading_completed);
+        while(!Logic.timer.isRunning()){
+            
+        }
+        ready = true;
+        while(true){
+            String newo = baos.toString();
+            if(!oldo.equals(newo)){
+                String diff = difference(oldo, newo);
+                //System.setOut(old);
+                old.print(diff);
+                kit.log.setText(newo);
+                
+                //System.setOut(ps);
+                //System.out.flush();
+                JScrollBar vertical = kit.logs.getVerticalScrollBar();
+                vertical.setValue( vertical.getMaximum() );
+
+                oldo = newo;
+            }
+            
+        }
     }
     class option{
         public String name;

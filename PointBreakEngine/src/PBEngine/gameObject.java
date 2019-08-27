@@ -133,7 +133,7 @@ public class gameObject {
         this.y = v.y;
     }
     public void update(int xd, int yd, objectManager oMb){
-        //int deltatime = (int) (masterParent.wM.deltatime * 0.1);
+        //int deltatime = (int) (masterParent.Logic.deltatime * 0.1);
         int deltatime = 1;
         if(this.collision_Explode){
             if(colliding || po != 0 || point2){
@@ -149,7 +149,7 @@ public class gameObject {
             //if(this.tag.contains(new String("player1")) || this.tag.contains(new String("cursor"))){
             if(!this.tag.contains(new String("static"))){
     //        System.out.println(colliding);
-                checkInput(masterParent.wM.input);
+                checkInput(masterParent.Logic.input);
                 
                 collisionCount = 0;
                 if(this.tag.contains(new String("cursor"))){}
@@ -179,10 +179,10 @@ public class gameObject {
                 }
                 if(collisionCount > 0){colliding = true;}
                 else{colliding = false;}
-                if(point2 || Math.round(this.y) > 23.7F){velx = velx * 0.65F;}
+                //if(point2 || Math.round(this.y) > 23.7F){velx = velx * 0.65F;}
     //            if(velx != 0 && Math.round(this.y) > 23.7F){velx = velx * 0.65F;}
 
-                if(Math.round(this.y) > 23.99F){this.vely = this.vely * -0.2F;}
+                //if(Math.round(this.y) > 23.99F){this.vely = this.vely * -0.2F;}
                 //WHAT IS THIS LINE???      else{colliding = false;}
     //            if(velx != 0 && Math.round(this.y) > 23.7F){colliding = true;}
                 //if(colliding){velx = velx * 0.65F;}
@@ -289,6 +289,7 @@ public class gameObject {
         for(int xc : new Range(size)){
             for(int yc : new Range(size)){
                 if((o.colliding((int)Math.round(i.x + xc), (int)Math.round(i.y + yc), ignore)) || (o.colliding((int)Math.ceil(i.x + xc), (int)Math.ceil(i.y + yc), ignore)) || (o.colliding((int)Math.floor(i.x + xc), (int)Math.floor(i.y + yc), ignore))){
+//##                if(o.colliding((int)Math.round(i.x + xc), (int)Math.round(i.y + yc), ignore)){
 //                    point1(i, o.collidingGA(xc, yc, ignore));
                     this.x = this.x + velx * -1;
                     this.y = this.y + vely * -1;
@@ -297,7 +298,8 @@ public class gameObject {
                     double gx = masterParent.engine_gravity.x;
                     this.velx = this.velx * -0;
                     this.vely = this.vely * -0;
-                    if(!((o.colliding((int)Math.round(i.x - gx), (int)Math.round(i.y - gy), ignore)) || (o.colliding((int)Math.ceil(i.x - gx), (int)Math.ceil(i.y - gy), ignore)) || (o.colliding((int)Math.floor(i.x - gx), (int)Math.floor(i.y - gy), ignore)))){
+                    if(!((o.colliding((int)Math.round(i.x + xc - gx), (int)Math.round(i.y + yc - gy), ignore)) || (o.colliding((int)Math.ceil(i.x + xc - gx), (int)Math.ceil(i.y + yc - gy), ignore)) || (o.colliding((int)Math.floor(i.x + xc - gx), (int)Math.floor(i.y + yc - gy), ignore)))){
+//##                    if(o.colliding((int)Math.round(i.x + xc - gx), (int)Math.round(i.y + yc - gx), ignore)){
                         this.y = this.y - masterParent.engine_gravity.y;
                         this.x = this.x - masterParent.engine_gravity.x;
                     }else{

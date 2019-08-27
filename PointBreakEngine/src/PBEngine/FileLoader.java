@@ -59,12 +59,12 @@ public class FileLoader {
                 text = text + line;
             }
             in.close();
-            fetch(text, oM, master.wM.rads);
+            fetch(text, oM, master.Logic.rads);
             System.out.println("Level ["+filePath.concat(file)+"] loaded with " + count + " objects!");
 //            fetch(in.toString(), oM);
         } catch (FileNotFoundException ex) {
             try{
-            fetch(fallback, oM, master.wM.rads);
+            fetch(fallback, oM, master.Logic.rads);
             System.out.println("!!! level " + filePath + file + " FAILED TO LOAD!!!");
             quickEffects.alert("Level not found!", "!!! level " + filePath + file + " FAILED TO LOAD!!!");
             System.out.println("fallback level loaded with " + count + " objects!");

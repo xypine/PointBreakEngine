@@ -35,7 +35,7 @@ public class devkit extends JFrame{
         this.setTitle("PointBreakEngine devkit");
         this.k = k;
         this.setSize(400, 550);
-        this.setLocationRelativeTo(k.wM);
+        this.setLocationRelativeTo(k.Logic);
         this.setLocation(1080, 0);
         
         graphic.addActionListener(new BListener(9, this));
@@ -55,20 +55,20 @@ public class devkit extends JFrame{
     }
     public void togG(){
         if(tog){
-            k.wM.vector = 1;
+            k.Logic.vector = 1;
         }
         else{
-            k.wM.vector = 0;
+            k.Logic.vector = 0;
         }
         tog = !tog;
     }
     boolean togV = true;
     public void togV(){
         if(togV){
-            k.wM.renderRays = 0;
+            k.Logic.renderRays = 0;
         }
         else{
-            k.wM.renderRays = 1;
+            k.Logic.renderRays = 1;
         }
         togV = !togV;
     }
@@ -104,10 +104,10 @@ class BListener implements ActionListener{
                         }
                         break;
                     case "/blur":
-                        k.k.wM.blurStrenght = Integer.parseInt(arr[1]);
+                        k.k.Logic.blurStrenght = Integer.parseInt(arr[1]);
                         break;
                     case "/bright":
-                        k.k.wM.global_brightness = Float.parseFloat(arr[1]);
+                        k.k.Logic.global_brightness = Float.parseFloat(arr[1]);
                         break;
                     case "/tp":
                         try {
@@ -124,12 +124,12 @@ class BListener implements ActionListener{
                         }
                         break;
                     case "/noclip":
-                        k.k.wM.oM.getObjectByTag("player1").noclip();
+                        k.k.Logic.oM.getObjectByTag("player1").noclip();
                         break;
                     case "/abright":
                         abright = !abright;
-                        k.k.wM.abright = abright;
-                        System.out.println(abright + ", " + k.k.wM.abright);
+                        k.k.Logic.abright = abright;
+                        System.out.println(abright + ", " + k.k.Logic.abright);
                         break;
                     case "/add":
                         try {
