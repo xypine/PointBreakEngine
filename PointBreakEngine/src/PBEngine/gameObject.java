@@ -293,11 +293,18 @@ public class gameObject {
                     this.x = this.x + velx * -1;
                     this.y = this.y + vely * -1;
                     
-                    this.vely = this.vely - masterParent.engine_gravity.y;
-                    this.velx = this.velx - masterParent.engine_gravity.x;
-                    
+                    double gy = masterParent.engine_gravity.y;
+                    double gx = masterParent.engine_gravity.x;
                     this.velx = this.velx * -0;
                     this.vely = this.vely * -0;
+                    if(!((o.colliding((int)Math.round(i.x - gx), (int)Math.round(i.y - gy), ignore)) || (o.colliding((int)Math.ceil(i.x - gx), (int)Math.ceil(i.y - gy), ignore)) || (o.colliding((int)Math.floor(i.x - gx), (int)Math.floor(i.y - gy), ignore)))){
+                        this.y = this.y - masterParent.engine_gravity.y;
+                        this.x = this.x - masterParent.engine_gravity.x;
+                    }else{
+                        this.y = this.y + masterParent.engine_gravity.y;
+                        this.x = this.x + masterParent.engine_gravity.x;
+                    }
+                    
                     collisionCount++;
                 }
                 else if(o.colliding((int)Math.round(i.x + xc), (int) Math.ceil(i.y + yc), ignore)){

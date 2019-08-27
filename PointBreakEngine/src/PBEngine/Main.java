@@ -23,7 +23,7 @@ public class Main {
      */
     static LinkedList<Object> list;
     static public kick k;
-    private static boolean blights = true;
+    private static boolean blights = false;
     private static dVector grav = new dVector(0D, 0D);;
     public Engine main;
     Editor editor;

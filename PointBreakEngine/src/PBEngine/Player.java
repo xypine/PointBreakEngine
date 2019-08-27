@@ -15,13 +15,13 @@ import java.awt.Color;
 public class Player extends gameObject{
     private boolean noclip = false;
     public int fuel = 136;
-    int collision_type = 0;
     boolean canjump = true;
     private final directory dir = new directory();
     public boolean point2_2 = false;
     public Player(int ypos, int xpos, int size, String tag, String ap, float mas, Color cot, int ID, kick master) {
         super(ypos, xpos, size, tag, ap, mas, cot, ID, master);
         this.imageName = dir.textures + "player/player2.png";
+        collision_type = 0;
 //        this.summon(ypos, xpos, tag, ap, mas);
     }
     
@@ -65,6 +65,7 @@ public class Player extends gameObject{
         }
         if(this.getTag().contains("player1")){
             this.velx = this.velx + ((in.right() + in.left()) * 0.15F);
+            this.vely = this.vely + in.down();
             
             if(in.keyPressed == null){
                 

@@ -20,6 +20,9 @@ import java.io.UnsupportedEncodingException;
 import java.io.Writer;
 import static java.lang.Math.round;
 import java.net.URISyntaxException;
+import java.nio.charset.Charset;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.LinkedList;
 import java.util.Scanner;
 import java.util.logging.Level;
@@ -204,14 +207,20 @@ public class FileLoader {
             return null;
         }
     }
+    static String readFile(String path, Charset encoding) 
+  throws IOException 
+{
+  byte[] encoded = Files.readAllBytes(Paths.get(path));
+  return new String(encoded, encoding);
+}
     public static LinkedList<String> readConfig(String FileName){
         LinkedList<String> out = new LinkedList<>();
         try {
-            FileInputStream fileIn = new FileInputStream(new directory().root + FileName);
-            String outa = fileIn.toString();
-            fileIn.close();
+            
+            String outa = readFile(new directory().root + FileName, Charset.defaultCharset());
             String current = "";
-            for(char i : outa.toCharArray()){
+            for(int x : new Range(outa.length())){
+                char i = outa.charAt(x);
                 if(i == '\n'){
                     out.add(current);
                     current = "";

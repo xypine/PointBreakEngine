@@ -9,7 +9,9 @@ package PBEngine;
 import java.awt.Color;
 import java.io.ByteArrayOutputStream;
 import java.io.PrintStream;
+import java.lang.reflect.Array;
 import java.net.URISyntaxException;
+import java.util.LinkedList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JScrollBar;
@@ -20,6 +22,7 @@ import javax.swing.SwingUtilities;
  * @author Jonnelafin
  */
 public class kick {
+    
     public int loadingsteps = 4;
     public int loading_completed = 0;
     
@@ -45,9 +48,25 @@ public class kick {
     public Thread a;
     public objectManager objectManager = new objectManager(this);
     public devkit kit;
+    int mode;
+    
+    LinkedList<option> Options = new LinkedList<>();
     public kick(int mode, boolean bakedLights, dVector gravity){
+        this.mode = mode;
+        this.bakedLights = bakedLights;
+        this.engine_gravity = gravity;
         //read config
-        System.out.println(FileLoader.readConfig("config.txt"));
+        Options.add(new option("gravity", engine_gravity));
+        Options.add(new option("sizex", xd));
+        Options.add(new option("sizey", yd));
+        for(String ar : FileLoader.readConfig("config.txt")){
+            for(option x : Options){
+                if(x.name.equals(ar.split(" ")[0])){
+                    x.link = ar.split(" ")[1];
+                }
+            }
+        }
+        
         
         
         // Create a stream to hold the output
@@ -213,6 +232,14 @@ public class kick {
             return i;
         }
         return -1;
+    }
+    class option{
+        public String name;
+        public Object link;
+        public option(String name, Object link){
+            this.name = name;
+            this.link = link;
+        }
     }
 }
 
