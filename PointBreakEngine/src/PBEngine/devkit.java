@@ -115,7 +115,7 @@ class BListener implements ActionListener{
                             int x = Integer.parseInt(values[1].split(" ", 2)[0]);
                             int y = Integer.parseInt(values[1].split(" ", 2)[1]);
                             for(gameObject o : k.k.objectManager.getObjectsByTag(values[0])){
-                                o.setLocation(new Vector(x, y));
+                                o.setLocation(new dVector(x, y));
                             }
                             //k.k.objectManager.getObjectByTag(values[0]).setLocation(new Vector(x, y));
                         } catch (NumberFormatException numberFormatException) {

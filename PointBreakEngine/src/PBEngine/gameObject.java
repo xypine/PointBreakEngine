@@ -128,7 +128,7 @@ public class gameObject {
         this.acolor = cat;
         this.id = ID;
     }
-    public void setLocation(Vector v){
+    public void setLocation(dVector v){
         this.x = v.x;
         this.y = v.y;
     }
