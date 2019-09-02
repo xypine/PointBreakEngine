@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 /test/test/nbproject/private/
 /test/ViridiLines/nbproject/private/
 /test/ViridiLines/build/
@@ -26,4 +27,34 @@
 /PointBreakEngine3D/nbproject/private/
 /PointBreakEngine3D/build/
 /PointBreakEngine3D/dist/
+=======
+/test/test/nbproject/private/
+/test/ViridiLines/nbproject/private/
+/test/ViridiLines/build/
+/viridiEngine/dist/
+/Editor/nbproject/private/
+/ViridiEngine3D/nbproject/private/
+/ViridiEngine3D/build/
+/ViridiEngine3D1/nbproject/private/
+/Viridi3D/nbproject/private/
+/Viridi3D/build/
+/VIRIDIRAYCAST/nbproject/private/
+/VIRIDIRAYCAST/build/
+/com.viridistudios.viridiEngine/nbproject/private/
+/ViridiEngine/nbproject/private/
+/ViridiEngine/build/
+/ViridiEngine/dist/
+/PointBreakEngine/nbproject/private/
+/PointBreakEngine/build/
+/PointBreakEngine/dist/
+/PointBreakDemo/nbproject/private/
+/PointBreakDemo/build/
+/PointBreak3D/nbproject/private/
+/PointBreak3D/build/
+/PointBreak3D/dist/
+/VIRIDIRAYCAST/dist/
+/PointBreakEngine3D/nbproject/private/
+/PointBreakEngine3D/build/
+/PointBreakEngine3D/dist/
+>>>>>>> 6491547db111ac923c5806c2140804a929e4d2dc
 /PointBreakDemo/dist/

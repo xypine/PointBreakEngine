@@ -74,7 +74,7 @@ public class VSRadManager{
         if(recalculate){masterParent.Logic.red = this.read(999999);}
         id++;
     }
-    public void recalculate(){
+    public void recalculateParent(){
         
         masterParent.Logic.red = this.read(999999);
     }
