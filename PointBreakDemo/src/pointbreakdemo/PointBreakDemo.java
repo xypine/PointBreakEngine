@@ -7,18 +7,9 @@ package pointbreakdemo;
 import PBEngine.*;
 import static PBEngine.Main.k;
 import java.awt.Color;
-import java.lang.reflect.InvocationTargetException;
-import java.net.URISyntaxException;
-import java.util.concurrent.Callable;
-import java.util.concurrent.FutureTask;
-import java.util.concurrent.TimeUnit;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-import javax.swing.SwingUtilities;
-import static pointbreakdemo.PointBreakDemo.pbengine;
 /**
  *
- * @author elias
+ * @author elias eskelinen
  */
 public class PointBreakDemo {
 
