@@ -11,7 +11,7 @@ import java.net.URISyntaxException;
 import java.util.LinkedList;
 /**
  *
- * @author elias
+ * @author elias eskelinen
  */
 public class PointBreakDemo {
 
