@@ -10,6 +10,10 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.Graphics;
+import java.awt.Graphics2D;
+import java.awt.GraphicsConfiguration;
+import java.awt.GraphicsDevice;
+import java.awt.GraphicsEnvironment;
 import java.awt.Image;
 import java.awt.image.BufferedImage;
 import java.io.File;
@@ -151,6 +155,7 @@ class vectorArea extends JPanel{
     private int h = 0;
     public boolean sSi = false;
     Image image;
+    BufferedImage buffer;
     public imageWithId getImage(String name){
         imageWithId imgF = getWithName(name);
         if(imgF != null){
@@ -186,6 +191,9 @@ class vectorArea extends JPanel{
     kick masterkick = null;
     @Override
     public void paintComponent(Graphics g) {
+        GraphicsEnvironment ge = GraphicsEnvironment.getLocalGraphicsEnvironment();
+        GraphicsDevice gd = ge.getDefaultScreenDevice();
+        GraphicsConfiguration gc = gd.getDefaultConfiguration();
         super.paintComponent(g);
         
         if(sSi){
@@ -203,6 +211,7 @@ class vectorArea extends JPanel{
                 if(sSi){break;}
                 newVectorLayer vL = layers.get(layer);
                 for(int i : new Range(vL.containers.size())){
+                    double rotation = vL.containers.get(i).rotation;
                     dVector rl = vL.containers.get(i).location;
                     Color c = vL.containers.get(i).color;
                     int size = vL.containers.get(i).size;
@@ -224,9 +233,25 @@ class vectorArea extends JPanel{
                             }*/
 
                                                          //0.75F
+                            double scaleX = 1;
+                            double scaleY = 1;
                             imageWithId gImage = getImage(imageloc);
-                            image = new quickEffects().colorImage(gImage.image, c.getRed(), c.getGreen(), c.getBlue(), 1F);
-                            g.drawImage(image, (int)(rl.x*factor),(int) (rl.y*factor), (int) factor * size, (int) factor * size, this);
+                            buffer = new quickEffects().colorImage(gImage.image, c.getRed(), c.getGreen(), c.getBlue(), 1F);
+                            if(rotation != 0){
+                                BufferedImage buffer2 = createRotated(buffer, rotation, gc).image;
+                                dVector scaleDiff = getImgScale(buffer2, buffer);
+                                scaleX = scaleDiff.x;
+                                scaleY = scaleDiff.y;
+                                buffer = buffer2;
+                            }
+                            double offsetX = scaleX;
+                            double offsetY = scaleY;
+                            
+                            double xFrom = rl.x * factor - offsetX;
+                            double yFrom = rl.y * factor - offsetY;
+                            double xTo = factor * size + offsetX;
+                            double yTo = factor * size + offsetY;
+                            g.drawImage(buffer, (int)(xFrom),(int) (yFrom), (int) xTo, (int) yTo, this);
                         }catch(Exception e){
                             g.setColor(Color.MAGENTA);
                             g.fillRect((int)(rl.x*factor),(int) (rl.y*factor), (int) factor, (int) factor);
@@ -303,6 +328,34 @@ class vectorArea extends JPanel{
             Logger.getLogger(vectorArea.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
+    private metaImage createRotated(BufferedImage image, double angle,GraphicsConfiguration gc) {
+        double sin = Math.abs(Math.sin(angle)), cos = Math.abs(Math.cos(angle));
+        int w = image.getWidth(), h = image.getHeight();
+        int neww = (int) Math.floor(w * cos + h * sin), newh = (int) Math.floor(h* cos + w * sin);
+        int transparency = image.getColorModel().getTransparency();
+        //BufferedImage result = gc.createCompatibleImage(neww, newh, transparency);
+        BufferedImage result = new BufferedImage(neww, newh, BufferedImage.TYPE_4BYTE_ABGR);
+        Graphics2D g = result.createGraphics();
+        g.translate((neww - w) / 2, (newh - h) / 2);
+        g.rotate(angle, w / 2, h / 2);
+        g.drawRenderedImage(image, null);
+        return new metaImage(result, new dVector(neww, newh));
+    }
+    public static dVector getImgScale(BufferedImage source, BufferedImage source2){
+        double w1 = source.getWidth();
+        double h1 = source.getHeight();
+        double w2 = source2.getWidth();
+        double h2 = source2.getHeight();
+        return new dVector(w1/w2, h1/h2);
+    }
+    class metaImage{
+        BufferedImage image;
+        dVector newSizes;
+        public metaImage(BufferedImage image, dVector sizes){
+            this.image = image;
+            this.newSizes = sizes;
+        }
+    }
 }
 class vectorLayer{
     LinkedList<Vector> points = new LinkedList<>();
@@ -369,11 +422,13 @@ class renderContainer implements java.io.Serializable{
     String ImageName;
     Color color;
     int size;
-    public renderContainer(dVector location, String ImageName, Color color, int size){
+    double rotation = 0;
+    public renderContainer(dVector location, String ImageName, Color color, int size, double rotation){
         this.location = location;
         this.ImageName = ImageName;
         this.color = color;
         this.size = size;
+        this.rotation = rotation;
     }
 }
 class imageWithId{

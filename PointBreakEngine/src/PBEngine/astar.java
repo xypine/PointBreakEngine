@@ -105,7 +105,6 @@ public class astar
             path.add(current);
             List<Node> neighbors = getNeighbors(tmp, current);
             queue.addAll(neighbors);
-            System.out.print(".");
         }
         
         return path;

@@ -54,28 +54,47 @@ class game{
         k.objectManager.addObject(p);
         k.objectManager.addObject(ai);
         k.Logic.abright = true;
+        System.out.println("Game Init Complete!");
     }
 }
 class AI extends gameObject{
     int timer = 0;
     LinkedList<dVector> path;
     boolean pathComplete = true;
+    boolean PFinding = false;
     public AI(int xpos, int ypos, int size, String tag, String ap, double mass, Color color, int id, kick k){
         super(xpos, ypos, size, tag, ap, mass, color, id, k);
     }
-    private void calcPath(){
+    public void calcPath(){
+        PFinding = true;
+        System.out.println("Started Pathfinding process:");
         char[][] map = k.objectManager.getCollisionmap(new dVector(0, 0), new dVector(k.xd, k.yd));
         map[0][0] = 'X';
-        System.out.println("Collision map ready");
+        System.out.println("Collsion map:");
+        int xp = 0, yp = 0;
+        for(char[] lane : map){
+            for(char pixel : lane){
+                System.out.print(xp+", "+yp+"| ");
+                yp++;
+            }System.out.println("");xp++;yp = 0;
+        }
+        System.out.println("Map size: "+map.length+", "+map[0].length);
+        System.out.println("Collision map ready, Starting A Star...");
         LinkedList<dVector> path = astar.pathToVector(astar.getPath(map, (int)this.x, (int)this.y));
         System.out.println("Pathfinding Complete!");
         this.path = path;
+        PFinding = false;
     }
     @Override
     public void update(int xd, int yd, objectManager oM){
-        if(path == null){
-            calcPath();
-            
+        if(path == null && !PFinding){
+            Thread pf = new Thread(){
+                @Override
+                public void run(){
+                    calcPath();
+                }
+            };
+            pf.run();
         }
         else{
             dVector step = path.getLast();
