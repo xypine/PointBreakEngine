@@ -50,7 +50,7 @@ class game{
         System.out.println("We'll take it form here!");
         k.Logic.loadLevel("out.txt");
         gameObject p = new Player(25, 5, 1, "player1", "█", 1F, Color.black, 1, k);
-        AI ai = new AI(10, 10, 1, "ai", "A", 1, Color.yellow, 2, k);
+        AI ai = new AI(0, 0, 1, "ai", "A", 1, Color.yellow, 2, k);
         k.objectManager.addObject(p);
         k.objectManager.addObject(ai);
         k.Logic.abright = true;
@@ -69,15 +69,10 @@ class AI extends gameObject{
         PFinding = true;
         System.out.println("Started Pathfinding process:");
         char[][] map = k.objectManager.getCollisionmap(new dVector(0, 0), new dVector(k.xd, k.yd));
-        map[0][0] = 'X';
-        System.out.println("Collsion map:");
+        gameObject player = k.objectManager.getObjectByTag("player1");
+        map[(int)player.x][(int)player.y] = 'X';
+        map[(int)this.x][(int)this.y] = '1';
         int xp = 0, yp = 0;
-        for(char[] lane : map){
-            for(char pixel : lane){
-                System.out.print(xp+", "+yp+"| ");
-                yp++;
-            }System.out.println("");xp++;yp = 0;
-        }
         System.out.println("Map size: "+map.length+", "+map[0].length);
         System.out.println("Collision map ready, Starting A Star...");
         LinkedList<dVector> path = astar.pathToVector(astar.getPath(map, (int)this.x, (int)this.y));
@@ -97,9 +92,20 @@ class AI extends gameObject{
             pf.run();
         }
         else{
-            dVector step = path.getLast();
-            setLocation(step);
-            path.removeLast();
+            if(path.size() > 0){
+                dVector step = path.getLast();
+                setLocation(step);
+                path.removeLast();
+            }
+            else{
+                Thread pf = new Thread(){
+                    @Override
+                    public void run(){
+                        calcPath();
+                    }
+                    };
+                pf.run();
+            }
         }
     }
 }

@@ -14,14 +14,30 @@ package PBEngine;
 
 import java.util.*;
 import java.lang.*;
+import static java.lang.Math.pow;
+import static java.lang.Math.sqrt;
 
-class Node {
+class Node implements Comparable<Node> {
     int x;
     int y;
+    int value = 99999999;
     
-    Node(int x, int y) {
+    Node(int x, int y, int score) {
+        this.value = score;
         this.x = x;
         this.y = y;
+    }
+    
+    public static final Comparator<Node> DESCENDING_COMPARATOR = new Comparator<Node>() {
+        // Overriding the compare method to sort the age
+        public int compare(Node d, Node d1) {
+            return d.value - d1.value;
+        }
+    };
+    
+    @Override
+    public int compareTo(Node t) {
+        return DESCENDING_COMPARATOR.compare(this, t);
     }
 }
 
@@ -34,7 +50,7 @@ public class astar
         }
         return vectors;
     }
-    public void test()
+    public static void main(String[] Args)
     {
         System.out.println("Performing pathfinding test...");
         final char[][] matrix = {
@@ -67,9 +83,20 @@ public class astar
         int N = matrix.length;
         char[][] tmp = matrix;
         List<Node> queue = new ArrayList<Node>();
-        queue.add(new Node(fromX, fromY));
+        queue.add(new Node(fromX, fromY, 0));
         boolean pathExists = false;
-        
+        List<Node> path = new ArrayList<>();
+        dVector start = new dVector(fromX, fromY);
+        dVector goal = new dVector(0, 0);
+        int yp = 0, xp = 0;
+        for(char[] lane : tmp){
+            for(char i : lane){
+                if(i == 'X'){
+                    goal = new dVector(xp, yp);
+                }
+                yp++;
+            }xp++;yp=0;
+        }
         while(!queue.isEmpty()) {
             Node current = queue.remove(0);
             if(tmp[current.x][current.y] == 'X') {
@@ -79,23 +106,36 @@ public class astar
             
             tmp[current.x][current.y] = '0'; // mark as visited
             
-            List<Node> neighbors = getNeighbors(tmp, current);
+            List<Node> neighbors = getNeighbors(tmp, current, start, goal);
             queue.addAll(neighbors);
         }
         
         return pathExists;
     }
     public static List<Node> getPath(char[][] matrix, int fromX, int fromY) {
+        Comparator<Node> comp = Node.DESCENDING_COMPARATOR;
         int N = matrix.length;
         char[][] tmp = matrix;
-        List<Node> queue = new ArrayList<>();
-        queue.add(new Node(fromX, fromY));
+        PriorityQueue<Node> queue = new PriorityQueue<>();
+        
         boolean pathExists = false;
         List<Node> path = new ArrayList<>();
-        
+        dVector start = new dVector(fromX, fromY);
+        dVector goal = new dVector(0, 0);
+        int yp = 0, xp = 0;
+        for(char[] lane : tmp){
+            for(char i : lane){
+                if(i == 'X'){
+                    goal = new dVector(xp, yp);
+                }
+                yp++;
+            }xp++;yp=0;
+        }
+        queue.add(new Node(fromX, fromY, score(start, goal, start)));
+        System.out.println("Goal: "+goal.represent());
         while(!queue.isEmpty()) {
             
-            Node current = queue.remove(0);
+            Node current = queue.remove();
             if(tmp[current.x][current.y] == 'X') {
                 pathExists = true;
                 break;
@@ -103,29 +143,44 @@ public class astar
             
             tmp[current.x][current.y] = '0'; // mark as visited
             path.add(current);
-            List<Node> neighbors = getNeighbors(tmp, current);
-            queue.addAll(neighbors);
+            List<Node> neighbors = getNeighbors(tmp, current, start, goal);
+            for(Node neighbour : neighbors){
+                if(!queue.contains(neighbour)){
+                    queue.add(neighbour);
+                }
+            }
         }
         
         return path;
     }
-    public static List<Node> getNeighbors(char[][] matrix, Node node) {
+    public static int score(dVector location, dVector goal, dVector start){
+        double distanceTo = getDistance(location, goal);
+        double distanceFrom = getDistance(location, start);
+        return (int) distanceTo;
+    }
+    public static double getDistance(dVector one, dVector two){
+        double ry = (double) pow(one.y - two.y, 2.0);
+        double rx = (double) pow(one.x - two.x, 2.0);
+        double finish = (double) sqrt(rx + ry);
+        return finish;
+    }
+    public static List<Node> getNeighbors(char[][] matrix, Node node, dVector start, dVector end) {
         List<Node> neighbors = new ArrayList<Node>();
         
         if(isValidPoint(matrix, node.x - 1, node.y)) {
-            neighbors.add(new Node(node.x - 1, node.y));
+            neighbors.add(new Node(node.x - 1, node.y, score(new dVector(node.x - 1, node.y), end, start)));
         }
         
         if(isValidPoint(matrix, node.x + 1, node.y)) {
-            neighbors.add(new Node(node.x + 1, node.y));
+            neighbors.add(new Node(node.x + 1, node.y, score(new dVector(node.x + 1, node.y), end, start)));
         }
         
         if(isValidPoint(matrix, node.x, node.y - 1)) {
-            neighbors.add(new Node(node.x, node.y - 1));
+            neighbors.add(new Node(node.x, node.y - 1, score(new dVector(node.x, node.y-1), end, start)));
         }
         
         if(isValidPoint(matrix, node.x, node.y + 1)) {
-            neighbors.add(new Node(node.x, node.y + 1));
+            neighbors.add(new Node(node.x, node.y + 1, score(new dVector(node.x, node.y+1), end, start)));
         }
         
         return neighbors;
