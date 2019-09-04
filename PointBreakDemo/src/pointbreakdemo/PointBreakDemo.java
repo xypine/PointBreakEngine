@@ -67,16 +67,16 @@ class AI extends gameObject{
     }
     public void calcPath(){
         PFinding = true;
-        System.out.println("Started Pathfinding process:");
+        //System.out.println("Started Pathfinding process:");
         char[][] map = k.objectManager.getCollisionmap(new dVector(0, 0), new dVector(k.xd, k.yd));
         gameObject player = k.objectManager.getObjectByTag("player1");
         map[(int)player.x][(int)player.y] = 'X';
         map[(int)this.x][(int)this.y] = '1';
         int xp = 0, yp = 0;
-        System.out.println("Map size: "+map.length+", "+map[0].length);
-        System.out.println("Collision map ready, Starting A Star...");
+        //System.out.println("Map size: "+map.length+", "+map[0].length);
+        //System.out.println("Collision map ready, Starting A Star...");
         LinkedList<dVector> path = astar.pathToVector(astar.getPath(map, (int)this.x, (int)this.y));
-        System.out.println("Pathfinding Complete!");
+        //System.out.println("Pathfinding Complete!");
         this.path = path;
         PFinding = false;
     }
@@ -93,11 +93,12 @@ class AI extends gameObject{
         }
         else{
             if(path.size() > 0){
-                dVector step = path.getLast();
+                dVector step = path.getFirst();
                 setLocation(step);
-                path.removeLast();
+                path.removeFirst();
             }
             else{
+                this.setLocation(new dVector(0, 0));
                 Thread pf = new Thread(){
                     @Override
                     public void run(){

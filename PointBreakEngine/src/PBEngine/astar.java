@@ -55,8 +55,8 @@ public class astar
         System.out.println("Performing pathfinding test...");
         final char[][] matrix = {
             {'1', '0', '0', '1'},
-            {'1', '1', '1', 'X'},
-            {'1', '0', '0', '0'},
+            {'1', '1', '0', 'X'},
+            {'0', '1', '0', '1'},
             {'1', '1', '1', '1'}
         };
         //boolean pathExists = pathExists(matrix);
@@ -189,7 +189,14 @@ public class astar
     public static boolean isValidPoint(char[][] matrix, int x, int y) {
  //       System.out.println("");
  //       System.out.println(!(x < 0 || x >= matrix.length || y < 0 || y >= matrix.length) && (matrix[x][y] != '0'));
-        return !(x < 0 || x >= matrix.length || y < 0 || y >= matrix.length) && (matrix[x][y] != '0');
+        boolean result;
+        try{
+            result = !(x < 0 || x >= matrix.length || y < 0 || y >= matrix.length) && (matrix[x][y] != '0');
+        }
+        catch(Exception e){
+            result = false;
+        }
+        return result;
     }
     public static char[][] clone2D(char[][] source){
         char[][] out = source;
