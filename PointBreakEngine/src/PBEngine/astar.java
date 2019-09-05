@@ -18,6 +18,7 @@ import static java.lang.Math.pow;
 import static java.lang.Math.sqrt;
 
 class Node implements Comparable<Node> {
+    Node cameFrom = null;
     int x;
     int y;
     int value = 99999999;
@@ -46,7 +47,11 @@ public class astar
     public static LinkedList<dVector> pathToVector(List<Node> path){
         LinkedList<dVector> vectors = new LinkedList<>();
         for(Node step: path){
-            vectors.add(new dVector(step.x, step.y));
+            try {
+                vectors.add(new dVector(step.x, step.y));
+            } catch (Exception e) {
+                vectors.add(new dVector(0, 0));
+            }
         }
         return vectors;
     }
@@ -66,9 +71,9 @@ public class astar
                 i = ' ';
             }
         }
-        for(Node x : getPath(matrix, 0, 0)){
+        for(dVector x : pathToVector(getPath(matrix, 0, 0))){
             System.out.println("NodeX: " + x.x + " NodeY: " + x.y);
-            result[x.x][x.y] = '-';
+            result[(int)x.x][(int)x.y] = '-';
         }
         for(char[] lane : result){
             for(char i : lane){
@@ -138,6 +143,13 @@ public class astar
             Node current = queue.remove();
             if(tmp[current.x][current.y] == 'X') {
                 pathExists = true;
+                path = new ArrayList<>();
+                Node origin = current;
+                path.add(origin);
+                while(origin != null){
+                    origin = origin.cameFrom;
+                    path.add(origin);
+                }
                 break;
             }
             
@@ -146,6 +158,14 @@ public class astar
             List<Node> neighbors = getNeighbors(tmp, current, start, goal);
             for(Node neighbour : neighbors){
                 if(!queue.contains(neighbour)){
+                    try{
+                        if(neighbour.cameFrom.value < current.value){
+                            neighbour.cameFrom = current;
+                        }
+                        
+                    }catch(Exception e){
+                        neighbour.cameFrom = current;
+                    }
                     queue.add(neighbour);
                 }
             }

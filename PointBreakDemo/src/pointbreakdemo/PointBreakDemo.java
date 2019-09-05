@@ -93,9 +93,9 @@ class AI extends gameObject{
         }
         else{
             if(path.size() > 0){
-                dVector step = path.getFirst();
+                dVector step = path.getLast();
                 setLocation(step);
-                path.removeFirst();
+                path.removeLast();
             }
             else{
                 this.setLocation(new dVector(0, 0));
