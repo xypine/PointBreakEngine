@@ -138,14 +138,14 @@ public class objectManager {
             }
         }
     }
-    public char[][] getCollisionmap(dVector min, dVector max){
+    public char[][] getCollisionmap(dVector min, dVector max, String origin){
         int sizex = (int) (max.x - min.x);
         int sizey = (int) (max.y - min.y);
         char[][] map = new char[sizex][sizey];
         for(int xp : new Range(map.length)){
             for(int yp : new Range(map[0].length)){
                 map[xp][yp] = '1';
-                if(colliding(xp, yp, "nocoll")){
+                if(colliding(xp, yp, origin)){
                     map[xp][yp] = '0';
                 }
             }

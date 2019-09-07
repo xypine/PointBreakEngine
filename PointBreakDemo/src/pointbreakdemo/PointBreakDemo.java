@@ -50,7 +50,7 @@ class game{
         System.out.println("We'll take it form here!");
         k.Logic.loadLevel("out.txt");
         gameObject p = new Player(25, 5, 1, "player1", "█", 1F, Color.black, 1, k);
-        AI ai = new AI(10, 10, 1, "ai", "A", 1, Color.yellow, 2, k);
+        AI ai = new AI(10, 10, 1, "ai1", "A", 1, Color.yellow, 2, k);
         k.objectManager.addObject(p);
         k.objectManager.addObject(ai);
         k.Logic.abright = true;
@@ -64,9 +64,14 @@ class AI extends gameObject{
         super(xpos, ypos, size, tag, ap, mass, color, id, k);
     }
     private void calcPath(){
-        char[][] map = k.objectManager.getCollisionmap(new dVector(0, 0), new dVector(k.xd, k.yd));
+        char[][] map = k.objectManager.getCollisionmap(new dVector(0, 0), new dVector(k.xd, k.yd), getTag().get(0));
         map[0][0] = 'X';
-        System.out.println("Collision map ready");
+        System.out.println("Collision map ready: ");
+        for(char[] lane : map){
+            for(char i : lane){
+                System.out.print(i+" ");
+            }System.out.println("");
+        }
         LinkedList<dVector> path = astar.pathToVector(astar.getPath(map, (int)this.x, (int)this.y));
         System.out.println("Pathfinding Complete!");
         this.path = path;
