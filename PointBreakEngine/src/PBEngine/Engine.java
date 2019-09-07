@@ -340,12 +340,14 @@ public class Engine extends JFrame implements Runnable, ActionListener {
         LinkedList<Color> colors = new LinkedList<>();
         LinkedList<String> images = new LinkedList<>();
         LinkedList<Integer> sizes = new LinkedList<>();
+        LinkedList<Double> rotations = new LinkedList<>();
         
         LinkedList<dVector> points2 = new LinkedList<>();
         LinkedList<renderContainer> cont2 = new LinkedList<>();
         LinkedList<Color> colors2 = new LinkedList<>();
         LinkedList<String> images2 = new LinkedList<>();
         LinkedList<Integer> sizes2 = new LinkedList<>();
+        LinkedList<Double> rotations2 = new LinkedList<>();
         objects = oM.getObjects();
         int xp = 0, yp = 0;
         
@@ -375,7 +377,7 @@ public class Engine extends JFrame implements Runnable, ActionListener {
                 if(g > 255){g = 255;}
                 if(b > 255){b = 255;}
                 
-                cont2.add( new renderContainer(new dVector(xp,yp), "", new Color((int) r,(int) g,(int) b), 1));
+                cont2.add( new renderContainer(new dVector(xp,yp), "", new Color((int) r,(int) g,(int) b), 1, 0));
                 points2.add(new dVector(xp,yp));
                 colors2.add(new Color((int) r,(int) g,(int) b));
                 images2.add("");
@@ -448,7 +450,7 @@ public class Engine extends JFrame implements Runnable, ActionListener {
                 g = 255;
                 b = 255;
             }
-            cont1.add( new renderContainer(new dVector(txf, tyf), p.imageName, new Color((int)r,(int)g,(int)b), p.size));
+            cont1.add( new renderContainer(new dVector(txf, tyf), p.imageName, new Color((int)r,(int)g,(int)b), p.size, p.getRadians()));
             colors.add(new Color((int)r,(int)g,(int)b));
             lis.add(new xyac(tx,ty,ta,tc,las));
             sizes.add(p.size);

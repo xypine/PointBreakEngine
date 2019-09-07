@@ -18,6 +18,19 @@ import java.util.LinkedList;
  * @author Jonnelafin
  */
 public class gameObject {
+    private double rotation = 0;
+    public void setDegrees(double degrees){
+        this.rotation = (degrees * (Math.PI /180));
+    }
+    public void setRadians(double radians){
+        this.rotation = radians;
+    }
+    public double getDegrees(){
+        return rotation / (Math.PI / 180);
+    }
+    public double getRadians(){
+        return rotation;
+    }
     int collisionCount = 0;
     
     public boolean collisions = true;

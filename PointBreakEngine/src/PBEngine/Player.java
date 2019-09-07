@@ -22,11 +22,13 @@ public class Player extends gameObject{
         super(ypos, xpos, size, tag, ap, mas, cot, ID, master);
         this.imageName = dir.textures + "player/player2.png";
         collision_type = 0;
+        setDegrees(45);
 //        this.summon(ypos, xpos, tag, ap, mas);
     }
     
     @Override
     public void checkInput(Input in){
+        setDegrees(getDegrees()+1);
         //System.out.println("VELX, VELY: " + velx + " , " + vely + "     " + "up, down, left, right: " + in.up() + " " + in.down() + " " + in.right() + " " + in.left() + "      " + "x, y, mouse x, y: " + this.getX() + " , " + this.getY() + "MOUSE:"+ in.mouseX() + ", " + in.mouseY());
         //System.out.println(this.colliding);
         
