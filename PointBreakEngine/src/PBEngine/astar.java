@@ -137,7 +137,7 @@ public class astar
             }xp++;yp=0;
         }
         queue.add(new Node(fromX, fromY, score(start, goal, start)));
-        System.out.println("Goal: "+goal.represent());
+        //System.out.println("Goal: "+goal.represent());
         while(!queue.isEmpty()) {
             
             Node current = queue.remove();

@@ -35,7 +35,7 @@ public class Editor extends JFrame implements Runnable, ActionListener {
     int number;
     String screen;
     String[][] tmp;
-    Renderer lM = new Renderer();
+    LegacyRenderer lM = new LegacyRenderer();
     JLabel area;
     
     double lastTime;
@@ -288,7 +288,7 @@ public class Editor extends JFrame implements Runnable, ActionListener {
         
         area.setText(fetch(lM));
     }
-    String fetch(Renderer render)
+    String fetch(LegacyRenderer render)
     {
 //        System.out.println("Started fetching!");
         int cx = 0;

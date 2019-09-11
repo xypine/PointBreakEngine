@@ -141,11 +141,10 @@ public class Input implements KeyListener, MouseMotionListener, MouseListener {
     public int lY = 0;
     @Override
     public void mouseMoved(MouseEvent e) {
-        /*
         lX = mouseX;
         lY = mouseY;
         mouseX = e.getX();
-        mouseY = e.getY();
+        mouseY = e.getY();/*
         cX = mouseX - lX;
         cY = mouseY - lY;
         System.out.println("x, y: " + cX + " ," + cY);

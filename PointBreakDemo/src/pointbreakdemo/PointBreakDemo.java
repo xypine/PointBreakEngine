@@ -68,12 +68,12 @@ class AI extends gameObject{
     private void calcPath(){
         char[][] map = k.objectManager.getCollisionmap(new dVector(0, 0), new dVector(k.xd, k.yd), getTag().get(0));
         map[0][0] = 'X';
-        System.out.println("Collision map ready: ");
-        for(char[] lane : map){
-            for(char i : lane){
-                System.out.print(i+" ");
-            }System.out.println("");
-        }
+        //System.out.println("Collision map ready: ");
+        //for(char[] lane : map){
+        //    for(char i : lane){
+        //        System.out.print(i+" ");
+        //    }System.out.println("");
+        //}
         LinkedList<dVector> path = astar.pathToVector(astar.getPath(map, (int)this.x, (int)this.y));
         //System.out.println("Pathfinding Complete!");
         this.path = path;

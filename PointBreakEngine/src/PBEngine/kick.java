@@ -42,7 +42,6 @@ public class kick implements Runnable{
     public kick ref = this;
     public int xd = 50;
     public int yd = 25;
-    public EffectsDemo ED;
     public Thread c;
     public Thread b;
     public Thread a;

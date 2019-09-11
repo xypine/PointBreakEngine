@@ -59,7 +59,7 @@ public class Engine extends JFrame implements Runnable, ActionListener {
     int number;
     String screen;
     String[][] tmp;
-    //Renderer renderer = new Renderer();
+    //Renderer renderer = new LegacyRenderer();
     JLabel area;
     
     public int xd;
@@ -79,7 +79,7 @@ public class Engine extends JFrame implements Runnable, ActionListener {
     private double txf;
     private double tyf;
 //    
-    public vectorArea vA;
+    public Renderer vA;
     kick k;
     public Input input;
     public Engine(kick ki, objectManager o, int xd, int yd, VSRadManager a, dVector g){
@@ -126,7 +126,7 @@ public class Engine extends JFrame implements Runnable, ActionListener {
         this.setVisible(true);
         getContentPane().setBackground( Color.black );
         
-        vA = new vectorArea(k);
+        vA = new Renderer(k);
         vA.sSi = true;
         this.add(vA);
         revalidate();
@@ -359,33 +359,7 @@ public class Engine extends JFrame implements Runnable, ActionListener {
         
         float[][] out = quickEffects.blur(red, xd, yd, blurStrenght);
         for(float[] x : out){
-            for(float y : x){
-                Color c = new Color(0,0,0);
-                c = rads.colors[xp][yp];
-                double i = y * 1F;
-                if(i > 255){
-                    i = 255;
-                }
-                float r = 0,g = 0,b = 0;
-                //System.out.println();
-                float brightness = 0.0005F;
-                      //rads.colors[....
-                try{r = rb[xp][yp] * (y*brightness);}catch(Exception e){r = 0F;}
-                try{g = gb[xp][yp] * (y*brightness);}catch(Exception e){g = 0F;}
-                try{b = bb[xp][yp] * (y*brightness);}catch(Exception e){b = 0F;}
-                if(r > 255){r = 255;}
-                if(g > 255){g = 255;}
-                if(b > 255){b = 255;}
-                
-                cont2.add( new renderContainer(new dVector(xp,yp), "", new Color((int) r,(int) g,(int) b), 1, 0));
-                points2.add(new dVector(xp,yp));
-                colors2.add(new Color((int) r,(int) g,(int) b));
-                images2.add("");
-                sizes2.add(1);
-//                renderer.change(xp, yp,"█",new Color((int) i,(int) i,(int) i), "n");
-                //renderer.vChange(xp * 15.34F, yp * 22.48F, new Color((int) i,(int) i,(int) i));
-                yp++;
-            }
+            for(float y : x)
             xp++;
             yp = 0;
         }
@@ -450,6 +424,11 @@ public class Engine extends JFrame implements Runnable, ActionListener {
                 g = 255;
                 b = 255;
             }
+            if(p.pureColor){
+                r = tc.getRed();
+                g = tc.getGreen();
+                b = tc.getBlue();
+            }
             cont1.add( new renderContainer(new dVector(txf, tyf), p.imageName, new Color((int)r,(int)g,(int)b), p.size, p.getRadians()));
             colors.add(new Color((int)r,(int)g,(int)b));
             lis.add(new xyac(tx,ty,ta,tc,las));
@@ -479,7 +458,7 @@ public class Engine extends JFrame implements Runnable, ActionListener {
         
 //        area.setText(fetch(renderer));
     }
-    String fetch(Renderer render)
+    String fetch(LegacyRenderer render)
     {
 //        System.out.println("Started fetching!");
         int cx = 0;

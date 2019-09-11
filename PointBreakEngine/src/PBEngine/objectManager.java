@@ -81,7 +81,7 @@ public class objectManager {
     }
     public boolean colliding(int x, int y, String ignore){
         for(gameObject i : objects){
-            if(i.getTag().contains("cursor") || i.getTag().contains(ignore)){}
+            if(i.getTag().contains("cursor") || i.getTag().contains(ignore) || i.getTag().contains("nocoll")){}
             else{
                 if((round(i.x) == x && round(i.y) == y)){
                     return true;
@@ -92,7 +92,7 @@ public class objectManager {
     }
     public gameObject collidingGA(int x, int y, String ignore){
         for(gameObject i : objects){
-            if(i.getTag().contains("cursor") || i.getTag().contains(ignore)){}
+            if(i.getTag().contains("cursor") || i.getTag().contains(ignore) || i.getTag().contains("nocoll")){}
             else{
                 if((round(i.x) == x && round(i.y) == y)){
                     return i;
@@ -103,7 +103,7 @@ public class objectManager {
     }
     public boolean colliding(int x, int y, LinkedList<String> ignore){
         for(gameObject i : objects){
-            if(i.getTag().contains("cursor") || containsany(ignore, i.getTag())){}
+            if(i.getTag().contains("cursor") || containsany(ignore, i.getTag()) || i.getTag().contains("nocoll")){}
             else{//System.out.println(i.getTag().get(0));
                 if((round(i.x) == x && round(i.y) == y)){
                     return true;
@@ -122,7 +122,7 @@ public class objectManager {
     }
     public gameObject collidingGA(int x, int y, LinkedList<String> ignore){
         for(gameObject i : objects){
-            if(i.getTag().contains("cursor") || containsany(ignore, i.getTag())){}
+            if(i.getTag().contains("cursor") || containsany(ignore, i.getTag()) || i.getTag().contains("nocoll")){}
             else{
                 if((round(i.x) == x && round(i.y) == y)){
                     return i;

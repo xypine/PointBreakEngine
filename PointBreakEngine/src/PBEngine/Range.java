@@ -14,7 +14,7 @@ package PBEngine;
 import java.util.Iterator;
 import java.util.NoSuchElementException;
 
-class Range implements Iterable<Integer> {
+public class Range implements Iterable<Integer> {
 
     private int limit;
 
