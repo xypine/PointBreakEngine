@@ -50,11 +50,11 @@ public class Engine extends JFrame implements Runnable, ActionListener {
     public float global_brightness = 0.55F;
     public int rayDetail = 0;
     public int vector = 1;
-    public int renderRays = 1;
+    public int renderRays = 0;
     public LinkedList<Vector> record;
     colorParser cP = new colorParser();
     Timer timer = new Timer(15, this);
-    float[][] red;
+    double[][] red;
     int tickC = 0;
     int number;
     String screen;
@@ -162,7 +162,7 @@ public class Engine extends JFrame implements Runnable, ActionListener {
         //synchronized(renderer) {
             //renderer.init(xd, yd, this);
         //}
-        red = new float[xd][yd];
+        red = new double[xd][yd];
         //canvas = renderer.canvas;
         
         //rads = new VSRadManager(xd, yd, oM);
@@ -351,18 +351,22 @@ public class Engine extends JFrame implements Runnable, ActionListener {
         objects = oM.getObjects();
         int xp = 0, yp = 0;
         
-        float rb[][] = quickEffects.blur(rads.getR(xd, yd), xd, yd, blurStrenght);
-        float gb[][] = quickEffects.blur(rads.getG(xd, yd), xd, yd, blurStrenght);
-        float bb[][] = quickEffects.blur(rads.getB(xd, yd), xd, yd, blurStrenght);
-        if(bakedcolor == null){colored = quickEffects.parseColor(xd, yd, rb, gb, bb);}
-        else{colored = bakedcolor;}
+        double rb[][] = quickEffects.blur(rads.getR(xd, yd), xd, yd, blurStrenght);
+        double gb[][] = quickEffects.blur(rads.getG(xd, yd), xd, yd, blurStrenght);
+        double bb[][] = quickEffects.blur(rads.getB(xd, yd), xd, yd, blurStrenght);
+        if(!(bakedcolor != null && !k.bakedLights)){colored = bakedcolor;}
+        else{colored = quickEffects.parseColor(xd, yd, rb, gb, bb);}
         
-        float[][] out = quickEffects.blur(red, xd, yd, blurStrenght);
-        for(float[] x : out){
-            for(float y : x)
+        double[][] out = quickEffects.blur(red, xd, yd, blurStrenght);
+        for(double[] x : out){
+            for(double y : x)
             xp++;
             yp = 0;
+            for(double i : x){
+                System.out.print((int)i+" ");
+            }System.out.println("");
         }
+        System.out.println("########################################");
 //        oM.doPhysics(renderer);
         for(gameObject p : objects){
 //            renderer.change(tx, ty, "█", Color.WHITE);
@@ -414,9 +418,9 @@ public class Engine extends JFrame implements Runnable, ActionListener {
             //    b = (b * global_brightness + (rads.colors[tx][ty].getBlue() * 0.5F) / 2 );if(b > 255){b = 255;}
             }catch(Exception e){
                 
-                try{r = (r * global_brightness * (red[tx][ty] * 0.55F) / 2 );if(r > 255){r = 255;}}catch(Exception e2){r = 0;}
-                try{g = (g * global_brightness * (red[tx][ty] * 0.55F) / 2 );if(g > 255){g = 255;}}catch(Exception e2){g = 0;}
-                try{b = (b * global_brightness * (red[tx][ty] * 0.55F) / 2 );if(b > 255){b = 255;}}catch(Exception e2){b = 0;}
+                try{r = (float) (r * global_brightness * (red[tx][ty] * 0.55F) / 2 );if(r > 255){r = 255;}}catch(Exception e2){r = 0;}
+                try{g = (float) (g * global_brightness * (red[tx][ty] * 0.55F) / 2 );if(g > 255){g = 255;}}catch(Exception e2){g = 0;}
+                try{b = (float) (b * global_brightness * (red[tx][ty] * 0.55F) / 2 );if(b > 255){b = 255;}}catch(Exception e2){b = 0;}
                 throw(e);
             }
             if(abright){
@@ -447,7 +451,7 @@ public class Engine extends JFrame implements Runnable, ActionListener {
 //        vA.update(points2, colors2, images2, sizes2, 2F, 0);
         bakedRays = cont2;
         vA.update(cont1, 1);
-        if(LoadedRays != null){vA.update(LoadedRays,0);}
+        if(LoadedRays != null && k.bakedLights){vA.update(LoadedRays,0);}
         else{vA.update(cont2, 0);}
         
         for(xyac a : lis){

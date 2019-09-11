@@ -129,7 +129,7 @@ public class VSRad {
     public dVector from;
     public float lastS;
     public void calculate(dVector from, float strenght, String ignore){
-        strenght = strenght / 100;
+//        strenght = strenght / 100;
         this.from = from;
         this.lastS = strenght;
         float[][] ray = new float[width][height];
@@ -139,7 +139,11 @@ public class VSRad {
 //        }
         System.out.println("Calculating raycaster "+id+"...");
         cursor = from;
-        grid[(int) from.x][(int) from.y] = strenght;
+        try {
+            grid[(int) from.x][(int) from.y] = strenght;
+        } catch (Exception e) {
+            
+        }
         fill(0);
         s = strenght;
         float bOut = 0.9999F;
@@ -214,7 +218,7 @@ public class VSRad {
             done++;
         }
         //rays.add(ray);
-        System.out.println("raycaster "+id+" calculated");
+        System.out.println("raycaster "+id+" calculated, mass: "+sum);
     }
 }
 
