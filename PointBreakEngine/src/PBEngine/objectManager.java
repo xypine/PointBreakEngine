@@ -81,7 +81,7 @@ public class objectManager {
     }
     public boolean colliding(int x, int y, String ignore){
         for(gameObject i : objects){
-            if(i.getTag().contains("cursor") || i.getTag().contains(ignore)){}
+            if(i.getTag().contains("cursor") || i.getTag().contains(ignore) || i.getTag().contains("nocoll")){}
             else{
                 if((round(i.x) == x && round(i.y) == y)){
                     return true;
@@ -92,7 +92,7 @@ public class objectManager {
     }
     public gameObject collidingGA(int x, int y, String ignore){
         for(gameObject i : objects){
-            if(i.getTag().contains("cursor") || i.getTag().contains(ignore)){}
+            if(i.getTag().contains("cursor") || i.getTag().contains(ignore) || i.getTag().contains("nocoll")){}
             else{
                 if((round(i.x) == x && round(i.y) == y)){
                     return i;
@@ -103,7 +103,7 @@ public class objectManager {
     }
     public boolean colliding(int x, int y, LinkedList<String> ignore){
         for(gameObject i : objects){
-            if(i.getTag().contains("cursor") || containsany(ignore, i.getTag())){}
+            if(i.getTag().contains("cursor") || containsany(ignore, i.getTag()) || i.getTag().contains("nocoll")){}
             else{//System.out.println(i.getTag().get(0));
                 if((round(i.x) == x && round(i.y) == y)){
                     return true;
@@ -122,7 +122,7 @@ public class objectManager {
     }
     public gameObject collidingGA(int x, int y, LinkedList<String> ignore){
         for(gameObject i : objects){
-            if(i.getTag().contains("cursor") || containsany(ignore, i.getTag())){}
+            if(i.getTag().contains("cursor") || containsany(ignore, i.getTag()) || i.getTag().contains("nocoll")){}
             else{
                 if((round(i.x) == x && round(i.y) == y)){
                     return i;
@@ -138,14 +138,14 @@ public class objectManager {
             }
         }
     }
-    public char[][] getCollisionmap(dVector min, dVector max){
+    public char[][] getCollisionmap(dVector min, dVector max, String origin){
         int sizex = (int) (max.x - min.x);
         int sizey = (int) (max.y - min.y);
         char[][] map = new char[sizex][sizey];
         for(int xp : new Range(map.length)){
             for(int yp : new Range(map[0].length)){
                 map[xp][yp] = '1';
-                if(colliding(xp, yp, "nocoll")){
+                if(colliding(xp, yp, origin)){
                     map[xp][yp] = '0';
                 }
             }

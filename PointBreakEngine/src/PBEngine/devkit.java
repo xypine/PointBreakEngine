@@ -150,6 +150,11 @@ class BListener implements ActionListener{
                                 k.k.objectManager.objects.remove(o);
                             }
                         break;
+                    case "/relight":
+                        VSRadManager vsradm = k.k.rad;
+                        vsradm.recalculate("aaaaaaaaaaaaaaa", 1);
+                        vsradm.recalculateParent();
+                        break;
                     default:
                         quickEffects.alert("devkit", "command not understood");
                         break;

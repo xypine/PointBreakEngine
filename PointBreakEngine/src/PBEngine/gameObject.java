@@ -18,6 +18,8 @@ import java.util.LinkedList;
  * @author Jonnelafin
  */
 public class gameObject {
+    public boolean pureColor = false;
+    
     private double rotation = 0;
     public void setDegrees(double degrees){
         this.rotation = (degrees * (Math.PI /180));

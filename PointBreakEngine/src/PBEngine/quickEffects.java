@@ -33,39 +33,39 @@ public class quickEffects {
             dirs[6] = new dVector(-1.0F,0F);
             dirs[7] = new dVector(-1.0F,1F);
     }
-    public static float[][] blur(float[][] sauce, int w, int h, int times){
-        float[][] out = sauce;
+    public static double[][] blur(double[][] sauce, int w, int h, int times){
+        double[][] out = sauce;
         for(int i : new Range(times)){
             out = blurOnce(out, w, h);
         }
         return out;
         
     }
-    public static float[][] blur(float[][] sauce, int w, int h, int times, int divisions){
-        float[][] out = sauce;
+    public static double[][] blur(double[][] sauce, int w, int h, int times, int divisions){
+        double[][] out = sauce;
         for(int i : new Range(times)){
             out = blurOnce(out, w, h, divisions);
         }
         return out;
         
     }
-    public static float[][] blur(float[][] sauce, int w, int h, int times,float factor){
-        float[][] out = sauce;
+    public static double[][] blur(double[][] sauce, int w, int h, int times,float factor){
+        double[][] out = sauce;
         for(int i : new Range(times)){
             out = blurOnce(out, w, h);
         }
         return out;
         
     }
-    private static float[][] blurOnce(float[][] sauce, int w, int h){
+    private static double[][] blurOnce(double[][] sauce, int w, int h){
         int x = 0;
         int y = 0;
         x = 0;y = 0;
-        float sum = 0;
+        double sum = 0;
         int calcd = 0;
-        float[][] out = new float[w][h];
-        for(float[] lane : sauce){
-            for(float lany : lane){
+        double[][] out = new double[w][h];
+        for(double[] lane : sauce){
+            for(double lany : lane){
                 sum = sauce[x][y];
                 calcd = 0;
                 for(dVector i : dirs){
@@ -83,14 +83,14 @@ public class quickEffects {
         }
         return(out);
     }
-    private static float[][] blurOnce(float[][] sauce, int w, int h, int divisions){
+    private static double[][] blurOnce(double[][] sauce, int w, int h, int divisions){
         int x = 0;
         int y = 0;
         x = 0;y = 0;
-        float sum = 0;
-        float[][] out = new float[w*divisions][h*divisions];
-        for(float[] lane : sauce){
-            for(float lany : lane){
+        double sum = 0;
+        double[][] out = new double[w*divisions][h*divisions];
+        for(double[] lane : sauce){
+            for(double lany : lane){
                 sum = sauce[x][y];
                 for(dVector i : dirs){
                     try{
@@ -159,9 +159,9 @@ public class quickEffects {
         return out;
     }
     
-    public static Color[][] parseColor(int w, int h, float[][] r, float[][] g, float[][] b){
+    public static Color[][] parseColor(int w, int h, double[][] r, double[][] g, double[][] b){
         Color[][] out = quickEffects.black(w, h);
-        LinkedList<float[][]> rgb = new LinkedList<>();
+        LinkedList<double[][]> rgb = new LinkedList<>();
         rgb.add(r);rgb.add(g);rgb.add(b);
         int xp = 0, yp = 0;
         for(Color[] lane : out){
@@ -178,11 +178,11 @@ public class quickEffects {
         }
         return out;
     }
-    public static LinkedList<float[][]> separateRGB(Color[][] sauce, int w, int h){
-        LinkedList<float[][]> out = new LinkedList<>();
-        float[][] r = new float[w][h];
-        float[][] g = new float[w][h];
-        float[][] b = new float[w][h];
+    public static LinkedList<double[][]> separateRGB(Color[][] sauce, int w, int h){
+        LinkedList<double[][]> out = new LinkedList<>();
+        double[][] r = new double[w][h];
+        double[][] g = new double[w][h];
+        double[][] b = new double[w][h];
         int x = 0, y = 0;
         for(Color [] lane : sauce){
             for(Color c : lane){

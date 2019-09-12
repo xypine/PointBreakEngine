@@ -29,7 +29,7 @@ import javax.swing.JPanel;
  *
  * @author Jonnelafin
  */
-public class Renderer {
+class LegacyRenderer {
     private int a;
     private int b;
     private String[][] space;
@@ -137,7 +137,7 @@ public class Renderer {
 
     
 }
-class vectorArea extends JPanel{
+public class Renderer extends JPanel{
     private Color[][] master;
     public int blur = 0;
     
@@ -150,7 +150,7 @@ class vectorArea extends JPanel{
     LinkedList<newVectorLayer> layers = new LinkedList<>();
     float x = 15.34F;
     float y = 22.48F;
-    float factor = 20F / 1F;
+    public float factor = 20F / 1F;
     private int w = 0;
     private int h = 0;
     public boolean sSi = false;
@@ -167,7 +167,7 @@ class vectorArea extends JPanel{
             try {
                 image = ImageIO.read(img);
             } catch (IOException ex) {
-                Logger.getLogger(vectorArea.class.getName()).log(Level.SEVERE, null, ex);
+                Logger.getLogger(Renderer.class.getName()).log(Level.SEVERE, null, ex);
             }
             this.images.add(new imageWithId(image, name.hashCode()));
             return new imageWithId(image, id);
@@ -185,7 +185,7 @@ class vectorArea extends JPanel{
         this.images.remove(id);
     }
     BufferedImage full = null;
-    public vectorArea(kick masterKick){
+    public Renderer(kick masterKick){
         this.masterkick = masterKick;
     }
     kick masterkick = null;
@@ -319,13 +319,13 @@ class vectorArea extends JPanel{
         tmp.init(title, blur);
         this.layers.add(position, tmp);
     }
-    public vectorArea(){
+    public Renderer(){
         try {
             //master = quickEffects.zero(master);
             full = ImageIO.read(new File(new directory().textures + "splash.png"));
         } catch (IOException ex) {
             
-            Logger.getLogger(vectorArea.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(Renderer.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
     private metaImage createRotated(BufferedImage image, double angle,GraphicsConfiguration gc) {

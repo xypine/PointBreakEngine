@@ -26,6 +26,8 @@ package PBEngine;
 
 import java.awt.Color;
 import java.util.LinkedList;
+import java.util.Queue;
+import java.util.concurrent.ConcurrentLinkedQueue;
 
 /**
  *
@@ -35,20 +37,21 @@ public class VSRadManager{
     public kick masterParent;
     public int blurStrenght = 0; //Disabled by default
     public Color[][] colors;
-    public LinkedList<VSRad> VSRad = new LinkedList<>();
+    public ConcurrentLinkedQueue<VSRad> sVSRad;
     private VSRad director;
     private int w, h;
     private objectManager oM;
     private radiosity demo;
     private dVector[] directions;
-    private float[][] last;
+    private double[][] last;
     public VSRadManager(int w, int h,objectManager oM, kick k){
+        this.sVSRad = new ConcurrentLinkedQueue<>();
         this.masterParent = k;
         this.w = w;
         this.h = h;
         this.oM = oM;
-        last = new float[w][h];
-        //director = new VSRad(this.oM, Color.BLACK, 1999);
+        last = new double[w][h];
+        //director = new sVSRad(this.oM, Color.BLACK, 1999);
         //director.init(this.w, this.h, 1, id);
         id++;
         //this.directions = director.directions;
@@ -70,19 +73,26 @@ public class VSRadManager{
         //tmp.directions = directions;
         tmp.calculate(new dVector(x,y), s, "null");
         System.out.println(tmp.sum);
-        this.VSRad.add(tmp);
+        this.sVSRad.add(tmp);
         if(recalculate){masterParent.Logic.red = this.read(999999);}
         id++;
     }
     public void recalculateParent(){
-        
-        masterParent.Logic.red = this.read(999999);
+        double sum = 0;
+        masterParent.Logic.red = this.read(99999999);
+        for(double[] row : masterParent.Logic.red){
+            for(double i : row){
+                sum = sum + i;
+                System.out.print((int)i+" ");
+            }System.out.println("");
+        }
+        System.out.println("Sum: "+sum);
     }
     int lasthash = 0;
-    public float[][] read(int type){
-        float[][] sum = new float[w][h];
+    public double[][] read(int type){
+        double[][] sum = new double[w][h];
         int xp = 0, yp = 0;
-        LinkedList<VSRad> list = VSRad;
+        Queue<VSRad> list = sVSRad;
         for(VSRad ray : list){
             if(ray.type != type){
                 for(float[] line : ray.grid){
@@ -125,7 +135,7 @@ public class VSRadManager{
         //if(y < 0){y = 0;}
         Color sum = new Color(0,0,0);
         int r = 0, g = 0, b = 0;
-        for(VSRad ray : VSRad){
+        for(VSRad ray : sVSRad){
             r = Math.round(sum.getRed() + (ray.grid[x][y] * ray.color.getRed()));if(r > 255){r = 255;}
             g = Math.round(sum.getGreen() + (ray.grid[x][y] * ray.color.getGreen()));if(g > 255){g = 255;}
             b = Math.round(sum.getBlue() + (ray.grid[x][y] * ray.color.getBlue()));if(b > 255){b = 255;}
@@ -135,17 +145,17 @@ public class VSRadManager{
         return(sum);
     }
     public void removeA(){
-        for(int i : new Range(VSRad.size())){
-            VSRad.remove(0);
+        for(int i : new Range(sVSRad.size())){
+            sVSRad.remove(0);
         }
     }
     public Color[][] getBlurred(){
         Color[][] out = new Color[w][h];
         out = quickEffects.zero(out);
-        float[][] r = getR(w,h);
-        float[][] g = getG(w,h);
-        float[][] b = getB(w,h);
-        LinkedList<float[][]> rgb = new LinkedList<>();
+        double[][] r = getR(w,h);
+        double[][] g = getG(w,h);
+        double[][] b = getB(w,h);
+        LinkedList<double[][]> rgb = new LinkedList<>();
         r = new quickEffects().blur(r, w, h, blurStrenght);
         g = new quickEffects().blur(g, w, h, blurStrenght);
         b = new quickEffects().blur(b, w, h, blurStrenght);
@@ -165,21 +175,21 @@ public class VSRadManager{
         return out;
     }
     public void recalculate(String ignore, int type){
-        for(VSRad i :VSRad){
+        System.out.println(sVSRad.size());
+        for(VSRad i :sVSRad){
             if(i.type == type){
-                continue;
-            }
-            i.fill(0);
-            this.colors = new Color[w][h];
-            i.calculate(i.from, i.lastS, ignore);
+                i.fill(0);
+                this.colors = new Color[w][h];
+                i.calculate(i.from, i.lastS, ignore);
+            }else{System.out.println(i.id + " is NOT GOING TO BE CALCULATED");}
         }
         //float[][] r = quickEffects.blur(quickEffects.separateRGB(colors, w, h).get(0), w, h, 3);
         //float[][] g = quickEffects.blur(quickEffects.separateRGB(colors, w, h).get(1), w, h, 3);
         //float[][] b = quickEffects.blur(quickEffects.separateRGB(colors, w, h).get(2), w, h, 3);
         //this.colors = quickEffects.parseColor(w, h, r, g, b);
     }
-    public float[][] getR(int xd, int yd){
-        float[][] out = new float[xd][yd];
+    public double[][] getR(int xd, int yd){
+        double[][] out = new double[xd][yd];
         for(int x : new Range(xd)){
             for(int y : new Range(yd)){
                 out[x][y] = 0;
@@ -188,8 +198,8 @@ public class VSRadManager{
         }
         return out;
     }
-    public float[][] getG(int xd, int yd){
-        float[][] out = new float[xd][yd];
+    public double[][] getG(int xd, int yd){
+        double[][] out = new double[xd][yd];
         for(int x : new Range(xd)){
             for(int y : new Range(yd)){
                 out[x][y] = 0;
@@ -198,8 +208,8 @@ public class VSRadManager{
         }
         return out;
     }
-    public float[][] getB(int xd, int yd){
-        float[][] out = new float[xd][yd];
+    public double[][] getB(int xd, int yd){
+        double[][] out = new double[xd][yd];
         for(int x : new Range(xd)){
             for(int y : new Range(yd)){
                 out[x][y] = 0;

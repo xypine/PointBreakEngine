@@ -50,16 +50,16 @@ public class Engine extends JFrame implements Runnable, ActionListener {
     public float global_brightness = 0.55F;
     public int rayDetail = 0;
     public int vector = 1;
-    public int renderRays = 1;
+    public int renderRays = 0;
     public LinkedList<Vector> record;
     colorParser cP = new colorParser();
     Timer timer = new Timer(15, this);
-    float[][] red;
+    double[][] red;
     int tickC = 0;
     int number;
     String screen;
     String[][] tmp;
-    //Renderer renderer = new Renderer();
+    //Renderer renderer = new LegacyRenderer();
     JLabel area;
     
     public int xd;
@@ -79,7 +79,7 @@ public class Engine extends JFrame implements Runnable, ActionListener {
     private double txf;
     private double tyf;
 //    
-    public vectorArea vA;
+    public Renderer vA;
     kick k;
     public Input input;
     public Engine(kick ki, objectManager o, int xd, int yd, VSRadManager a, dVector g){
@@ -126,7 +126,7 @@ public class Engine extends JFrame implements Runnable, ActionListener {
         this.setVisible(true);
         getContentPane().setBackground( Color.black );
         
-        vA = new vectorArea(k);
+        vA = new Renderer(k);
         vA.sSi = true;
         this.add(vA);
         revalidate();
@@ -162,7 +162,7 @@ public class Engine extends JFrame implements Runnable, ActionListener {
         //synchronized(renderer) {
             //renderer.init(xd, yd, this);
         //}
-        red = new float[xd][yd];
+        red = new double[xd][yd];
         //canvas = renderer.canvas;
         
         //rads = new VSRadManager(xd, yd, oM);
@@ -351,44 +351,22 @@ public class Engine extends JFrame implements Runnable, ActionListener {
         objects = oM.getObjects();
         int xp = 0, yp = 0;
         
-        float rb[][] = quickEffects.blur(rads.getR(xd, yd), xd, yd, blurStrenght);
-        float gb[][] = quickEffects.blur(rads.getG(xd, yd), xd, yd, blurStrenght);
-        float bb[][] = quickEffects.blur(rads.getB(xd, yd), xd, yd, blurStrenght);
-        if(bakedcolor == null){colored = quickEffects.parseColor(xd, yd, rb, gb, bb);}
-        else{colored = bakedcolor;}
+        double rb[][] = quickEffects.blur(rads.getR(xd, yd), xd, yd, blurStrenght);
+        double gb[][] = quickEffects.blur(rads.getG(xd, yd), xd, yd, blurStrenght);
+        double bb[][] = quickEffects.blur(rads.getB(xd, yd), xd, yd, blurStrenght);
+        if(!(bakedcolor != null && !k.bakedLights)){colored = bakedcolor;}
+        else{colored = quickEffects.parseColor(xd, yd, rb, gb, bb);}
         
-        float[][] out = quickEffects.blur(red, xd, yd, blurStrenght);
-        for(float[] x : out){
-            for(float y : x){
-                Color c = new Color(0,0,0);
-                c = rads.colors[xp][yp];
-                double i = y * 1F;
-                if(i > 255){
-                    i = 255;
-                }
-                float r = 0,g = 0,b = 0;
-                //System.out.println();
-                float brightness = 0.0005F;
-                      //rads.colors[....
-                try{r = rb[xp][yp] * (y*brightness);}catch(Exception e){r = 0F;}
-                try{g = gb[xp][yp] * (y*brightness);}catch(Exception e){g = 0F;}
-                try{b = bb[xp][yp] * (y*brightness);}catch(Exception e){b = 0F;}
-                if(r > 255){r = 255;}
-                if(g > 255){g = 255;}
-                if(b > 255){b = 255;}
-                
-                cont2.add( new renderContainer(new dVector(xp,yp), "", new Color((int) r,(int) g,(int) b), 1, 0));
-                points2.add(new dVector(xp,yp));
-                colors2.add(new Color((int) r,(int) g,(int) b));
-                images2.add("");
-                sizes2.add(1);
-//                renderer.change(xp, yp,"█",new Color((int) i,(int) i,(int) i), "n");
-                //renderer.vChange(xp * 15.34F, yp * 22.48F, new Color((int) i,(int) i,(int) i));
-                yp++;
-            }
+        double[][] out = quickEffects.blur(red, xd, yd, blurStrenght);
+        for(double[] x : out){
+            for(double y : x)
             xp++;
             yp = 0;
+            for(double i : x){
+                System.out.print((int)i+" ");
+            }System.out.println("");
         }
+        System.out.println("########################################");
 //        oM.doPhysics(renderer);
         for(gameObject p : objects){
 //            renderer.change(tx, ty, "█", Color.WHITE);
@@ -440,9 +418,9 @@ public class Engine extends JFrame implements Runnable, ActionListener {
             //    b = (b * global_brightness + (rads.colors[tx][ty].getBlue() * 0.5F) / 2 );if(b > 255){b = 255;}
             }catch(Exception e){
                 
-                try{r = (r * global_brightness * (red[tx][ty] * 0.55F) / 2 );if(r > 255){r = 255;}}catch(Exception e2){r = 0;}
-                try{g = (g * global_brightness * (red[tx][ty] * 0.55F) / 2 );if(g > 255){g = 255;}}catch(Exception e2){g = 0;}
-                try{b = (b * global_brightness * (red[tx][ty] * 0.55F) / 2 );if(b > 255){b = 255;}}catch(Exception e2){b = 0;}
+                try{r = (float) (r * global_brightness * (red[tx][ty] * 0.55F) / 2 );if(r > 255){r = 255;}}catch(Exception e2){r = 0;}
+                try{g = (float) (g * global_brightness * (red[tx][ty] * 0.55F) / 2 );if(g > 255){g = 255;}}catch(Exception e2){g = 0;}
+                try{b = (float) (b * global_brightness * (red[tx][ty] * 0.55F) / 2 );if(b > 255){b = 255;}}catch(Exception e2){b = 0;}
                 throw(e);
             }
             if(abright){
@@ -450,7 +428,7 @@ public class Engine extends JFrame implements Runnable, ActionListener {
                 g = 255;
                 b = 255;
             }
-            if(p.brightColor){
+            if(p.pureColor){
                 r = tc.getRed();
                 g = tc.getGreen();
                 b = tc.getBlue();
@@ -473,7 +451,7 @@ public class Engine extends JFrame implements Runnable, ActionListener {
 //        vA.update(points2, colors2, images2, sizes2, 2F, 0);
         bakedRays = cont2;
         vA.update(cont1, 1);
-        if(LoadedRays != null){vA.update(LoadedRays,0);}
+        if(LoadedRays != null && k.bakedLights){vA.update(LoadedRays,0);}
         else{vA.update(cont2, 0);}
         
         for(xyac a : lis){
@@ -484,7 +462,7 @@ public class Engine extends JFrame implements Runnable, ActionListener {
         
 //        area.setText(fetch(renderer));
     }
-    String fetch(Renderer render)
+    String fetch(LegacyRenderer render)
     {
 //        System.out.println("Started fetching!");
         int cx = 0;
