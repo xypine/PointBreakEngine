@@ -9,6 +9,10 @@ import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.net.URISyntaxException;
+import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -154,6 +158,43 @@ class BListener implements ActionListener{
                         VSRadManager vsradm = k.k.rad;
                         vsradm.recalculate("aaaaaaaaaaaaaaa", 1);
                         vsradm.recalculateParent();
+                        break;
+                    case "/map":
+                        Thread a = new Thread(){
+                            @Override
+                            public void run(){
+                                try {
+                                    k.k.Logic.loadLevel(arr[1]);
+                                } catch (URISyntaxException ex) {
+                                    Logger.getLogger(BListener.class.getName()).log(Level.SEVERE, null, ex);
+                                }
+                            }
+                        };
+                        a.start();
+                        break;
+                    case "/maptest":
+                        Thread b = new Thread(){
+                            @Override
+                            public void run(){
+                                boolean map = false;
+                                double sum = 0;
+                                for(int i : new Range(Integer.parseInt(arr[1]))){
+                                    String lo = "out2.txt";
+                                    if(map){
+                                        lo =  "shadingtest.txt";
+                                    }
+                                    try {
+                                        k.k.Logic.loadLevel(lo);
+                                    } catch (URISyntaxException ex) {
+                                        Logger.getLogger(BListener.class.getName()).log(Level.SEVERE, null, ex);
+                                    }
+                                    sum = sum + k.k.Logic.mapLoadTime;
+                                    map = !map;
+                                }
+                                System.out.println("Map loading time test completed in " + sum + " ms!");
+                            }
+                        };
+                        b.start();
                         break;
                     default:
                         quickEffects.alert("devkit", "command not understood");

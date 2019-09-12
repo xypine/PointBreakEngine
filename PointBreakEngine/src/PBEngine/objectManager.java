@@ -41,18 +41,21 @@ public class objectManager {
 //    }
     
     public gameObject getObjectByTag(String tagToGet){
-        return(objects.get(findGameObject(tagToGet)));
+        LinkedList<gameObject> copy = (LinkedList<gameObject>) objects.clone();
+        return(copy.get(findGameObject(tagToGet)));
     }
     public LinkedList<gameObject> getObjectsByTag(String tagToGet){
+        LinkedList<gameObject> copy = (LinkedList<gameObject>) objects.clone();
         LinkedList<gameObject> out = new LinkedList<gameObject>();
         for(int i : findGameObjects(tagToGet)){
-            out.add(objects.get(i));
+            out.add(copy.get(i));
         }
         return out;
     }
     public int findGameObject(String tagToGet){
-        for(int i = 0;i<objects.size();i++){
-            gameObject tmp = objects.get(i);
+        LinkedList<gameObject> copy = (LinkedList<gameObject>) objects.clone();
+        for(int i = 0;i<copy.size();i++){
+            gameObject tmp = copy.get(i);
             if(tmp.getTag().contains(new String(tagToGet))){
                 return(i);
             }
@@ -61,9 +64,10 @@ public class objectManager {
         return(99999999);
     }
     public LinkedList<Integer> findGameObjects(String tagToGet){
+        LinkedList<gameObject> copy = (LinkedList<gameObject>) objects.clone();
         LinkedList<Integer> out = new LinkedList<>();
-        for(int i = 0;i<objects.size();i++){
-            gameObject tmp = objects.get(i);
+        for(int i = 0;i<copy.size();i++){
+            gameObject tmp = copy.get(i);
             if(tmp.getTag().contains(new String(tagToGet))){
                 out.add(i);
             }
@@ -72,15 +76,17 @@ public class objectManager {
         return(out);
     }
     public LinkedList<gameObject> getObjects(){
+        LinkedList<gameObject> copy = (LinkedList<gameObject>) objects.clone();
         LinkedList<gameObject> tmpob = new LinkedList<gameObject>();
-        for(int i = 0;i<objects.size();i++){
-            gameObject tmp = objects.get(i);
+        for(int i = 0;i<copy.size();i++){
+            gameObject tmp = copy.get(i);
             tmpob.add(tmp);
         }
         return(tmpob);
     }
     public boolean colliding(int x, int y, String ignore){
-        for(gameObject i : objects){
+        LinkedList<gameObject> copy = (LinkedList<gameObject>) objects.clone();
+        for(gameObject i : copy){
             if(i.getTag().contains("cursor") || i.getTag().contains(ignore) || i.getTag().contains("nocoll")){}
             else{
                 if((round(i.x) == x && round(i.y) == y)){
@@ -91,7 +97,8 @@ public class objectManager {
         return false;
     }
     public gameObject collidingGA(int x, int y, String ignore){
-        for(gameObject i : objects){
+        LinkedList<gameObject> copy = (LinkedList<gameObject>) objects.clone();
+        for(gameObject i : copy){
             if(i.getTag().contains("cursor") || i.getTag().contains(ignore) || i.getTag().contains("nocoll")){}
             else{
                 if((round(i.x) == x && round(i.y) == y)){
@@ -102,12 +109,16 @@ public class objectManager {
         return null;
     }
     public boolean colliding(int x, int y, LinkedList<String> ignore){
-        for(gameObject i : objects){
-            if(i.getTag().contains("cursor") || containsany(ignore, i.getTag()) || i.getTag().contains("nocoll")){}
-            else{//System.out.println(i.getTag().get(0));
-                if((round(i.x) == x && round(i.y) == y)){
-                    return true;
+        LinkedList<gameObject> copy = (LinkedList<gameObject>) objects.clone();
+        for(gameObject i : copy){
+            try {
+                if (i.getTag().contains("cursor") || containsany(ignore, i.getTag()) || i.getTag().contains("nocoll")) {
+                } else {//System.out.println(i.getTag().get(0));
+                    if ((round(i.x) == x && round(i.y) == y)) {
+                        return true;
+                    }
                 }
+            } catch (Exception e) {
             }
         }
         return false;
@@ -121,7 +132,8 @@ public class objectManager {
         return false;
     }
     public gameObject collidingGA(int x, int y, LinkedList<String> ignore){
-        for(gameObject i : objects){
+        LinkedList<gameObject> copy = (LinkedList<gameObject>) objects.clone();
+        for(gameObject i : copy){
             if(i.getTag().contains("cursor") || containsany(ignore, i.getTag()) || i.getTag().contains("nocoll")){}
             else{
                 if((round(i.x) == x && round(i.y) == y)){
@@ -132,8 +144,9 @@ public class objectManager {
         return null;
     }
     public void removeLevel(){
-        for(gameObject ga : objects){
-            if(ga.getTag().contains(new String("static"))){
+        LinkedList<gameObject> copy = (LinkedList<gameObject>) objects.clone();
+        for(gameObject ga : copy){
+            if(ga.getTag().contains("static")){
                 objects.remove(ga);
             }
         }
