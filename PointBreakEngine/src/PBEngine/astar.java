@@ -126,7 +126,7 @@ public class astar
         boolean pathExists = false;
         List<Node> path = new ArrayList<>();
         dVector start = new dVector(fromX, fromY);
-        dVector goal = new dVector(0, 0);
+        dVector goal = new dVector(5, 5);
         int yp = 0, xp = 0;
         for(char[] lane : tmp){
             for(char i : lane){
@@ -137,11 +137,11 @@ public class astar
             }xp++;yp=0;
         }
         queue.add(new Node(fromX, fromY, score(start, goal, start)));
-        System.out.println("Goal: "+goal.represent());
+        //System.out.println("Goal: "+goal.represent());
         while(!queue.isEmpty()) {
             
             Node current = queue.remove();
-            if(tmp[current.x][current.y] == 'X') {
+            if(tmp[current.x][current.y] == 'X' || (current.x == goal.x && current.y == goal.y)) {
                 pathExists = true;
                 path = new ArrayList<>();
                 Node origin = current;

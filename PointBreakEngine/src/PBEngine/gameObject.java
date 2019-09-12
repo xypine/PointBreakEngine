@@ -36,6 +36,8 @@ public class gameObject {
     public boolean collisions = true;
     boolean gravity = true;
     
+    public boolean brightColor = false;
+    
     private gameObject parent = this;
     public boolean isParent = false;
     private LinkedList<gameObject> children = new LinkedList<>();
@@ -86,7 +88,7 @@ public class gameObject {
     
     private int id;
     public boolean point2 = false;
-    private LinkedList<String> tag = new LinkedList<>();
+    public LinkedList<String> tag = new LinkedList<>();
     private String appereance;
     private Color acolor = Color.RED;
 

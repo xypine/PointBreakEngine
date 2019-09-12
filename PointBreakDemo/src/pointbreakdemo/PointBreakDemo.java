@@ -50,8 +50,10 @@ class game{
         System.out.println("We'll take it form here!");
         k.Logic.loadLevel("out.txt");
         gameObject p = new Player(25, 5, 1, "player1", "█", 1F, Color.black, 1, k);
-        AI ai = new AI(0, 0, 1, "ai", "A", 1, Color.yellow, 2, k);
+        
         k.objectManager.addObject(p);
+        AI ai = new AI(14, 0, 1, "ai", "A", 1, Color.yellow, 2, k);
+        ai.addTag("nocoll");
         k.objectManager.addObject(ai);
         k.Logic.abright = true;
         System.out.println("Game Init Complete!");
@@ -64,6 +66,7 @@ class AI extends gameObject{
     boolean PFinding = false;
     public AI(int xpos, int ypos, int size, String tag, String ap, double mass, Color color, int id, kick k){
         super(xpos, ypos, size, tag, ap, mass, color, id, k);
+        this.brightColor = true;
     }
     public void calcPath(){
         PFinding = true;
@@ -78,11 +81,15 @@ class AI extends gameObject{
         LinkedList<dVector> path = astar.pathToVector(astar.getPath(map, (int)this.x, (int)this.y));
         //System.out.println("Pathfinding Complete!");
         this.path = path;
+        int color = 50 - path.size();
+        if(color > 255){color = 255;}
+        if(color < 0){color = 0;}
+        this.setColor(new Color(0, 0, color));
         PFinding = false;
     }
     @Override
     public void update(int xd, int yd, objectManager oM){
-        if(path == null && !PFinding){
+        /*if(path == null && !PFinding){
             Thread pf = new Thread(){
                 @Override
                 public void run(){
@@ -107,6 +114,10 @@ class AI extends gameObject{
                     };
                 pf.run();
             }
-        }
+        }*/
+        calcPath();
+    }
+    public void addTag(String tag){
+        this.tag.add(tag);
     }
 }

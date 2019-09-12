@@ -450,6 +450,11 @@ public class Engine extends JFrame implements Runnable, ActionListener {
                 g = 255;
                 b = 255;
             }
+            if(p.brightColor){
+                r = tc.getRed();
+                g = tc.getGreen();
+                b = tc.getBlue();
+            }
             cont1.add( new renderContainer(new dVector(txf, tyf), p.imageName, new Color((int)r,(int)g,(int)b), p.size, p.getRadians()));
             colors.add(new Color((int)r,(int)g,(int)b));
             lis.add(new xyac(tx,ty,ta,tc,las));
