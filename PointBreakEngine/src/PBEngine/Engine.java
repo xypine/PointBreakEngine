@@ -359,6 +359,37 @@ public class Engine extends JFrame implements Runnable, ActionListener {
         
         double[][] out = quickEffects.blur(red, xd, yd, blurStrenght);
         for(double[] x : out){
+            for(double y : x){
+                Color c = new Color(0,0,0);
+                c = rads.colors[xp][yp];
+                double i = y * 1F;
+                if(i > 255){
+                    i = 255;
+                }
+                float r = 0,g = 0,b = 0;
+                //System.out.println();
+                float brightness = 0.0005F;
+                      //rads.colors[....
+                try{r = (float) (rb[xp][yp] * (y*brightness));}catch(Exception e){r = 0;}
+                try{g = (float) (gb[xp][yp] * (y*brightness));}catch(Exception e){g = 0;}
+                try{b = (float) (bb[xp][yp] * (y*brightness));}catch(Exception e){b = 0;}
+                if(r > 255){r = 255;}
+                if(g > 255){g = 255;}
+                if(b > 255){b = 255;}
+                
+                cont2.add( new renderContainer(new dVector(xp,yp), "", new Color((int) r,(int) g,(int) b), 1, 0));
+                points2.add(new dVector(xp,yp));
+                colors2.add(new Color((int) r,(int) g,(int) b));
+                images2.add("");
+                sizes2.add(1);
+//                renderer.change(xp, yp,"█",new Color((int) i,(int) i,(int) i), "n");
+                //renderer.vChange(xp * 15.34F, yp * 22.48F, new Color((int) i,(int) i,(int) i));
+                yp++;
+            }
+            xp++;
+            yp = 0;
+        }
+        /*for(double[] x : out){
             for(double y : x)
             xp++;
             yp = 0;
@@ -366,7 +397,7 @@ public class Engine extends JFrame implements Runnable, ActionListener {
                 System.out.print((int)i+" ");
             }System.out.println("");
         }
-        System.out.println("########################################");
+        System.out.println("########################################");*/
 //        oM.doPhysics(renderer);
         for(gameObject p : objects){
 //            renderer.change(tx, ty, "█", Color.WHITE);
