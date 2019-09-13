@@ -274,6 +274,7 @@ public class Engine extends JFrame implements Runnable, ActionListener {
             area.setVisible(false);
             vA.setVisible(true);
         }
+        
         if(running == true){
             tick();
             if((tickC % 1) == 0){
@@ -284,9 +285,15 @@ public class Engine extends JFrame implements Runnable, ActionListener {
         revalidate();
         repaint();
     }
+    double mapLoadTime = 0;
     public void loadLevel(String level) throws URISyntaxException{
+        long time = System.nanoTime();
         oM.removeLevel();
         FileLoader lL = new FileLoader(level, oM, k);
+        last_time = System.nanoTime() - time;
+        last_time = last_time / 1000000;
+        mapLoadTime = last_time;
+        System.out.println("Load lenght: " + mapLoadTime);
     }
     dVector las;
     public Recorder recorder = new Recorder();
