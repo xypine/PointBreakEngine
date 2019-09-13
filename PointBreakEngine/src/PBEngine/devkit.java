@@ -155,6 +155,9 @@ class BListener implements ActionListener{
                         vsradm.recalculate("aaaaaaaaaaaaaaa", 1);
                         vsradm.recalculateParent();
                         break;
+                    case "/map":
+                        k.k.Logic.loadLevel(arr[1]);
+                        break;
                     default:
                         quickEffects.alert("devkit", "command not understood");
                         break;

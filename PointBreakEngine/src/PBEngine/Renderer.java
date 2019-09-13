@@ -200,6 +200,8 @@ public class Renderer extends JPanel{
 //            g.drawImage(full, 0, 0, w, h, this);
             g.setColor(Color.black);
             g.fillRect(0, 0, w, h);
+            g.setColor(new Color(255, 255, 255));
+            g.fillRect(w/(masterkick.loadingsteps+5), h/2-10, w/masterkick.loadingsteps*masterkick.loadingsteps, 10);
             g.setColor(new Color(0, 200, 0));
             g.fillRect(w/(masterkick.loadingsteps+5), h/2-10, w/masterkick.loadingsteps*masterkick.loading_completed, 10);
             g.setColor(Color.white);

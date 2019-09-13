@@ -354,7 +354,7 @@ public class Engine extends JFrame implements Runnable, ActionListener {
         double rb[][] = quickEffects.blur(rads.getR(xd, yd), xd, yd, blurStrenght);
         double gb[][] = quickEffects.blur(rads.getG(xd, yd), xd, yd, blurStrenght);
         double bb[][] = quickEffects.blur(rads.getB(xd, yd), xd, yd, blurStrenght);
-        if(!(bakedcolor != null && !k.bakedLights)){colored = bakedcolor;}
+        if((bakedcolor != null && !k.bakedLights)){colored = bakedcolor;}
         else{colored = quickEffects.parseColor(xd, yd, rb, gb, bb);}
         
         double[][] out = quickEffects.blur(red, xd, yd, blurStrenght);

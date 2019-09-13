@@ -63,6 +63,7 @@ public class quickEffects {
         x = 0;y = 0;
         double sum = 0;
         int calcd = 0;
+        int succeede = 9;
         double[][] out = new double[w][h];
         for(double[] lane : sauce){
             for(double lany : lane){
@@ -72,7 +73,7 @@ public class quickEffects {
                     try{
                         calcd++;
                         sum = sum + sauce[x + (int) i.x][y + (int) i.y];
-                    }catch(Exception e){calcd++;sum = sum + (sum / calcd);}
+                    }catch(Exception e){succeede--;/*calcd++;sum = sum + (sum / calcd);*/}
                 }
                 out[x][y] = 0F;
                 try{out[x][y] = sum / 9;}catch(Exception e){throw e;}

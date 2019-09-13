@@ -199,9 +199,9 @@ public class kick implements Runnable{
             //wM.oM.addObject(new Player(6, 6, "player1", "█", 1F, Color.black, 4, ref));
             //rad.setTitle("VSRad");
             if(!bakedLights){
-                Logic.rads.add(7, 2000, 100, new Color(2, 2, 2), 1, true);
-                Logic.rads.add(49, 100, 200, new Color(1, 1, 1), 1, false);
-                Logic.rads.add(39, 2000, 120, new Color(1, 0, 0), 1, false);
+                Logic.rads.add(7, 20, 1, new Color(2, 2, 2), 1, true);
+                Logic.rads.add(49, 10, 2, new Color(1, 1, 1), 1, false);
+                Logic.rads.add(39, 20, 1, new Color(1, 0, 0), 1, false);
                 Logic.red = Logic.rads.read(999999);
                 System.out.println("VSRAD COMPLETE");
             }
