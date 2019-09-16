@@ -11,7 +11,10 @@ import static java.lang.Math.ceil;
 import static java.lang.Math.pow;
 import static java.lang.Math.round;
 import static java.lang.Math.sqrt;
+import java.net.URISyntaxException;
 import java.util.LinkedList;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  *
@@ -206,38 +209,54 @@ public class gameObject {
                 //if(colliding || point2){velx = velx * 0.025F;}
                 //if(!colliding){velx = velx * 0.95F;}
                 if(gravity){
-                    if(vely > 100F){vely = 100.1F;}
+                    if(vely > 1000){vely = 1000.1;}
                     else{vely = vely + masterParent.engine_gravity.y;}
                 }
                 //else{this.vely = this.vely * -0.75F;}
                 
                 if(gravity){
-                    if(velx > 100F){velx = 100.1F;}
+                    if(velx > 1000){velx = 1000.1;}
                     else{velx = velx + masterParent.engine_gravity.x;}
                 }else{
                     vely = 0;
                 }
                 //checkAdvancedCollisions(oMb, this, x + velx, y + vely);
-                
+                boolean over = false;
                 
                 if(this.y > yd - 1){
-                    this.y = yd - 1;
+                    this.y = 0;
+                    over = true;
     //                this.vely = this.vely * -0.55F;
                     //this.hits++;
                 }
                 if(this.x > xd - 1){
-                    this.x = xd - 1;
+                    this.x = 0;
+                    over = true;
                     //this.velx = this.velx * -0.2F;
 
                 }
                 if(this.y < 0){
-                    this.y = 0;
+                    this.y = yd - 1;
+                    over = true;
                     //this.vely = this.vely * -0.2F;
                 }
                 if(this.x < 0){
-                    this.x = 0;
+                    this.x = xd - 1;
+                    over = true;
                     //this.velx = this.velx * -0.2F;
                 }
+                
+                //Change level if the player exits level
+                if(over && this.tag.get(0) == "player1"){
+                    try {
+                        masterParent.Logic.loadLevel("!random 75");
+                    } catch (URISyntaxException ex) {
+                        Logger.getLogger(gameObject.class.getName()).log(Level.SEVERE, null, ex);
+                    }
+                }
+                
+                velx = velx * masterParent.world_friction_multiplier;
+                vely = vely * masterParent.world_friction_multiplier;
             }
             if(this.tag.contains("static")){
                 vely = 0F;

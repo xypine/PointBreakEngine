@@ -13,6 +13,8 @@ import java.awt.Color;
  * @author Jonnelafin
  */
 public class Player extends gameObject{
+    private int controlScheme = 0;
+    
     private boolean noclip = false;
     public int fuel = 136;
     boolean canjump = true;
@@ -46,7 +48,7 @@ public class Player extends gameObject{
             canjump = true;
         }
         
-        if(this.getTag().contains("player1")){
+        if(this.getTag().contains("player1") && this.controlScheme == 1){
             if(fuel > 49 && in.up() != 0){
                 fuel = fuel - 54;
                 this.vely = this.vely + (in.up() + in.down()) * 1.7F;
@@ -59,7 +61,7 @@ public class Player extends gameObject{
 //            canjump = false;
         }
         
-        if(canjump && this.getTag().contains("player2")){
+        if(canjump && this.getTag().contains("player2") && this.controlScheme == 1){
             
             //this.vely = this.vely + (in.up2() + in.down2()) * 1.7F;
 //            if(point2_2){this.vely = this.vely * -1;}
@@ -67,17 +69,21 @@ public class Player extends gameObject{
         }
         if(this.getTag().contains("player1")){
             this.velx = this.velx + ((in.right() + in.left()) * 0.15F);
-            this.vely = this.vely + in.down() * 0.15F;
+            double newY = in.down();
+            if(this.controlScheme != 1){
+                newY = in.down() + in.up();
+            }
+            this.vely = this.vely + newY * 0.15F;
             
             if(in.keyPressed == null){
                 
             }
             else{
                 if(in.keyPressed.getKeyCode() == 32){
-                    gameObject projectile = new gameObject((int)this.x,(int) this.y, 1, "projectile", "", 1, Color.white, 919, masterParent);
+                    gameObject projectile = new gameObject((int)this.x,(int) this.y, 1, "projectile", "D", 1, Color.white, 919, masterParent);
                     masterParent.objectManager.addObject(projectile);
-                    projectile.velx = this.velx * 3;
-                    projectile.vely = this.vely * 3;
+                    projectile.velx = this.velx * -3;
+                    projectile.vely = this.vely * -3;
                     projectile.x = projectile.x + projectile.velx;
                     projectile.y = projectile.y + projectile.vely;
                     projectile.collision_Explode = true;

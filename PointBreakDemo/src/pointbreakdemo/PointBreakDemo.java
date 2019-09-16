@@ -41,14 +41,14 @@ class game{
         }
         System.out.println("WOOOOOOOOOOOOOOOOOOOOOOOO");
 //        try {
-//            k.Logic.loadLevel("out.txt");
+//            k.Logic.loadLevel("out.pblevel");
 //        } catch (URISyntaxException ex) {
 //            Logger.getLogger(game.class.getName()).log(Level.SEVERE, null, ex);
 //        }
 //        k.rad.add(0, 0, 8, new Color(1,1,1), 0, false);
 //       k.rad.recalculateParent();
         System.out.println("We'll take it form here!");
-        k.Logic.loadLevel("out.txt");
+        k.Logic.loadLevel("out.pblevel");
         gameObject p = new Player(25, 5, 1, "player1", "█", 1F, Color.black, 1, k);
         AI ai = new AI(14, 0, 1, "ai", "A", 1, Color.yellow, 2, k);
         ai.addTag("nocoll");

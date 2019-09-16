@@ -164,7 +164,7 @@ class BListener implements ActionListener{
                             @Override
                             public void run(){
                                 try {
-                                    k.k.Logic.loadLevel(arr[1]);
+                                    k.k.Logic.loadLevel(arr[1] + ".pblevel");
                                 } catch (URISyntaxException ex) {
                                     Logger.getLogger(BListener.class.getName()).log(Level.SEVERE, null, ex);
                                 }
@@ -181,10 +181,10 @@ class BListener implements ActionListener{
                                 for(int i : new Range(Integer.parseInt(arr[1]))){
                                     String lo = "out2.txt";
                                     if(map){
-                                        lo =  "shadingtest.txt";
+                                        lo = "shadingtest.txt";
                                     }
                                     try {
-                                        k.k.Logic.loadLevel(lo);
+                                        k.k.Logic.loadLevel("!random 25");
                                     } catch (URISyntaxException ex) {
                                         Logger.getLogger(BListener.class.getName()).log(Level.SEVERE, null, ex);
                                     }

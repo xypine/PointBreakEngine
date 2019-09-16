@@ -22,13 +22,13 @@ import javax.swing.SwingUtilities;
  * @author Jonnelafin
  */
 public class kick implements Runnable{
-    
     public int loadingsteps = 4;
     public int loading_completed = 0;
     
     public quickEffects tools = new quickEffects();
     
     //Global variables
+    public double world_friction_multiplier = 0.9;
     public dVector engine_gravity = new dVector(0D, 0.1D);
     public boolean engine_collisions = true;
     
@@ -186,7 +186,7 @@ public class kick implements Runnable{
         
         if(mode == 3){
             try {
-                Logic.loadLevel("out.txt");
+                Logic.loadLevel("out.pblevel");
             } catch (URISyntaxException ex) {
                 Logger.getLogger(kick.class.getName()).log(Level.SEVERE, null, ex);
             }

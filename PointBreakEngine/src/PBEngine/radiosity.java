@@ -140,7 +140,7 @@ public class radiosity extends JFrame implements Runnable, ActionListener {
         try {
             //SUMMON TEST
 
-            aol = new FileLoader("/src/com/viridistudios/viridiengine/levels/out.txt", oM, k);
+            aol = new FileLoader("/src/com/viridistudios/viridiengine/levels/out.pblevel", oM, k);
         } catch (URISyntaxException ex) {
             Logger.getLogger(radiosity.class.getName()).log(Level.SEVERE, null, ex);
         }

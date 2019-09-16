@@ -235,7 +235,7 @@ public class Editor extends JFrame implements Runnable, ActionListener {
         players = oM.getObjects();
         if(input.ke == 'l' && !saved){
             try {
-                aol.write(players, "out.txt");
+                aol.write(players, "out.pblevel");
             } catch (UnsupportedEncodingException ex) {
                 Logger.getLogger(Editor.class.getName()).log(Level.SEVERE, null, ex);
             } catch (IOException ex) {
