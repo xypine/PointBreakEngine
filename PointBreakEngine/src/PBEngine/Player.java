@@ -7,6 +7,7 @@
 package PBEngine;
 
 import java.awt.Color;
+import static java.lang.Double.NaN;
 
 /**
  *
@@ -27,10 +28,19 @@ public class Player extends gameObject{
         setDegrees(45);
 //        this.summon(ypos, xpos, tag, ap, mas);
     }
-    
+    private void rot(){
+        double c = Math.sqrt(Math.pow(velx, 2) + Math.pow(vely, 2));
+        double rot = Math.acos(velx/c);
+        
+        if(!Double.isNaN(rot)){
+            this.setRadians(rot);
+        }
+        
+    }
     @Override
     public void checkInput(Input in){
-        setDegrees(getDegrees()+1);
+        //setDegrees(getDegrees()+1);
+        rot();
         //System.out.println("VELX, VELY: " + velx + " , " + vely + "     " + "up, down, left, right: " + in.up() + " " + in.down() + " " + in.right() + " " + in.left() + "      " + "x, y, mouse x, y: " + this.getX() + " , " + this.getY() + "MOUSE:"+ in.mouseX() + ", " + in.mouseY());
         //System.out.println(this.colliding);
         

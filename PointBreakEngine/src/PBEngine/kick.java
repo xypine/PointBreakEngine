@@ -41,7 +41,7 @@ public class kick implements Runnable{
     public boolean tog;
     public kick ref = this;
     public int xd = 50;
-    public int yd = 25;
+    public int yd = 50;
     public Thread c;
     public Thread b;
     public Thread a;
@@ -192,6 +192,9 @@ public class kick implements Runnable{
             }
             //wM.oM.addObject(new Player(5, 5, "player1", "█", 1F, Color.black, 1, ref));
             gameObject p = new Player(25, 5, 1, "player1", "█", 1F, Color.black, 1, ref);
+            
+            Camera cam = new Camera(p.x, p.y);
+            Logic.cam = cam;
             
             Logic.oM.addObject(p);
             //wM.oM.addObject(new Player(5, 6, "player1", "█", 1F, Color.black, 3, ref));

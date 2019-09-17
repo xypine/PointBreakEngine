@@ -26,6 +26,7 @@ import javax.swing.Timer;
  * @author Jonnelafin
  */
 public class Engine extends JFrame implements Runnable, ActionListener {
+    Camera cam = new Camera(0, 0);
     long last_time = System.nanoTime();
     int deltatime = 0;
     
@@ -294,12 +295,16 @@ public class Engine extends JFrame implements Runnable, ActionListener {
         last_time = last_time / 1000000;
         mapLoadTime = last_time;
         System.out.println("Load lenght: " + mapLoadTime);
+        System.out.println("Recalculating lights:");
+        //k.rad.recalculate("ignoreRecalculation", 1);
+        //k.rad.recalculateParent();
     }
     dVector las;
     public Recorder recorder = new Recorder();
     boolean ve = false;
     Color[][] colored;
     void tick(){
+        
         //rads.removeA();
         //rads.add(25, 12, 4);
         if(renderRays == 1){
@@ -424,6 +429,7 @@ public class Engine extends JFrame implements Runnable, ActionListener {
             Color tc = p.getColor();
 //            p.update(renderer);
             if(p.getTag().contains(new String("player1"))){
+                cam.setLocation(p.x, p.y);
 //                oM.addObject(new Player(tx, ty, "null", "█", 1F, Color.MAGENTA));
                 //rads.add(tx, ty, 1);
 //                aM.setVolume(d/10);

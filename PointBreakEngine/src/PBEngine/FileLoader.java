@@ -27,6 +27,7 @@ import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Random;
 import java.util.Scanner;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -106,14 +107,21 @@ public class FileLoader {
         int xd = rads.masterParent.xd;
         int yd = rads.masterParent.yd;
         if(arr[0].equals("!random")){
+            arr[1] = arr[1].replaceAll(".pblevel", "");
+            Random rnd = new Random(Integer.parseInt(arr[1]));
+            rnd.setSeed(Integer.parseInt(arr[1]));
             for(int y : new Range(Integer.parseInt(arr[1]))){
                 int xp = (int) (Math.random() * ( xd - 0 ));
                 int yp = (int) (Math.random() * ( yd - 0 ));
+                
+                //xd = rnd.nextInt(xd);
+                //yd = rnd.nextInt(yd);
                 
                 gameObject tm = new gameObject(xp, yp, 1, "static", this.appereance, this.mass, Color.black, this.id, master);
                 tm.imageName = dir.textures + "walls/walls0.png";
                 oM.addObject(tm);
                 id++;
+                count++;
             }
             return;
         }

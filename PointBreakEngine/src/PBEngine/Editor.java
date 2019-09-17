@@ -66,7 +66,7 @@ public class Editor extends JFrame implements Runnable, ActionListener {
     float w = 767*size;
     float h = 562*size;
     int xd = (int) (w / 15.34);
-    int yd = (int) (h / 22.48);
+    int yd = (int) (w / 15.34);
     Question q;
     @Override
     public void run() {

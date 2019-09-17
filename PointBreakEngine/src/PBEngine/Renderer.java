@@ -138,6 +138,9 @@ class LegacyRenderer {
     
 }
 public class Renderer extends JPanel{
+    double camx = 0;
+    double camy = 0;
+    
     private Color[][] master;
     public int blur = 0;
     
@@ -150,7 +153,7 @@ public class Renderer extends JPanel{
     LinkedList<newVectorLayer> layers = new LinkedList<>();
     float x = 15.34F;
     float y = 22.48F;
-    public float factor = 20F / 1F;
+    public float factor = 20F / 2F;
     private int w = 0;
     private int h = 0;
     public boolean sSi = false;
@@ -191,6 +194,8 @@ public class Renderer extends JPanel{
     kick masterkick = null;
     @Override
     public void paintComponent(Graphics g) {
+        camx = masterkick.Logic.cam.x;
+        camy = masterkick.Logic.cam.y;
         GraphicsEnvironment ge = GraphicsEnvironment.getLocalGraphicsEnvironment();
         GraphicsDevice gd = ge.getDefaultScreenDevice();
         GraphicsConfiguration gc = gd.getDefaultConfiguration();
@@ -220,7 +225,7 @@ public class Renderer extends JPanel{
                     String imageloc = vL.containers.get(i).ImageName;
                     if(Objects.equals(imageloc, "")){
                         g.setColor(c);
-                        g.fillRect((int)(rl.x*factor),(int) (rl.y*factor), (int) factor * size, (int) factor * size);
+                        g.fillRect((int)((rl.x - camx)*factor + (w/2)),(int) ((rl.y - camy)*factor + (h/2)), (int) factor * size, (int) factor * size);
                     }
                     else{
                         try{
@@ -240,23 +245,27 @@ public class Renderer extends JPanel{
                             imageWithId gImage = getImage(imageloc);
                             buffer = new quickEffects().colorImage(gImage.image, c.getRed(), c.getGreen(), c.getBlue(), 1F);
                             if(rotation != 0){
-                                BufferedImage buffer2 = createRotated(buffer, rotation, gc).image;
-                                dVector scaleDiff = getImgScale(buffer2, buffer);
-                                scaleX = scaleDiff.x;
-                                scaleY = scaleDiff.y;
-                                buffer = buffer2;
+                                try{
+                                    BufferedImage buffer2 = createRotated(buffer, rotation, gc).image;
+                                    dVector scaleDiff = getImgScale(buffer2, buffer);
+                                    scaleX = scaleDiff.x;
+                                    scaleY = scaleDiff.y;
+                                    buffer = buffer2;}
+                                catch(Exception e){
+                                    throw e;
+                                }
                             }
                             double offsetX = scaleX;
                             double offsetY = scaleY;
                             
-                            double xFrom = rl.x * factor - offsetX;
-                            double yFrom = rl.y * factor - offsetY;
+                            double xFrom = (rl.x - camx) * factor  + (w/2) - offsetX;
+                            double yFrom = (rl.y - camy) * factor  + (h/2) - offsetY;
                             double xTo = factor * size + offsetX;
                             double yTo = factor * size + offsetY;
                             g.drawImage(buffer, (int)(xFrom),(int) (yFrom), (int) xTo, (int) yTo, this);
                         }catch(Exception e){
                             g.setColor(Color.MAGENTA);
-                            g.fillRect((int)(rl.x*factor),(int) (rl.y*factor), (int) factor, (int) factor);
+                            g.fillRect((int)(rl.x-camx*factor + (w/2)),(int) (rl.y-camy*factor + (h/2)), (int) factor, (int) factor);
                             throw e;
                         }
                     }
@@ -332,14 +341,21 @@ public class Renderer extends JPanel{
     }
     private metaImage createRotated(BufferedImage image, double angle,GraphicsConfiguration gc) {
         double sin = Math.abs(Math.sin(angle)), cos = Math.abs(Math.cos(angle));
-        int w = image.getWidth(), h = image.getHeight();
-        int neww = (int) Math.floor(w * cos + h * sin), newh = (int) Math.floor(h* cos + w * sin);
+        int mw = image.getWidth(), mh = image.getHeight();
+        int neww;
+        neww = (int) Math.floor(mw * cos + mh * sin);
+        int newh = (int) Math.floor(mh* cos + mw * sin);
         int transparency = image.getColorModel().getTransparency();
         //BufferedImage result = gc.createCompatibleImage(neww, newh, transparency);
-        BufferedImage result = new BufferedImage(neww, newh, BufferedImage.TYPE_4BYTE_ABGR);
+        BufferedImage result = null;
+        try {
+            result = new BufferedImage(neww, newh, BufferedImage.TYPE_4BYTE_ABGR);
+        } catch (Exception e) {
+            return new metaImage(image, new dVector(mw, mh));
+        }
         Graphics2D g = result.createGraphics();
-        g.translate((neww - w) / 2, (newh - h) / 2);
-        g.rotate(angle, w / 2, h / 2);
+        g.translate((neww - mw) / 2, (newh - mh) / 2);
+        g.rotate(angle, mw / 2, mh / 2);
         g.drawRenderedImage(image, null);
         return new metaImage(result, new dVector(neww, newh));
     }
