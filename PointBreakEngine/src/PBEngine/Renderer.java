@@ -243,7 +243,7 @@ public class Renderer extends JPanel{
                             double scaleX = 1;
                             double scaleY = 1;
                             imageWithId gImage = getImage(imageloc);
-                            buffer = new quickEffects().colorImage(gImage.image, c.getRed(), c.getGreen(), c.getBlue(), 1F);
+                            buffer = new quickTools().colorImage(gImage.image, c.getRed(), c.getGreen(), c.getBlue(), 1F);
                             if(rotation != 0){
                                 try{
                                     BufferedImage buffer2 = createRotated(buffer, rotation, gc).image;
@@ -273,13 +273,13 @@ public class Renderer extends JPanel{
             }
         }
         /*
-        float[][] rs = quickEffects.separateRGB(master, w, h).get(0);
-        float[][] gs = quickEffects.separateRGB(master, w, h).get(1);
-        float[][] bs = quickEffects.separateRGB(master, w, h).get(2);
-        //rs = quickEffects.blur(rs, w, h, blur);
-        //gs = quickEffects.blur(rs, w, h, blur);
-        //bs = quickEffects.blur(rs, w, h, blur);
-        //master = quickEffects.parseColor(w, h, rs, gs, bs);
+        float[][] rs = quickTools.separateRGB(master, w, h).get(0);
+        float[][] gs = quickTools.separateRGB(master, w, h).get(1);
+        float[][] bs = quickTools.separateRGB(master, w, h).get(2);
+        //rs = quickTools.blur(rs, w, h, blur);
+        //gs = quickTools.blur(rs, w, h, blur);
+        //bs = quickTools.blur(rs, w, h, blur);
+        //master = quickTools.parseColor(w, h, rs, gs, bs);
         for(int x : new Range(w)){
             for(int y : new Range(h)){
                 Vector rm = new Vector(x, y);
@@ -317,7 +317,7 @@ public class Renderer extends JPanel{
         this.setOpaque(true);
         this.setBackground(Color.BLACK);
         master = new Color[w][h];
-        master = quickEffects.zero(master);
+        master = quickTools.zero(master);
         for(int i : new Range(num_layers)){
             this.addLayer(i, "Layer " + String.valueOf(i), 0);
         }
@@ -332,7 +332,7 @@ public class Renderer extends JPanel{
     }
     public Renderer(){
         try {
-            //master = quickEffects.zero(master);
+            //master = quickTools.zero(master);
             full = ImageIO.read(new File(new directory().textures + "splash.png"));
         } catch (IOException ex) {
             

@@ -103,7 +103,7 @@ class BListener implements ActionListener{
                         if(arr[1].matches("true")){k.k.engine_collisions = true;}
                         else if(arr[1].matches("false")){k.k.engine_collisions = false;}
                         else{
-                            quickEffects.alert("devkit", "value :"+ arr[1] +": not understood");
+                            quickTools.alert("devkit", "value :"+ arr[1] +": not understood");
                         }
                         break;
                     case "/blur":
@@ -122,7 +122,7 @@ class BListener implements ActionListener{
                             }
                             //k.k.objectManager.getObjectByTag(values[0]).setLocation(new Vector(x, y));
                         } catch (NumberFormatException numberFormatException) {
-                            quickEffects.alert("devkit", "value :"+ arr[1] +": not understood");
+                            quickTools.alert("devkit", "value :"+ arr[1] +": not understood");
                             
                         }
                         break;
@@ -143,7 +143,7 @@ class BListener implements ActionListener{
                             k.k.objectManager.addObject(new gameObject(x, y, 1, tag, "N", 1, Color.black, 1919, k.k));
                             //k.k.objectManager.getObjectByTag(values[0]).setLocation(new Vector(x, y));
                         } catch (NumberFormatException numberFormatException) {
-                            quickEffects.alert("devkit", "value :"+ arr[1] +": not understood");
+                            quickTools.alert("devkit", "value :"+ arr[1] +": not understood");
                             
                         }
                         break;
@@ -158,7 +158,7 @@ class BListener implements ActionListener{
                         vsradm.recalculate("aaaaaaaaaaaaaaa", 1);
                         vsradm.recalculateParent();
                         break;
-                    case "/map":
+                    case "/lvl":
                         Thread a = new Thread(){
                             @Override
                             public void run(){
@@ -171,7 +171,7 @@ class BListener implements ActionListener{
                         };
                         a.start();
                         break;
-                    case "/maptest":
+                    case "/lvltest":
                         Thread b = new Thread(){
                             @Override
                             public void run(){
@@ -195,8 +195,11 @@ class BListener implements ActionListener{
                         };
                         b.start();
                         break;
+                    case "/z":
+                        k.k.Logic.vA.factor = Integer.parseInt(arr[1]);
+                        break;
                     default:
-                        quickEffects.alert("devkit", "command not understood");
+                        quickTools.alert("devkit", "command not understood");
                         break;
                 }
             }

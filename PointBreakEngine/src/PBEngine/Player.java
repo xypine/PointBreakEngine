@@ -38,6 +38,38 @@ public class Player extends gameObject{
         
     }
     @Override
+    public void overBound(int direction, int xd, int yd){
+        boolean succ = masterParent.Logic.nextLevel(direction);
+        if(succ){
+            if(direction == 2){
+                        this.y = 0;
+                    }
+            if(direction == 1){
+                        this.x = 0;
+                    }
+            if(direction == 0){
+                        this.y = yd - 1;
+                    }
+            if(direction == 3){
+                        this.x = xd - 1;
+            }
+        }else{
+            if(direction == 2){
+                        this.y = yd - 1;
+                    }
+            if(direction == 1){
+                        this.x = xd - 1;
+                    }
+            if(direction == 0){
+                        this.y = 0;
+                    }
+            if(direction == 3){
+                        this.x = 0;
+            }
+        }
+    }
+    
+    @Override
     public void checkInput(Input in){
         //setDegrees(getDegrees()+1);
         rot();

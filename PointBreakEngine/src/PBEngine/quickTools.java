@@ -21,9 +21,16 @@ import javax.swing.JOptionPane;
  *
  * @author Jonnelafin
  */
-public class quickEffects {
+public class quickTools {
+    public static int levelUP = 0;
+    public static int levelRight = 1;
+    public static int levelDown = 2;
+    public static int levelLeft = 3;
+    
+    public static dVector[] levelDirs = {new dVector(0, 1), new dVector(1, 0), new dVector(0, -1), new dVector(-1, 0)}; 
+    
     static dVector[] dirs = new dVector[8];
-    public quickEffects(){
+    public quickTools(){
             dirs[0] = new dVector(0.0F,1.0F);
             dirs[1] = new dVector(1.0F,1.0F);
             dirs[2] = new dVector(1.0F,0.0F);
@@ -161,7 +168,7 @@ public class quickEffects {
     }
     
     public static Color[][] parseColor(int w, int h, double[][] r, double[][] g, double[][] b){
-        Color[][] out = quickEffects.black(w, h);
+        Color[][] out = quickTools.black(w, h);
         LinkedList<double[][]> rgb = new LinkedList<>();
         rgb.add(r);rgb.add(g);rgb.add(b);
         int xp = 0, yp = 0;

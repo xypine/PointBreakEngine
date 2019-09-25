@@ -25,7 +25,7 @@ public class kick implements Runnable{
     public int loadingsteps = 4;
     public int loading_completed = 0;
     
-    public quickEffects tools = new quickEffects();
+    public quickTools tools = new quickTools();
     
     //Global variables
     public double world_friction_multiplier = 0.9;

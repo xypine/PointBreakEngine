@@ -46,7 +46,7 @@ public class Engine extends JFrame implements Runnable, ActionListener {
     //Screen components
     int blurStrenght = 1;
     public dVector gravity;
-    quickEffects effects = new quickEffects();
+    quickTools effects = new quickTools();
     public LinkedList<Object> content = new LinkedList<>();
     public float global_brightness = 0.55F;
     public int rayDetail = 0;
@@ -134,7 +134,7 @@ public class Engine extends JFrame implements Runnable, ActionListener {
         repaint();
         vA.init((int)w, (int)h, 3, false);
         //try {vA.setImage(new directory().textures + "splash.png");}
-        //catch (IOException ex) {quickEffects.alert(ex.getMessage());}
+        //catch (IOException ex) {quickTools.alert(ex.getMessage());}
         
         content.add(vA);
         if(vA.sSi){
@@ -299,6 +299,29 @@ public class Engine extends JFrame implements Runnable, ActionListener {
         //k.rad.recalculate("ignoreRecalculation", 1);
         //k.rad.recalculateParent();
     }
+    dVector currentMap = new dVector(0, 0);
+    public boolean nextLevel(int direction){
+        String[][] levelmap = mapParser.parseMap(FileLoader.getLevelMap("00.pbMap"));
+        int mapw = levelmap[0].length; 
+        int maph = levelmap.length; 
+        dVector newLevel = dVector.add(currentMap, quickTools.levelDirs[direction]);
+        System.out.println("mapW: "+mapw);
+        System.out.println("mapH: "+maph);
+        System.out.println("current location: "+currentMap.represent()+ " possible new loc: "+newLevel.represent());
+        //newLevel.x <= mapw && newLevel.y >= maph
+        if(true){
+            currentMap = newLevel;
+            try {
+                loadLevel(levelmap[(int)currentMap.x][(int)currentMap.y]+".pblevel");
+                System.out.println("new coords: "+currentMap.represent());
+            } catch (URISyntaxException ex) {
+                System.out.println("Unable to load new level");return false;
+            } catch (ArrayIndexOutOfBoundsException ea){
+                return false;
+            }
+        }
+        return true;
+    }
     dVector las;
     public Recorder recorder = new Recorder();
     boolean ve = false;
@@ -363,13 +386,13 @@ public class Engine extends JFrame implements Runnable, ActionListener {
         objects = oM.getObjects();
         int xp = 0, yp = 0;
         
-        double rb[][] = quickEffects.blur(rads.getR(xd, yd), xd, yd, blurStrenght);
-        double gb[][] = quickEffects.blur(rads.getG(xd, yd), xd, yd, blurStrenght);
-        double bb[][] = quickEffects.blur(rads.getB(xd, yd), xd, yd, blurStrenght);
+        double rb[][] = quickTools.blur(rads.getR(xd, yd), xd, yd, blurStrenght);
+        double gb[][] = quickTools.blur(rads.getG(xd, yd), xd, yd, blurStrenght);
+        double bb[][] = quickTools.blur(rads.getB(xd, yd), xd, yd, blurStrenght);
         if((bakedcolor != null && !k.bakedLights)){colored = bakedcolor;}
-        else{colored = quickEffects.parseColor(xd, yd, rb, gb, bb);}
+        else{colored = quickTools.parseColor(xd, yd, rb, gb, bb);}
         
-        double[][] out = quickEffects.blur(red, xd, yd, blurStrenght);
+        double[][] out = quickTools.blur(red, xd, yd, blurStrenght);
         for(double[] x : out){
             for(double y : x){
                 Color c = new Color(0,0,0);

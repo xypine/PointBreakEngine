@@ -221,39 +221,27 @@ public class gameObject {
                     vely = 0;
                 }
                 //checkAdvancedCollisions(oMb, this, x + velx, y + vely);
-                boolean over = false;
                 
                 if(this.y > yd - 1){
-                    this.y = 0;
-                    over = true;
+                    overBound(2, xd, yd);
     //                this.vely = this.vely * -0.55F;
                     //this.hits++;
                 }
                 if(this.x > xd - 1){
-                    this.x = 0;
-                    over = true;
+                    overBound(1, xd, yd);
                     //this.velx = this.velx * -0.2F;
 
                 }
                 if(this.y < 0){
-                    this.y = yd - 1;
-                    over = true;
+                    overBound(0,xd,yd);
                     //this.vely = this.vely * -0.2F;
                 }
                 if(this.x < 0){
-                    this.x = xd - 1;
-                    over = true;
+                    overBound(3, xd, yd);
                     //this.velx = this.velx * -0.2F;
                 }
                 
-                //Change level if the player exits level
-                if(over && this.tag.get(0) == "player1"){
-                    try {
-                        masterParent.Logic.loadLevel("!random 75");
-                    } catch (URISyntaxException ex) {
-                        Logger.getLogger(gameObject.class.getName()).log(Level.SEVERE, null, ex);
-                    }
-                }
+                
                 
                 velx = velx * masterParent.world_friction_multiplier;
                 vely = vely * masterParent.world_friction_multiplier;
@@ -266,6 +254,20 @@ public class gameObject {
         else{
             this.x = parent.x + parent_offsetX;
             this.y = parent.y + parent_offsetY;
+        }
+    }
+    public void overBound(int direction, int xd, int yd){
+        if(direction == 2){
+                    this.y = 0;
+                }
+        if(direction == 1){
+                    this.x = 0;
+                }
+        if(direction == 0){
+                    this.y = yd - 1;
+                }
+        if(direction == 3){
+                    this.x = xd - 1;
         }
     }
     public void addForce(Vector force){

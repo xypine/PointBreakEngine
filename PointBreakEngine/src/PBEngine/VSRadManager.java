@@ -56,7 +56,7 @@ public class VSRadManager{
         id++;
         //this.directions = director.directions;
         this.colors = new Color[w][h];
-        quickEffects.zero(colors);
+        quickTools.zero(colors);
         for(Color [] lane : colors){
             for (Color c : lane){
                 c = Color.black;
@@ -151,14 +151,14 @@ public class VSRadManager{
     }
     public Color[][] getBlurred(){
         Color[][] out = new Color[w][h];
-        out = quickEffects.zero(out);
+        out = quickTools.zero(out);
         double[][] r = getR(w,h);
         double[][] g = getG(w,h);
         double[][] b = getB(w,h);
         LinkedList<double[][]> rgb = new LinkedList<>();
-        r = new quickEffects().blur(r, w, h, blurStrenght);
-        g = new quickEffects().blur(g, w, h, blurStrenght);
-        b = new quickEffects().blur(b, w, h, blurStrenght);
+        r = new quickTools().blur(r, w, h, blurStrenght);
+        g = new quickTools().blur(g, w, h, blurStrenght);
+        b = new quickTools().blur(b, w, h, blurStrenght);
         rgb.add(r);rgb.add(g);rgb.add(b);
         int xp = 0, yp = 0;
         for(Color[] lane : out){
@@ -183,10 +183,10 @@ public class VSRadManager{
                 i.calculate(i.from, i.lastS, ignore);
             }else{System.out.println(i.id + " is NOT GOING TO BE CALCULATED");}
         }
-        //float[][] r = quickEffects.blur(quickEffects.separateRGB(colors, w, h).get(0), w, h, 3);
-        //float[][] g = quickEffects.blur(quickEffects.separateRGB(colors, w, h).get(1), w, h, 3);
-        //float[][] b = quickEffects.blur(quickEffects.separateRGB(colors, w, h).get(2), w, h, 3);
-        //this.colors = quickEffects.parseColor(w, h, r, g, b);
+        //float[][] r = quickTools.blur(quickTools.separateRGB(colors, w, h).get(0), w, h, 3);
+        //float[][] g = quickTools.blur(quickTools.separateRGB(colors, w, h).get(1), w, h, 3);
+        //float[][] b = quickTools.blur(quickTools.separateRGB(colors, w, h).get(2), w, h, 3);
+        //this.colors = quickTools.parseColor(w, h, r, g, b);
     }
     public double[][] getR(int xd, int yd){
         double[][] out = new double[xd][yd];

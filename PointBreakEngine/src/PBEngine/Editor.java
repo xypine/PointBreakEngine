@@ -213,7 +213,7 @@ public class Editor extends JFrame implements Runnable, ActionListener {
                 saved = false;
                 q.adding = false;
             }catch(Exception e){
-                quickEffects.alert("FAILED TO ADD A LIGHT", e.getMessage());
+                quickTools.alert("FAILED TO ADD A LIGHT", e.getMessage());
             }
         }}
         if(q.adding && oM.colliding(zx,zy,"null")){
