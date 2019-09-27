@@ -1,7 +1,7 @@
 /*
  * The MIT License
  *
- * Copyright 2019 Elias.
+ * Copyright 2019 elias.
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -21,44 +21,29 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-
 package PBEngine;
+
+import java.util.LinkedList;
 
 /**
  *
- * @author Jonnelafin
+ * @author elias eskelinen
  */
-public class dVector implements java.io.Serializable{
-    public double x;
-    public double y;
-    public double intX(){
-        return Math.round(x);
+public class Level {
+    public LinkedList<gameObject> objects = new LinkedList<>();
+    public Level next = null;
+    
+    
+    public Level(LinkedList<gameObject> objects1){
+        this.objects = objects1;
     }
-    public double intY(){
-        return Math.round(y);
+    public Level(){
+    
     }
-    public dVector(double nx, double ny){
-        this.x = nx;
-        this.y = ny;
+    public void add(gameObject gameObject1){
+        this.objects.add(gameObject1);
     }
-    public static dVector add(dVector one, dVector two){
-        double nx = one.x + two.x;
-        double ny = one.y + two.y;
-        return(new dVector(nx, ny));
-    }
-    public static dVector subtract(dVector o, dVector t){
-        return(new dVector(o.x - t.x, o.y - t.y));
-    }
-    public static dVector multiply(dVector one, dVector two){
-        return(new dVector(one.x * two.x, one.y * two.y));
-    }
-    public static dVector divide(dVector one, dVector two){
-        return(new dVector(one.x / two.x, one.y / two.y));
-    }
-    public String represent(){
-        return(this.x + ", " + this.y);
-    }
-    public static dVector round(dVector in){
-        return(new dVector(Math.round(in.x), Math.round(in.y)));
+    public LinkedList<gameObject> getAll(){
+        return this.objects;
     }
 }

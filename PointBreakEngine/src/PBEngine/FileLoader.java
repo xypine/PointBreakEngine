@@ -96,8 +96,9 @@ public class FileLoader {
 //            fetch(in.toString(), oM);
         
     }
-    
+    public LinkedList<gameObject> level = new LinkedList<>();
     public void fetch(String i, objectManager oM, VSRadManager rads){
+        LinkedList<gameObject> newObjects = new LinkedList<>();
         boolean meta = false;
         int metachar = 0;
         char version = 0;
@@ -119,7 +120,7 @@ public class FileLoader {
                 
                 gameObject tm = new gameObject(xp, yp, 1, "static", this.appereance, this.mass, Color.black, this.id, master);
                 tm.imageName = dir.textures + "walls/walls0.png";
-                oM.addObject(tm);
+                newObjects.add(tm);
                 id++;
                 count++;
             }
@@ -149,7 +150,7 @@ public class FileLoader {
                 //if(tag == "light"){rads.add(x, y, mass, c, 1, false);}
                 if(tag.equals("static")){gameObject tm = new gameObject(this.x, this.y, 1, this.tag, this.appereance, this.mass, Color.black, this.id, master);
                 tm.imageName = dir.textures + "walls/walls0.png";
-                oM.addObject(tm);}
+                newObjects.add(tm);}
                 count++;
                 //System.out.println(tm.getTag());
                 dotC = 0;
@@ -188,6 +189,7 @@ public class FileLoader {
             
             
         }
+        this.level = newObjects;
         //try{rads.recalculate();}catch(Exception e){quickTools.alert("FAILED TO RECALCULATE VSRAD, nullpointerexception?", e.getMessage());throw e;}
     }
     public void write(LinkedList<gameObject> g, String file) throws FileNotFoundException, UnsupportedEncodingException, IOException{

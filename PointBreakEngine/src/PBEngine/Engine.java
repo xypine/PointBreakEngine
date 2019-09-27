@@ -289,8 +289,15 @@ public class Engine extends JFrame implements Runnable, ActionListener {
     double mapLoadTime = 0;
     public void loadLevel(String level) throws URISyntaxException{
         long time = System.nanoTime();
-        oM.removeLevel();
         FileLoader lL = new FileLoader(level, oM, k);
+        for(gameObject x : lL.level){
+            x.tag.set(x.tag.indexOf("static"), "newlevel");
+            oM.addObject(x);
+        }
+        oM.removeLevel();
+        for(gameObject x : lL.level){
+            x.tag.set(x.tag.indexOf("newlevel"), "static");
+        }
         last_time = System.nanoTime() - time;
         last_time = last_time / 1000000;
         mapLoadTime = last_time;
@@ -319,6 +326,8 @@ public class Engine extends JFrame implements Runnable, ActionListener {
             } catch (ArrayIndexOutOfBoundsException ea){
                 return false;
             }
+        }else{
+            return false;
         }
         return true;
     }
