@@ -31,6 +31,7 @@ import java.awt.Color;
  * @author elias
  */
 public class Editor {
+    public boolean saved = false;
     public Editor(){
         String[] argss = new String[2];
         argss[0] = "nodemo";
@@ -44,7 +45,12 @@ public class Editor {
         }
         k.Logic.abright = true;
         k.Logic.Vrenderer.camMode = 0;
-        Cursor cursor = new Cursor(0, 0, 1, "newcursor", "C", 1, Color.white, 0, k);
+        k.Logic.Vrenderer.drawGrid = true;
+        k.Logic.Vrenderer.gridColor = new Color(0, 90, 20);
+        k.Logic.overrideRayBG = Color.GRAY;
+        
+        Cursor cursor = new Cursor(0, 0, 1, "newcursor", "C", 1, Color.white, 0, k, this);
+        cursor.onlyColor = true;
         cursor.imageName = "";
         k.objectManager.addObject(cursor);
         System.out.println("Editor initialization finished");

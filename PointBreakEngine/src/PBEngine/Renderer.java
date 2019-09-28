@@ -190,13 +190,17 @@ public class Renderer extends JPanel{
     BufferedImage full = null;
     public Renderer(kick masterKick){
         this.masterkick = masterKick;
+        this.xd = masterKick.xd;
+        this.yd = masterKick.yd;
     }
     kick masterkick = null;
 
     /**
-     *0: static, 1: follow player strictly
+     *0: static, 1: follow camera strictly
      */
     public int camMode = 1;
+    public boolean drawGrid = false;
+    public Color gridColor = Color.white;
     @Override
     public void paintComponent(Graphics g) {
         camx = masterkick.Logic.cam.x;
@@ -205,6 +209,8 @@ public class Renderer extends JPanel{
         GraphicsDevice gd = ge.getDefaultScreenDevice();
         GraphicsConfiguration gc = gd.getDefaultConfiguration();
         super.paintComponent(g);
+        
+        
         
         if(sSi){
 //            g.drawImage(full, 0, 0, w, h, this);
@@ -228,7 +234,7 @@ public class Renderer extends JPanel{
                     Color c = vL.containers.get(i).color;
                     int size = vL.containers.get(i).size;
                     String imageloc = vL.containers.get(i).ImageName;
-                    if(Objects.equals(imageloc, "")){
+                    if(imageloc.equals("")){
                         g.setColor(c);
                         if(camMode == 0){//static
                             g.fillRect((int)(rl.x * factor),(int) (rl.y *factor), (int) factor * size, (int) factor * size);
@@ -285,6 +291,16 @@ public class Renderer extends JPanel{
                     }
                 }
             }
+        }
+        
+        if(drawGrid){
+            for(int i=0;i<(w/factor);i++){
+                for(int z=0;z<(h/factor);z++){
+                    g.setColor(gridColor);
+                    g.drawRect((int) (i*factor), (int) (z*factor), (int) factor, (int) factor);
+                }
+            }
+            
         }
         /*
         float[][] rs = quickTools.separateRGB(master, w, h).get(0);
@@ -344,7 +360,11 @@ public class Renderer extends JPanel{
         tmp.init(title, blur);
         this.layers.add(position, tmp);
     }
-    public Renderer(){
+    int xd = 0;
+    int yd = 0;
+    public Renderer(int xd, int yd){
+        this.xd = xd;
+        this.yd = yd;
         try {
             //master = quickTools.zero(master);
             full = ImageIO.read(new File(new directory().textures + "splash.png"));

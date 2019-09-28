@@ -434,8 +434,12 @@ public class Engine extends JFrame implements Runnable, ActionListener {
                 if(r > 255){r = 255;}
                 if(g > 255){g = 255;}
                 if(b > 255){b = 255;}
+                if(overrideRayBG != null){
+                    cont2.add( new renderContainer(new dVector(xp,yp), "", new Color((int) overrideRayBG.getRed(),(int) overrideRayBG.getGreen(),(int) overrideRayBG.getBlue()), 1, 0));
+                }else{
+                    cont2.add( new renderContainer(new dVector(xp,yp), "", new Color((int) r,(int) g,(int) b), 1, 0));
+                }
                 
-                cont2.add( new renderContainer(new dVector(xp,yp), "", new Color((int) r,(int) g,(int) b), 1, 0));
                 points2.add(new dVector(xp,yp));
                 colors2.add(new Color((int) r,(int) g,(int) b));
                 images2.add("");
@@ -514,14 +518,19 @@ public class Engine extends JFrame implements Runnable, ActionListener {
                 throw(e);
             }
             if(abright){
-                r = 255;
-                g = 255;
-                b = 255;
+                r = 1;
+                g = 1;
+                b = 1;
             }
             if(p.pureColor){
                 r = tc.getRed();
                 g = tc.getGreen();
                 b = tc.getBlue();
+            }
+            if(p.onlyColor){
+                r = p.getColor().getRed();
+                g = p.getColor().getGreen();
+                b = p.getColor().getBlue();
             }
             cont1.add( new renderContainer(new dVector(txf, tyf), p.imageName, new Color((int)r,(int)g,(int)b), p.size, p.getRadians()));
             colors.add(new Color((int)r,(int)g,(int)b));
@@ -552,6 +561,7 @@ public class Engine extends JFrame implements Runnable, ActionListener {
         
 //        area.setText(fetch(renderer));
     }
+    public Color overrideRayBG = null;
     String fetch(LegacyRenderer render)
     {
 //        System.out.println("Started fetching!");

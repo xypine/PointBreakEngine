@@ -25,30 +25,56 @@ package PBEngine.Editor2;
 
 import PBEngine.*;
 import java.awt.Color;
+import java.io.IOException;
+import java.io.UnsupportedEncodingException;
+import java.net.URISyntaxException;
+import java.util.logging.Logger;
 
 /**
  *
  * @author elias
  */
 public class Cursor extends Player{
-    public Cursor(int ypos, int xpos, int size, String tag, String ap, float mas, Color cot, int ID, kick master) {
+    public PBEngine.Editor2.Editor editor;
+    public boolean positionValid = true;
+    public Cursor(int ypos, int xpos, int size, String tag, String ap, float mas, Color cot, int ID, kick master, PBEngine.Editor2.Editor editor) {
         super(ypos, xpos, size, tag, ap, mas, cot, ID, master);
         this.imageName = "";
+        this.editor = editor;
+        this.tag.add("nocoll");
     }
     private int usedUse = 200;
     @Override
     public void checkInput(Input in){
         //System.out.println("input check");
-        if(in.mouseX() != in.lX && in.mouseY() != in.lY){
-            this.x = (in.mouseX() / this.masterParent.Logic.Vrenderer.factor);
-            this.y = (in.mouseY() / this.masterParent.Logic.Vrenderer.factor);
-        //    System.out.println(new dVector(this.x, this.y).represent());
+        //in.mouseX() != in.lX && in.mouseY() != in.lY
+        
+        if(in.tog && !masterParent.objectManager.colliding((int)x,(int)y,"null") && positionValid){
+            gameObject o = new gameObject((int)x,(int)y, 1, "static", "█", 1F, Color.blue, 1, masterParent);
+            o.onlyColor = true;
+            masterParent.objectManager.addObject(o);
+            System.out.println("new wall!");
+            editor.saved = false;
         }
-        if(in.ke == ' ' && usedUse > 199){
-            in.ke = '€';
-            masterParent.objectManager.addObject(new gameObject((int)this.x,(int) this.y, 1, "static", "walls/wall0.png", 1, Color.red, 99, masterParent));
-            System.out.println("Added object");
-            usedUse = 0;
+        if(in.ke == 'l' && !editor.saved){
+            try {
+                FileLoader aol = new FileLoader("null", masterParent.objectManager, masterParent);
+                aol.write(masterParent.objectManager.getObjects(), "newout.pblevel");
+            } catch (UnsupportedEncodingException ex) {
+                Logger.getLogger(PBEngine.Editor.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            } catch (IOException ex) {
+                Logger.getLogger(PBEngine.Editor.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            } catch (URISyntaxException ex) {
+                Logger.getLogger(Cursor.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            }
+            editor.saved = true;
+        }
+        if(true){
+            this.x = (in.mouseX() / this.masterParent.Logic.Vrenderer.factor) - 1;
+            this.y = (in.mouseY() / this.masterParent.Logic.Vrenderer.factor) - 3;
+            this.x = (int)x;
+            this.y = (int)y;
+        //    System.out.println(new dVector(this.x, this.y).represent());
         }
         usedUse = usedUse + 10;
     }
@@ -56,21 +82,53 @@ public class Cursor extends Player{
     public void update(int xd, int yd, objectManager oMb) {
         //System.out.println("physics update");
         this.setDegrees(0);
+        
+        checkValidity(xd, yd);
+        
+        if(positionValid){
+            this.setColor(Color.white);
+        }else{
+            this.setColor(Color.red);
+        }
+        
         this.checkInput(masterParent.Logic.input);
+    }
+    public void checkValidity(int xd, int yd){
+        if(this.y > yd - 1){
+            overBound(2, xd, yd);
+        }
+        else if(this.x > xd - 1){
+            overBound(1, xd, yd);
+        }
+        else if(this.y < 0){
+            overBound(0,xd,yd);
+        }
+        else if(this.x < 0){
+            overBound(3, xd, yd);
+        }
+        else{
+            doIfInside();
+        }
+        
+    }
+    @Override
+    public void doIfInside(){
+        positionValid = true;
     }
     @Override
     public void overBound(int direction, int xd, int yd){
+        positionValid = false;
         if(direction == 2){
-            this.y = yd - 1;
+            //this.y = yd - 1;
         }
         if(direction == 1){
-            this.x = xd - 1;
+            //this.x = xd - 1;
         }
         if(direction == 0){
-            this.y = 0;
+            //this.y = 0;
         }
         if(direction == 3){
-            this.x = 0;
+            //this.x = 0;
         }
     }
 }

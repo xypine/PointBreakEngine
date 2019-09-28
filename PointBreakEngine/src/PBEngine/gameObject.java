@@ -11,16 +11,14 @@ import static java.lang.Math.ceil;
 import static java.lang.Math.pow;
 import static java.lang.Math.round;
 import static java.lang.Math.sqrt;
-import java.net.URISyntaxException;
 import java.util.LinkedList;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 /**
  *
  * @author Jonnelafin
  */
 public class gameObject {
+    public boolean onlyColor = false;
     public boolean pureColor = false;
     
     private double rotation = 0;
@@ -227,20 +225,22 @@ public class gameObject {
     //                this.vely = this.vely * -0.55F;
                     //this.hits++;
                 }
-                if(this.x > xd - 1){
+                else if(this.x > xd - 1){
                     overBound(1, xd, yd);
                     //this.velx = this.velx * -0.2F;
 
                 }
-                if(this.y < 0){
+                else if(this.y < 0){
                     overBound(0,xd,yd);
                     //this.vely = this.vely * -0.2F;
                 }
-                if(this.x < 0){
+                else if(this.x < 0){
                     overBound(3, xd, yd);
                     //this.velx = this.velx * -0.2F;
                 }
-                
+                else{
+                    doIfInside();
+                }
                 
                 
                 velx = velx * masterParent.world_friction_multiplier;
@@ -255,6 +255,9 @@ public class gameObject {
             this.x = parent.x + parent_offsetX;
             this.y = parent.y + parent_offsetY;
         }
+    }
+    public void doIfInside(){
+        
     }
     public void overBound(int direction, int xd, int yd){
         if(direction == 2){
