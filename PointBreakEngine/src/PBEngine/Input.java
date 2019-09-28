@@ -46,13 +46,13 @@ public class Input implements KeyListener, MouseMotionListener, MouseListener {
     
     public boolean mouseDown = false;
     
-    public KeyEvent keyPressed;
+    public KeyEvent keyPressed = null;
     
     @Override
     public void keyPressed(KeyEvent e) {
         keyPressed = e;
-        char ke = e.getKeyChar();
-        int kee = e.getKeyCode();
+        ke = e.getKeyChar();
+        kee = e.getKeyCode();
 //        System.out.println(kee);
         if(ke == 'w'){
             up = -1;
@@ -134,7 +134,7 @@ public class Input implements KeyListener, MouseMotionListener, MouseListener {
         mouseY = e.getY();
         cX = mouseX - lX;
         cY = mouseY - lY;
-        System.out.println("x, y: " + cX + " ," + cY);
+        //System.out.println("x, y: " + cX + " ," + cY);
     }
     
     public int cX = 0;
@@ -156,18 +156,19 @@ public class Input implements KeyListener, MouseMotionListener, MouseListener {
     @Override
     public void mouseClicked(MouseEvent e) {
         //throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        this.mouseDown = true;
     }
 
     @Override
     public void mousePressed(MouseEvent e) {
-        mouseDown = true;
+        //mouseDown = true;
         //throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
     @Override
     public void mouseReleased(MouseEvent e) {
         mouseDown = false;
-        //throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        ////throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
     @Override
@@ -177,7 +178,7 @@ public class Input implements KeyListener, MouseMotionListener, MouseListener {
 
     @Override
     public void mouseExited(MouseEvent e) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        //throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
     
 }

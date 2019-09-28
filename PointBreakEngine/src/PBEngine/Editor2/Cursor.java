@@ -35,7 +35,7 @@ public class Cursor extends Player{
         super(ypos, xpos, size, tag, ap, mas, cot, ID, master);
         this.imageName = "";
     }
-    
+    private int usedUse = 200;
     @Override
     public void checkInput(Input in){
         //System.out.println("input check");
@@ -44,7 +44,13 @@ public class Cursor extends Player{
             this.y = (in.mouseY() / this.masterParent.Logic.Vrenderer.factor);
         //    System.out.println(new dVector(this.x, this.y).represent());
         }
-        if()
+        if(in.ke == ' ' && usedUse > 199){
+            in.ke = '€';
+            masterParent.objectManager.addObject(new gameObject((int)this.x,(int) this.y, 1, "static", "walls/wall0.png", 1, Color.red, 99, masterParent));
+            System.out.println("Added object");
+            usedUse = 0;
+        }
+        usedUse = usedUse + 10;
     }
     @Override
     public void update(int xd, int yd, objectManager oMb) {
