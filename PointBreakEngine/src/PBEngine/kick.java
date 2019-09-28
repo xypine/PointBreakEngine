@@ -178,7 +178,7 @@ public class kick implements Runnable{
            //b.start();
         
         //rad.running = true;
-        Logic.vA.sSi = true;
+        Logic.Vrenderer.sSi = true;
         
         Logic.running = true;
         
@@ -214,7 +214,7 @@ public class kick implements Runnable{
         //wM.running = true;
         System.out.println("THREAD 'A' INITIATED");
         System.out.println("Steps completed: " + loading_completed);
-        Logic.vA.sSi = false;
+        Logic.Vrenderer.sSi = false;
                 }
         };
         a.start();

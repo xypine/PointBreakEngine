@@ -26,7 +26,7 @@ import javax.swing.Timer;
  * @author Jonnelafin
  */
 public class Engine extends JFrame implements Runnable, ActionListener {
-    Camera cam = new Camera(0, 0);
+    public Camera cam = new Camera(0, 0);
     long last_time = System.nanoTime();
     int deltatime = 0;
     
@@ -80,7 +80,7 @@ public class Engine extends JFrame implements Runnable, ActionListener {
     private double txf;
     private double tyf;
 //    
-    public Renderer vA;
+    public Renderer Vrenderer;
     kick k;
     public Input input;
     public Engine(kick ki, objectManager o, int xd, int yd, VSRadManager a, dVector g){
@@ -127,18 +127,18 @@ public class Engine extends JFrame implements Runnable, ActionListener {
         this.setVisible(true);
         getContentPane().setBackground( Color.black );
         
-        vA = new Renderer(k);
-        vA.sSi = true;
-        this.add(vA);
+        Vrenderer = new Renderer(k);
+        Vrenderer.sSi = true;
+        this.add(Vrenderer);
         revalidate();
         repaint();
-        vA.init((int)w, (int)h, 3, false);
-        //try {vA.setImage(new directory().textures + "splash.png");}
+        Vrenderer.init((int)w, (int)h, 3, false);
+        //try {Vrenderer.setImage(new directory().textures + "splash.png");}
         //catch (IOException ex) {quickTools.alert(ex.getMessage());}
         
-        content.add(vA);
-        if(vA.sSi){
-            vA.setVisible(true);
+        content.add(Vrenderer);
+        if(Vrenderer.sSi){
+            Vrenderer.setVisible(true);
         }
         
         
@@ -269,11 +269,11 @@ public class Engine extends JFrame implements Runnable, ActionListener {
         this.number = Integer.parseInt(Integer.toString(tickC).substring(0, 1));
         if(vector == 0){
             area.setVisible(true);
-            vA.setVisible(false);
+            Vrenderer.setVisible(false);
         }
         if(vector == 1){
             area.setVisible(false);
-            vA.setVisible(true);
+            Vrenderer.setVisible(true);
         }
         
         if(running == true){
@@ -321,6 +321,20 @@ public class Engine extends JFrame implements Runnable, ActionListener {
             try {
                 loadLevel(levelmap[(int)currentMap.x][(int)currentMap.y]+".pblevel");
                 System.out.println("new coords: "+currentMap.represent());
+                if(k.bakedLights){
+                    System.out.println("Loading baked level lights");
+
+                    try {
+                        bakedcolor = (Color[][]) new FileLoader("null", oM, k).readObject(levelmap[(int)currentMap.x][(int)currentMap.y] + "_illumination.txt");
+                        LoadedRays = (LinkedList<renderContainer>) new FileLoader("null", oM, k).readObject(levelmap[(int)currentMap.x][(int)currentMap.y]+"_lights.txt");
+                    } catch (URISyntaxException ex) {
+                        Logger.getLogger(Engine.class.getName()).log(Level.SEVERE, null, ex);
+                    } catch (IOException ex) {
+                        Logger.getLogger(Engine.class.getName()).log(Level.SEVERE, null, ex);
+                    } catch (ClassNotFoundException ex) {
+                        Logger.getLogger(Engine.class.getName()).log(Level.SEVERE, null, ex);
+                    }
+                }
             } catch (URISyntaxException ex) {
                 System.out.println("Unable to load new level");return false;
             } catch (ArrayIndexOutOfBoundsException ea){
@@ -398,7 +412,7 @@ public class Engine extends JFrame implements Runnable, ActionListener {
         double rb[][] = quickTools.blur(rads.getR(xd, yd), xd, yd, blurStrenght);
         double gb[][] = quickTools.blur(rads.getG(xd, yd), xd, yd, blurStrenght);
         double bb[][] = quickTools.blur(rads.getB(xd, yd), xd, yd, blurStrenght);
-        if((bakedcolor != null && !k.bakedLights)){colored = bakedcolor;}
+        if(k.bakedLights){colored = bakedcolor;}
         else{colored = quickTools.parseColor(xd, yd, rb, gb, bb);}
         
         double[][] out = quickTools.blur(red, xd, yd, blurStrenght);
@@ -460,7 +474,7 @@ public class Engine extends JFrame implements Runnable, ActionListener {
             ta = p.gAppearance();
             Color tc = p.getColor();
 //            p.update(renderer);
-            if(p.getTag().contains(new String("player1"))){
+            if(p.getTag().contains("player1") || p.getTag().contains("cursor")){
                 cam.setLocation(p.x, p.y);
 //                oM.addObject(new Player(tx, ty, "null", "█", 1F, Color.MAGENTA));
                 //rads.add(tx, ty, 1);
@@ -523,12 +537,12 @@ public class Engine extends JFrame implements Runnable, ActionListener {
         
         //renderer.canvas.clean();
         
-//        vA.update(points, colors, images, sizes, 2F, 1);
-//        vA.update(points2, colors2, images2, sizes2, 2F, 0);
+//        Vrenderer.update(points, colors, images, sizes, 2F, 1);
+//        Vrenderer.update(points2, colors2, images2, sizes2, 2F, 0);
         bakedRays = cont2;
-        vA.update(cont1, 1);
-        if(LoadedRays != null && k.bakedLights){vA.update(LoadedRays,0);}
-        else{vA.update(cont2, 0);}
+        Vrenderer.update(cont1, 1);
+        if(LoadedRays != null && k.bakedLights){Vrenderer.update(LoadedRays,0);}
+        else{Vrenderer.update(cont2, 0);}
         
         for(xyac a : lis){
 //            renderer.change((int) (a.x), (int) (a.y), a.a, a.c, "n");

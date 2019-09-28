@@ -65,7 +65,7 @@ public class gameObject {
     public int preferredLayer = -1;
 //    Renderer re = new Renderer();
     //objectManager oM = new objectManager();
-    kick masterParent;
+    public kick masterParent;
     public gameObject(int xpos, int ypos, int size, String tag, String ap, double mas, Color cot, int ID, kick master){
         this.masterParent = master;
         this.summon(ypos, xpos, tag, ap, mas, cot, ID);

@@ -196,7 +196,7 @@ class BListener implements ActionListener{
                         b.start();
                         break;
                     case "/z":
-                        k.k.Logic.vA.factor = Integer.parseInt(arr[1]);
+                        k.k.Logic.Vrenderer.factor = Integer.parseInt(arr[1]);
                         break;
                     default:
                         quickTools.alert("devkit", "command not understood");

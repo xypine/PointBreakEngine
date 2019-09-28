@@ -7,7 +7,6 @@
 package PBEngine;
 
 import java.awt.Color;
-import static java.lang.Double.NaN;
 
 /**
  *

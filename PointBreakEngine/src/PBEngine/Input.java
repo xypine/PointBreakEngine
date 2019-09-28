@@ -44,6 +44,8 @@ public class Input implements KeyListener, MouseMotionListener, MouseListener {
     public int mouseX(){return(this.mouseX);}
     public int mouseY(){return(this.mouseY);}
     
+    public boolean mouseDown = false;
+    
     public KeyEvent keyPressed;
     
     @Override
@@ -158,11 +160,13 @@ public class Input implements KeyListener, MouseMotionListener, MouseListener {
 
     @Override
     public void mousePressed(MouseEvent e) {
+        mouseDown = true;
         //throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
     @Override
     public void mouseReleased(MouseEvent e) {
+        mouseDown = false;
         //throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 

@@ -192,6 +192,11 @@ public class Renderer extends JPanel{
         this.masterkick = masterKick;
     }
     kick masterkick = null;
+
+    /**
+     *0: static, 1: follow player strictly
+     */
+    public int camMode = 1;
     @Override
     public void paintComponent(Graphics g) {
         camx = masterkick.Logic.cam.x;
@@ -225,7 +230,12 @@ public class Renderer extends JPanel{
                     String imageloc = vL.containers.get(i).ImageName;
                     if(Objects.equals(imageloc, "")){
                         g.setColor(c);
-                        g.fillRect((int)((rl.x - camx)*factor + (w/2)),(int) ((rl.y - camy)*factor + (h/2)), (int) factor * size, (int) factor * size);
+                        if(camMode == 0){//static
+                            g.fillRect((int)(rl.x * factor),(int) (rl.y *factor), (int) factor * size, (int) factor * size);
+                        }
+                        if (camMode == 1) {//follow camera
+                            g.fillRect((int) ((rl.x - camx) * factor + (w / 2)), (int) ((rl.y - camy) * factor + (h / 2)), (int) factor * size, (int) factor * size);
+                        }
                     }
                     else{
                         try{
@@ -258,8 +268,12 @@ public class Renderer extends JPanel{
                             double offsetX = scaleX;
                             double offsetY = scaleY;
                             
-                            double xFrom = (rl.x - camx) * factor  + (w/2) - offsetX;
-                            double yFrom = (rl.y - camy) * factor  + (h/2) - offsetY;
+                            double xFrom = rl.x * factor - offsetX;
+                            double yFrom = rl.y * factor - offsetY;
+                            if(camMode == 1){
+                                xFrom = (rl.x - camx) * factor  + (w/2) - offsetX;
+                                yFrom = (rl.y - camy) * factor  + (h/2) - offsetY;
+                            }
                             double xTo = factor * size + offsetX;
                             double yTo = factor * size + offsetY;
                             g.drawImage(buffer, (int)(xFrom),(int) (yFrom), (int) xTo, (int) yTo, this);
