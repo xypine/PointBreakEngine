@@ -259,6 +259,29 @@ public class FileLoader {
             writer.write(tmp);
         }
     }
+    public void write(LinkedList<gameObject> g, String file, String filepath1) throws FileNotFoundException, UnsupportedEncodingException, IOException{
+
+        System.out.println("Saving level to: "+filepath1 + file + "...");
+        System.out.println("");
+
+        String tmp = "";
+        int idi = 90;
+        for(gameObject p : g){
+            if(p.getTag().contains("static")){
+                tmp = tmp + round(p.x) + "." + round(p.y) + ".static.█.1.green." + idi + ".:";
+                System.out.print(".");
+                idi++;
+            }
+            else if(p.getTag().contains("light")){
+                tmp = tmp + round(p.x) + "." + round(p.y) + ".light.█."+p.mass+".green." + idi + ".:";
+                System.out.print(".");
+                idi++;
+            }
+        }
+        try (Writer writer = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(dir.levels + file), "utf-8"))) {
+            writer.write(tmp);
+        }
+    }
     public void writeObject(Object o, String file) throws FileNotFoundException, IOException{
       ObjectOutputStream objOut = new ObjectOutputStream(new
               ///"out_lights.txt"

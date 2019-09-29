@@ -29,6 +29,7 @@ import java.awt.Color;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
+import java.io.PrintWriter;
 import java.net.URISyntaxException;
 import java.util.logging.Logger;
 import javax.swing.JButton;
@@ -54,6 +55,8 @@ public class Editor {
         while(!k.ready){
             
         }
+        k.Logic.setTitle("PointBreakEngine (Editor2)");
+        
         JPanel editorPanel = new JPanel();
         JPanel container = new JPanel();
         container.setLayout(new BorderLayout(0, 0));
@@ -98,8 +101,11 @@ class BListener implements ActionListener{
 			File selectedFile = jfc.getSelectedFile();
 			System.out.println(selectedFile.getAbsolutePath());
                 try {
-                    editor.k.Logic.loadLevel(selectedFile.getAbsolutePath(), "", Color.BLUE);
-                } catch (URISyntaxException ex) {
+                    PrintWriter writer = new PrintWriter(selectedFile.getAbsolutePath(), "UTF-8");
+                    writer.print("");
+                    writer.close();
+                    new FileLoader("null", editor.k.objectManager, editor.k).write(editor.k.objectManager.getObjects(), selectedFile.getAbsolutePath(), "");
+                } catch (Exception ex) {
                     Logger.getLogger(BListener.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
                 }
             }
