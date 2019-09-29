@@ -25,7 +25,7 @@ import javax.swing.JTextField;
  * @author elias
  */
 public class devkit extends JFrame{
-    JPanel cont = new JPanel();
+    public JPanel cont = new JPanel();
     boolean tog = false;
     kick k;
     JButton graphic = new JButton("toggle vector");
@@ -41,6 +41,7 @@ public class devkit extends JFrame{
         this.setLocationRelativeTo(k.Logic);
         this.setLocation(1080, 0);
         
+        cont.setLayout(new BorderLayout());
         graphic.addActionListener(new BListener(9, this));
         rays.addActionListener(new BListener(2, this));
         lum.addActionListener(new BListener(0, this));
@@ -48,11 +49,11 @@ public class devkit extends JFrame{
         //log.setColumns(1);
         log.setRows(15);
         logs.setWheelScrollingEnabled(true);
-        cont.add(graphic, BorderLayout.NORTH);
-        cont.add(rays, BorderLayout.NORTH);
-        cont.add(time, BorderLayout.SOUTH);
-        cont.add(logs, BorderLayout.NORTH);
-        cont.add(lum, BorderLayout.NORTH);
+        //cont.add(graphic, BorderLayout.NORTH);
+        //cont.add(rays, BorderLayout.NORTH);
+        cont.add(time, BorderLayout.EAST);
+        cont.add(logs, BorderLayout.CENTER);
+        cont.add(lum, BorderLayout.SOUTH);
         this.add(cont);
         this.setVisible(true);
     }

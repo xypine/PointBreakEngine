@@ -24,7 +24,17 @@
 package PBEngine.Editor2;
 
 import PBEngine.*;
+import java.awt.BorderLayout;
 import java.awt.Color;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.io.File;
+import java.net.URISyntaxException;
+import java.util.logging.Logger;
+import javax.swing.JButton;
+import javax.swing.JFileChooser;
+import javax.swing.JPanel;
+import javax.swing.filechooser.FileSystemView;
 
 /**
  *
@@ -43,6 +53,13 @@ public class Editor {
         while(!k.ready){
             
         }
+        JPanel editorPanel = new JPanel();
+        JButton saveB = new JButton("Save");saveB.addActionListener(new BListener(1, this));
+        JButton loadB = new JButton("Load");loadB.addActionListener(new BListener(2, this));
+        editorPanel.add(saveB);
+        editorPanel.add(loadB);
+        k.kit.cont.add(editorPanel, BorderLayout.NORTH);
+        
         k.Logic.abright = true;
         k.Logic.Vrenderer.camMode = 0;
         k.Logic.Vrenderer.drawGrid = true;
@@ -56,4 +73,35 @@ public class Editor {
         System.out.println("Editor initialization finished");
         System.out.println(k.Logic.running);
     }
+}
+class BListener implements ActionListener{
+    boolean abright = false;
+    int type;
+    PBEngine.Editor2.Editor editor;
+    public BListener(int t, PBEngine.Editor2.Editor d){
+        this.type = t;
+        this.editor = d;
+    }
+    @Override
+    public void actionPerformed(ActionEvent ae) {
+        if(type == 1){
+            System.out.println("Save...");
+            JFileChooser jfc = new JFileChooser(FileSystemView.getFileSystemView().getHomeDirectory());
+            int returnValue = jfc.showSaveDialog(null);
+            if (returnValue == JFileChooser.APPROVE_OPTION) {
+			File selectedFile = jfc.getSelectedFile();
+			System.out.println(selectedFile.getAbsolutePath());
+            }
+        }
+        if(type == 2){
+            System.out.println("Load");
+            JFileChooser jfc = new JFileChooser(FileSystemView.getFileSystemView().getHomeDirectory());
+            int returnValue = jfc.showOpenDialog(null);
+            if (returnValue == JFileChooser.APPROVE_OPTION) {
+			File selectedFile = jfc.getSelectedFile();
+			System.out.println(selectedFile.getAbsolutePath());
+            }
+        }
+    }
+    
 }

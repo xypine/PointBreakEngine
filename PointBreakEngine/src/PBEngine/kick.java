@@ -231,6 +231,9 @@ public class kick implements Runnable{
         while(true){
             String newo = baos.toString();
             if(!oldo.equals(newo)){
+                JScrollBar vertical = kit.logs.getVerticalScrollBar();
+                vertical.setValue( vertical.getMaximum() );
+                
                 String diff = difference(oldo, newo);
                 //System.setOut(old);
                 old.print(diff);
@@ -238,11 +241,13 @@ public class kick implements Runnable{
                 
                 //System.setOut(ps);
                 //System.out.flush();
-                JScrollBar vertical = kit.logs.getVerticalScrollBar();
-                vertical.setValue( vertical.getMaximum() );
+                
 
                 oldo = newo;
+                vertical.setValue( vertical.getMaximum() );
+                
             }
+            
             try {
                 TimeUnit.SECONDS.sleep((long) 0.1);
             } catch (InterruptedException ex) {
