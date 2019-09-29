@@ -42,11 +42,12 @@ import javax.swing.filechooser.FileSystemView;
  */
 public class Editor {
     public boolean saved = false;
+    public PBEngine.kick k;
     public Editor(){
         String[] argss = new String[2];
         argss[0] = "nodemo";
         Camera cam = new Camera(0, 0);
-        PBEngine.kick k = new kick(0, false, new dVector(0, 0));
+        k = new kick(0, false, new dVector(0, 0), 1);
         
         Thread A = new Thread(k);
         A.start();
@@ -54,11 +55,16 @@ public class Editor {
             
         }
         JPanel editorPanel = new JPanel();
+        JPanel container = new JPanel();
+        container.setLayout(new BorderLayout(0, 0));
+        
         JButton saveB = new JButton("Save");saveB.addActionListener(new BListener(1, this));
         JButton loadB = new JButton("Load");loadB.addActionListener(new BListener(2, this));
         editorPanel.add(saveB);
         editorPanel.add(loadB);
-        k.kit.cont.add(editorPanel, BorderLayout.NORTH);
+        
+        container.add(editorPanel, BorderLayout.NORTH);
+        k.kit.cont.add(container, BorderLayout.NORTH);
         
         k.Logic.abright = true;
         k.Logic.Vrenderer.camMode = 0;
@@ -91,6 +97,11 @@ class BListener implements ActionListener{
             if (returnValue == JFileChooser.APPROVE_OPTION) {
 			File selectedFile = jfc.getSelectedFile();
 			System.out.println(selectedFile.getAbsolutePath());
+                try {
+                    editor.k.Logic.loadLevel(selectedFile.getAbsolutePath(), "", Color.BLUE);
+                } catch (URISyntaxException ex) {
+                    Logger.getLogger(BListener.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+                }
             }
         }
         if(type == 2){
@@ -100,6 +111,12 @@ class BListener implements ActionListener{
             if (returnValue == JFileChooser.APPROVE_OPTION) {
 			File selectedFile = jfc.getSelectedFile();
 			System.out.println(selectedFile.getAbsolutePath());
+                try {
+                    editor.k.Logic.loadLevel(selectedFile.getAbsolutePath(), "", Color.BLUE);
+                    
+                } catch (URISyntaxException ex) {
+                    Logger.getLogger(BListener.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+                }
             }
         }
     }

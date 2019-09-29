@@ -83,8 +83,20 @@ public class Engine extends JFrame implements Runnable, ActionListener {
     public Renderer Vrenderer;
     kick k;
     public Input input;
+    public int targetSpeed = 15;
     public Engine(kick ki, objectManager o, int xd, int yd, VSRadManager a, dVector g){
         
+        this.oM = o;
+        this.xd = xd;
+        this.yd = yd;
+        System.out.println("Initializing main input: " + ki);
+        this.k = ki;
+        input = new Input(k);
+        System.out.println("out main input: " + k);
+        this.rads = a;
+    }
+    public Engine(kick ki, objectManager o, int xd, int yd, VSRadManager a, dVector g, int targetSpeed){
+        this.targetSpeed = targetSpeed;
         this.oM = o;
         this.xd = xd;
         this.yd = yd;
@@ -100,6 +112,7 @@ public class Engine extends JFrame implements Runnable, ActionListener {
     @Override
     @SuppressWarnings("unchecked")
     public void run() {
+        timer = new Timer(targetSpeed, this);
         System.out.println("Initializing engine...");
         ready = false;
         
@@ -306,6 +319,29 @@ public class Engine extends JFrame implements Runnable, ActionListener {
         //k.rad.recalculate("ignoreRecalculation", 1);
         //k.rad.recalculateParent();
     }
+    public void loadLevel(String level, String filepath, Color c) throws URISyntaxException{
+        long time = System.nanoTime();
+        FileLoader lL = new FileLoader(level, oM, k, filepath);
+        for(gameObject x : lL.level){
+            x.tag.set(x.tag.indexOf("static"), "newlevel");
+            oM.addObject(x);
+        }
+        oM.removeLevel();
+        for(gameObject x : lL.level){
+            x.tag.set(x.tag.indexOf("newlevel"), "static");
+            x.setColor(c);
+            x.imageName = "";
+            x.onlyColor = true;
+        }
+        last_time = System.nanoTime() - time;
+        last_time = last_time / 1000000;
+        mapLoadTime = last_time;
+        System.out.println("Load lenght: " + mapLoadTime);
+        System.out.println("Recalculating lights:");
+        //k.rad.recalculate("ignoreRecalculation", 1);
+        //k.rad.recalculateParent();
+    }
+    
     dVector currentMap = new dVector(0, 0);
     public boolean nextLevel(int direction){
         String[][] levelmap = mapParser.parseMap(FileLoader.getLevelMap("00.pbMap"));

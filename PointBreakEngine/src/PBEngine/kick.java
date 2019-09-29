@@ -84,6 +84,39 @@ public class kick implements Runnable{
         
         
     }
+    public kick(int mode, boolean bakedLights, dVector gravity, int targetSpeed){
+        this.mode = mode;
+        this.bakedLights = bakedLights;
+        this.engine_gravity = gravity;
+        //read config
+        Options.add(new option("gravity", engine_gravity));
+        Options.add(new option("sizex", xd));
+        Options.add(new option("sizey", yd));
+        for(String ar : FileLoader.readConfig("config.txt")){
+            for(option x : Options){
+                if(x.name.equals(ar.split(" ")[0])){
+                    x.link = ar.split(" ")[1];
+                }
+            }
+        }
+        rad = new VSRadManager(xd, yd, objectManager, ref);
+        Logic = new Engine(ref , objectManager, xd, yd, rad, engine_gravity, targetSpeed);
+        ea = new Editor(ref);
+        
+        
+        
+        
+        
+        // Print some output: goes to your special stream
+//        System.out.println("Foofoofoo!");
+        // Put things back
+//        System.out.flush();
+//        System.setOut(old);
+        // Show what happened
+//        System.out.println("Here: " + baos.toString());
+        
+        
+    }
     public void tog(){
         if(tog){
             Logic.record();

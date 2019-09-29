@@ -96,6 +96,50 @@ public class FileLoader {
 //            fetch(in.toString(), oM);
         
     }
+    public FileLoader(String file, objectManager oM, kick master, String filepath1) throws URISyntaxException{
+        levels = getLevels(filePath);
+        this.master = master;
+        if(file == "null"){
+            return;
+        }
+        
+        String arr[] = file.split(" ", 2);
+        
+        
+        String text = file;
+        
+        try {
+            if(!arr[0].equals("!random")){
+                Scanner in = new Scanner(new FileReader(filepath1 + file));
+                text = "";
+                while (in.hasNextLine()) {
+                    String line = in.nextLine();
+                    text = text + line;
+                }
+                in.close();
+            }
+        }
+        catch (FileNotFoundException ex) {
+                try{
+                    fetch(fallback, oM, master.Logic.rads);
+                    System.out.println("!!! level " + filePath + file + " FAILED TO LOAD!!!");
+                    quickTools.alert("Level not found!", "!!! level " + filePath + file + " FAILED TO LOAD!!!");
+                    System.out.println("fallback level loaded with " + count + " objects!");
+    //            fetch(in.toString(), oM);
+                }
+                catch(Exception o){
+                    Logger.getLogger(FileLoader.class.getName()).log(Level.SEVERE, null, o);
+                    quickTools.alert("LevelLoading", o.getMessage());
+                }
+            }
+        if(arr[0].equals("!random")){
+            text = file;
+        }
+        fetch(text, oM, master.Logic.rads);
+        System.out.println("Level ["+filePath.concat(file)+"] loaded with " + count + " objects!");
+//            fetch(in.toString(), oM);
+        
+    }
     public LinkedList<gameObject> level = new LinkedList<>();
     public void fetch(String i, objectManager oM, VSRadManager rads){
         LinkedList<gameObject> newObjects = new LinkedList<>();
