@@ -199,6 +199,10 @@ class BListener implements ActionListener{
                     case "/z":
                         k.k.Logic.Vrenderer.factor = Integer.parseInt(arr[1]);
                         break;
+                    case "/lum":
+                        k.k.Logic.global_brightness = Integer.parseInt(arr[1]);
+                        System.out.println(k.k.Logic.global_brightness);
+                        break;
                     default:
                         quickTools.alert("devkit", "command not understood");
                         break;
