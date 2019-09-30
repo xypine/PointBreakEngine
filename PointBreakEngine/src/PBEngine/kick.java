@@ -119,14 +119,14 @@ public class kick implements Runnable{
     }
     public void tog(){
         if(tog){
-            Logic.record();
+        //    Logic.record();
         }
-        Logic.setVisible(tog);
-        Logic.running = tog;
+        Logic.setVisible(true);
+        Logic.running = true;
 //        rad.setVisible(tog);
 //        rad.running = tog;
-        ea.setVisible(!tog);
-        ea.running = !tog;
+        //ea.setVisible(!tog);
+        //ea.running = !tog;
         
         tog = !tog;
     }
@@ -187,6 +187,7 @@ public class kick implements Runnable{
             public void run(){
                 SwingUtilities.invokeLater(ea);
                 ea.setVisible(false);
+                ea.running = false;
             }
         };
         System.out.println("PointBreakEngine by Elias Eskelinen alias Jonnelafin");
@@ -235,8 +236,8 @@ public class kick implements Runnable{
             //rad.setTitle("VSRad");
             if(!bakedLights){
                 Logic.rads.add(7, 20, 1, new Color(2, 2, 2), 1, true);
-                Logic.rads.add(49, 10, 2, new Color(1, 1, 1), 1, false);
-                Logic.rads.add(39, 20, 1, new Color(1, 0, 0), 1, false);
+                //Logic.rads.add(49, 10, 2, new Color(1, 1, 1), 1, false);
+                //Logic.rads.add(39, 20, 1, new Color(1, 0, 0), 1, false);
                 Logic.red = Logic.rads.read(999999);
                 System.out.println("VSRAD COMPLETE");
             }
@@ -270,6 +271,7 @@ public class kick implements Runnable{
                 String diff = difference(oldo, newo);
                 //System.setOut(old);
                 old.print(diff);
+                latestConsole = diff;
                 kit.log.setText(newo);
                 
                 //System.setOut(ps);
@@ -288,6 +290,7 @@ public class kick implements Runnable{
             }
         }
     }
+    public String latestConsole = "";
     class option{
         public String name;
         public Object link;

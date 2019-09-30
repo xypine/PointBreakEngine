@@ -223,6 +223,10 @@ public class Renderer extends JPanel{
             g.setColor(Color.white);
             g.setFont(new Font("Verdana", Font.PLAIN, 34)); 
             g.drawString("Loading, step " + masterkick.loading_completed + " of " + masterkick.loadingsteps, w/3, h/2);
+            g.setColor(Color.green);
+            /*g.setFont(new Font("Verdana", Font.PLAIN, 14));
+            String latest = masterkick.latestConsole.split("\n")[masterkick.latestConsole.split("\n").length-1];
+            g.drawString(latest, 0, h/40*38);*/
         }
         else{
             for(int layer : new Range(layers.size())){
@@ -302,6 +306,15 @@ public class Renderer extends JPanel{
             }
             
         }
+        g.setColor(Color.green);
+        g.setFont(new Font("Verdana", Font.PLAIN, 14)); 
+        try {
+            String latest = masterkick.latestConsole.split("\n")[masterkick.latestConsole.split("\n").length - 1];
+            g.drawString(latest, 0, h / 40 * 38);
+            oldC = latest;
+        } catch (Exception e) {
+            g.drawString("*: "+oldC, 0, h / 40 * 38);
+        }
         /*
         float[][] rs = quickTools.separateRGB(master, w, h).get(0);
         float[][] gs = quickTools.separateRGB(master, w, h).get(1);
@@ -319,6 +332,7 @@ public class Renderer extends JPanel{
         }
         */
     }
+    private String oldC = "";
     public void setImage(String mage) throws IOException{
         File img = new File(mage);
         BufferedImage image = ImageIO.read(img);
@@ -490,4 +504,8 @@ class imageWithId{
         this.image = image;
         this.id = id;
     }
+}
+class msg{
+    int life = 0;
+    String msg;
 }

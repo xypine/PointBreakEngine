@@ -204,6 +204,9 @@ class BListener implements ActionListener{
                         break;
                 }
             }
+            else{
+                System.out.println(k.lum.getText());
+            }
         }
         catch(Exception e){}
         k.time.setText(Boolean.toString(k.togV));

@@ -370,6 +370,9 @@ public class Engine extends JFrame implements Runnable, ActionListener {
                     } catch (ClassNotFoundException ex) {
                         Logger.getLogger(Engine.class.getName()).log(Level.SEVERE, null, ex);
                     }
+                }else{
+                    k.rad.recalculate("ignoreRecalculation", 1);
+                    k.rad.recalculateParent();
                 }
             } catch (URISyntaxException ex) {
                 System.out.println("Unable to load new level");return false;
@@ -554,9 +557,9 @@ public class Engine extends JFrame implements Runnable, ActionListener {
                 throw(e);
             }
             if(abright){
-                r = 1;
-                g = 1;
-                b = 1;
+                r = 255;
+                g = 255;
+                b = 255;
             }
             if(p.pureColor){
                 r = tc.getRed();

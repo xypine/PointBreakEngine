@@ -278,7 +278,7 @@ public class FileLoader {
                 idi++;
             }
         }
-        try (Writer writer = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(dir.levels + file), "utf-8"))) {
+        try (Writer writer = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(filepath1 + file), "utf-8"))) {
             writer.write(tmp);
         }
     }

@@ -63,8 +63,10 @@ public class Editor {
         
         JButton saveB = new JButton("Save");saveB.addActionListener(new BListener(1, this));
         JButton loadB = new JButton("Load");loadB.addActionListener(new BListener(2, this));
+        JButton testB = new JButton("Run");testB.addActionListener(new BListener(3, this));
         editorPanel.add(saveB);
         editorPanel.add(loadB);
+        editorPanel.add(testB);
         
         container.add(editorPanel, BorderLayout.NORTH);
         k.kit.cont.add(container, BorderLayout.NORTH);
