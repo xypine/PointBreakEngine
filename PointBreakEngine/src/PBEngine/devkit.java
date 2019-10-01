@@ -151,7 +151,7 @@ class BListener implements ActionListener{
                     case "/rm":
                         String values[] = arr[1].split(" ", 2);
                         for(gameObject o : k.k.objectManager.getObjectsByTag(values[0])){
-                                k.k.objectManager.objects.remove(o);
+                                k.k.objectManager.remove(o);
                             }
                         break;
                     case "/relight":
@@ -202,6 +202,16 @@ class BListener implements ActionListener{
                     case "/lum":
                         k.k.Logic.global_brightness = Integer.parseInt(arr[1]);
                         System.out.println(k.k.Logic.global_brightness);
+                        break;
+                    case "/tags":
+                        int id = Integer.parseInt(arr[1]);
+                        System.out.println("Object ID"+id+" tags:");
+                        for(String x : k.k.objectManager.getObjectByID(id).getTag()){
+                            System.out.println("    "+x);
+                        }
+                        break;
+                    case "/rc_levelmap":
+                        k.k.Logic.constructLevelmap();
                         break;
                     default:
                         quickTools.alert("devkit", "command not understood");

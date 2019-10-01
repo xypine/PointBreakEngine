@@ -44,6 +44,9 @@ public class gameObject {
     private gameObject parent = this;
     public boolean isParent = false;
     private LinkedList<gameObject> children = new LinkedList<>();
+    public LinkedList<gameObject> getChildren(){
+        return this.children;
+    }
     public void addChild(gameObject child){
         children.add(child);
     }
@@ -396,6 +399,9 @@ public class gameObject {
                 }
             }
         }
+    }
+    public void setID(int ID){
+        this.id = id;
     }
     public void checkCollisions(objectManager o, gameObject i){
         LinkedList<gameObject> tmpoa = o.getObjects();

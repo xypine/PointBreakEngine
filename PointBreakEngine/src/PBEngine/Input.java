@@ -180,5 +180,7 @@ public class Input implements KeyListener, MouseMotionListener, MouseListener {
     public void mouseExited(MouseEvent e) {
         //throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
-    
+    public dVector reverseMouse(kick k){
+        return new dVector((mouseX() / k.Logic.Vrenderer.factor) - 1, (mouseY() / k.Logic.Vrenderer.factor) - 3);
+    }
 }

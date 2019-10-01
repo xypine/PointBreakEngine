@@ -15,7 +15,7 @@ import java.util.LinkedList;
  * @author Jonnelafin
  */
 public class objectManager {
-    LinkedList<gameObject> objects = new LinkedList<>();
+    private LinkedList<gameObject> objects = new LinkedList<>();
 //    gameObject[] obs = new gameObject[];
 //    ArrayList<gameObject> objects = new ArrayList<gameObject>();
 //    ArrayList<Player> players = new ArrayList<Player>();
@@ -29,9 +29,32 @@ public class objectManager {
         this.kick = k;
     }
     public void addObject(gameObject tmpO){
-        this.objects.add(tmpO);
+        if(getObjectByID(tmpO.getID()) == null){
+            this.objects.add(tmpO);
+        }
+        else{
+            tmpO.setID(getUsableID());
+        }
     }
-    
+    public int getUsableID(){
+        @SuppressWarnings("unchecked")
+        LinkedList<gameObject> copy = (LinkedList<gameObject>) objects.clone();
+        int id = 0;
+        LinkedList<Integer> used = new LinkedList<>();
+        for(gameObject x : copy){
+            used.add(x.getID());
+        }
+        boolean found = false;
+        while(!found){
+            if(!used.contains(id)){
+                found = true;
+            }
+            else{
+                id++;
+            }
+        }
+        return id;
+    }
     public void removeObject(gameObject object){
         this.objects.remove(object);
     }
@@ -41,10 +64,35 @@ public class objectManager {
 //    }
     
     public gameObject getObjectByTag(String tagToGet){
+        @SuppressWarnings("unchecked")
         LinkedList<gameObject> copy = (LinkedList<gameObject>) objects.clone();
         return(copy.get(findGameObject(tagToGet)));
     }
+    public gameObject getObjectByID(int ID){
+        @SuppressWarnings("unchecked")
+        LinkedList<gameObject> copy = (LinkedList<gameObject>) objects.clone();
+        LinkedList<gameObject> objectsFound = new LinkedList<>();
+        gameObject latestFound = null;
+        for(gameObject i : objects){
+            if(i.getID() == ID){
+                objectsFound.add(i);
+                latestFound = i;
+            }
+        }
+        if(objectsFound.size() > 1){
+            System.out.println("WARNING: MULTIPLE OBJECTS WITH THE SAME ID (ID " + ID + "): ");
+            for(gameObject x : objectsFound){
+                System.out.println("    "+x.tag.getFirst());
+            }
+            System.out.println("Returning last added...");
+        }
+        if(objectsFound.isEmpty()){
+            System.out.println("No object with the id "+ID);
+        }
+        return latestFound;
+    }
     public LinkedList<gameObject> getObjectsByTag(String tagToGet){
+        @SuppressWarnings("unchecked")
         LinkedList<gameObject> copy = (LinkedList<gameObject>) objects.clone();
         LinkedList<gameObject> out = new LinkedList<gameObject>();
         for(int i : findGameObjects(tagToGet)){
@@ -53,6 +101,7 @@ public class objectManager {
         return out;
     }
     public int findGameObject(String tagToGet){
+        @SuppressWarnings("unchecked")
         LinkedList<gameObject> copy = (LinkedList<gameObject>) objects.clone();
         for(int i = 0;i<copy.size();i++){
             gameObject tmp = copy.get(i);
@@ -64,6 +113,7 @@ public class objectManager {
         return(99999999);
     }
     public LinkedList<Integer> findGameObjects(String tagToGet){
+        @SuppressWarnings("unchecked")
         LinkedList<gameObject> copy = (LinkedList<gameObject>) objects.clone();
         LinkedList<Integer> out = new LinkedList<>();
         for(int i = 0;i<copy.size();i++){
@@ -76,6 +126,7 @@ public class objectManager {
         return(out);
     }
     public LinkedList<gameObject> getObjects(){
+        @SuppressWarnings("unchecked")
         LinkedList<gameObject> copy = (LinkedList<gameObject>) objects.clone();
         LinkedList<gameObject> tmpob = new LinkedList<gameObject>();
         for(int i = 0;i<copy.size();i++){
@@ -85,6 +136,7 @@ public class objectManager {
         return(tmpob);
     }
     public boolean colliding(int x, int y, String ignore){
+        @SuppressWarnings("unchecked")
         LinkedList<gameObject> copy = (LinkedList<gameObject>) objects.clone();
         for(gameObject i : copy){
             if(i.getTag().contains("cursor") || i.getTag().contains(ignore) || i.getTag().contains("nocoll")){}
@@ -97,6 +149,7 @@ public class objectManager {
         return false;
     }
     public gameObject collidingGA(int x, int y, String ignore){
+        @SuppressWarnings("unchecked")
         LinkedList<gameObject> copy = (LinkedList<gameObject>) objects.clone();
         for(gameObject i : copy){
             if(i.getTag().contains("cursor") || i.getTag().contains(ignore) || i.getTag().contains("nocoll")){}
@@ -109,6 +162,7 @@ public class objectManager {
         return null;
     }
     public boolean colliding(int x, int y, LinkedList<String> ignore){
+        @SuppressWarnings("unchecked")
         LinkedList<gameObject> copy = (LinkedList<gameObject>) objects.clone();
         for(gameObject i : copy){
             try {
@@ -132,6 +186,7 @@ public class objectManager {
         return false;
     }
     public gameObject collidingGA(int x, int y, LinkedList<String> ignore){
+        @SuppressWarnings("unchecked")
         LinkedList<gameObject> copy = (LinkedList<gameObject>) objects.clone();
         for(gameObject i : copy){
             if(i.getTag().contains("cursor") || containsany(ignore, i.getTag()) || i.getTag().contains("nocoll")){}
@@ -143,13 +198,17 @@ public class objectManager {
         }
         return null;
     }
-    public void removeLevel(){
+    public LinkedList<gameObject> removeLevel(){
+        @SuppressWarnings("unchecked")
         LinkedList<gameObject> copy = (LinkedList<gameObject>) objects.clone();
+        LinkedList<gameObject> out = new LinkedList<>();
         for(gameObject ga : copy){
             if(ga.getTag().contains("static")){
+                out.add(objects.get(objects.indexOf(ga)));
                 objects.remove(ga);
             }
         }
+        return out;
     }
     public char[][] getCollisionmap(dVector min, dVector max, String origin){
         int sizex = (int) (max.x - min.x);
@@ -165,7 +224,14 @@ public class objectManager {
         }
         return map;
     }
-    
+    public void add(gameObject toAdd){
+        if(getObjectByID(toAdd.getID()) == null){
+            objects.add(toAdd);
+        }
+    }
+    public void remove(gameObject toRemove){
+        objects.remove(toRemove);
+    }
 //  public ArrayList<Player> getPlayers(){
 //       return(this.players);
 //  }

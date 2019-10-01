@@ -24,17 +24,35 @@ public class Player extends gameObject{
         super(ypos, xpos, size, tag, ap, mas, cot, ID, master);
         this.imageName = dir.textures + "player/player2.png";
         collision_type = 0;
-        setDegrees(45);
+        //setDegrees(45);
 //        this.summon(ypos, xpos, tag, ap, mas);
     }
-    private void rot(){
-        double c = Math.sqrt(Math.pow(velx, 2) + Math.pow(vely, 2));
-        double rot = Math.acos(velx/c);
+    private void rot(Input inp){
+        dVector reversed = inp.reverseMouse(masterParent);
+        double xc = x-reversed.x;
+        double yc = y-reversed.y;
+        double c = Math.sqrt(Math.pow(xc, 2) + Math.pow(yc, 2));
+        double rot = Math.atan(xc/c);
         
         if(!Double.isNaN(rot)){
             this.setRadians(rot);
+            //System.out.println(rot);
         }
-        
+        for(gameObject i : getChildren()){
+            //System.out.println(i.tag.contains("player1_torso"));
+            if(i.tag.contains("player1_torso")){
+               // System.out.println(i.getID());
+                for(String x : i.tag){
+                    //System.out.println("    "+x);
+                }
+                double c2 = Math.sqrt(Math.pow(i.velx, 2) + Math.pow(i.vely, 2));
+                double rot2 = Math.acos(i.velx/c2);
+                if(!Double.isNaN(rot2)){
+                    i.setRadians(rot2);
+                    //System.out.println(rot2);
+                }
+            }
+        }
     }
     @Override
     public void overBound(int direction, int xd, int yd){
@@ -53,6 +71,8 @@ public class Player extends gameObject{
                         this.x = xd - 1;
             }
         }else{
+            velx = 0;
+            vely = 0;
             if(direction == 2){
                         this.y = yd - 1;
                     }
@@ -71,7 +91,7 @@ public class Player extends gameObject{
     @Override
     public void checkInput(Input in){
         //setDegrees(getDegrees()+1);
-        rot();
+        rot(in);
         //System.out.println("VELX, VELY: " + velx + " , " + vely + "     " + "up, down, left, right: " + in.up() + " " + in.down() + " " + in.right() + " " + in.left() + "      " + "x, y, mouse x, y: " + this.getX() + " , " + this.getY() + "MOUSE:"+ in.mouseX() + ", " + in.mouseY());
         //System.out.println(this.colliding);
         

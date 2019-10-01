@@ -300,14 +300,15 @@ public class Engine extends JFrame implements Runnable, ActionListener {
         repaint();
     }
     double mapLoadTime = 0;
-    public void loadLevel(String level) throws URISyntaxException{
+    public LinkedList<gameObject> loadLevel(String level) throws URISyntaxException{
+        LinkedList<gameObject> out = new LinkedList<>();
         long time = System.nanoTime();
         FileLoader lL = new FileLoader(level, oM, k);
         for(gameObject x : lL.level){
             x.tag.set(x.tag.indexOf("static"), "newlevel");
             oM.addObject(x);
         }
-        oM.removeLevel();
+        out = oM.removeLevel();
         for(gameObject x : lL.level){
             x.tag.set(x.tag.indexOf("newlevel"), "static");
         }
@@ -318,15 +319,17 @@ public class Engine extends JFrame implements Runnable, ActionListener {
         System.out.println("Recalculating lights:");
         //k.rad.recalculate("ignoreRecalculation", 1);
         //k.rad.recalculateParent();
+        return out;
     }
-    public void loadLevel(String level, String filepath, Color c) throws URISyntaxException{
+    public LinkedList<gameObject> loadLevel(String level, String filepath, Color c) throws URISyntaxException{
+        LinkedList<gameObject> out = new LinkedList<>();
         long time = System.nanoTime();
         FileLoader lL = new FileLoader(level, oM, k, filepath);
         for(gameObject x : lL.level){
             x.tag.set(x.tag.indexOf("static"), "newlevel");
             oM.addObject(x);
         }
-        oM.removeLevel();
+        out = oM.removeLevel();
         for(gameObject x : lL.level){
             x.tag.set(x.tag.indexOf("newlevel"), "static");
             x.setColor(c);
@@ -340,40 +343,78 @@ public class Engine extends JFrame implements Runnable, ActionListener {
         System.out.println("Recalculating lights:");
         //k.rad.recalculate("ignoreRecalculation", 1);
         //k.rad.recalculateParent();
+        return out;
     }
     
-    dVector currentMap = new dVector(0, 0);
-    public boolean nextLevel(int direction){
-        String[][] levelmap = mapParser.parseMap(FileLoader.getLevelMap("00.pbMap"));
-        int mapw = levelmap[0].length; 
-        int maph = levelmap.length; 
-        dVector newLevel = dVector.add(currentMap, quickTools.levelDirs[direction]);
+    String[][] levelmap = null;
+    LinkedList<gameObject>[][] cachedLevels = null;
+    
+    dVector currentMap = new dVector(1, 1);
+    @SuppressWarnings("unchecked")
+    public void constructLevelmap(){
+        levelmap = mapParser.parseMap(FileLoader.getLevelMap("00.pbMap"));
+        mapw = levelmap[0].length; 
+        maph = levelmap.length; 
+        String[][] newLevelmap = new String[maph+2][mapw+2];
+        //Fill with "block"
+        for(int xp : new Range(mapw+2)){
+            for(int yp : new Range(maph+2)){
+                newLevelmap[xp][yp] = "block";
+            }
+        }
+        //Copy the levelmap to the inner part of the arrays
+        int xp = 0, yp = 0;
+        for(String[] lane : levelmap){
+            for(String i : lane){
+                newLevelmap[xp+1][yp+1] = i;
+                yp++;
+            }xp++;yp=0;
+        }
+        levelmap = newLevelmap;
+        System.out.println("Levelmap: ");
+        for(String[] lane : levelmap){
+            for(String i : lane){
+                System.out.println(i+"      ");
+            }
+        }
+        cachedLevels = new LinkedList[mapw+2][maph+2];
+        
         System.out.println("mapW: "+mapw);
         System.out.println("mapH: "+maph);
+    }
+    int mapw = 0; 
+    int maph = 0; 
+    @SuppressWarnings("unchecked")
+    public boolean nextLevel(int direction){
+        if(levelmap == null){
+            constructLevelmap();
+        }
+        dVector newLevel = dVector.add(currentMap, quickTools.levelDirs[direction]);
         System.out.println("current location: "+currentMap.represent()+ " possible new loc: "+newLevel.represent());
         //newLevel.x <= mapw && newLevel.y >= maph
-        if(true){
+        System.out.println(newLevel.represent());
+        if((int)newLevel.x >= mapw && (int)newLevel.y >= maph){
+            return false;
+        }
+        else if(!"block".equals(levelmap[(int)newLevel.x][(int)newLevel.y])){
             currentMap = newLevel;
             try {
-                loadLevel(levelmap[(int)currentMap.x][(int)currentMap.y]+".pblevel");
-                System.out.println("new coords: "+currentMap.represent());
+            LinkedList<gameObject> old = loadLevel(levelmap[(int)newLevel.x][(int)newLevel.y]+".pblevel");
+                System.out.println("new coords: "+newLevel.represent());
                 if(k.bakedLights){
                     System.out.println("Loading baked level lights");
 
                     try {
-                        bakedcolor = (Color[][]) new FileLoader("null", oM, k).readObject(levelmap[(int)currentMap.x][(int)currentMap.y] + "_illumination.txt");
-                        LoadedRays = (LinkedList<renderContainer>) new FileLoader("null", oM, k).readObject(levelmap[(int)currentMap.x][(int)currentMap.y]+"_lights.txt");
-                    } catch (URISyntaxException ex) {
-                        Logger.getLogger(Engine.class.getName()).log(Level.SEVERE, null, ex);
-                    } catch (IOException ex) {
-                        Logger.getLogger(Engine.class.getName()).log(Level.SEVERE, null, ex);
-                    } catch (ClassNotFoundException ex) {
+                        bakedcolor = (Color[][]) new FileLoader("null", oM, k).readObject(levelmap[(int)newLevel.x][(int)newLevel.y] + "_illumination.txt");
+                        LoadedRays = (LinkedList<renderContainer>) new FileLoader("null", oM, k).readObject(levelmap[(int)newLevel.x][(int)newLevel.y]+"_lights.txt");
+                    } catch (URISyntaxException | IOException | ClassNotFoundException ex) {
                         Logger.getLogger(Engine.class.getName()).log(Level.SEVERE, null, ex);
                     }
                 }else{
                     k.rad.recalculate("ignoreRecalculation", 1);
                     k.rad.recalculateParent();
                 }
+                currentMap = newLevel;
             } catch (URISyntaxException ex) {
                 System.out.println("Unable to load new level");return false;
             } catch (ArrayIndexOutOfBoundsException ea){

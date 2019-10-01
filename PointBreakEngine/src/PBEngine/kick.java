@@ -220,22 +220,29 @@ public class kick implements Runnable{
         
         if(mode == 3){
             try {
-                Logic.loadLevel("out.pblevel");
+                LinkedList<gameObject> nulx = Logic.loadLevel("out.pblevel");
             } catch (URISyntaxException ex) {
                 Logger.getLogger(kick.class.getName()).log(Level.SEVERE, null, ex);
             }
             //wM.oM.addObject(new Player(5, 5, "player1", "█", 1F, Color.black, 1, ref));
             gameObject p = new Player(25, 5, 1, "player1", "█", 1F, Color.black, 1, ref);
+            gameObject torso = new gameObject(25, 5, 1, "player1_torso", "T", 1F, Color.red, 2, ref);
+            p.addChild(torso);
+            torso.setParent(p);
+            torso.tag.add("nocoll");
+            torso.collisions = false;
+            
             
             Camera cam = new Camera(p.x, p.y);
             Logic.cam = cam;
             
+            Logic.oM.addObject(torso);
             Logic.oM.addObject(p);
             //wM.oM.addObject(new Player(5, 6, "player1", "█", 1F, Color.black, 3, ref));
             //wM.oM.addObject(new Player(6, 6, "player1", "█", 1F, Color.black, 4, ref));
             //rad.setTitle("VSRad");
             if(!bakedLights){
-                Logic.rads.add(7, 20, 1, new Color(1, 1, 1), 1, true);
+                Logic.rads.add(7, 20, 5, new Color(1, 1, 1), 1, true);
                 //Logic.rads.add(49, 10, 2, new Color(1, 1, 1), 1, false);
                 //Logic.rads.add(39, 20, 1, new Color(1, 0, 0), 1, false);
                 Logic.red = Logic.rads.read(999999);
