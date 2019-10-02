@@ -379,6 +379,59 @@ public class Engine extends JFrame implements Runnable, ActionListener {
     }
     int mapw = 0; 
     int maph = 0; 
+    public void printLevelmap(){
+        String current = "!";
+                        String cached = "*";
+                        String pre = "";
+                        System.out.println("Levelmap: ");
+                        int longest = 0;
+                        //Get the longest namelenght
+                        for(String[] lane : levelmap){
+                            for(String i : lane){
+                                if(i.length() > longest){
+                                    longest = i.length();
+                                }
+                            }
+                        }
+                        
+                        String[][] map = null;
+                        try{map = new String[levelmap.length][levelmap[0].length];}
+                        catch(Exception e){
+                            System.out.println("WARNING: Level map is not initialized properly, skipping action.");
+                            return;
+                        }
+                        for(int i : new Range(levelmap.length)){
+                            map[i] = levelmap[i].clone();
+                        }
+                        dVector currentmap2 = currentMap;
+                        //Mark cached
+                        for(int x : new Range(map.length)){
+                            for(int y : new Range(map[0].length)){
+                                if(cachedLevels[x][y] != null){
+                                    map[x][y] = cached + map[x][y];
+                                }
+                            }
+                        }
+                        //Print the levelmap
+                        map[(int)currentmap2.x][(int)currentmap2.y] = current + map[(int)currentmap2.x][(int)currentmap2.y];
+                        map = quickTools.rotateCW(map);
+                        map = quickTools.rotateCW(map);
+                        map = quickTools.rotateCW(map);
+                        for(String[] lane : map){
+                            for(String i : lane){
+                                pre = "";
+                                String name = i;
+                                if(name.contains("\n")){
+                                    name = name.replaceAll("\n", "");
+                                }
+                                
+                                
+                                String padding = quickTools.multiplyString(" ",(longest+4-i.length()));
+                                System.out.print(pre+name+padding);
+                            }System.out.println("");
+                        }
+                        System.out.println("end of levelmap.");
+    }
     @SuppressWarnings("unchecked")
     public boolean nextLevel(int direction){
         if(levelmap == null){
@@ -407,7 +460,7 @@ public class Engine extends JFrame implements Runnable, ActionListener {
                         Logger.getLogger(Engine.class.getName()).log(Level.SEVERE, null, ex);
                     }
                 }else{
-                    k.rad.recalculate("ignoreRecalculation", 1);
+                    k.rad.recalculate("ignoreRecalculation", 1, true);
                     k.rad.recalculateParent();
                 }
                 currentMap = newLevel;
@@ -431,11 +484,11 @@ public class Engine extends JFrame implements Runnable, ActionListener {
         //rads.add(25, 12, 4);
         if(renderRays == 1){
             if(rayDetail == 0){
-                rads.recalculate("none", 1);
+                rads.recalculate("none", 1, false);
                 
             }
             if(rayDetail == 1){
-                rads.recalculate("none", 0);
+                rads.recalculate("none", 0, false);
                 red = rads.read(0);
             }
             

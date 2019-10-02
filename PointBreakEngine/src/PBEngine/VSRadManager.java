@@ -64,7 +64,7 @@ public class VSRadManager{
         }
     }
     int id = 0;
-    public void add(int x, int y, float s, Color color, int type, boolean recalculate){
+    public void add(int x, int y, float s, Color color, int type, boolean recalculateParent){
         VSRad tmp = new VSRad(oM, color, type);        
         tmp.id = id;
         System.out.println("ADDING A RAY");
@@ -74,7 +74,7 @@ public class VSRadManager{
         tmp.calculate(new dVector(x,y), s, "null");
         System.out.println(tmp.sum);
         this.sVSRad.add(tmp);
-        if(recalculate){masterParent.Logic.red = this.read(999999);}
+        if(recalculateParent){recalculateParent();}
         id++;
     }
     public void recalculateParent(){
@@ -83,24 +83,25 @@ public class VSRadManager{
         for(double[] row : masterParent.Logic.red){
             for(double i : row){
                 sum = sum + i;
-                System.out.print((int)i+" ");
-            }System.out.println("");
+                //System.out.print((int)i+" ");
+            }//System.out.println("");
         }
         System.out.println("Sum: "+sum);
     }
     int lasthash = 0;
-    public double[][] read(int type){
+    public double[][] read(int ignore){
+        quickTools.zero(colors);
         double[][] sum = new double[w][h];
         int xp = 0, yp = 0;
         Queue<VSRad> list = sVSRad;
         for(VSRad ray : list){
-            if(ray.type != type){
+            if(ray.type != ignore){
                 for(float[] line : ray.grid){
                     for(float i : line){
                         if(i > 0){
                             sum[xp][yp] = sum[xp][yp] + i;
                             //System.out.println(colors[xp][yp] + " " + ray.color.getRGB());
-                            float r,g,b;
+                            float r=0,g=0,b=0;
                             try{r = colors[xp][yp].getRed() + (ray.color.getRed() * ray.grid[xp][yp]);}catch(Exception e){/*r = ray.color.getRed() * ray.grid[xp][yp];*/ r=0;}
                             try{g = colors[xp][yp].getGreen()+ (ray.color.getGreen() * ray.grid[xp][yp]);}catch(Exception e){/*g = ray.color.getGreen() * ray.grid[xp][yp];*/g=0;}
                             try{b = colors[xp][yp].getBlue()+ (ray.color.getBlue() * ray.grid[xp][yp]);}catch(Exception e){/*b = ray.color.getBlue() * ray.grid[xp][yp];*/b=0;}
@@ -174,20 +175,26 @@ public class VSRadManager{
         }
         return out;
     }
-    public void recalculate(String ignore, int type){
+    public void recalculate(String ignore, int type, boolean recalcWhenDone){
         System.out.println(sVSRad.size());
+        this.colors = new Color[w][h];
+        this.colors = quickTools.zero(colors);
         for(VSRad i :sVSRad){
             if(i.type == type){
                 i.fill(0);
-                this.colors = new Color[w][h];
                 i.calculate(i.from, i.lastS, ignore);
             }else{System.out.println(i.id + " is NOT GOING TO BE CALCULATED");}
         }
-        //float[][] r = quickTools.blur(quickTools.separateRGB(colors, w, h).get(0), w, h, 3);
-        //float[][] g = quickTools.blur(quickTools.separateRGB(colors, w, h).get(1), w, h, 3);
+        if(recalcWhenDone){
+            recalculateParent();
+        }
+        //float[][] r = quickTools.blur(quickTools.separateRGB(colors, w, h).get(0), w, h, 3); 797230.7     797230.7
+        //float[][] g = quickTools.blur(quickTools.separateRGB(colors, w, h).get(1), w, h, 3);1590455.8    1590455.8
         //float[][] b = quickTools.blur(quickTools.separateRGB(colors, w, h).get(2), w, h, 3);
         //this.colors = quickTools.parseColor(w, h, r, g, b);
     }
+    
+    
     public double[][] getR(int xd, int yd){
         double[][] out = new double[xd][yd];
         for(int x : new Range(xd)){

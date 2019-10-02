@@ -156,7 +156,7 @@ class BListener implements ActionListener{
                         break;
                     case "/relight":
                         VSRadManager vsradm = k.k.rad;
-                        vsradm.recalculate("aaaaaaaaaaaaaaa", 1);
+                        //vsradm.recalculate("aaaaaaaaaaaaaaa", 1);
                         vsradm.recalculateParent();
                         break;
                     case "/lvl":
@@ -214,57 +214,7 @@ class BListener implements ActionListener{
                         k.k.Logic.constructLevelmap();
                         break;
                     case "/map":
-                        String current = "!";
-                        String cached = "*";
-                        String pre = "";
-                        System.out.println("Levelmap: ");
-                        int longest = 0;
-                        //Get the longest namelenght
-                        for(String[] lane : k.k.Logic.levelmap){
-                            for(String i : lane){
-                                if(i.length() > longest){
-                                    longest = i.length();
-                                }
-                            }
-                        }
-                        
-                        String[][] map = null;
-                        try{map = new String[k.k.Logic.levelmap.length][k.k.Logic.levelmap[0].length];}
-                        catch(Exception e){
-                            System.out.println("WARNING: Level map is not initialized properly, skipping action.");
-                            break;
-                        }
-                        for(int i : new Range(k.k.Logic.levelmap.length)){
-                            map[i] = k.k.Logic.levelmap[i].clone();
-                        }
-                        dVector currentmap = k.k.Logic.currentMap;
-                        //Mark cached
-                        for(int x : new Range(map.length)){
-                            for(int y : new Range(map[0].length)){
-                                if(k.k.Logic.cachedLevels[x][y] != null){
-                                    map[x][y] = cached + map[x][y];
-                                }
-                            }
-                        }
-                        //Print the levelmap
-                        map[(int)currentmap.x][(int)currentmap.y] = current + map[(int)currentmap.x][(int)currentmap.y];
-                        map = quickTools.rotateCW(map);
-                        map = quickTools.rotateCW(map);
-                        map = quickTools.rotateCW(map);
-                        for(String[] lane : map){
-                            for(String i : lane){
-                                pre = "";
-                                String name = i;
-                                if(name.contains("\n")){
-                                    name = name.replaceAll("\n", "");
-                                }
-                                
-                                
-                                String padding = " ".repeat(longest+4-i.length());
-                                System.out.print(pre+name+padding);
-                            }System.out.println("");
-                        }
-                        System.out.println("end of levelmap.");
+                        k.k.Logic.printLevelmap();
                         break;
                     default:
                         quickTools.alert("devkit", "command not understood");

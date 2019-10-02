@@ -317,4 +317,32 @@ public class quickTools {
         }
         return ret;
     }
+    public static String multiplyString(String string, int times){
+        String out = "";
+        for(int i : new Range(times)){
+            out = out + string;
+        }
+        return out;
+    }
+    public static Integer[][] clone2d(Integer[][] original){
+        Integer[][] cloned = original.clone();
+        for(int i : new Range(original.length)){
+            cloned[i] = original[i].clone();
+        }
+        return cloned;
+    }
+    public static String[][] clone2d(String[][] original){
+        String[][] cloned = original.clone();
+        for(int i : new Range(original.length)){
+            cloned[i] = original[i].clone();
+        }
+        return cloned;
+    }
+    public static Color[][] clone2d(Color[][] original){
+        Color[][] cloned = original.clone();
+        for(int i : new Range(original.length)){
+            cloned[i] = original[i].clone();
+        }
+        return cloned;
+    }
 }

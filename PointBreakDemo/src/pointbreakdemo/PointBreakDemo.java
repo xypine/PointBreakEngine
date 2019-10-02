@@ -32,7 +32,7 @@ class game{
     public game() throws URISyntaxException{
         String[] argss = new String[2];
         argss[0] = "nodemo";
-        argss[1] = "calclights";
+        argss[1] = "alclights";
         k = new kick(0, false, new dVector(0, 0));
         Thread A = new Thread(k);
         A.start();
@@ -48,8 +48,8 @@ class game{
 //        k.rad.add(0, 0, 8, new Color(1,1,1), 0, false);
 //       k.rad.recalculateParent();
         System.out.println("We'll take it form here!");
-        k.Logic.loadLevel("out.pblevel");
-        gameObject p = new Player(25, 5, 1, "player1", "█", 1F, Color.black, 1, k);
+        //k.Logic.loadLevel("out.pblevel");
+        gameObject p = new Player(0, 0, 1, "player1", "█", 1F, Color.black, 1, k);
         AI ai = new AI(14, 0, 1, "ai", "A", 1, Color.yellow, 2, k);
         ai.addTag("nocoll");
         k.objectManager.addObject(ai);

@@ -18,6 +18,8 @@ import java.util.LinkedList;
  * @author Jonnelafin
  */
 public class gameObject {
+    //0: handle by the parent, 1: handle by each children
+    public int children_translationMode = 0;
     public boolean onlyColor = false;
     public boolean pureColor = false;
     
@@ -254,9 +256,15 @@ public class gameObject {
                 velx = 0F;
             }
         }
-        else{
+        else if(this.parent.children_translationMode == 1){
             this.x = parent.x + parent_offsetX;
             this.y = parent.y + parent_offsetY;
+        }
+        if(children_translationMode == 0){
+            for(gameObject child : children){
+                child.x = this.x + child.parent_offsetX;
+                child.y = this.y + child.parent_offsetY;
+            }
         }
     }
     public void doIfInside(){

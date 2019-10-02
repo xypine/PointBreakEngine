@@ -59,11 +59,13 @@ public class VSRad {
         }
         for(int i : r){
             if(type != 0){break;}
+            directions[i] = new dVector(0, 0);
             if(state == 0){
                 if(cur.x < 1){
                     //System.out.println("Calculating directions phase 0: " + cur.represent());
-                    directions[i] = cur;
+                    
                     cur = dVector.add(cur, new dVector(0.1/(resolution * shutter), -0.1/(resolution * shutter)));
+                    directions[i] = cur;
                 }
                 else{
                     state = 1;
@@ -72,8 +74,9 @@ public class VSRad {
             if(state == 1){
                 if(cur.x > 0){
                     //System.out.println("Calculating directions phase 1: " + cur.represent());
-                    directions[i] = cur;
+                    
                     cur = dVector.add(cur, new dVector(-0.1/(resolution * shutter), -0.1/(resolution * shutter)));
+                    directions[i] = cur;
                 }
                 else{
                     state = 2;
@@ -82,8 +85,9 @@ public class VSRad {
             if(state == 2){
                 if(cur.x > -1){
                     //System.out.println("Calculating directions phase 2: " + cur.represent());
-                    directions[i] = cur;
+                    
                     cur = dVector.add(cur, new dVector(-0.1/(resolution * shutter), 0.1/(resolution * shutter)));
+                    directions[i] = cur;
                 }
                 else{
                     state = 3;
@@ -92,8 +96,9 @@ public class VSRad {
             if(state == 3){
                 if(cur.y < 1){
                     //System.out.println("Calculating directions phase 3: " + cur.represent());
-                    directions[i] = cur;
+                    
                     cur = dVector.add(cur, new dVector(0.1/(resolution * shutter), 0.1/(resolution * shutter)));
+                    directions[i] = cur;
                 }
                 else{
                     state = 4; //Finished
@@ -125,10 +130,10 @@ public class VSRad {
     public float s = 0;
     int requests = 0;
     public float sum = 0;
-    dVector dir;
+    dVector dir = new dVector(0, 0);
     public dVector from;
     public float lastS;
-    public void calculate(dVector from, float strenght, String ignore){
+    public void calculate(dVector from, float strenght, String ignoreCollWith){
 //        strenght = strenght / 100;
         this.from = from;
         this.lastS = strenght;
@@ -138,7 +143,8 @@ public class VSRad {
         //    System.out.println("direction " + d.represent());
 //        }
         System.out.println("Calculating raycaster "+id+"...");
-        cursor = from;
+        cursor.x = from.x;
+        cursor.y = from.y;
         try {
             grid[(int) from.x][(int) from.y] = strenght;
         } catch (Exception e) {
@@ -146,9 +152,9 @@ public class VSRad {
         }
         fill(0);
         s = strenght;
-        float bOut = 0.9999F;
-        float decay = 0.9999F;
-        float nullDecay = 0.9975F;
+        float bOut = 0.3F;
+        float decay = 0.995F;
+        float nullDecay = 0.999F;
         if(this.type == 0){
             bOut = 0;
             decay = 0.99F;
@@ -158,18 +164,21 @@ public class VSRad {
         if(resType == 0){
             res = resolution;
         }else{res = newResolution;}
+        sum = 0;
         for(int i : new Range(res)){
             //System.out.println(done / resolution * 100 + "%: ");
             int hp = 1;
             int hits =0;
             inside = true;
             
-            dir = directions[i];
+            dir.x = directions[i].x;
+            dir.y = directions[i].y;
             while(inside){
                 //System.out.println(s);
                 //demo.setTitle("ViridiEngine radiosity "+s);
                 try{
                     //System.out.print(hits + " ");
+                    //System.out.println(dir.represent());
                     cursor = new dVector(cursor.x + dir.x, cursor.y + dir.y);
                     if(cursor.y > height-1){
                         cursor.y = height - 1;
@@ -191,10 +200,18 @@ public class VSRad {
                         dir.x = dir.x * - 1;
                         s = s * bOut;
                     }
-                    if(oM.colliding((int) cursor.x, (int) cursor.y, ignore)){
+                    if(oM.colliding((int) cursor.x, (int) cursor.y, ignoreCollWith)){
                         grid[(int) cursor.x][(int) cursor.y] = grid[(int) cursor.x][(int) cursor.y] + s;
-                        dir.x = dir.x * -1;
-                        dir.y = dir.y * -1;
+                        if(dir.x > dir.y){
+                            dir.y = dir.y * -1;
+                        }
+                        else if(dir.x < dir.y){
+                            dir.x = dir.x * -1;
+                        }
+                        else{
+                            dir.x = dir.x * -1;
+                            dir.y = dir.y * -1;
+                        }
                         cursor = new dVector(cursor.x + dir.x, cursor.y + dir.y);
                         s = s * decay;
                         //System.out.println(dVector.round(cursor).represent() + " " + requests);
@@ -204,7 +221,7 @@ public class VSRad {
                 }
                 catch(Exception e){
                     
-                    inside = false;
+                    inside = false;throw e;
                     //bounce(hp, dir, s);
                 }
                 s = s * nullDecay;
