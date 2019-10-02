@@ -371,12 +371,7 @@ public class Engine extends JFrame implements Runnable, ActionListener {
             }xp++;yp=0;
         }
         levelmap = newLevelmap;
-        System.out.println("Levelmap: ");
-        for(String[] lane : levelmap){
-            for(String i : lane){
-                System.out.println(i+"      ");
-            }
-        }
+        
         cachedLevels = new LinkedList[mapw+2][maph+2];
         
         System.out.println("mapW: "+mapw);
@@ -400,6 +395,7 @@ public class Engine extends JFrame implements Runnable, ActionListener {
             currentMap = newLevel;
             try {
             LinkedList<gameObject> old = loadLevel(levelmap[(int)newLevel.x][(int)newLevel.y]+".pblevel");
+            cachedLevels[(int)currentMap.x][(int)currentMap.y] = old;
                 System.out.println("new coords: "+newLevel.represent());
                 if(k.bakedLights){
                     System.out.println("Loading baked level lights");
