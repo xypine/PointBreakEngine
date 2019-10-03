@@ -31,6 +31,7 @@ public class objectManager {
     public void addObject(gameObject tmpO){
         if(getObjectByID(tmpO.getID()) == null){
             this.objects.add(tmpO);
+            System.out.println(" (adding gameobject succesful)");
         }
         else{
             tmpO.setID(getUsableID());
@@ -224,14 +225,14 @@ public class objectManager {
         }
         return map;
     }
-    public void add(gameObject toAdd){
-        if(getObjectByID(toAdd.getID()) == null){
-            objects.add(toAdd);
-        }
+    /*public void add(gameObject toAdd){
+    if(getObjectByID(toAdd.getID()) == null){
+    objects.add(toAdd);
+    }
     }
     public void remove(gameObject toRemove){
-        objects.remove(toRemove);
-    }
+    objects.remove(toRemove);
+    }*/
 //  public ArrayList<Player> getPlayers(){
 //       return(this.players);
 //  }

@@ -151,7 +151,7 @@ class BListener implements ActionListener{
                     case "/rm":
                         String values[] = arr[1].split(" ", 2);
                         for(gameObject o : k.k.objectManager.getObjectsByTag(values[0])){
-                                k.k.objectManager.remove(o);
+                                k.k.objectManager.removeObject(o);
                             }
                         break;
                     case "/relight":

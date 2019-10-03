@@ -50,10 +50,14 @@ public class Cursor extends Player{
         //in.mouseX() != in.lX && in.mouseY() != in.lY
         
         if(in.tog && !masterParent.objectManager.colliding((int)x,(int)y,"null") && positionValid){
-            gameObject o = new gameObject((int)x,(int)y, 1, "static", "█", 1F, Color.blue, 1, masterParent);
+            gameObject o = new gameObject((int)x,(int)y, 1, "static", "█", 1F, Color.blue, masterParent.objectManager.getUsableID(), masterParent);
+            if(editor.mode == 1){
+                o = new gameObject((int)x,(int)y, 1, "light", "█", 1F, Color.green, masterParent.objectManager.getUsableID(), masterParent);
+                o.tag.add("static");
+            }
             o.onlyColor = true;
             masterParent.objectManager.addObject(o);
-            System.out.println("new wall!");
+            //System.out.println("new wall!");
             editor.saved = false;
         }
         if(in.ke == 'l' && !editor.saved){

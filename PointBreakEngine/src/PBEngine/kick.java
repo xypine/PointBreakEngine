@@ -228,7 +228,7 @@ public class kick implements Runnable{
             gameObject p = new Player(25, 5, 1, "player1", "█", 1F, Color.black, 1, ref);
             gameObject torso = new gameObject(25, 5, 1, "player1_torso", "T", 1F, Color.red, 2, ref);
             gameObject torso2 = new gameObject(25, 5, 1, "player1_torso2", "T", 1F, Color.red, 3, ref);
-            gameObject torso3 = new gameObject(25, 5, 1, "player1_torso2", "T", 1F, Color.red, 3, ref);
+            //gameObject torso3 = new gameObject(25, 5, 1, "player1_torso2", "T", 1F, Color.red, 3, ref);
             p.addChild(torso);
             torso.addChild(torso2);
             torso2.setParent(torso);
@@ -238,6 +238,9 @@ public class kick implements Runnable{
             torso.collisions = false;
             torso2.tag.add("nocoll");
             torso2.collisions = false;
+            torso.visible = false;
+            torso2.visible = false;
+            
             
             Camera cam = new Camera(p.x, p.y);
             Logic.cam = cam;

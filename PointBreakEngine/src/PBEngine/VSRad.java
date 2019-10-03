@@ -19,7 +19,7 @@ public class VSRad {
     public Color color = new Color(0,0,0);
     public float[][] grid;
     public LinkedList<float[][]> rays = new LinkedList<>();
-    public int resolution = 1000;
+    public int resolution = 1000; //1000
     public int newResolution = 3600;
     public float shutter = 0.01F;
     private Vector source;
@@ -202,11 +202,11 @@ public class VSRad {
                     }
                     if(oM.colliding((int) cursor.x, (int) cursor.y, ignoreCollWith)){
                         grid[(int) cursor.x][(int) cursor.y] = grid[(int) cursor.x][(int) cursor.y] + s;
-                        if(dir.x > dir.y){
-                            dir.y = dir.y * -1;
-                        }
-                        else if(dir.x < dir.y){
+                        if(Math.abs(dir.x) > Math.abs(dir.y)){
                             dir.x = dir.x * -1;
+                        }
+                        else if(Math.abs(dir.x) < Math.abs(dir.y)){
+                            dir.y = dir.y * -1;
                         }
                         else{
                             dir.x = dir.x * -1;

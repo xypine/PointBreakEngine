@@ -23,6 +23,8 @@ public class gameObject {
     public boolean onlyColor = false;
     public boolean pureColor = false;
     
+    public boolean visible = true;
+    
     private double rotation = 0;
     public void setDegrees(double degrees){
         this.rotation = (degrees * (Math.PI /180));

@@ -31,8 +31,10 @@ import java.awt.event.ActionListener;
 import java.io.File;
 import java.io.PrintWriter;
 import java.net.URISyntaxException;
+import java.util.LinkedList;
 import java.util.logging.Logger;
 import javax.swing.JButton;
+import javax.swing.JComboBox;
 import javax.swing.JFileChooser;
 import javax.swing.JPanel;
 import javax.swing.filechooser.FileSystemView;
@@ -44,6 +46,8 @@ import javax.swing.filechooser.FileSystemView;
 public class Editor {
     public boolean saved = false;
     public PBEngine.kick k;
+    public int mode = 0;
+    JComboBox select;
     public Editor(){
         String[] argss = new String[2];
         argss[0] = "nodemo";
@@ -64,9 +68,14 @@ public class Editor {
         JButton saveB = new JButton("Save");saveB.addActionListener(new BListener(1, this));
         JButton loadB = new JButton("Load");loadB.addActionListener(new BListener(2, this));
         JButton testB = new JButton("Run");testB.addActionListener(new BListener(3, this));
+        String[] options = {"Wall","Light","?"};
+        select = new JComboBox(options);select.addActionListener(new BListener(4, this));
+        select.setEditable(true);
+        
         editorPanel.add(saveB);
         editorPanel.add(loadB);
         editorPanel.add(testB);
+        editorPanel.add(select);
         
         container.add(editorPanel, BorderLayout.NORTH);
         k.kit.cont.add(container, BorderLayout.NORTH);
@@ -120,12 +129,24 @@ class BListener implements ActionListener{
 			File selectedFile = jfc.getSelectedFile();
 			System.out.println(selectedFile.getAbsolutePath());
                 try {
-                    editor.k.Logic.loadLevel(selectedFile.getAbsolutePath(), "", Color.BLUE);
+                    LinkedList<gameObject> old = editor.k.Logic.loadLevel(selectedFile.getAbsolutePath(), "", Color.BLUE);
                     
                 } catch (URISyntaxException ex) {
                     Logger.getLogger(BListener.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
                 }
             }
+        }
+        if(type == 4){
+            int action = editor.select.getSelectedIndex();
+            System.out.println(action);
+            editor.mode = action;
+            /*if(action.equals("Wall")){
+            editor.mode = 0;
+            }
+            if(action.equals("Light")){
+            editor.mode = 1;
+            }*/
+            
         }
     }
     

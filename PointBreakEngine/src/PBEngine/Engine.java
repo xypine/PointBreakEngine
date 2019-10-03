@@ -434,6 +434,7 @@ public class Engine extends JFrame implements Runnable, ActionListener {
     }
     @SuppressWarnings("unchecked")
     public boolean nextLevel(int direction){
+        rads.recalculateParent();
         if(levelmap == null){
             constructLevelmap();
         }
@@ -445,29 +446,42 @@ public class Engine extends JFrame implements Runnable, ActionListener {
             return false;
         }
         else if(!"block".equals(levelmap[(int)newLevel.x][(int)newLevel.y])){
-            currentMap = newLevel;
-            try {
-            LinkedList<gameObject> old = loadLevel(levelmap[(int)newLevel.x][(int)newLevel.y]+".pblevel");
-            cachedLevels[(int)currentMap.x][(int)currentMap.y] = old;
-                System.out.println("new coords: "+newLevel.represent());
-                if(k.bakedLights){
-                    System.out.println("Loading baked level lights");
-
-                    try {
-                        bakedcolor = (Color[][]) new FileLoader("null", oM, k).readObject(levelmap[(int)newLevel.x][(int)newLevel.y] + "_illumination.txt");
-                        LoadedRays = (LinkedList<renderContainer>) new FileLoader("null", oM, k).readObject(levelmap[(int)newLevel.x][(int)newLevel.y]+"_lights.txt");
-                    } catch (URISyntaxException | IOException | ClassNotFoundException ex) {
-                        Logger.getLogger(Engine.class.getName()).log(Level.SEVERE, null, ex);
+            //currentMap = newLevel;
+            if(cachedLevels[(int)newLevel.x][(int)newLevel.y] != null){
+                try{
+                    cachedLevels[(int)currentMap.x][(int)currentMap.y] = oM.removeLevel();
+                    for(gameObject x : cachedLevels[(int)newLevel.x][(int)newLevel.y]){
+                        oM.addObject(x);
                     }
-                }else{
-                    k.rad.recalculate("ignoreRecalculation", 1, true);
-                    k.rad.recalculateParent();
+                    currentMap = newLevel;
+                }catch(Exception e){
+                    
                 }
-                currentMap = newLevel;
-            } catch (URISyntaxException ex) {
-                System.out.println("Unable to load new level");return false;
-            } catch (ArrayIndexOutOfBoundsException ea){
-                return false;
+            }
+            else{
+                try {
+                LinkedList<gameObject> old = loadLevel(levelmap[(int)newLevel.x][(int)newLevel.y]+".pblevel");
+                cachedLevels[(int)currentMap.x][(int)currentMap.y] = old;
+                    System.out.println("new coords: "+newLevel.represent());
+                    if(k.bakedLights){
+                        System.out.println("Loading baked level lights");
+
+                        try {
+                            bakedcolor = (Color[][]) new FileLoader("null", oM, k).readObject(levelmap[(int)newLevel.x][(int)newLevel.y] + "_illumination.txt");
+                            LoadedRays = (LinkedList<renderContainer>) new FileLoader("null", oM, k).readObject(levelmap[(int)newLevel.x][(int)newLevel.y]+"_lights.txt");
+                        } catch (URISyntaxException | IOException | ClassNotFoundException ex) {
+                            Logger.getLogger(Engine.class.getName()).log(Level.SEVERE, null, ex);
+                        }
+                    }else{
+                        k.rad.recalculate("ignoreRecalculation", 1, true);
+                        k.rad.recalculateParent();
+                    }
+                    currentMap = newLevel;
+                } catch (URISyntaxException ex) {
+                    System.out.println("Unable to load new level");return false;
+                } catch (ArrayIndexOutOfBoundsException ea){
+                    return false;
+                }
             }
         }else{
             return false;
@@ -608,12 +622,15 @@ public class Engine extends JFrame implements Runnable, ActionListener {
             Color tc = p.getColor();
 //            p.update(renderer);
             if(p.getTag().contains("player1") || p.getTag().contains("cursor")){
-                cam.setLocation(p.x, p.y);
+                //cam.setLocation(p.x, p.y);
 //                oM.addObject(new Player(tx, ty, "null", "█", 1F, Color.MAGENTA));
                 //rads.add(tx, ty, 1);
 //                aM.setVolume(d/10);
 //                System.out.println(aM.getVolume());
             }else{}
+            if(p.getTag().contains("player1_torso2")){
+                cam.setLocation(p.x, p.y);
+            }
             if(p.getTag().contains(new String("player2"))){
 //                oM.addObject(new Player(tx, ty, "null", "█", 1F, Color.CYAN,co+3));
 //                co++;
@@ -661,7 +678,7 @@ public class Engine extends JFrame implements Runnable, ActionListener {
                 g = p.getColor().getGreen();
                 b = p.getColor().getBlue();
             }
-            cont1.add( new renderContainer(new dVector(txf, tyf), p.imageName, new Color((int)r,(int)g,(int)b), p.size, p.getRadians()));
+            if(p.visible){cont1.add( new renderContainer(new dVector(txf, tyf), p.imageName, new Color((int)r,(int)g,(int)b), p.size, p.getRadians()));}
             colors.add(new Color((int)r,(int)g,(int)b));
             lis.add(new xyac(tx,ty,ta,tc,las));
             sizes.add(p.size);

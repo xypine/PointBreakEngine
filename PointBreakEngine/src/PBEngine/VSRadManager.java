@@ -65,7 +65,7 @@ public class VSRadManager{
     }
     int id = 0;
     public void add(int x, int y, float s, Color color, int type, boolean recalculateParent){
-        VSRad tmp = new VSRad(oM, color, type);        
+        VSRad tmp = new VSRad(oM, color, 1);        
         tmp.id = id;
         System.out.println("ADDING A RAY");
         System.out.println("RAY ID "+id);
