@@ -156,8 +156,8 @@ class BListener implements ActionListener{
                         break;
                     case "/relight":
                         VSRadManager vsradm = k.k.rad;
-                        //vsradm.recalculate("aaaaaaaaaaaaaaa", 1);
-                        vsradm.recalculateParent();
+                        vsradm.recalculate("IgnoreRecalculation", 1, true);
+                        //vsradm.recalculateParent();
                         break;
                     case "/lvl":
                         Thread a = new Thread(){

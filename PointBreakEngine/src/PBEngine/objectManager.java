@@ -31,7 +31,7 @@ public class objectManager {
     public void addObject(gameObject tmpO){
         if(getObjectByID(tmpO.getID()) == null){
             this.objects.add(tmpO);
-            System.out.println(" (adding gameobject succesful)");
+            System.out.println("    (adding gameobject succesful)");
         }
         else{
             tmpO.setID(getUsableID());

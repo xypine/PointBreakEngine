@@ -176,24 +176,32 @@ public class VSRadManager{
         return out;
     }
     public void recalculate(String ignore, int type, boolean recalcWhenDone){
-        System.out.println(sVSRad.size());
+        Thread a = new Thread(){
+            @Override
+            public void run(){
+                System.out.println(sVSRad.size());
+                initColors();
+                for(VSRad i :sVSRad){
+                    if(i.type == type){
+                        i.fill(0);
+                        i.calculate(i.from, i.lastS, ignore);
+                    }else{System.out.println(i.id + " is NOT GOING TO BE CALCULATED");}
+                }
+                if(recalcWhenDone){
+                    recalculateParent();
+                }
+                //float[][] r = quickTools.blur(quickTools.separateRGB(colors, w, h).get(0), w, h, 3); 797230.7     797230.7
+                //float[][] g = quickTools.blur(quickTools.separateRGB(colors, w, h).get(1), w, h, 3);1590455.8    1590455.8
+                //float[][] b = quickTools.blur(quickTools.separateRGB(colors, w, h).get(2), w, h, 3);
+                //this.colors = quickTools.parseColor(w, h, r, g, b);
+            }
+        };
+        a.start();
+    }
+    public void initColors(){
         this.colors = new Color[w][h];
         this.colors = quickTools.zero(colors);
-        for(VSRad i :sVSRad){
-            if(i.type == type){
-                i.fill(0);
-                i.calculate(i.from, i.lastS, ignore);
-            }else{System.out.println(i.id + " is NOT GOING TO BE CALCULATED");}
-        }
-        if(recalcWhenDone){
-            recalculateParent();
-        }
-        //float[][] r = quickTools.blur(quickTools.separateRGB(colors, w, h).get(0), w, h, 3); 797230.7     797230.7
-        //float[][] g = quickTools.blur(quickTools.separateRGB(colors, w, h).get(1), w, h, 3);1590455.8    1590455.8
-        //float[][] b = quickTools.blur(quickTools.separateRGB(colors, w, h).get(2), w, h, 3);
-        //this.colors = quickTools.parseColor(w, h, r, g, b);
     }
-    
     
     public double[][] getR(int xd, int yd){
         double[][] out = new double[xd][yd];

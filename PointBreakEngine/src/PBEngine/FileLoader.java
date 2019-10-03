@@ -274,7 +274,7 @@ public class FileLoader {
             }
             else if(p.getTag().contains("light")){
                 tmp = tmp + round(p.x) + "." + round(p.y) + ".light.█."+p.mass+".green." + idi + ".:";
-                System.out.print(".");
+                System.out.print("*");
                 idi++;
             }
         }
@@ -306,7 +306,13 @@ public class FileLoader {
                 result = result + character;
             }
         }
-        return Integer.parseInt(result);
+        int out = 0;
+        try {
+            out = Integer.parseInt(result);
+        } catch (NumberFormatException numberFormatException) {
+            System.out.println("ERROR WITH toInt: "+numberFormatException);
+        }
+        return out;
     }
     public static Color getColorByName(String name) {
         try {

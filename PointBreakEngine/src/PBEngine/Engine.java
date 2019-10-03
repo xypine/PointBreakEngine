@@ -321,7 +321,7 @@ public class Engine extends JFrame implements Runnable, ActionListener {
         //k.rad.recalculateParent();
         return out;
     }
-    public LinkedList<gameObject> loadLevel(String level, String filepath, Color c) throws URISyntaxException{
+    public LinkedList<gameObject> loadLevel(String level, String filepath, Color wall, Color light) throws URISyntaxException{
         LinkedList<gameObject> out = new LinkedList<>();
         long time = System.nanoTime();
         FileLoader lL = new FileLoader(level, oM, k, filepath);
@@ -332,7 +332,10 @@ public class Engine extends JFrame implements Runnable, ActionListener {
         out = oM.removeLevel();
         for(gameObject x : lL.level){
             x.tag.set(x.tag.indexOf("newlevel"), "static");
-            x.setColor(c);
+            x.setColor(wall);
+            if(x.tag.contains("light")){
+                x.setColor(light);
+            }
             x.imageName = "";
             x.onlyColor = true;
         }

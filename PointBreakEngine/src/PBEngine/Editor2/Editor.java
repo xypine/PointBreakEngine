@@ -129,7 +129,7 @@ class BListener implements ActionListener{
 			File selectedFile = jfc.getSelectedFile();
 			System.out.println(selectedFile.getAbsolutePath());
                 try {
-                    LinkedList<gameObject> old = editor.k.Logic.loadLevel(selectedFile.getAbsolutePath(), "", Color.BLUE);
+                    LinkedList<gameObject> old = editor.k.Logic.loadLevel(selectedFile.getAbsolutePath(), "", Color.BLUE, Color.GREEN);
                     
                 } catch (URISyntaxException ex) {
                     Logger.getLogger(BListener.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
