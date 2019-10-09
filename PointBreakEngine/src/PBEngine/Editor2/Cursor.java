@@ -65,9 +65,9 @@ public class Cursor extends Player{
                 FileLoader aol = new FileLoader("null", masterParent.objectManager, masterParent);
                 aol.write(masterParent.objectManager.getObjects(), "newout.pblevel");
             } catch (UnsupportedEncodingException ex) {
-                Logger.getLogger(PBEngine.Editor.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+                Logger.getLogger(PBEngine.LegacyEditor.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
             } catch (IOException ex) {
-                Logger.getLogger(PBEngine.Editor.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+                Logger.getLogger(PBEngine.LegacyEditor.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
             } catch (URISyntaxException ex) {
                 Logger.getLogger(Cursor.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
             }

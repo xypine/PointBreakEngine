@@ -153,7 +153,7 @@ public class Renderer extends JPanel{
     LinkedList<newVectorLayer> layers = new LinkedList<>();
     float x = 15.34F;
     float y = 22.48F;
-    public float factor = 20F / 2F;
+    public float factor = 13;
     private int w = 0;
     private int h = 0;
     public boolean sSi = false;
@@ -216,10 +216,10 @@ public class Renderer extends JPanel{
 //            g.drawImage(full, 0, 0, w, h, this);
             g.setColor(Color.black);
             g.fillRect(0, 0, w, h);
-            g.setColor(new Color(255, 255, 255));
-            g.fillRect(w/(masterkick.loadingsteps+5), h/2-10, w/masterkick.loadingsteps*masterkick.loadingsteps, 10);
+            g.setColor(new Color(120, 120, 120));
+            g.fillRect((w)/(masterkick.loadingsteps), h/2-10, (w-500)/masterkick.loadingsteps*masterkick.loadingsteps, 10);
             g.setColor(new Color(0, 200, 0));
-            g.fillRect(w/(masterkick.loadingsteps+5), h/2-10, w/masterkick.loadingsteps*masterkick.loading_completed, 10);
+            g.fillRect((w)/(masterkick.loadingsteps), h/2-10, (w-500)/masterkick.loadingsteps*masterkick.loading_completed, 10);
             g.setColor(Color.white);
             g.setFont(new Font("Verdana", Font.PLAIN, 34)); 
             g.drawString("Loading, step " + masterkick.loading_completed + " of " + masterkick.loadingsteps, w/3, h/2);

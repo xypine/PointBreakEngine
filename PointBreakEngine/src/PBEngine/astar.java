@@ -17,36 +17,13 @@ import java.lang.*;
 import static java.lang.Math.pow;
 import static java.lang.Math.sqrt;
 
-class Node implements Comparable<Node> {
-    Node cameFrom = null;
-    int x;
-    int y;
-    int value = 99999999;
-    
-    Node(int x, int y, int score) {
-        this.value = score;
-        this.x = x;
-        this.y = y;
-    }
-    
-    public static final Comparator<Node> DESCENDING_COMPARATOR = new Comparator<Node>() {
-        // Overriding the compare method to sort the age
-        public int compare(Node d, Node d1) {
-            return d.value - d1.value;
-        }
-    };
-    
-    @Override
-    public int compareTo(Node t) {
-        return DESCENDING_COMPARATOR.compare(this, t);
-    }
-}
+
 
 public class astar
 {  
-    public static LinkedList<dVector> pathToVector(List<Node> path){
+    public static LinkedList<dVector> pathToVector(List<astarNode> path){
         LinkedList<dVector> vectors = new LinkedList<>();
-        for(Node step: path){
+        for(astarNode step: path){
             try {
                 vectors.add(new dVector(step.x, step.y));
             } catch (Exception e) {
@@ -87,10 +64,10 @@ public class astar
     public static boolean pathExists(char[][] matrix, int fromX, int fromY) {
         int N = matrix.length;
         char[][] tmp = matrix;
-        List<Node> queue = new ArrayList<Node>();
-        queue.add(new Node(fromX, fromY, 0));
+        List<astarNode> queue = new ArrayList<astarNode>();
+        queue.add(new astarNode(fromX, fromY, 0));
         boolean pathExists = false;
-        List<Node> path = new ArrayList<>();
+        List<astarNode> path = new ArrayList<>();
         dVector start = new dVector(fromX, fromY);
         dVector goal = new dVector(0, 0);
         int yp = 0, xp = 0;
@@ -103,7 +80,7 @@ public class astar
             }xp++;yp=0;
         }
         while(!queue.isEmpty()) {
-            Node current = queue.remove(0);
+            astarNode current = queue.remove(0);
             if(tmp[current.x][current.y] == 'X') {
                 pathExists = true;
                 break;
@@ -111,20 +88,20 @@ public class astar
             
             tmp[current.x][current.y] = '0'; // mark as visited
             
-            List<Node> neighbors = getNeighbors(tmp, current, start, goal);
+            List<astarNode> neighbors = getNeighbors(tmp, current, start, goal);
             queue.addAll(neighbors);
         }
         
         return pathExists;
     }
-    public static List<Node> getPath(char[][] matrix, int fromX, int fromY) {
-        Comparator<Node> comp = Node.DESCENDING_COMPARATOR;
+    public static List<astarNode> getPath(char[][] matrix, int fromX, int fromY) {
+        Comparator<astarNode> comp = astarNode.DESCENDING_COMPARATOR;
         int N = matrix.length;
         char[][] tmp = matrix;
-        PriorityQueue<Node> queue = new PriorityQueue<>();
+        PriorityQueue<astarNode> queue = new PriorityQueue<>();
         
         boolean pathExists = false;
-        List<Node> path = new ArrayList<>();
+        List<astarNode> path = new ArrayList<>();
         dVector start = new dVector(fromX, fromY);
         dVector goal = new dVector(5, 5);
         int yp = 0, xp = 0;
@@ -136,15 +113,15 @@ public class astar
                 yp++;
             }xp++;yp=0;
         }
-        queue.add(new Node(fromX, fromY, score(start, goal, start)));
+        queue.add(new astarNode(fromX, fromY, score(start, goal, start)));
         //System.out.println("Goal: "+goal.represent());
         while(!queue.isEmpty()) {
             
-            Node current = queue.remove();
+            astarNode current = queue.remove();
             if(tmp[current.x][current.y] == 'X' || (current.x == goal.x && current.y == goal.y)) {
                 pathExists = true;
                 path = new ArrayList<>();
-                Node origin = current;
+                astarNode origin = current;
                 path.add(origin);
                 while(origin != null){
                     origin = origin.cameFrom;
@@ -155,8 +132,8 @@ public class astar
             
             tmp[current.x][current.y] = '0'; // mark as visited
             path.add(current);
-            List<Node> neighbors = getNeighbors(tmp, current, start, goal);
-            for(Node neighbour : neighbors){
+            List<astarNode> neighbors = getNeighbors(tmp, current, start, goal);
+            for(astarNode neighbour : neighbors){
                 if(!queue.contains(neighbour)){
                     try{
                         if(neighbour.cameFrom.value < current.value){
@@ -184,23 +161,23 @@ public class astar
         double finish = (double) sqrt(rx + ry);
         return finish;
     }
-    public static List<Node> getNeighbors(char[][] matrix, Node node, dVector start, dVector end) {
-        List<Node> neighbors = new ArrayList<Node>();
+    public static List<astarNode> getNeighbors(char[][] matrix, astarNode node, dVector start, dVector end) {
+        List<astarNode> neighbors = new ArrayList<astarNode>();
         
         if(isValidPoint(matrix, node.x - 1, node.y)) {
-            neighbors.add(new Node(node.x - 1, node.y, score(new dVector(node.x - 1, node.y), end, start)));
+            neighbors.add(new astarNode(node.x - 1, node.y, score(new dVector(node.x - 1, node.y), end, start)));
         }
         
         if(isValidPoint(matrix, node.x + 1, node.y)) {
-            neighbors.add(new Node(node.x + 1, node.y, score(new dVector(node.x + 1, node.y), end, start)));
+            neighbors.add(new astarNode(node.x + 1, node.y, score(new dVector(node.x + 1, node.y), end, start)));
         }
         
         if(isValidPoint(matrix, node.x, node.y - 1)) {
-            neighbors.add(new Node(node.x, node.y - 1, score(new dVector(node.x, node.y-1), end, start)));
+            neighbors.add(new astarNode(node.x, node.y - 1, score(new dVector(node.x, node.y-1), end, start)));
         }
         
         if(isValidPoint(matrix, node.x, node.y + 1)) {
-            neighbors.add(new Node(node.x, node.y + 1, score(new dVector(node.x, node.y+1), end, start)));
+            neighbors.add(new astarNode(node.x, node.y + 1, score(new dVector(node.x, node.y+1), end, start)));
         }
         
         return neighbors;

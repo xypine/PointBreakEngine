@@ -26,7 +26,7 @@ public class Main {
     private static boolean blights = false;
     private static dVector grav = new dVector(0D, 0D);;
     public Engine main;
-    Editor editor;
+    LegacyEditor editor;
     boolean running;
     public static void main(String[] args) {
         // TODO code application logic here
@@ -55,7 +55,7 @@ public class Main {
             System.out.println("If you wish not to use the demo, please add the 'nodemo' argument");
             quickTools.alert("demo", "If you wish not to use the demo, please add the 'nodemo' argument");
         //if(args.length != 0){if(args[0].equals("template")){
-            k = new kick(3, false, new dVector(0D, 0D));
+            k = new kick(3, true, new dVector(0D, 0D));
         }else{
             k = new kick(0, blights, grav);
         }

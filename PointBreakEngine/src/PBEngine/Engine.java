@@ -257,6 +257,7 @@ public class Engine extends JFrame implements Runnable, ActionListener {
     
     @Override
     public void actionPerformed(ActionEvent e) {
+        k.tick_pre();
         //fresh();
         long time = System.nanoTime();
         deltatime = (int) ((time - last_time) / 1000000);
@@ -400,7 +401,7 @@ public class Engine extends JFrame implements Runnable, ActionListener {
                         String[][] map = null;
                         try{map = new String[levelmap.length][levelmap[0].length];}
                         catch(Exception e){
-                            System.out.println("WARNING: Level map is not initialized properly, skipping action.");
+                            System.out.println("WARNING: Level map is not initialized properly, skipping any action.");
                             return;
                         }
                         for(int i : new Range(levelmap.length)){
@@ -466,25 +467,25 @@ public class Engine extends JFrame implements Runnable, ActionListener {
                 LinkedList<gameObject> old = loadLevel(levelmap[(int)newLevel.x][(int)newLevel.y]+".pblevel");
                 cachedLevels[(int)currentMap.x][(int)currentMap.y] = old;
                     System.out.println("new coords: "+newLevel.represent());
-                    if(k.bakedLights){
-                        System.out.println("Loading baked level lights");
-
-                        try {
-                            bakedcolor = (Color[][]) new FileLoader("null", oM, k).readObject(levelmap[(int)newLevel.x][(int)newLevel.y] + "_illumination.txt");
-                            LoadedRays = (LinkedList<renderContainer>) new FileLoader("null", oM, k).readObject(levelmap[(int)newLevel.x][(int)newLevel.y]+"_lights.txt");
-                        } catch (URISyntaxException | IOException | ClassNotFoundException ex) {
-                            Logger.getLogger(Engine.class.getName()).log(Level.SEVERE, null, ex);
-                        }
-                    }else{
-                        k.rad.recalculate("ignoreRecalculation", 1, true);
-                        k.rad.recalculateParent();
-                    }
                     currentMap = newLevel;
                 } catch (URISyntaxException ex) {
                     System.out.println("Unable to load new level");return false;
                 } catch (ArrayIndexOutOfBoundsException ea){
                     return false;
                 }
+            }
+            if(k.bakedLights){
+                System.out.println("Loading baked level lights");
+                try {
+                    bakedcolor = (Color[][]) new FileLoader("null", oM, k).readObject(levelmap[(int)newLevel.x][(int)newLevel.y] + "_illumination.txt");
+                    System.out.println(levelmap[(int)newLevel.x][(int)newLevel.y] + "_illumination.txt");
+                    LoadedRays = (LinkedList<renderContainer>) new FileLoader("null", oM, k).readObject(levelmap[(int)newLevel.x][(int)newLevel.y]+"_lights.txt");
+                } catch (URISyntaxException | IOException | ClassNotFoundException ex) {
+                    Logger.getLogger(Engine.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            }else{
+                k.rad.recalculate("ignoreRecalculation", 1, true);
+                k.rad.recalculateParent();
             }
         }else{
             return false;
@@ -496,7 +497,7 @@ public class Engine extends JFrame implements Runnable, ActionListener {
     boolean ve = false;
     Color[][] colored;
     void tick(){
-        
+        k.tick_first();
         //rads.removeA();
         //rads.add(25, 12, 4);
         if(renderRays == 1){
@@ -709,6 +710,7 @@ public class Engine extends JFrame implements Runnable, ActionListener {
         }
         
 //        area.setText(fetch(renderer));
+        k.tick_late();
     }
     public Color overrideRayBG = null;
     String fetch(LegacyRenderer render)
