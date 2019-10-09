@@ -262,6 +262,7 @@ public class kick implements Runnable{
             //rad.setTitle("VSRad");
             if(!bakedLights){
                 Logic.rads.add(20, 20, 20, new Color(1, 1, 1), 1, true);
+                Logic.rads.add(50, 2, 0, new Color(0, 1, 1), 1, true);
                 //Logic.rads.add(49, 10, 2, new Color(1, 1, 1), 1, false);
                 //Logic.rads.add(39, 20, 1, new Color(1, 0, 0), 1, false);
                 Logic.red = Logic.rads.read(999999);
