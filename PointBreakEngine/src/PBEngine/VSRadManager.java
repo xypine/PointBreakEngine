@@ -179,6 +179,11 @@ public class VSRadManager{
         Thread a = new Thread(){
             @Override
             public void run(){
+                System.out.println("Recalculating VSRad...");
+                masterParent.Logic.Vrenderer.sSi = true;
+                masterParent.Logic.running = false;
+                masterParent.loadingsteps = sVSRad.size();
+                masterParent.loading_completed = 0;
                 System.out.println(sVSRad.size());
                 masterParent.Logic.Vrenderer.sSi = true;
                 masterParent.loadingsteps = sVSRad.size();
@@ -201,6 +206,8 @@ public class VSRadManager{
                 //float[][] g = quickTools.blur(quickTools.separateRGB(colors, w, h).get(1), w, h, 3);1590455.8    1590455.8
                 //float[][] b = quickTools.blur(quickTools.separateRGB(colors, w, h).get(2), w, h, 3);
                 //this.colors = quickTools.parseColor(w, h, r, g, b);
+                masterParent.Logic.Vrenderer.sSi = false;
+                masterParent.Logic.running = true;
             }
         };
         a.start();

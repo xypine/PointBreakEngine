@@ -153,7 +153,7 @@ public class Renderer extends JPanel{
     LinkedList<newVectorLayer> layers = new LinkedList<>();
     float x = 15.34F;
     float y = 22.48F;
-    public float factor = 20F / 2F;
+    public float factor = 13;
     private int w = 0;
     private int h = 0;
     public boolean sSi = false;

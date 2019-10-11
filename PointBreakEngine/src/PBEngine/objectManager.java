@@ -28,13 +28,18 @@ public class objectManager {
     public objectManager(kick k){
         this.kick = k;
     }
+    //public boolean showDuplicateIDWarning = false;
+    public boolean showNoIDWarning = false;
     public void addObject(gameObject tmpO){
         if(getObjectByID(tmpO.getID()) == null){
             this.objects.add(tmpO);
-            System.out.println("    (adding gameobject succesful)");
+            if(showNoIDWarning){
+                System.out.println("    (adding gameobject succesful)");
+            }
         }
         else{
             tmpO.setID(getUsableID());
+            this.objects.add(tmpO);
         }
     }
     public int getUsableID(){
@@ -87,7 +92,7 @@ public class objectManager {
             }
             System.out.println("Returning last added...");
         }
-        if(objectsFound.isEmpty()){
+        if(objectsFound.isEmpty() && showNoIDWarning){
             System.out.println("No object with the id "+ID);
         }
         return latestFound;
@@ -211,14 +216,14 @@ public class objectManager {
         }
         return out;
     }
-    public char[][] getCollisionmap(dVector min, dVector max, String origin){
+    public char[][] getCollisionmap(dVector min, dVector max, String ignore){
         int sizex = (int) (max.x - min.x);
         int sizey = (int) (max.y - min.y);
         char[][] map = new char[sizex][sizey];
         for(int xp : new Range(map.length)){
             for(int yp : new Range(map[0].length)){
                 map[xp][yp] = '1';
-                if(colliding(xp, yp, origin)){
+                if(colliding(xp, yp, ignore)){
                     map[xp][yp] = '0';
                 }
             }

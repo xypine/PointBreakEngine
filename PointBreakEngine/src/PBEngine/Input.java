@@ -26,6 +26,7 @@ public class Input implements KeyListener, MouseMotionListener, MouseListener {
     public int rt = 0;
     public int ve = 0;
     public boolean tog = false;
+    public boolean tog2 = false;
     @Override
     public void keyTyped(KeyEvent e) {
         

@@ -26,7 +26,7 @@ import javax.swing.Timer;
  *
  * @author Jonnelafin
  */
-public class Editor extends JFrame implements Runnable, ActionListener {
+public class LegacyEditor extends JFrame implements Runnable, ActionListener {
     public boolean ready = false;
     private kick k;
     colorParser cP = new colorParser();
@@ -54,7 +54,7 @@ public class Editor extends JFrame implements Runnable, ActionListener {
     private float tyf;
 //    
     private Input input;
-    public Editor(kick ki){
+    public LegacyEditor(kick ki){
         System.out.println("Initializing editor input: " + ki);
         this.k = ki;
         input = new Input(k);
@@ -138,7 +138,7 @@ public class Editor extends JFrame implements Runnable, ActionListener {
             
             aol = new FileLoader("null", oM, k);
         } catch (URISyntaxException ex) {
-            Logger.getLogger(Editor.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(LegacyEditor.class.getName()).log(Level.SEVERE, null, ex);
         }
         
         oM.addObject(new Player(5, 5, 1, "cursor", "█", 1F, Color.black, 1, k));
@@ -237,9 +237,9 @@ public class Editor extends JFrame implements Runnable, ActionListener {
             try {
                 aol.write(players, "out.pblevel");
             } catch (UnsupportedEncodingException ex) {
-                Logger.getLogger(Editor.class.getName()).log(Level.SEVERE, null, ex);
+                Logger.getLogger(LegacyEditor.class.getName()).log(Level.SEVERE, null, ex);
             } catch (IOException ex) {
-                Logger.getLogger(Editor.class.getName()).log(Level.SEVERE, null, ex);
+                Logger.getLogger(LegacyEditor.class.getName()).log(Level.SEVERE, null, ex);
             }
             saved = true;
         }
