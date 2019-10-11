@@ -41,29 +41,24 @@ import javax.sound.sampled.UnsupportedAudioFileException;
  * @author Jonnelafin
  */
 public class audioSource {
-    public int volume;
+    
+    private float volume;
+    private Object volumelock = new Object();
+    public void setVolume(float v){
+        synchronized(volumelock){
+            this.volume = v;
+        }
+    }
+    public float getVolume(){
+        synchronized(volumelock){
+            return this.volume;
+        }
+    }
+    
     AudioInputStream inputStream;
     private FloatControl gainControl;
     private Clip myclip;
-    
-    public void setVolume(float volume) {
-        if(myclip == null || gainControl == null){
-            System.out.println("CLIP NOT INITIALIZED CORRECTLY");
-            return;
-        }
-        if (volume < 0f || volume > 1f)
-            throw new IllegalArgumentException("Volume not valid: " + volume);
-        //FloatControl gainControl = (FloatControl) myclip.getControl(FloatControl.Type.MASTER_GAIN);        
-        gainControl.setValue(20f * (float) Math.log10(volume));
-    }
-    public float getVolume() {
-        if(myclip == null || gainControl == null){
-            System.out.println("CLIP NOT INITIALIZED CORRECTLY");
-            return 0;
-        }
-        //FloatControl gainControl2 = (FloatControl) myclip.getControl(FloatControl.Type.MASTER_GAIN);        
-        return (float) Math.pow(10f, gainControl.getValue() / 20f);
-    }
+    private final Object lock = new Object();
     
     public boolean loop = false;
     
@@ -82,6 +77,7 @@ public class audioSource {
         new Thread(new Runnable() {
             // The wrapper thread is unnecessary, unless it blocks on the
             // Clip finishing; see comments.
+            @Override
             public void run() {
                 try {
                     FloatControl newgainControl = null;
@@ -96,7 +92,8 @@ public class audioSource {
                         listener.waitUntilDone();
                         while(loop){
                             myclip.start();
-                            myclip.loop(myclip.LOOP_CONTINUOUSLY);              
+                            myclip.loop(myclip.LOOP_CONTINUOUSLY);
+                            newgainControl.setValue(volume/100);
                         }
                     } finally {
                         myclip.close();

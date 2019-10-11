@@ -304,6 +304,13 @@ public class Engine extends JFrame implements Runnable, ActionListener {
         LinkedList<gameObject> out = new LinkedList<>();
         long time = System.nanoTime();
         FileLoader lL = new FileLoader(level, oM, k);
+        while(!lL.done){
+            try {
+                Thread.sleep(100);
+            } catch (InterruptedException ex) {
+                Logger.getLogger(Engine.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
         for(gameObject x : lL.level){
             x.tag.set(x.tag.indexOf("static"), "newlevel");
             oM.addObject(x);
@@ -325,6 +332,13 @@ public class Engine extends JFrame implements Runnable, ActionListener {
         LinkedList<gameObject> out = new LinkedList<>();
         long time = System.nanoTime();
         FileLoader lL = new FileLoader(level, oM, k, filepath);
+        while(!lL.done){
+            try {
+                Thread.sleep(100);
+            } catch (InterruptedException ex) {
+                Logger.getLogger(Engine.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
         for(gameObject x : lL.level){
             x.tag.set(x.tag.indexOf("static"), "newlevel");
             oM.addObject(x);

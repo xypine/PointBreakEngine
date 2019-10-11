@@ -180,16 +180,23 @@ public class VSRadManager{
             @Override
             public void run(){
                 System.out.println(sVSRad.size());
+                masterParent.Logic.Vrenderer.sSi = true;
+                masterParent.loadingsteps = sVSRad.size();
+                masterParent.loading_completed = 0;
                 initColors();
+                System.out.println("Starting VSRad (re)calculations...");
                 for(VSRad i :sVSRad){
                     if(i.type == type){
                         i.fill(0);
                         i.calculate(i.from, i.lastS, ignore);
                     }else{System.out.println(i.id + " is NOT GOING TO BE CALCULATED");}
+                    masterParent.loading_completed++;
                 }
+                System.out.println("VSRad calculations done");
                 if(recalcWhenDone){
                     recalculateParent();
                 }
+                masterParent.Logic.Vrenderer.sSi = false;
                 //float[][] r = quickTools.blur(quickTools.separateRGB(colors, w, h).get(0), w, h, 3); 797230.7     797230.7
                 //float[][] g = quickTools.blur(quickTools.separateRGB(colors, w, h).get(1), w, h, 3);1590455.8    1590455.8
                 //float[][] b = quickTools.blur(quickTools.separateRGB(colors, w, h).get(2), w, h, 3);

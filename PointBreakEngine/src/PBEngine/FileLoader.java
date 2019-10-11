@@ -37,6 +37,7 @@ import java.util.logging.Logger;
  * @author Jonnelafin
  */
 public class FileLoader {
+    public boolean done = true;
     private directory dir= new directory();
     private kick master;
     private int dotC = 0;
@@ -53,6 +54,7 @@ public class FileLoader {
     
     List<String> levels;
     public FileLoader(String file, objectManager oM, kick master) throws URISyntaxException{
+        this.done = false;
         levels = getLevels(filePath);
         this.master = master;
         if(file == "null"){
@@ -97,6 +99,7 @@ public class FileLoader {
         
     }
     public FileLoader(String file, objectManager oM, kick master, String filepath1) throws URISyntaxException{
+        this.done = false;
         levels = getLevels(filePath);
         this.master = master;
         if(file == "null"){
@@ -234,6 +237,7 @@ public class FileLoader {
             
         }
         this.level = newObjects;
+        this.done = true;
         //try{rads.recalculate();}catch(Exception e){quickTools.alert("FAILED TO RECALCULATE VSRAD, nullpointerexception?", e.getMessage());throw e;}
     }
     public void write(LinkedList<gameObject> g, String file) throws FileNotFoundException, UnsupportedEncodingException, IOException{
@@ -250,7 +254,7 @@ public class FileLoader {
                 idi++;
             }
             else if(p.getTag().contains("light")){
-                tmp = tmp + round(p.x) + "." + round(p.y) + ".light.█."+p.mass+".green." + idi + ".:";
+                tmp = tmp + round(p.x) + "." + round(p.y) + ".light.█."+(int)(p.mass)+".green." + idi + ".:";
                 System.out.print(".");
                 idi++;
             }
@@ -267,14 +271,14 @@ public class FileLoader {
         String tmp = "";
         int idi = 90;
         for(gameObject p : g){
-            if(p.getTag().contains("static")){
-                tmp = tmp + round(p.x) + "." + round(p.y) + ".static.█.1.green." + idi + ".:";
-                System.out.print(".");
-                idi++;
-            }
-            else if(p.getTag().contains("light")){
+            if(p.getTag().contains("light")){
                 tmp = tmp + round(p.x) + "." + round(p.y) + ".light.█."+p.mass+".green." + idi + ".:";
                 System.out.print("*");
+                idi++;
+            }
+            else if(p.getTag().contains("static")){
+                tmp = tmp + round(p.x) + "." + round(p.y) + ".static.█.1.green." + idi + ".:";
+                System.out.print(".");
                 idi++;
             }
         }

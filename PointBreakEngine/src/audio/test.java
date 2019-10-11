@@ -41,6 +41,7 @@ public class test {
             audioSource source = mg.play("test.wav", true);
             Thread.sleep(3000);
             for(int i : new Range(98)){
+                //source.setVolume(1 - i/100);
                 source.setVolume(1 - i/100);
                 System.out.println(source.getVolume());
                 Thread.sleep(100);
