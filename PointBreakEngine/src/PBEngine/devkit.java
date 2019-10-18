@@ -216,6 +216,9 @@ class BListener implements ActionListener{
                     case "/map":
                         k.k.Logic.printLevelmap();
                         break;
+                    case "/ps":
+                        k.k.Logic.running = !k.k.Logic.running;
+                        break;
                     default:
                         quickTools.alert("devkit", "command not understood");
                         break;

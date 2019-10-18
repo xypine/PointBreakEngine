@@ -194,7 +194,7 @@ public class FileLoader {
                 meta = true;
             }
             else if(x == ':'){                                                                          //this.c
-                //if(tag == "light"){rads.add(x, y, mass, c, 1, false);}
+                if(tag.equals("light")){rads.add(x, y, mass, c, 1, false);}
                 if(tag.equals("static")){gameObject tm = new gameObject(this.x, this.y, 1, this.tag, this.appereance, this.mass, Color.black, this.id, master);
                 tm.imageName = dir.textures + "walls/walls0.png";
                 newObjects.add(tm);}
@@ -272,7 +272,7 @@ public class FileLoader {
         int idi = 90;
         for(gameObject p : g){
             if(p.getTag().contains("light")){
-                tmp = tmp + round(p.x) + "." + round(p.y) + ".light.█."+p.mass+".green." + idi + ".:";
+                tmp = tmp + round(p.x) + "." + round(p.y) + ".light.█."+(int)(p.mass)+".green." + idi + ".:";
                 System.out.print("*");
                 idi++;
             }

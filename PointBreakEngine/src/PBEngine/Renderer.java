@@ -19,7 +19,6 @@ import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 import java.util.LinkedList;
-import java.util.Objects;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.imageio.ImageIO;
@@ -238,13 +237,20 @@ public class Renderer extends JPanel{
                     Color c = vL.containers.get(i).color;
                     int size = vL.containers.get(i).size;
                     String imageloc = vL.containers.get(i).ImageName;
+                    
+                    int tick = masterkick.Logic.tickC;
+                    dVector effectOffSet = new dVector(0, 0);
+                    effectOffSet.x = Math.cos(rl.y + tick) / 5;
+                    //effectOffSet.y = Math.sin(rl.x + tick);
+                    
+                    
                     if(imageloc.equals("")){
                         g.setColor(c);
                         if(camMode == 0){//static
-                            g.fillRect((int)(rl.x * factor),(int) (rl.y *factor), (int) factor * size, (int) factor * size);
+                            g.fillRect((int)((rl.x + effectOffSet.x) * factor),(int) ((rl.y + effectOffSet.y) *factor), (int) factor * size, (int) factor * size);
                         }
                         if (camMode == 1) {//follow camera
-                            g.fillRect((int) ((rl.x - camx) * factor + (w / 2)), (int) ((rl.y - camy) * factor + (h / 2)), (int) factor * size, (int) factor * size);
+                            g.fillRect((int) (((rl.x + effectOffSet.x) - camx) * factor + (w / 2)), (int) (((rl.y + effectOffSet.y) - camy) * factor + (h / 2)), (int) factor * size, (int) factor * size);
                         }
                     }
                     else{
@@ -278,14 +284,25 @@ public class Renderer extends JPanel{
                             double offsetX = scaleX;
                             double offsetY = scaleY;
                             
-                            double xFrom = rl.x * factor - offsetX;
-                            double yFrom = rl.y * factor - offsetY;
+                            //offsetX = 0;
+                            //offsetY = 0;
+                            
+                            
+                            
+                            double xFrom = (rl.x + effectOffSet.x) * factor - offsetX;
+                            double yFrom = (rl.y + effectOffSet.y) * factor - offsetY;
                             if(camMode == 1){
-                                xFrom = (rl.x - camx) * factor  + (w/2) - offsetX;
-                                yFrom = (rl.y - camy) * factor  + (h/2) - offsetY;
+                                xFrom = (rl.x - camx + effectOffSet.x) * factor  + (w/2) - offsetX;
+                                yFrom = (rl.y - camy + effectOffSet.y) * factor  + (h/2) - offsetY;
                             }
                             double xTo = factor * size + offsetX;
                             double yTo = factor * size + offsetY;
+                            
+                            /*xFrom = xFrom + effectOffSet.x;
+                            yFrom = yFrom + effectOffSet.y;
+                            xTo = xTo + effectOffSet.x;
+                            yTo = yTo + effectOffSet.y;*/
+                            
                             g.drawImage(buffer, (int)(xFrom),(int) (yFrom), (int) xTo, (int) yTo, this);
                         }catch(Exception e){
                             g.setColor(Color.MAGENTA);

@@ -112,7 +112,9 @@ public class Engine extends JFrame implements Runnable, ActionListener {
     @Override
     @SuppressWarnings("unchecked")
     public void run() {
+        System.out.println("Engine targetspeed IN: "+targetSpeed);
         timer = new Timer(targetSpeed, this);
+        System.out.println("Engine targetspeed OUT: "+targetSpeed);
         System.out.println("Initializing engine...");
         ready = false;
         
@@ -245,7 +247,14 @@ public class Engine extends JFrame implements Runnable, ActionListener {
         ready = true;
         revalidate();
         repaint();
-        timer.start();
+        //timer.start();
+        Thread mainT = new Thread(){
+            @Override
+            public void run(){
+                startFullTickTimer();
+            }
+        };
+        mainT.start();
     }
     //Function for reshfreshing the screen
     private void fresh(){
@@ -257,6 +266,71 @@ public class Engine extends JFrame implements Runnable, ActionListener {
     
     @Override
     public void actionPerformed(ActionEvent e) {
+        if(this.timerType != 0){
+            System.out.println("Wrong timerType ignored.");
+            return;
+        }
+        k.tick_pre();
+        //fresh();
+        long time = System.nanoTime();
+        deltatime = (int) ((time - last_time) / 1000000);
+        last_time = time;
+        
+        k.kit.time.setText(deltatime + "");
+        
+        if(input.keyPressed != null){
+            if(input.keyPressed.getKeyChar() == 'l' && !raysBaked){
+                raysBaked = true;
+                System.out.println("saving lights");
+                try {
+                    FileLoader lL = new FileLoader("null", oM, k);
+                    lL.writeObject(bakedRays, "out_lights.txt");
+                    lL.writeObject(colored, "out_illumination.txt");
+                } catch (URISyntaxException ex) {
+                    Logger.getLogger(Engine.class.getName()).log(Level.SEVERE, null, ex);
+                } catch (IOException ex) {
+                    Logger.getLogger(Engine.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            }
+        }
+        this.number = Integer.parseInt(Integer.toString(tickC).substring(0, 1));
+        if(vector == 0){
+            area.setVisible(true);
+            Vrenderer.setVisible(false);
+        }
+        if(vector == 1){
+            area.setVisible(false);
+            Vrenderer.setVisible(true);
+        }
+        
+        if(running == true){
+            tick();
+            if((tickC % 1) == 0){
+                
+            }
+            tickC++;
+        }
+        revalidate();
+        repaint();
+    }
+    public int timerType = 1;
+    public void startFullTickTimer(){
+        long last_timeF = 99999999;
+        long delta = 0;
+        while (true) {
+            long time = System.nanoTime();
+            delta = (int) ((time - last_timeF) / 1000000);
+            System.out.println(delta);
+            if(delta > targetSpeed){
+                fulltick();
+            }
+        }
+    }
+    public void fulltick(){
+        if(this.timerType != 1){
+            System.out.println("Wrong timerType ignored.");
+            return;
+        }
         k.tick_pre();
         //fresh();
         long time = System.nanoTime();
