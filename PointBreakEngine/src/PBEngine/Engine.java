@@ -797,9 +797,9 @@ public class Engine extends JFrame implements Runnable, ActionListener {
 //        Vrenderer.update(points, colors, images, sizes, 2F, 1);
 //        Vrenderer.update(points2, colors2, images2, sizes2, 2F, 0);
         bakedRays = cont2;
-        Vrenderer.update(cont1, 1);
-        if(LoadedRays != null && k.bakedLights){Vrenderer.update(LoadedRays,0);}
-        else{Vrenderer.update(cont2, 0);}
+        Vrenderer.update(cont1, 1, tickC);
+        if(LoadedRays != null && k.bakedLights){Vrenderer.update(LoadedRays,0,tickC);}
+        else{Vrenderer.update(cont2, 0,tickC);}
         
         for(xyac a : lis){
 //            renderer.change((int) (a.x), (int) (a.y), a.a, a.c, "n");

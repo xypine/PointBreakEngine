@@ -366,11 +366,11 @@ public class Renderer extends JPanel{
         layer.update(p, c, images, sizes, factor);
     }*/
     
-    public void update(LinkedList<renderContainer> containers, int layer){
-        layers.get(layer).update(containers);
+    public void update(LinkedList<renderContainer> containers, int layer, int tick){
+        layers.get(layer).update(containers,tick);
     }
-    public void update(LinkedList<renderContainer> containers, newVectorLayer layer){
-        layer.update(containers);
+    public void update(LinkedList<renderContainer> containers, newVectorLayer layer, int tick){
+        layer.update(containers,tick);
     }
     public void init(int w, int h, int num_layers, boolean showStartingImage){
         this.w = w;
@@ -444,6 +444,7 @@ public class Renderer extends JPanel{
     }
 }
 class vectorLayer{
+    int lastUpdated = 0;
     LinkedList<Vector> points = new LinkedList<>();
     LinkedList<String> images = new LinkedList<>();
     LinkedList<Color> colors = new LinkedList<>();
@@ -459,7 +460,11 @@ class vectorLayer{
         this.title = title;
     }
     
-    public void update(LinkedList<Vector> p,LinkedList<Color> c, LinkedList<String> images, LinkedList<Integer> sizes, float factor){
+    public void update(LinkedList<Vector> p,LinkedList<Color> c, LinkedList<String> images, LinkedList<Integer> sizes, float factor, int tick){
+        if(lastUpdated > tick){
+            return;
+        }
+        lastUpdated = tick;
         this.points = p;
         this.colors = c;
         this.images = images;
@@ -468,6 +473,7 @@ class vectorLayer{
     }
 }
 class newVectorLayer{
+    int lastUpdated = 0;
     LinkedList<renderContainer> containers = new LinkedList<>();
     public int blur;
     float x = 15.34F;
@@ -480,7 +486,10 @@ class newVectorLayer{
         this.title = title;
     }
     
-    public void update(LinkedList<renderContainer> containers){
+    public void update(LinkedList<renderContainer> containers, int tick){
+        if(lastUpdated > tick){
+            return;
+        }
         this.containers = containers;
     }
 }
@@ -504,6 +513,7 @@ class ImagePanel extends JPanel{
 
 }
 class renderContainer implements java.io.Serializable{
+    //int age;
     dVector location;
     String ImageName;
     Color color;
