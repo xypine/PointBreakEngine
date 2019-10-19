@@ -200,6 +200,7 @@ public class Renderer extends JPanel{
     public int camMode = 1;
     public boolean drawGrid = false;
     public Color gridColor = Color.white;
+    public boolean dispEffectsEnabled = false;
     @Override
     public void paintComponent(Graphics g) {
         camx = masterkick.Logic.cam.x;
@@ -240,7 +241,9 @@ public class Renderer extends JPanel{
                     
                     int tick = masterkick.Logic.tickC;
                     dVector effectOffSet = new dVector(0, 0);
-                    effectOffSet.x = Math.cos(rl.y + tick) / 5;
+                    if(dispEffectsEnabled){
+                        effectOffSet.x = Math.cos(rl.y + tick) / 5;
+                    }
                     //effectOffSet.y = Math.sin(rl.x + tick);
                     
                     
