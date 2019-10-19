@@ -178,7 +178,8 @@ public class kick implements Runnable{
         }
         return -1;
     }
-
+    public int timerType = -1;
+    
     @Override
     public void run() {
         // Create a stream to hold the output
@@ -214,6 +215,9 @@ public class kick implements Runnable{
         //rad = new radiosity(ref);
         //SwingUtilities.invokeLater(ED);
 //        SwingUtilities.invokeLater(Logic);
+        if(timerType != -1){
+            Logic.timerType = timerType;
+        }
         Logic.run();
            //Thread a = new Thread(Logic, "Thread 1");
            //Thread b = new Thread(ea, "Thread 2");

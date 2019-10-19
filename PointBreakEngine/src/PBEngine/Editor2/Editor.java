@@ -53,7 +53,7 @@ public class Editor {
         argss[0] = "nodemo";
         Camera cam = new Camera(0, 0);
         k = new kick(0, false, new dVector(0, 0), 1);
-        
+        k.timerType = 0;
         Thread A = new Thread(k);
         A.start();
         while(!k.ready){

@@ -19,6 +19,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.SwingUtilities;
 import javax.swing.Timer;
 
 /**
@@ -247,14 +248,12 @@ public class Engine extends JFrame implements Runnable, ActionListener {
         ready = true;
         revalidate();
         repaint();
-        //timer.start();
-        Thread mainT = new Thread(){
-            @Override
-            public void run(){
-                startFullTickTimer();
-            }
-        };
-        mainT.start();
+        //timerType = 0;
+        if (timerType == 0) {
+            timer.start();
+        } else if(timerType == 1){
+            startFullTickTimer();
+        }
     }
     //Function for reshfreshing the screen
     private void fresh(){
@@ -315,16 +314,27 @@ public class Engine extends JFrame implements Runnable, ActionListener {
     }
     public int timerType = 1;
     public void startFullTickTimer(){
-        long last_timeF = 99999999;
-        long delta = 0;
-        while (true) {
-            long time = System.nanoTime();
-            delta = (int) ((time - last_timeF) / 1000000);
-            System.out.println(delta);
-            if(delta > targetSpeed){
-                fulltick();
+        Thread a = new Thread() {
+            @Override
+            public void run(){
+                long last_timeF = 99999999;
+                long delta = 0;
+                while (true) {
+                    long time = System.nanoTime();
+                    delta = (int) ((time - last_timeF) / 1000000);
+                    System.out.println(delta);
+                    if(delta > targetSpeed){
+                        try {
+                            Thread.sleep(targetSpeed);
+                        } catch (InterruptedException ex) {
+                            Logger.getLogger(Engine.class.getName()).log(Level.SEVERE, null, ex);
+                        }
+                    }
+                    fulltick();
+                }
             }
-        }
+        };
+        a.start();
     }
     public void fulltick(){
         if(this.timerType != 1){
