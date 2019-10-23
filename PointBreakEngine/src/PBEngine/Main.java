@@ -55,9 +55,9 @@ public class Main {
             System.out.println("If you wish not to use the demo, please add the 'nodemo' argument");
             quickTools.alert("demo", "If you wish not to use the demo, please add the 'nodemo' argument");
         //if(args.length != 0){if(args[0].equals("template")){
-            k = new kick(3, true, new dVector(0D, 0D));
+            k = new kick(3, true, new dVector(0D, 0D), 15);
         }else{
-            k = new kick(0, blights, grav);
+            k = new kick(0, blights, grav, 15);
         }
         k.run();
 //        else{

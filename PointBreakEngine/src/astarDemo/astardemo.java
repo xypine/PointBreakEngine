@@ -24,7 +24,6 @@
 package astarDemo;
 
 import PBEngine.Range;
-import PBEngine.astar;
 import PBEngine.dVector;
 import PBEngine.gameObject;
 import PBEngine.kick;
@@ -44,6 +43,7 @@ public class astardemo{
     public static void main(String[] args) {
         kick k;
         k = new kick(0, false, new dVector(0, 0), 1);
+        k.timerType = 0;
         
         Thread A = new Thread(k);
         A.start();
@@ -57,7 +57,7 @@ public class astardemo{
         k.Logic.Vrenderer.camMode = 0;
         int id = 0;
         try {
-            k.Logic.loadLevel("out.pblevel");
+            k.Logic.loadLevel("house.pblevel");
         } catch (URISyntaxException ex) {
             Logger.getLogger(astardemo.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -67,7 +67,10 @@ public class astardemo{
                 char[][] matrix = k.objectManager.getCollisionmap(new dVector(0, 0), new dVector(k.xd, k.yd), "nocoll");
                 matrix[15][15] = 'X';
                 List<PBEngine.astarNode> path = PBEngine.astar.getPath(matrix, x, y);
-                float val = 255-path.size()*8;
+                float val = 255;
+                for(int i : new Range(path.size())){
+                    val = val * 0.9F;
+                }
                 if(val < 0F){val = 0;}
                 Color c = new Color((int)val, (int)val,(int) val);
                 gameObject g = new gameObject(x, y, 1, "astardemobg", "D", 1, c, id, k);

@@ -19,6 +19,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.SwingUtilities;
 import javax.swing.Timer;
 
 /**
@@ -114,7 +115,9 @@ public class Engine extends JFrame implements Runnable, ActionListener {
     @Override
     @SuppressWarnings("unchecked")
     public void run() {
+        System.out.println("Engine targetspeed IN: "+targetSpeed);
         timer = new Timer(targetSpeed, this);
+        System.out.println("Engine targetspeed OUT: "+targetSpeed);
         System.out.println("Initializing engine...");
         ready = false;
         
@@ -248,7 +251,12 @@ public class Engine extends JFrame implements Runnable, ActionListener {
         ready = true;
         revalidate();
         repaint();
-        timer.start();
+        //timerType = 0;
+        if (timerType == 0) {
+            timer.start();
+        } else if(timerType == 1){
+            startFullTickTimer();
+        }
     }
     //Function for reshfreshing the screen
     private void fresh(){
@@ -260,6 +268,82 @@ public class Engine extends JFrame implements Runnable, ActionListener {
     
     @Override
     public void actionPerformed(ActionEvent e) {
+        if(this.timerType != 0){
+            System.out.println("Wrong timerType ignored.");
+            return;
+        }
+        k.tick_pre();
+        //fresh();
+        long time = System.nanoTime();
+        deltatime = (int) ((time - last_time) / 1000000);
+        last_time = time;
+        
+        k.kit.time.setText(deltatime + "");
+        
+        if(input.keyPressed != null){
+            if(input.keyPressed.getKeyChar() == 'l' && !raysBaked){
+                raysBaked = true;
+                System.out.println("saving lights");
+                try {
+                    FileLoader lL = new FileLoader("null", oM, k);
+                    lL.writeObject(bakedRays, "out_lights.txt");
+                    lL.writeObject(colored, "out_illumination.txt");
+                } catch (URISyntaxException ex) {
+                    Logger.getLogger(Engine.class.getName()).log(Level.SEVERE, null, ex);
+                } catch (IOException ex) {
+                    Logger.getLogger(Engine.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            }
+        }
+        this.number = Integer.parseInt(Integer.toString(tickC).substring(0, 1));
+        if(vector == 0){
+            area.setVisible(true);
+            Vrenderer.setVisible(false);
+        }
+        if(vector == 1){
+            area.setVisible(false);
+            Vrenderer.setVisible(true);
+        }
+        
+        if(running == true){
+            tick();
+            if((tickC % 1) == 0){
+                
+            }
+            tickC++;
+        }
+        revalidate();
+        repaint();
+    }
+    public int timerType = 1;
+    public void startFullTickTimer(){
+        Thread a = new Thread() {
+            @Override
+            public void run(){
+                long last_timeF = 99999999;
+                long delta = 0;
+                while (true) {
+                    long time = System.nanoTime();
+                    delta = (int) ((time - last_timeF) / 1000000);
+                    System.out.println(delta);
+                    if(delta > targetSpeed){
+                        try {
+                            Thread.sleep(targetSpeed);
+                        } catch (InterruptedException ex) {
+                            Logger.getLogger(Engine.class.getName()).log(Level.SEVERE, null, ex);
+                        }
+                    }
+                    fulltick();
+                }
+            }
+        };
+        a.start();
+    }
+    public void fulltick(){
+        if(this.timerType != 1){
+            System.out.println("Wrong timerType ignored.");
+            return;
+        }
         k.tick_pre();
         //fresh();
         long time = System.nanoTime();
@@ -717,9 +801,9 @@ public class Engine extends JFrame implements Runnable, ActionListener {
 //        Vrenderer.update(points, colors, images, sizes, 2F, 1);
 //        Vrenderer.update(points2, colors2, images2, sizes2, 2F, 0);
         bakedRays = cont2;
-        Vrenderer.update(cont1, 1);
-        if(LoadedRays != null && k.bakedLights){Vrenderer.update(LoadedRays,0);}
-        else{Vrenderer.update(cont2, 0);}
+        Vrenderer.update(cont1, 1, tickC);
+        if(LoadedRays != null && k.bakedLights){Vrenderer.update(LoadedRays,0,tickC);}
+        else{Vrenderer.update(cont2, 0,tickC);}
         
         for(xyac a : lis){
 //            renderer.change((int) (a.x), (int) (a.y), a.a, a.c, "n");

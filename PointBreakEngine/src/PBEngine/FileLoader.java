@@ -268,7 +268,7 @@ public class FileLoader {
         int idi = 90;
         for(gameObject p : g){
             if(p.getTag().contains("light")){
-                tmp = tmp + round(p.x) + "." + round(p.y) + ".light.█."+p.mass+".green." + idi + ".:";
+                tmp = tmp + round(p.x) + "." + round(p.y) + ".light.█."+(int)(p.mass)+".green." + idi + ".:";
                 System.out.print("*");
                 idi++;
             }

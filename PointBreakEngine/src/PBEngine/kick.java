@@ -178,7 +178,8 @@ public class kick implements Runnable{
         }
         return -1;
     }
-
+    public int timerType = -1;
+    
     @Override
     public void run() {
         // Create a stream to hold the output
@@ -214,6 +215,9 @@ public class kick implements Runnable{
         //rad = new radiosity(ref);
         //SwingUtilities.invokeLater(ED);
 //        SwingUtilities.invokeLater(Logic);
+        if(timerType != -1){
+            Logic.timerType = timerType;
+        }
         Logic.run();
            //Thread a = new Thread(Logic, "Thread 1");
            //Thread b = new Thread(ea, "Thread 2");
@@ -262,7 +266,7 @@ public class kick implements Runnable{
             //rad.setTitle("VSRad");
             if(!bakedLights){
                 Logic.rads.add(20, 20, 20, new Color(1, 1, 1), 1, true);
-                Logic.rads.add(50, 2, 0, new Color(0, 1, 1), 1, true);
+                //Logic.rads.add(50, 2, 0, new Color(0, 1, 1), 1, true);
                 //Logic.rads.add(49, 10, 2, new Color(1, 1, 1), 1, false);
                 //Logic.rads.add(39, 20, 1, new Color(1, 0, 0), 1, false);
                 Logic.red = Logic.rads.read(999999);
