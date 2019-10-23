@@ -27,9 +27,18 @@ public class Input implements KeyListener, MouseMotionListener, MouseListener {
     public int ve = 0;
     public boolean tog = false;
     public boolean tog2 = false;
+    public boolean map = false;
     @Override
     public void keyTyped(KeyEvent e) {
         
+    }
+    private boolean mapKeyed = false;
+    public boolean mapKeyAction(){
+        if(mapKeyed != map){
+            mapKeyed = map;
+            return true;
+        }
+        return false;
     }
     
     public int up(){return(this.up);}
@@ -87,6 +96,7 @@ public class Input implements KeyListener, MouseMotionListener, MouseListener {
         if(ke == 'e'){ki.tog();}
         if(ke == 'r'){rt = 1;tog = !tog;}
         if(ke == 'v'){ve = 1;}
+        if(ke == 'm'){map = true;}
     }
     
     public Input(kick k){
@@ -125,6 +135,7 @@ public class Input implements KeyListener, MouseMotionListener, MouseListener {
         }
         if(ke == 'r'){rt = 0;}
         if(ke == 'v'){ve = 0;}
+        if(ke == 'm'){map = false;}
     }
 
     @Override

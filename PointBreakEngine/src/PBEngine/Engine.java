@@ -108,7 +108,9 @@ public class Engine extends JFrame implements Runnable, ActionListener {
     }
     private AudioSource aM;
     VSRadManager rads;
-    
+    public final double h = 540D;
+    public final double w = 1080D;
+    public final double size = 1D;
     @Override
     @SuppressWarnings("unchecked")
     public void run() {
@@ -120,10 +122,11 @@ public class Engine extends JFrame implements Runnable, ActionListener {
         timer.setRepeats(true);
         
         //Initiate screen size
-        float size = 1F;
-        float w = 1080*size;
-        float h = 540*size;
-        float aspect = w / h;
+        
+        /*size = 1F;
+        w = 1080*size;
+        h = 540*size;*/
+        double aspect = w / h;
         System.out.println(aspect);
         
 //        int xd = 50;
@@ -145,7 +148,7 @@ public class Engine extends JFrame implements Runnable, ActionListener {
         this.add(Vrenderer);
         revalidate();
         repaint();
-        Vrenderer.init((int)w, (int)h, 3, false);
+        Vrenderer.init(w,h, 3, false);
         //try {Vrenderer.setImage(new directory().textures + "splash.png");}
         //catch (IOException ex) {quickTools.alert(ex.getMessage());}
         
@@ -512,6 +515,7 @@ public class Engine extends JFrame implements Runnable, ActionListener {
     Color[][] colored;
     void tick(){
         k.tick_first();
+        System.out.println(input.mapKeyAction());
         //rads.removeA();
         //rads.add(25, 12, 4);
         if(renderRays == 1){
