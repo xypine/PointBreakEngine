@@ -219,6 +219,9 @@ class BListener implements ActionListener{
                     case "/ps":
                         k.k.Logic.running = !k.k.Logic.running;
                         break;
+                    case "/nausea":
+                        k.k.Logic.Vrenderer.dispEffectsEnabled = true;
+                        break;
                     default:
                         quickTools.alert("devkit", "command not understood");
                         break;

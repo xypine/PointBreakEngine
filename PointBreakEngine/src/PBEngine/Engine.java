@@ -324,15 +324,19 @@ public class Engine extends JFrame implements Runnable, ActionListener {
                 long delta = 0;
                 while (true) {
                     long time = System.nanoTime();
-                    delta = (int) ((time - last_timeF) / 1000000);
+                    delta = (time - last_timeF) / 1000000;
                     System.out.println(delta);
                     if(delta > targetSpeed){
                         try {
-                            Thread.sleep(targetSpeed);
+                            long catchup = delta - targetSpeed;
+                            if(catchup < 0){catchup = 0;}
+                            if(catchup > targetSpeed){catchup = targetSpeed;}
+                            Thread.sleep(catchup);
                         } catch (InterruptedException ex) {
                             Logger.getLogger(Engine.class.getName()).log(Level.SEVERE, null, ex);
                         }
                     }
+                    last_timeF = time;
                     fulltick();
                 }
             }
@@ -599,7 +603,7 @@ public class Engine extends JFrame implements Runnable, ActionListener {
     Color[][] colored;
     void tick(){
         k.tick_first();
-        System.out.println(input.mapKeyAction());
+        //System.out.println(input.mapKeyAction());
         //rads.removeA();
         //rads.add(25, 12, 4);
         if(renderRays == 1){
