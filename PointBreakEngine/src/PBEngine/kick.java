@@ -51,6 +51,8 @@ public class kick implements Runnable{
     public volatile boolean ready = false;
     
     LinkedList<option> Options = new LinkedList<>();
+    
+    public boolean readFeatures = true;
     public kick(int mode, boolean bakedLights, dVector gravity){
         this.mode = mode;
         this.bakedLights = bakedLights;
@@ -230,6 +232,11 @@ public class kick implements Runnable{
         Logic.running = true;
         
         loading_completed++;
+        
+        //Load features.txt config
+        if(readFeatures){
+            config.configReader.load(new directory().config + "features.txt", ref);
+        }
         
         if(mode == 3){
             try {

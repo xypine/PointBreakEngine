@@ -16,6 +16,7 @@ public class directory {
     public String textures = appendix+"assets/textures/";
     public String replays = appendix+"assets/replays/";
     public String music = appendix+"assets/music/";
+    public String config = appendix+"assets/config/";
     public String root = appendix;
     public directory(){
         if(System.getProperty("os.name").equals("Linux")){
@@ -24,6 +25,7 @@ public class directory {
             textures = appendix+"assets/textures/";
             replays = appendix+"assets/replays/";
             music = appendix+"assets/music/";
+            config = appendix+"assets/config/";
         }
     }
 }
