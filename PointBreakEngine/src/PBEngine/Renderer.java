@@ -210,12 +210,12 @@ public class Renderer extends JPanel{
         GraphicsConfiguration gc = gd.getDefaultConfiguration();
         super.paintComponent(g);
         
-        
+        g.setColor(Color.black);
+        g.fillRect(0, 0, w, h);
         
         if(sSi){
 //            g.drawImage(full, 0, 0, w, h, this);
-            g.setColor(Color.black);
-            g.fillRect(0, 0, w, h);
+            
             g.setColor(new Color(150, 150, 150));
             g.fillRect((w-300)/(masterkick.loadingsteps), h/2-10, (w-300)/masterkick.loadingsteps*masterkick.loadingsteps, 10);
             g.setColor(new Color(0, 200, 0));
@@ -353,7 +353,7 @@ public class Renderer extends JPanel{
         }
         */
         if(showMap){
-            g.setColor(Color.WHITE);
+            //g.setColor(Color.WHITE);
             ////g.drawRect(0, 0, WIDTH, HEIGHT);
             //g.fillRect(WIDTH/6, HEIGHT/6, WIDTH-(WIDTH/6), HEIGHT-(HEIGHT/6));
         }

@@ -325,10 +325,11 @@ public class Engine extends JFrame implements Runnable, ActionListener {
                 while (true) {
                     long time = System.nanoTime();
                     delta = (time - last_timeF) / 1000000;
-                    System.out.println(delta);
-                    if(delta > targetSpeed){
+                    long catchup = 0;
+                    
+                    if(delta < targetSpeed){
                         try {
-                            long catchup = delta - targetSpeed;
+                            catchup = targetSpeed - delta;
                             if(catchup < 0){catchup = 0;}
                             if(catchup > targetSpeed){catchup = targetSpeed;}
                             Thread.sleep(catchup);
