@@ -296,9 +296,10 @@ public class kick implements Runnable{
         String oldo = "";
         loading_completed++;
         System.out.println("Steps completed: " + loading_completed);
-        while(!Logic.timer.isRunning()){
+        while(!Logic.ready){
             
         }
+        
         ready = true;
         while(true){
             String newo = baos.toString();

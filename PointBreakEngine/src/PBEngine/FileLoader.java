@@ -190,48 +190,44 @@ public class FileLoader {
                     
                 }
             }
-            if(x == '#'){
-                meta = true;
-            }
-            else if(x == ':'){                                                                          //this.c
-                if(tag.equals("light")){rads.add(x, y, mass, c, 1, false);}
-                if(tag.equals("static")){gameObject tm = new gameObject(this.x, this.y, 1, this.tag, this.appereance, this.mass, Color.black, this.id, master);
-                tm.imageName = dir.textures + "walls/walls0.png";
-                newObjects.add(tm);}
-                count++;
-                //System.out.println(tm.getTag());
-                dotC = 0;
-                tmp = "";
-                //System.out.println(this.tag);
-            }
-            else if(x == '.'){
-//                System.out.println(tmp);
-                if(dotC == 0){
-                    this.x = toInt(tmp);
-                }
-                if(dotC == 1){
-                    this.y = toInt(tmp);
-                }
-                if(dotC == 2){
-                    this.tag = tmp;
-                }
-                if(dotC == 3){
-                    this.appereance = tmp;
-                }
-                if(dotC == 4){
-                    this.mass = toInt(tmp);
-                }
-                if(dotC == 5){
-                    this.c = getColorByName(tmp);
-                }
-                if(dotC == 6){
-                    this.id = toInt(tmp);
-                }
-                dotC++;
-                tmp = "";
-            }
-            else{
-                tmp = tmp + x;
+            switch (x) {
+                case '#':
+                    meta = true;
+                    break;
+                case ':':
+                    //this.c
+                    //if(tag == "light"){rads.add(x, y, mass, c, 1, false);}
+                    if(tag.equals("static")){gameObject tm = new gameObject(this.x, this.y, 1, this.tag, this.appereance, this.mass, Color.black, this.id, master);
+                    tm.imageName = dir.textures + "walls/walls0.png";
+                    newObjects.add(tm);}
+                    count++;
+                    //System.out.println(tm.getTag());
+                    dotC = 0;
+                    tmp = "";
+                    //System.out.println(this.tag);
+                    break;
+                case '.':
+                    //                System.out.println(tmp);
+                    if(dotC == 0){
+                        this.x = toInt(tmp);
+                    }   if(dotC == 1){
+                        this.y = toInt(tmp);
+                    }   if(dotC == 2){
+                        this.tag = tmp;
+                    }   if(dotC == 3){
+                        this.appereance = tmp;
+                    }   if(dotC == 4){
+                        this.mass = toInt(tmp);
+                    }   if(dotC == 5){
+                        this.c = getColorByName(tmp);
+                    }   if(dotC == 6){
+                        this.id = toInt(tmp);
+                    }   dotC++;
+                    tmp = "";
+                    break;
+                default:
+                    tmp = tmp + x;
+                    break;
             }
             
             

@@ -315,6 +315,7 @@ public class Renderer extends JPanel{
                     }
                 }
             }
+            
         }
         
         if(drawGrid){
@@ -351,7 +352,13 @@ public class Renderer extends JPanel{
             }
         }
         */
+        if(showMap){
+            g.setColor(Color.WHITE);
+            ////g.drawRect(0, 0, WIDTH, HEIGHT);
+            //g.fillRect(WIDTH/6, HEIGHT/6, WIDTH-(WIDTH/6), HEIGHT-(HEIGHT/6));
+        }
     }
+    public boolean showMap = true;
     private String oldC = "";
     public void setImage(String mage) throws IOException{
         File img = new File(mage);
@@ -372,15 +379,15 @@ public class Renderer extends JPanel{
     public void update(LinkedList<renderContainer> containers, newVectorLayer layer, int tick){
         layer.update(containers,tick);
     }
-    public void init(int w, int h, int num_layers, boolean showStartingImage){
-        this.w = w;
-        this.h = h;
-        this.setSize(w, h);
+    public void init(double w, double h, int num_layers, boolean showStartingImage){
+        this.w = (int) w;
+        this.h = (int) h;
+        this.setSize(this.w, this.h);
         this.setBackground(Color.BLACK);
-        this.setPreferredSize(new Dimension(w,h));
+        this.setPreferredSize(new Dimension(this.w,this.h));
         this.setOpaque(true);
         this.setBackground(Color.BLACK);
-        master = new Color[w][h];
+        master = new Color[this.w][this.h];
         master = quickTools.zero(master);
         for(int i : new Range(num_layers)){
             this.addLayer(i, "Layer " + String.valueOf(i), 0);
