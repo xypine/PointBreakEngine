@@ -34,7 +34,7 @@ import javax.swing.JFrame;
  * @author Jonnelafin
  */
 public class Driver implements Runnable, MouseMotionListener, KeyListener{
-    int res = 800;
+    int res = 80000;
     double rotation = 0;
     //private int CameraX=698, CameraY=129;
     private int CameraX=300, CameraY=300;
@@ -194,14 +194,28 @@ public class Driver implements Runnable, MouseMotionListener, KeyListener{
             for(int dist : distances){
                 //int c = 255 - dist;
                 int c = (int) (dist * 0.75);
+                int c2 = (int) ((dist - 10) * 0.5);
+                int c3 = (int) ((dist - 6) * 0.9);
                 if(c > 255){
                     c = 255;
                 }
                 if(c < 0){
                     c = 0;
                 }
+                if(c2 > 255){
+                    c2 = 255;
+                }
+                if(c2 < 0){
+                    c2 = 0;
+                }
+                if(c3 > 255){
+                    c3 = 255;
+                }
+                if(c3 < 0){
+                    c3 = 0;
+                }
                 //g2.setColor(new Color(c/2, c, 155 - (c / 2)));
-                g2.setColor(new Color(c/2, c, c));
+                g2.setColor(new Color(c/2, c3, c2));
                 //g2.setColor(new Color(c/2, c, c/4));
                 if(res <= WIDTH){
                     g2.fillRect(WIDTH / res * i, 0, WIDTH / res, HEIGHT);
