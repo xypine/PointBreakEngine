@@ -203,6 +203,10 @@ public class Renderer extends JPanel{
     public boolean dispEffectsEnabled = false;
     @Override
     public void paintComponent(Graphics g) {
+        Dimension currentSize = getParent().getSize();
+        w = currentSize.width;
+        h = currentSize.height;
+        this.setSize(currentSize);
         camx = masterkick.Logic.cam.x;
         camy = masterkick.Logic.cam.y;
         GraphicsEnvironment ge = GraphicsEnvironment.getLocalGraphicsEnvironment();

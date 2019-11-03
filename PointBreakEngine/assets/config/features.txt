@@ -1,2 +1,2 @@
-nausea:0
+nausea:1
 stockMenus:true

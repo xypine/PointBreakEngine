@@ -93,4 +93,10 @@ public class mapParser {
             }System.out.println("");y++;x = 0;
         }
     }
+    public static boolean validateMapSize(int w, int h){
+        if(w == h){
+            return true;
+        }
+        return false;
+    }
 }

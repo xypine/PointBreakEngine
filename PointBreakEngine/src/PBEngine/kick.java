@@ -22,6 +22,23 @@ import javax.swing.SwingUtilities;
  * @author Jonnelafin
  */
 public class kick implements Runnable{
+    
+    private long delta = 0;
+    private final Object deltaLock = new Object();
+    
+    public void setDelta(long x) {
+        synchronized (deltaLock) {
+            this.delta = x;
+        }
+    }
+    public long getDelta() {
+        synchronized (deltaLock) {
+            long temp = delta;
+            //message = null;
+            return temp;
+        }
+    }
+    
     public int loadingsteps = 4;
     public int loading_completed = 0;
     
@@ -233,10 +250,7 @@ public class kick implements Runnable{
         
         loading_completed++;
         
-        //Load features.txt config
-        if(readFeatures){
-            config.configReader.load(new directory().config + "features.txt", ref);
-        }
+        
         
         if(mode == 3){
             try {
@@ -298,6 +312,11 @@ public class kick implements Runnable{
         System.out.println("Steps completed: " + loading_completed);
         while(!Logic.ready){
             
+        }
+        
+        //Load features.txt config
+        if(readFeatures){
+            config.configReader.load(new directory().config + "features.txt", ref);
         }
         
         ready = true;

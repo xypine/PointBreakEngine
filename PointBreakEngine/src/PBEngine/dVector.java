@@ -61,4 +61,11 @@ public class dVector implements java.io.Serializable{
     public static dVector round(dVector in){
         return(new dVector(Math.round(in.x), Math.round(in.y)));
     }
+    public static dVector clone(dVector source){
+        return new dVector(source.x, source.y);
+    }
+    @Override
+    public dVector clone(){
+        return new dVector(x, y);
+    }
 }

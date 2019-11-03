@@ -25,6 +25,7 @@
 package config;
 
 import PBEngine.kick;
+import PBEngine.quickTools;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.util.LinkedList;
@@ -76,6 +77,7 @@ public class configReader {
                         numValue = Integer.parseInt(value);
                     }
                     catch(Exception e){
+                        quickTools.alert("configReader", "invalid nausea value");
                         break;
                     }
                     if(numValue > 0){
@@ -90,7 +92,7 @@ public class configReader {
         }
     }
     private static LinkedList<String[]> fetch(String source){
-        LinkedList<String[]> out = new LinkedList();
+        LinkedList<String[]> out = new LinkedList<String[]>();
         String word = "";
         String value = "";
         String option = "";

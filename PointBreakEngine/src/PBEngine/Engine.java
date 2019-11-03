@@ -19,7 +19,6 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
-import javax.swing.SwingUtilities;
 import javax.swing.Timer;
 
 /**
@@ -276,6 +275,7 @@ public class Engine extends JFrame implements Runnable, ActionListener {
         //fresh();
         long time = System.nanoTime();
         deltatime = (int) ((time - last_time) / 1000000);
+        k.setDelta(deltatime);
         last_time = time;
         
         k.kit.time.setText(deltatime + "");
@@ -325,6 +325,7 @@ public class Engine extends JFrame implements Runnable, ActionListener {
                 while (true) {
                     long time = System.nanoTime();
                     delta = (time - last_timeF) / 1000000;
+                    k.setDelta(delta);
                     long catchup = 0;
                     
                     if(delta < targetSpeed){
@@ -465,6 +466,13 @@ public class Engine extends JFrame implements Runnable, ActionListener {
         levelmap = mapParser.parseMap(FileLoader.getLevelMap("00.pbMap"));
         mapw = levelmap[0].length; 
         maph = levelmap.length; 
+        
+        if(!mapParser.validateMapSize(mapw, maph)){
+            Logger.getGlobal().warning("INVALID LEVELMAP (THE WIDTH AND THE HEIGHT DO NOT MATCH). ABORTING...");
+            quickTools.alert("LevelMapReconstruction", "INVALID LEVELMAP (THE WIDTH AND THE HEIGHT DO NOT MATCH). ABORTING...");
+            return;
+        }
+        
         String[][] newLevelmap = new String[maph+2][mapw+2];
         //Fill with "block"
         for(int xp : new Range(mapw+2)){
@@ -486,6 +494,7 @@ public class Engine extends JFrame implements Runnable, ActionListener {
         
         System.out.println("mapW: "+mapw);
         System.out.println("mapH: "+maph);
+        printLevelmap();
     }
     int mapw = 0; 
     int maph = 0; 
@@ -513,7 +522,7 @@ public class Engine extends JFrame implements Runnable, ActionListener {
                         for(int i : new Range(levelmap.length)){
                             map[i] = levelmap[i].clone();
                         }
-                        dVector currentmap2 = currentMap;
+                        dVector currentmap2 = currentMap.clone();
                         //Mark cached
                         for(int x : new Range(map.length)){
                             for(int y : new Range(map[0].length)){
@@ -555,7 +564,7 @@ public class Engine extends JFrame implements Runnable, ActionListener {
         if((int)newLevel.x >= mapw && (int)newLevel.y >= maph){
             return false;
         }
-        else if(!"block".equals(levelmap[(int)newLevel.x][(int)newLevel.y])){
+        else if(!(levelmap[(int)newLevel.x][(int)newLevel.y]).equals("block")){
             //currentMap = newLevel;
             if(cachedLevels[(int)newLevel.x][(int)newLevel.y] != null){
                 try{
@@ -570,8 +579,8 @@ public class Engine extends JFrame implements Runnable, ActionListener {
             }
             else{
                 try {
-                LinkedList<gameObject> old = loadLevel(levelmap[(int)newLevel.x][(int)newLevel.y]+".pblevel");
-                cachedLevels[(int)currentMap.x][(int)currentMap.y] = old;
+                    LinkedList<gameObject> old = loadLevel(levelmap[(int)newLevel.x][(int)newLevel.y]+".pblevel");
+                    cachedLevels[(int)currentMap.x][(int)currentMap.y] = old;
                     System.out.println("new coords: "+newLevel.represent());
                     currentMap = newLevel;
                 } catch (URISyntaxException ex) {

@@ -179,9 +179,10 @@ public class gameObject {
                 collisionCount = 0;
                 if(this.tag.contains(new String("cursor"))){}
                 else{
+                    long delta = masterParent.getDelta();
     //                this.y = this.y + (this.vely);
     //                this.x = this.x + (this.velx);
-                    for (int i : new Range((int) round(Math.abs(this.velx) * 10 * deltatime))) {
+                    for (int i : new Range((int) round(Math.abs(this.velx * (delta*0.2) ) * 5))) {
 
                         if(this.velx < 0){this.x = this.x - 0.1F;}
                         if(this.velx > 0){this.x = this.x + 0.1F;}
@@ -191,7 +192,7 @@ public class gameObject {
                         }
                         
                     }
-                    for (int i : new Range((int) round(Math.abs(this.vely) * 10 * deltatime))) {
+                    for (int i : new Range((int) round(Math.abs(this.vely * (delta*0.2) ) * 5))) {
 
                         if(this.vely < 0){this.y = this.y - 0.1F;}
                         if(this.vely > 0){this.y = this.y + 0.1F;}
