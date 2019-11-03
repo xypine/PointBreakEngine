@@ -27,14 +27,14 @@ import javax.swing.JTextField;
 public class devkit extends JFrame{
     public JPanel cont = new JPanel();
     boolean tog = false;
-    kick k;
+    Supervisor k;
     JButton graphic = new JButton("toggle vector");
     JButton rays = new JButton("toggle rays");
     JLabel time = new JLabel("RAYYYS");
     JTextArea log = new JTextArea("PointBreakEngine devkit");
     JTextField lum = new JTextField(20);
     JScrollPane logs = new JScrollPane(log);
-    public devkit(kick k) {
+    public devkit(Supervisor k) {
         this.setTitle("PointBreakEngine devkit");
         this.k = k;
         this.setSize(400, 550);

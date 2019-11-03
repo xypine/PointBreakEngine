@@ -21,7 +21,7 @@ import javax.swing.SwingUtilities;
  *
  * @author Jonnelafin
  */
-public class kick implements Runnable{
+public class Supervisor implements Runnable{
     
     private long delta = 0;
     private final Object deltaLock = new Object();
@@ -56,7 +56,7 @@ public class kick implements Runnable{
     //radiosity rad;
     public VSRadManager rad;
     public boolean tog;
-    public kick ref = this;
+    public Supervisor ref = this;
     public int xd = 50;
     public int yd = 50;
     public Thread c;
@@ -70,7 +70,7 @@ public class kick implements Runnable{
     LinkedList<option> Options = new LinkedList<>();
     
     public boolean readFeatures = true;
-    public kick(int mode, boolean bakedLights, dVector gravity){
+    public Supervisor(int mode, boolean bakedLights, dVector gravity){
         this.mode = mode;
         this.bakedLights = bakedLights;
         this.engine_gravity = gravity;
@@ -103,7 +103,7 @@ public class kick implements Runnable{
         
         
     }
-    public kick(int mode, boolean bakedLights, dVector gravity, int targetSpeed){
+    public Supervisor(int mode, boolean bakedLights, dVector gravity, int targetSpeed){
         this.mode = mode;
         this.bakedLights = bakedLights;
         this.engine_gravity = gravity;
@@ -256,7 +256,7 @@ public class kick implements Runnable{
             try {
                 LinkedList<gameObject> nulx = Logic.loadLevel("out.pblevel");
             } catch (URISyntaxException ex) {
-                Logger.getLogger(kick.class.getName()).log(Level.SEVERE, null, ex);
+                Logger.getLogger(Supervisor.class.getName()).log(Level.SEVERE, null, ex);
             }
             //wM.oM.addObject(new Player(5, 5, "player1", "█", 1F, Color.black, 1, ref));
             gameObject p = new Player(25, 5, 1, "player1", "█", 1F, Color.black, 1, ref);
@@ -316,7 +316,11 @@ public class kick implements Runnable{
         
         //Load features.txt config
         if(readFeatures){
-            config.configReader.load(new directory().config + "features.txt", ref);
+            try {
+                config.configReader.load(new directory().config + "features.txt", ref);
+            } catch (Exception e) {
+                quickTools.alert("unable to read config file", "unable to read config file! Does it exist?");
+            }
         }
         
         ready = true;
@@ -344,7 +348,7 @@ public class kick implements Runnable{
             try {
                 TimeUnit.SECONDS.sleep((long) 0.1);
             } catch (InterruptedException ex) {
-                Logger.getLogger(kick.class.getName()).log(Level.SEVERE, null, ex);
+                Logger.getLogger(Supervisor.class.getName()).log(Level.SEVERE, null, ex);
             }
         }
     }

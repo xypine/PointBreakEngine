@@ -29,7 +29,7 @@ import PBEngine.dVector;
  *
  * @author guest-kxryfn
  */
-public class EditorEngine extends PBEngine.kick{
+public class EditorEngine extends PBEngine.Supervisor{
     Editor editor;
     public EditorEngine(int mode, boolean bakedLights, dVector gravity, Editor e) {
         super(mode, bakedLights, gravity);

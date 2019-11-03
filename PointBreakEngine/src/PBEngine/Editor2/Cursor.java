@@ -36,14 +36,19 @@ import java.util.logging.Logger;
  */
 public class Cursor extends Player{
     public PBEngine.Editor2.Editor editor;
+    
     public boolean positionValid = true;
-    public Cursor(int ypos, int xpos, int size, String tag, String ap, float mas, Color cot, int ID, kick master, PBEngine.Editor2.Editor editor) {
+    public Cursor(int ypos, int xpos, int size, String tag, String ap, float mas, Color cot, int ID, Supervisor master, PBEngine.Editor2.Editor editor, Input in) {
         super(ypos, xpos, size, tag, ap, mas, cot, ID, master);
         this.imageName = "";
         this.editor = editor;
         this.tag.add("nocoll");
     }
     private int usedUse = 200;
+    @Override
+    public void doOnPreciseMovement(){
+        
+    }
     @Override
     public void checkInput(Input in){
         //System.out.println("input check");
@@ -74,8 +79,8 @@ public class Cursor extends Player{
             editor.saved = true;
         }
         if(true){
-            this.x = (in.mouseX() / this.masterParent.Logic.Vrenderer.factor) - 1;
-            this.y = (in.mouseY() / this.masterParent.Logic.Vrenderer.factor) - 3;
+            this.x = (in.mouseX() / this.masterParent.Logic.Vrenderer.factor);
+            this.y = (in.mouseY() / this.masterParent.Logic.Vrenderer.factor);
             this.x = (int)x;
             this.y = (int)y;
         //    System.out.println(new dVector(this.x, this.y).represent());

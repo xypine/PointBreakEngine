@@ -20,7 +20,7 @@ public class Player extends gameObject{
     boolean canjump = true;
     private final directory dir = new directory();
     public boolean point2_2 = false;
-    public Player(int ypos, int xpos, int size, String tag, String ap, float mas, Color cot, int ID, kick master) {
+    public Player(int ypos, int xpos, int size, String tag, String ap, float mas, Color cot, int ID, Supervisor master) {
         super(ypos, xpos, size, tag, ap, mas, cot, ID, master);
         this.imageName = dir.textures + "player/player2.png";
         collision_type = 0;

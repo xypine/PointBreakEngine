@@ -24,7 +24,7 @@
 
 package config;
 
-import PBEngine.kick;
+import PBEngine.Supervisor;
 import PBEngine.quickTools;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
@@ -47,7 +47,7 @@ public class configReader {
      * @param filename
      * @param k
      */
-    public static void load(String filename, kick k){
+    public static void load(String filename, Supervisor k) throws FileNotFoundException{
         String source = "";
         try {
             Scanner in = new Scanner(new FileReader(filename));
@@ -55,7 +55,7 @@ public class configReader {
                 source = source + in.next();
             }
         } catch (FileNotFoundException ex) {
-            Logger.getLogger(configReader.class.getName()).log(Level.SEVERE, null, ex);
+            throw ex;
         }
         LinkedList<String[]> raw = fetch(source);
         

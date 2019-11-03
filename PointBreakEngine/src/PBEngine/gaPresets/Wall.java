@@ -25,7 +25,7 @@
 package PBEngine.gaPresets;
 
 import PBEngine.gameObject;
-import PBEngine.kick;
+import PBEngine.Supervisor;
 import PBEngine.objectManager;
 import java.awt.Color;
 
@@ -35,7 +35,7 @@ import java.awt.Color;
  */
 public class Wall extends gameObject{
     
-    public Wall(int xpos, int ypos, int size, String tag, String ap, double mas, Color cot, int ID, kick master) {
+    public Wall(int xpos, int ypos, int size, String tag, String ap, double mas, Color cot, int ID, Supervisor master) {
         super(xpos, ypos, size, tag, ap, mas, cot, ID, master);
     }
     

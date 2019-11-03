@@ -37,9 +37,11 @@ import java.util.logging.Logger;
  * @author Jonnelafin
  */
 public class FileLoader {
+    String name = "";
+    
     public boolean done = true;
     private directory dir= new directory();
-    private kick master;
+    private Supervisor master;
     private int dotC = 0;
     private boolean inSentence = false;
     public int count = 0;
@@ -53,7 +55,7 @@ public class FileLoader {
     String filePath = dir.levels;
     
     List<String> levels;
-    public FileLoader(String file, objectManager oM, kick master) throws URISyntaxException{
+    public FileLoader(String file, objectManager oM, Supervisor master) throws URISyntaxException{
         this.done = false;
         levels = getLevels(filePath);
         this.master = master;
@@ -98,7 +100,7 @@ public class FileLoader {
 //            fetch(in.toString(), oM);
         
     }
-    public FileLoader(String file, objectManager oM, kick master, String filepath1) throws URISyntaxException{
+    public FileLoader(String file, objectManager oM, Supervisor master, String filepath1) throws URISyntaxException{
         this.done = false;
         levels = getLevels(filePath);
         this.master = master;

@@ -45,7 +45,7 @@ import javax.swing.filechooser.FileSystemView;
  */
 public class Editor {
     public boolean saved = false;
-    public PBEngine.kick k;
+    public PBEngine.Supervisor k;
     public int mode = 0;
     JComboBox select;
     @SuppressWarnings("unchecked")
@@ -53,7 +53,7 @@ public class Editor {
         String[] argss = new String[2];
         argss[0] = "nodemo";
         Camera cam = new Camera(0, 0);
-        k = new kick(0, false, new dVector(0, 0), 12);
+        k = new Supervisor(0, false, new dVector(0, 0), 0);
         k.timerType = 1;
         Thread A = new Thread(k);
         A.start();
@@ -87,7 +87,10 @@ public class Editor {
         k.Logic.Vrenderer.gridColor = new Color(0, 90, 20);
         k.Logic.overrideRayBG = Color.GRAY;
         
-        cursor = new Cursor(0, 0, 1, "newcursor", "C", 1, Color.white, 0, k, this);
+        Input cursorInput = new Input(k);
+        
+        cursor = new Cursor(0, 0, 1, "newcursor", "C", 1, Color.white, 0, k, this, cursorInput);
+        quickTools.alert(k.toString());
         cursor.onlyColor = true;
         cursor.imageName = "";
         k.objectManager.addObject(cursor);

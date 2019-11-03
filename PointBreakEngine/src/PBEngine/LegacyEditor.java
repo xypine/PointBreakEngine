@@ -28,7 +28,7 @@ import javax.swing.Timer;
  */
 public class LegacyEditor extends JFrame implements Runnable, ActionListener {
     public boolean ready = false;
-    private kick k;
+    private Supervisor k;
     colorParser cP = new colorParser();
     Timer timer = new Timer(1, this);
     int tickC = 0;
@@ -54,7 +54,7 @@ public class LegacyEditor extends JFrame implements Runnable, ActionListener {
     private float tyf;
 //    
     private Input input;
-    public LegacyEditor(kick ki){
+    public LegacyEditor(Supervisor ki){
         System.out.println("Initializing editor input: " + ki);
         this.k = ki;
         input = new Input(k);

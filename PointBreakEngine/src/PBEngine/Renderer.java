@@ -187,12 +187,12 @@ public class Renderer extends JPanel{
         this.images.remove(id);
     }
     BufferedImage full = null;
-    public Renderer(kick masterKick){
+    public Renderer(Supervisor masterKick){
         this.masterkick = masterKick;
         this.xd = masterKick.xd;
         this.yd = masterKick.yd;
     }
-    kick masterkick = null;
+    Supervisor masterkick = null;
 
     /**
      *0: static, 1: follow camera strictly

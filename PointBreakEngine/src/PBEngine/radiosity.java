@@ -35,7 +35,7 @@ import static javax.swing.WindowConstants.EXIT_ON_CLOSE;
  * @author Jonnelafin
  */
 public class radiosity extends JFrame implements Runnable, ActionListener {
-    private kick k;
+    private Supervisor k;
     colorParser cP = new colorParser();
     Timer timer = new Timer(1, this);
     int tickC = 0;
@@ -62,7 +62,7 @@ public class radiosity extends JFrame implements Runnable, ActionListener {
 //    
     public float[][] radiosity;
     private Input input;
-    public radiosity(kick ki){
+    public radiosity(Supervisor ki){
         
     }
     //Input:

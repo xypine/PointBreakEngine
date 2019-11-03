@@ -34,7 +34,7 @@ import java.util.concurrent.ConcurrentLinkedQueue;
  * @author Jonnelafin
  */
 public class VSRadManager{
-    public kick masterParent;
+    public Supervisor masterParent;
     public int blurStrenght = 0; //Disabled by default
     public Color[][] colors;
     public ConcurrentLinkedQueue<VSRad> sVSRad;
@@ -44,7 +44,7 @@ public class VSRadManager{
     private radiosity demo;
     private dVector[] directions;
     private double[][] last;
-    public VSRadManager(int w, int h,objectManager oM, kick k){
+    public VSRadManager(int w, int h,objectManager oM, Supervisor k){
         this.sVSRad = new ConcurrentLinkedQueue<>();
         this.masterParent = k;
         this.w = w;

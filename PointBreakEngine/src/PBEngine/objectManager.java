@@ -24,8 +24,8 @@ public class objectManager {
 //    Object tmpg;
     objectContainer tmp;
     int index = 0;
-    kick kick;
-    public objectManager(kick k){
+    Supervisor kick;
+    public objectManager(Supervisor k){
         this.kick = k;
     }
     //public boolean showDuplicateIDWarning = false;

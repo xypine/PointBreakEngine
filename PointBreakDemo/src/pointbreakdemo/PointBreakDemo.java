@@ -33,7 +33,7 @@ class game{
         String[] argss = new String[2];
         argss[0] = "nodemo";
         argss[1] = "alclights";
-        k = new kick(0, false, new dVector(0, 0));
+        k = new Supervisor(0, false, new dVector(0, 0));
         Thread A = new Thread(k);
         A.start();
         while(!k.ready){
@@ -62,7 +62,7 @@ class AI extends gameObject{
     LinkedList<dVector> path;
     boolean pathComplete = true;
     boolean PFinding = false;
-    public AI(int xpos, int ypos, int size, String tag, String ap, double mass, Color color, int id, kick k){
+    public AI(int xpos, int ypos, int size, String tag, String ap, double mass, Color color, int id, Supervisor k){
         super(xpos, ypos, size, tag, ap, mass, color, id, k);
         this.brightColor = true;
     }

@@ -81,10 +81,10 @@ public class Engine extends JFrame implements Runnable, ActionListener {
     private double tyf;
 //    
     public Renderer Vrenderer;
-    kick k;
+    Supervisor k;
     public Input input;
     public int targetSpeed = 15;
-    public Engine(kick ki, objectManager o, int xd, int yd, VSRadManager a, dVector g){
+    public Engine(Supervisor ki, objectManager o, int xd, int yd, VSRadManager a, dVector g){
         
         this.oM = o;
         this.xd = xd;
@@ -95,7 +95,7 @@ public class Engine extends JFrame implements Runnable, ActionListener {
         System.out.println("out main input: " + k);
         this.rads = a;
     }
-    public Engine(kick ki, objectManager o, int xd, int yd, VSRadManager a, dVector g, int targetSpeed){
+    public Engine(Supervisor ki, objectManager o, int xd, int yd, VSRadManager a, dVector g, int targetSpeed){
         this.targetSpeed = targetSpeed;
         this.oM = o;
         this.xd = xd;
@@ -393,6 +393,15 @@ public class Engine extends JFrame implements Runnable, ActionListener {
         revalidate();
         repaint();
     }
+    
+    private String levelName = "";
+    public String getLevelName(){
+        return levelName;
+    }
+    public String setLevelName(){
+        throw new SecurityException("not implemented / supported yet");
+    }
+    
     double mapLoadTime = 0;
     public LinkedList<gameObject> loadLevel(String level) throws URISyntaxException{
         LinkedList<gameObject> out = new LinkedList<>();
@@ -400,11 +409,12 @@ public class Engine extends JFrame implements Runnable, ActionListener {
         FileLoader lL = new FileLoader(level, oM, k);
         while(!lL.done){
             try {
-                Thread.sleep(100);
+                Thread.sleep(1);
             } catch (InterruptedException ex) {
                 Logger.getLogger(Engine.class.getName()).log(Level.SEVERE, null, ex);
             }
         }
+        
         for(gameObject x : lL.level){
             x.tag.set(x.tag.indexOf("static"), "newlevel");
             oM.addObject(x);
@@ -428,7 +438,7 @@ public class Engine extends JFrame implements Runnable, ActionListener {
         FileLoader lL = new FileLoader(level, oM, k, filepath);
         while(!lL.done){
             try {
-                Thread.sleep(100);
+                Thread.sleep(1);
             } catch (InterruptedException ex) {
                 Logger.getLogger(Engine.class.getName()).log(Level.SEVERE, null, ex);
             }
@@ -553,7 +563,7 @@ public class Engine extends JFrame implements Runnable, ActionListener {
     }
     @SuppressWarnings("unchecked")
     public boolean nextLevel(int direction){
-        rads.recalculateParent();
+        
         if(levelmap == null){
             constructLevelmap();
         }
@@ -605,6 +615,7 @@ public class Engine extends JFrame implements Runnable, ActionListener {
         }else{
             return false;
         }
+        rads.recalculateParent();
         return true;
     }
     dVector las;

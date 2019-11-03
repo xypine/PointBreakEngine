@@ -17,7 +17,7 @@ import java.awt.event.MouseMotionListener;
  * @author Jonnelafin
  */
 public class Input implements KeyListener, MouseMotionListener, MouseListener {
-    private kick ki;
+    private Supervisor ki;
     private int up = 0, down = 0;
     private int right = 0, left = 0;
     private int up2 = 0, down2 = 0;
@@ -99,7 +99,7 @@ public class Input implements KeyListener, MouseMotionListener, MouseListener {
         if(ke == 'm'){map = true;}
     }
     
-    public Input(kick k){
+    public Input(Supervisor k){
         this.ki = k;
     }
     public char ke;
@@ -192,7 +192,7 @@ public class Input implements KeyListener, MouseMotionListener, MouseListener {
     public void mouseExited(MouseEvent e) {
         //throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
-    public dVector reverseMouse(kick k){
+    public dVector reverseMouse(Supervisor k){
         return new dVector((mouseX() / k.Logic.Vrenderer.factor) - 1, (mouseY() / k.Logic.Vrenderer.factor) - 3);
     }
 }

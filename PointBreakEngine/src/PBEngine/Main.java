@@ -22,7 +22,7 @@ public class Main {
      * @param args the command line arguments
      */
     static LinkedList<Object> list;
-    static public kick k;
+    static public Supervisor k;
     private static boolean blights = false;
     private static dVector grav = new dVector(0D, 0D);;
     public Engine main;
@@ -55,20 +55,20 @@ public class Main {
             System.out.println("If you wish not to use the demo, please add the 'nodemo' argument");
             quickTools.alert("demo", "If you wish not to use the demo, please add the 'nodemo' argument");
         //if(args.length != 0){if(args[0].equals("template")){
-            k = new kick(3, true, new dVector(0D, 0D), 10);
+            k = new Supervisor(3, true, new dVector(0D, 0D), 10);
         }else{
-            k = new kick(0, blights, grav, 10);
+            k = new Supervisor(0, blights, grav, 10);
         }
         k.run();
 //        else{
-//            k = new kick(0);
+//            k = new Supervisor(0);
     }
     public void start(){
         running = true;
         main = k.Logic;
         editor = k.ea;
         float c = 0F;
-        k = new kick(3, true, new dVector(0, 0.1D));
+        k = new Supervisor(3, true, new dVector(0, 0.1D));
         while(!main.ready){
             System.out.println("initializing main... " + c);
             c++;

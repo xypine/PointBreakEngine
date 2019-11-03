@@ -26,7 +26,7 @@ package astarDemo;
 import PBEngine.Range;
 import PBEngine.dVector;
 import PBEngine.gameObject;
-import PBEngine.kick;
+import PBEngine.Supervisor;
 import java.awt.Color;
 import java.net.URISyntaxException;
 import java.util.LinkedList;
@@ -41,8 +41,8 @@ import java.util.logging.Logger;
 public class astardemo{
     
     public static void main(String[] args) {
-        kick k;
-        k = new kick(0, false, new dVector(0, 0), 1);
+        Supervisor k;
+        k = new Supervisor(0, false, new dVector(0, 0), 1);
         k.timerType = 0;
         
         Thread A = new Thread(k);

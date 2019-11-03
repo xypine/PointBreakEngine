@@ -70,8 +70,8 @@ public class gameObject {
     public int preferredLayer = -1;
 //    Renderer re = new Renderer();
     //objectManager oM = new objectManager();
-    public kick masterParent;
-    public gameObject(int xpos, int ypos, int size, String tag, String ap, double mas, Color cot, int ID, kick master){
+    public Supervisor masterParent;
+    public gameObject(int xpos, int ypos, int size, String tag, String ap, double mas, Color cot, int ID, Supervisor master){
         this.masterParent = master;
         this.summon(ypos, xpos, tag, ap, mas, cot, ID);
         this.children.add(this);
@@ -184,6 +184,7 @@ public class gameObject {
     //                this.x = this.x + (this.velx);
                     for (int i : new Range((int) round(Math.abs(this.velx * (delta*0.2) ) * 5))) {
 
+                        doOnPreciseMovement();
                         if(this.velx < 0){this.x = this.x - 0.1F;}
                         if(this.velx > 0){this.x = this.x + 0.1F;}
                         checkAdvancedCollisions(oMb, this);
@@ -194,6 +195,7 @@ public class gameObject {
                     }
                     for (int i : new Range((int) round(Math.abs(this.vely * (delta*0.2) ) * 5))) {
 
+                        doOnPreciseMovement();
                         if(this.vely < 0){this.y = this.y - 0.1F;}
                         if(this.vely > 0){this.y = this.y + 0.1F;}
                         checkAdvancedCollisions(oMb, this);
@@ -487,6 +489,9 @@ public class gameObject {
         }
     }
     public void noclip(){
+        
+    }
+    public void doOnPreciseMovement(){
         
     }
 }
