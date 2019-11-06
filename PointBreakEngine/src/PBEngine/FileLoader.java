@@ -56,51 +56,14 @@ public class FileLoader {
     
     List<String> levels;
     public FileLoader(String file, objectManager oM, Supervisor master) throws URISyntaxException{
-        this.done = false;
-        levels = getLevels(filePath);
-        this.master = master;
-        if(file == "null"){
-            return;
-        }
-        
-        String arr[] = file.split(" ", 2);
-        
-        
-        String text = file;
-        
-        try {
-            if(!arr[0].equals("!random")){
-                Scanner in = new Scanner(new FileReader(filePath + file));
-                text = "";
-                while (in.hasNextLine()) {
-                    String line = in.nextLine();
-                    text = text + line;
-                }
-                in.close();
-            }
-        }
-        catch (FileNotFoundException ex) {
-                try{
-                    fetch(fallback, oM, master.Logic.rads);
-                    System.out.println("!!! level " + filePath + file + " FAILED TO LOAD!!!");
-                    quickTools.alert("Level not found!", "!!! level " + filePath + file + " FAILED TO LOAD!!!");
-                    System.out.println("fallback level loaded with " + count + " objects!");
-    //            fetch(in.toString(), oM);
-                }
-                catch(Exception o){
-                    Logger.getLogger(FileLoader.class.getName()).log(Level.SEVERE, null, o);
-                    quickTools.alert("LevelLoading", o.getMessage());
-                }
-            }
-        if(arr[0].equals("!random")){
-            text = file;
-        }
-        fetch(text, oM, master.Logic.rads);
-        System.out.println("Level ["+filePath.concat(file)+"] loaded with " + count + " objects!");
-//            fetch(in.toString(), oM);
+        FileLoaderConst(file, oM, master, filePath);
         
     }
     public FileLoader(String file, objectManager oM, Supervisor master, String filepath1) throws URISyntaxException{
+        FileLoaderConst(file, oM, master, filepath1);
+        
+    }
+    public void FileLoaderConst(String file, objectManager oM, Supervisor master, String filepath1) throws URISyntaxException{
         this.done = false;
         levels = getLevels(filePath);
         this.master = master;
@@ -146,7 +109,12 @@ public class FileLoader {
         
     }
     public LinkedList<gameObject> level = new LinkedList<>();
+    
     public void fetch(String i, objectManager oM, VSRadManager rads){
+        fetch(i, oM, rads, false);
+    }
+    
+    public void fetch(String i, objectManager oM, VSRadManager rads, boolean loadLightsAsObjects){
         LinkedList<gameObject> newObjects = new LinkedList<>();
         boolean meta = false;
         int metachar = 0;
@@ -198,7 +166,11 @@ public class FileLoader {
                     break;
                 case ':':
                     //this.c
-                    //if(tag == "light"){rads.add(x, y, mass, c, 1, false);}
+                    if(tag == "light" && !loadLightsAsObjects){rads.add(x, y, mass, c, 1, false);}
+                    else if (tag == "light"){
+                        gameObject tml = new gameObject(this.x, this.y, 1, this.tag, this.appereance, this.mass, Color.black, this.id, master);
+                        newObjects.add(tml);
+                    }
                     if(tag.equals("static")){gameObject tm = new gameObject(this.x, this.y, 1, this.tag, this.appereance, this.mass, Color.black, this.id, master);
                     tm.imageName = dir.textures + "walls/walls0.png";
                     newObjects.add(tm);}

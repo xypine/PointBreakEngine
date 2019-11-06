@@ -35,7 +35,7 @@ public class Player extends gameObject{
         double rot = Math.atan(xc/c);
         
         if(!Double.isNaN(rot)){
-            this.setRadians(rot);
+            //this.setRadians(rot);
             //System.out.println(rot);
         }
         for(gameObject i : getChildren()){

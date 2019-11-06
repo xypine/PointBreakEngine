@@ -402,6 +402,14 @@ public class Engine extends JFrame implements Runnable, ActionListener {
         throw new SecurityException("not implemented / supported yet");
     }
     
+    public String[][] getLevelMap(){
+        return this.levelmap;
+    }
+    public dVector getCurrentLevelCoord(){
+        return currentMap.clone();
+    }
+    
+    
     double mapLoadTime = 0;
     public LinkedList<gameObject> loadLevel(String level) throws URISyntaxException{
         LinkedList<gameObject> out = new LinkedList<>();
@@ -567,7 +575,7 @@ public class Engine extends JFrame implements Runnable, ActionListener {
         if(levelmap == null){
             constructLevelmap();
         }
-        dVector newLevel = dVector.add(currentMap, quickTools.levelDirs[direction]);
+        dVector newLevel = dVector.add(currentMap, quickTools.vectorDirs4[direction]);
         System.out.println("current location: "+currentMap.represent()+ " possible new loc: "+newLevel.represent());
         //newLevel.x <= mapw && newLevel.y >= maph
         System.out.println(newLevel.represent());

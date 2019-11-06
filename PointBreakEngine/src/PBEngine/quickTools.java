@@ -27,7 +27,7 @@ public class quickTools {
     public static int levelDown = 2;
     public static int levelLeft = 3;
     
-    public static dVector[] levelDirs = {new dVector(0, 1), new dVector(1, 0), new dVector(0, -1), new dVector(-1, 0)}; 
+    public static dVector[] vectorDirs4 = {new dVector(0, 1), new dVector(1, 0), new dVector(0, -1), new dVector(-1, 0)}; 
     
     static dVector[] dirs = new dVector[8];
     public quickTools(){

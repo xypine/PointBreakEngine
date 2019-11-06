@@ -6,10 +6,12 @@
 
 package PBEngine;
 
+import PBEngine.Rendering.MapTest;
 import java.awt.Color;
 import java.io.ByteArrayOutputStream;
 import java.io.PrintStream;
 import java.net.URISyntaxException;
+import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.concurrent.TimeUnit;
 import java.util.logging.Level;
@@ -45,7 +47,7 @@ public class Supervisor implements Runnable{
     public quickTools tools = new quickTools();
     
     //Global variables
-    public double world_friction_multiplier = 0.9;
+    public double world_friction_multiplier = 0.8;
     public dVector engine_gravity = new dVector(0D, 0.1D);
     public boolean engine_collisions = true;
     
@@ -70,40 +72,52 @@ public class Supervisor implements Runnable{
     LinkedList<option> Options = new LinkedList<>();
     
     public boolean readFeatures = true;
-    public Supervisor(int mode, boolean bakedLights, dVector gravity){
-        this.mode = mode;
-        this.bakedLights = bakedLights;
-        this.engine_gravity = gravity;
-        //read config
-        Options.add(new option("gravity", engine_gravity));
-        Options.add(new option("sizex", xd));
-        Options.add(new option("sizey", yd));
-        for(String ar : FileLoader.readConfig("config.txt")){
-            for(option x : Options){
-                if(x.name.equals(ar.split(" ")[0])){
-                    x.link = ar.split(" ")[1];
-                }
-            }
-        }
-        rad = new VSRadManager(xd, yd, objectManager, ref);
-        Logic = new Engine(ref , objectManager, xd, yd, rad, engine_gravity);
-        ea = new LegacyEditor(ref);
-        
-        
-        
-        
-        
-        // Print some output: goes to your special stream
-//        System.out.println("Foofoofoo!");
-        // Put things back
-//        System.out.flush();
-//        System.setOut(old);
-        // Show what happened
-//        System.out.println("Here: " + baos.toString());
-        
-        
+    /*public Supervisor(int mode, boolean bakedLights, dVector gravity){
+    this.mode = mode;
+    this.bakedLights = bakedLights;
+    this.engine_gravity = gravity;
+    //read config
+    Options.add(new option("gravity", engine_gravity));
+    Options.add(new option("sizex", xd));
+    Options.add(new option("sizey", yd));
+    for(String ar : FileLoader.readConfig("config.txt")){
+    for(option x : Options){
+    if(x.name.equals(ar.split(" ")[0])){
+    x.link = ar.split(" ")[1];
+    }
+    }
+    }
+    rad = new VSRadManager(xd, yd, objectManager, ref);
+    Logic = new Engine(ref , objectManager, xd, yd, rad, engine_gravity);
+    ea = new LegacyEditor(ref);
+    
+    
+    
+    
+    
+    // Print some output: goes to your special stream
+    //        System.out.println("Foofoofoo!");
+    // Put things back
+    //        System.out.flush();
+    //        System.setOut(old);
+    // Show what happened
+    //        System.out.println("Here: " + baos.toString());
+    
+    
+    }*/
+    public Supervisor(int mode, boolean bakedLights, dVector gravity, int targetSpeed, HashMap<String, String>... param){
+        SupervisorConst(mode, bakedLights, gravity, targetSpeed, param);
+    }
+    public Supervisor(int mode, boolean bakedLights, dVector gravity, HashMap<String, String>... param){
+        SupervisorConst(mode, bakedLights, gravity, 15, param);
     }
     public Supervisor(int mode, boolean bakedLights, dVector gravity, int targetSpeed){
+        SupervisorConst(mode, bakedLights, gravity, targetSpeed);
+    }
+    public Supervisor(int mode, boolean bakedLights, dVector gravity){
+        SupervisorConst(mode, bakedLights, gravity, 15);
+    }
+    private void SupervisorConst(int mode, boolean bakedLights, dVector gravity, int targetSpeed, HashMap<String, String>... param){
         this.mode = mode;
         this.bakedLights = bakedLights;
         this.engine_gravity = gravity;
@@ -122,7 +136,13 @@ public class Supervisor implements Runnable{
         Logic = new Engine(ref , objectManager, xd, yd, rad, engine_gravity, targetSpeed);
         ea = new LegacyEditor(ref);
         
+        HashMap<String, String> paramMap = new HashMap<>();
         
+        if(param.length > 0){
+            paramMap = param[0];
+        }
+        
+        LEFT HERE -> maploading
         
         
         
@@ -136,6 +156,8 @@ public class Supervisor implements Runnable{
         
         
     }
+    public String defaultMap = "out";
+    
     public void tick_pre(){
         
     }
@@ -324,6 +346,8 @@ public class Supervisor implements Runnable{
         }
         
         ready = true;
+        //PBEngine.Rendering.MapTest mapTest = new MapTest(ref);
+        //mapTest.setVisible(true);
         while(true){
             String newo = baos.toString();
             if(!oldo.equals(newo)){
