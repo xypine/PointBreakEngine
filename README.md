@@ -1,13 +1,10 @@
 # PointBreakEngine
-A flexible game engine made in java, featuring text and vector graphics support.
+A flexible game engine made in java, unstable and having a ton of unnesessary features.
+
 
 
 
 !!!!!
 This game-engine is not ready for use! At the moment you have to load the source in your IDE to access all features.
-A demo is available at the releases section.
+A demo is available at the releases section (a "couple months" commits missing though).
 !!!!!
-
-<h1>Documentation:</h1>
-Demo:
-press 'e' in default window to enter edit mode, in edit mode press 'r' to toggle the brush and 'l' to save the level. The level will load on next startup.
