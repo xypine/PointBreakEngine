@@ -111,9 +111,11 @@ public class Supervisor implements Runnable{
     public Supervisor(int mode, boolean bakedLights, dVector gravity, HashMap<String, String>... param){
         SupervisorConst(mode, bakedLights, gravity, 15, param);
     }
+    @SuppressWarnings("unchecked")
     public Supervisor(int mode, boolean bakedLights, dVector gravity, int targetSpeed){
         SupervisorConst(mode, bakedLights, gravity, targetSpeed);
     }
+    @SuppressWarnings("unchecked")
     public Supervisor(int mode, boolean bakedLights, dVector gravity){
         SupervisorConst(mode, bakedLights, gravity, 15);
     }
@@ -140,9 +142,13 @@ public class Supervisor implements Runnable{
         
         if(param.length > 0){
             paramMap = param[0];
+            if(paramMap.containsKey("loadLevel")){
+                this.defaultMap = paramMap.get("loadLevel");
+            }
         }
         
-        LEFT HERE -> maploading
+        
+        //LEFT HERE -> maploading
         
         
         
@@ -156,7 +162,7 @@ public class Supervisor implements Runnable{
         
         
     }
-    public String defaultMap = "out";
+    public String defaultMap = "null";
     
     public void tick_pre(){
         
@@ -280,7 +286,7 @@ public class Supervisor implements Runnable{
         
         if(mode == 3){
             try {
-                LinkedList<gameObject> nulx = Logic.loadLevel("out.pblevel");
+                LinkedList<gameObject> nulx = Logic.loadLevel(defaultMap, "");
             } catch (URISyntaxException ex) {
                 Logger.getLogger(Supervisor.class.getName()).log(Level.SEVERE, null, ex);
             }

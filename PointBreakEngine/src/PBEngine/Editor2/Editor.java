@@ -31,6 +31,7 @@ import java.awt.event.ActionListener;
 import java.io.File;
 import java.io.PrintWriter;
 import java.net.URISyntaxException;
+import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.logging.Logger;
 import javax.swing.JButton;
@@ -100,6 +101,47 @@ public class Editor {
         System.out.println(k.Logic.running);
     }
     Cursor cursor;
+    @SuppressWarnings("unchecked")
+    public void runLevel(){
+        HashMap params = new HashMap();
+        String location = save();
+        params.put("loadLevel", location);
+        Supervisor supervisor = new Supervisor(3, true, new dVector(0, 0), 0, params);
+        Thread A = new Thread(supervisor);
+        A.start();
+        k.Logic.targetSpeed = 60;
+        while(!supervisor.ready){
+            try {
+                Thread.sleep(100);
+            } catch (InterruptedException ex) {
+                Logger.getLogger(Editor.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            }
+        }
+        //quickTools.alert("Engine supervisor ready!");
+        
+        quickTools.alert("Have a good day!");
+        k.Logic.targetSpeed = 500;
+    }
+    public String save(){
+            String out = "";
+            System.out.println("Save...");
+            JFileChooser jfc = new JFileChooser(FileSystemView.getFileSystemView().getHomeDirectory());
+            int returnValue = jfc.showSaveDialog(null);
+            if (returnValue == JFileChooser.APPROVE_OPTION) {
+			File selectedFile = jfc.getSelectedFile();
+			System.out.println(selectedFile.getAbsolutePath());
+                try {
+                    PrintWriter writer = new PrintWriter(selectedFile.getAbsolutePath(), "UTF-8");
+                    writer.print("");
+                    writer.close();
+                    new FileLoader("null", k.objectManager, k).write(k.objectManager.getObjects(), selectedFile.getAbsolutePath(), "");
+                } catch (Exception ex) {
+                    Logger.getLogger(BListener.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+                }
+                out = selectedFile.getAbsolutePath();
+            }
+        return out;
+    }
 }
 class BListener implements ActionListener{
     boolean abright = false;
@@ -142,6 +184,9 @@ class BListener implements ActionListener{
                     Logger.getLogger(BListener.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
                 }
             }
+        }
+        if(type == 3){
+            editor.runLevel();
         }
         if(type == 4){
             int action = editor.select.getSelectedIndex();

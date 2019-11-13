@@ -412,9 +412,12 @@ public class Engine extends JFrame implements Runnable, ActionListener {
     
     double mapLoadTime = 0;
     public LinkedList<gameObject> loadLevel(String level) throws URISyntaxException{
+        return loadLevel(level, new directory().levels);
+    }
+    public LinkedList<gameObject> loadLevel(String level, String levelpath) throws URISyntaxException{
         LinkedList<gameObject> out = new LinkedList<>();
         long time = System.nanoTime();
-        FileLoader lL = new FileLoader(level, oM, k);
+        FileLoader lL = new FileLoader(level, oM, k, levelpath);
         while(!lL.done){
             try {
                 Thread.sleep(1);

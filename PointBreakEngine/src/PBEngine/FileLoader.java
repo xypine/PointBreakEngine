@@ -67,7 +67,9 @@ public class FileLoader {
         this.done = false;
         levels = getLevels(filePath);
         this.master = master;
-        if(file == "null"){
+        if(file == "null" || file == null){
+            fetch("", oM, master.Logic.rads);
+            System.out.println("Level ["+filePath.concat(file)+"] loaded with " + count + " objects!");
             return;
         }
         
