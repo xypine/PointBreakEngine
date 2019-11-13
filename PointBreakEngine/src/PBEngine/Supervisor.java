@@ -198,6 +198,10 @@ public class Supervisor implements Runnable{
         return -1;
     }
     public int timerType = -1;
+    public String features_confFile = "features.txt";
+    public boolean features_overrideAllStandard = false;
+    public config.configReader features_customReader = null;
+    
     
     @Override
     public void run() {
@@ -317,7 +321,14 @@ public class Supervisor implements Runnable{
         //Load features.txt config
         if(readFeatures){
             try {
-                config.configReader.load(new directory().config + "features.txt", ref);
+                if(features_customReader == null){
+                    config.configReader.load(new directory().config + features_confFile, ref);
+                }
+                else{
+                    Logger.getGlobal().warning("Using a custom config reader, errors may occur...");
+                    config.configReader cnf = features_customReader;
+                    cnf.load(new directory().config + features_confFile, ref);
+                }
             } catch (Exception e) {
                 quickTools.alert("unable to read config file", "unable to read config file! Does it exist?");
             }

@@ -55,6 +55,7 @@ public class Editor {
         Camera cam = new Camera(0, 0);
         k = new Supervisor(0, false, new dVector(0, 0), 0);
         k.timerType = 1;
+        k.features_confFile = "editorConfig.txt";
         Thread A = new Thread(k);
         A.start();
         while(!k.ready){

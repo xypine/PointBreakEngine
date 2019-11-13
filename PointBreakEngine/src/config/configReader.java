@@ -26,8 +26,13 @@ package config;
 
 import PBEngine.Supervisor;
 import PBEngine.quickTools;
+import java.io.BufferedWriter;
 import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.FileReader;
+import java.io.IOException;
+import java.io.OutputStreamWriter;
+import java.io.Writer;
 import java.util.LinkedList;
 import java.util.Scanner;
 import java.util.logging.Level;
@@ -55,7 +60,24 @@ public class configReader {
                 source = source + in.next();
             }
         } catch (FileNotFoundException ex) {
-            throw ex;
+            //throw ex;
+            System.out.println("Could not read config file: " + ex);
+            System.out.println("trying to create a new one...");
+            String stsa = "Done!\n";
+            try (
+                Writer writer = new BufferedWriter(new OutputStreamWriter(
+                new FileOutputStream(filename), "utf-8"))) {
+                    writer.write("");
+                    writer.close();
+                }
+            
+            catch (IOException ex1) {
+                stsa = "";
+                System.out.println("FAILED, SKIPPING CONFIG READ BECOUSE:");
+                Logger.getGlobal().warning(ex1.toString());
+                System.out.println("Console version: " + ex1.toString());
+            }
+            System.out.print(stsa);
         }
         LinkedList<String[]> raw = fetch(source);
         
@@ -70,26 +92,39 @@ public class configReader {
         
         for(String[] x: raw){
             String value = x[1];
-            switch(x[0]){
-                case "nausea":
-                    int numValue = 0;
-                    try{
-                        numValue = Integer.parseInt(value);
-                    }
-                    catch(Exception e){
-                        quickTools.alert("configReader", "invalid nausea value");
+            if(!k.features_overrideAllStandard)
+                switch(x[0]){
+                    case "nausea":
+                        int numValue = 0;
+                        try{
+                            numValue = Integer.parseInt(value);
+                        }
+                        catch(Exception e){
+                            quickTools.alert("configReader", "invalid nausea value");
+                            break;
+                        }
+                        if(numValue > 0){
+                            k.Logic.Vrenderer.dispEffectsEnabled = true;
+                        }
+                        //k.Logic.Vrenderer.di
                         break;
-                    }
-                    if(numValue > 0){
-                        k.Logic.Vrenderer.dispEffectsEnabled = true;
-                    }
-                    //k.Logic.Vrenderer.di
-                    break;
-                default:
-                    
-                    break;
-            }
+                    default:
+
+                        break;
+                }
+            customFeatures(x[0], x[1], k);
         }
+    }
+
+    /**
+     * For your own config reading.
+     * eg. switch(key) { ... }
+     * @param key
+     * @param value
+     * @param su
+     */
+    private static void customFeatures(String key, String value, Supervisor su){
+        
     }
     private static LinkedList<String[]> fetch(String source){
         LinkedList<String[]> out = new LinkedList<String[]>();

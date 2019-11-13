@@ -15,6 +15,8 @@ import java.awt.RenderingHints;
 import java.awt.Transparency;
 import java.awt.image.BufferedImage;
 import java.util.LinkedList;
+import javax.swing.Icon;
+import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 
 /**
@@ -344,5 +346,15 @@ public class quickTools {
             cloned[i] = original[i].clone();
         }
         return cloned;
+    }
+    
+    public static Integer askInt(String message){
+        //JOptionPane pane = new JOptionPane("", JOptionPane.QUESTION_MESSAGE, JOptionPane.YES_NO_OPTION, null);
+        int choosed = JOptionPane.showConfirmDialog(null, message);
+        return choosed;
+    }
+    public static Integer askInt_slider(String title, String msg, int spacing, int min, int max){
+        int chosen = (int) PBEngine.customPanels.JSliderOnJOptionPane.Ask(title, msg, spacing, min, max);
+        return chosen;
     }
 }
