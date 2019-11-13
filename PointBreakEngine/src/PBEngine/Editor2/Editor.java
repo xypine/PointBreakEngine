@@ -38,6 +38,7 @@ import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JFileChooser;
 import javax.swing.JPanel;
+import javax.swing.JRadioButton;
 import javax.swing.filechooser.FileSystemView;
 
 /**
@@ -45,10 +46,12 @@ import javax.swing.filechooser.FileSystemView;
  * @author elias
  */
 public class Editor {
+    public boolean bake = false;
     public boolean saved = false;
     public PBEngine.Supervisor k;
     public int mode = 0;
     JComboBox select;
+    JRadioButton calcLights;
     @SuppressWarnings("unchecked")
     public Editor(){
         String[] argss = new String[2];
@@ -66,12 +69,14 @@ public class Editor {
         k.Logic.Vrenderer.factor = 20;
         
         JPanel editorPanel = new JPanel();
+        JPanel editorPanel2 = new JPanel();
         JPanel container = new JPanel();
-        container.setLayout(new BorderLayout(0, 0));
+        container.setLayout(new BorderLayout(45, 0));
         
         JButton saveB = new JButton("Save");saveB.addActionListener(new BListener(1, this));
         JButton loadB = new JButton("Load");loadB.addActionListener(new BListener(2, this));
         JButton testB = new JButton("Run");testB.addActionListener(new BListener(3, this));
+        calcLights = new JRadioButton("calcLights", false);calcLights.addActionListener(new BListener(5, this));
         String[] options = {"Wall","Light","?"};
         select = new JComboBox(options);select.addActionListener(new BListener(4, this));
         select.setEditable(true);
@@ -79,9 +84,11 @@ public class Editor {
         editorPanel.add(saveB);
         editorPanel.add(loadB);
         editorPanel.add(testB);
-        editorPanel.add(select);
+        editorPanel.add(calcLights);
+        editorPanel2.add(select);
         
         container.add(editorPanel, BorderLayout.NORTH);
+        container.add(editorPanel2, BorderLayout.CENTER);
         k.kit.cont.add(container, BorderLayout.NORTH);
         
         k.Logic.abright = true;
@@ -106,7 +113,7 @@ public class Editor {
         HashMap params = new HashMap();
         String location = save();
         params.put("loadLevel", location);
-        Supervisor supervisor = new Supervisor(3, true, new dVector(0, 0), 0, params);
+        Supervisor supervisor = new Supervisor(3, !bake, new dVector(0, 0), 0, params);
         Thread A = new Thread(supervisor);
         A.start();
         k.Logic.targetSpeed = 60;
@@ -119,7 +126,7 @@ public class Editor {
         }
         //quickTools.alert("Engine supervisor ready!");
         
-        quickTools.alert("Have a good day!");
+        //quickTools.alert("Have a good day!");
         k.Logic.targetSpeed = 500;
     }
     public String save(){
@@ -199,6 +206,9 @@ class BListener implements ActionListener{
             editor.mode = 1;
             }*/
             
+        }
+        if(type == 5){
+            editor.bake = editor.calcLights.isSelected();
         }
     }
     

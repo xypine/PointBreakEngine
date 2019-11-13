@@ -134,9 +134,6 @@ public class Supervisor implements Runnable{
                 }
             }
         }
-        rad = new VSRadManager(xd, yd, objectManager, ref);
-        Logic = new Engine(ref , objectManager, xd, yd, rad, engine_gravity, targetSpeed);
-        ea = new LegacyEditor(ref);
         
         HashMap<String, String> paramMap = new HashMap<>();
         
@@ -146,6 +143,12 @@ public class Supervisor implements Runnable{
                 this.defaultMap = paramMap.get("loadLevel");
             }
         }
+        
+        rad = new VSRadManager(xd, yd, objectManager, ref);
+        Logic = new Engine(ref , objectManager, xd, yd, rad, engine_gravity, defaultMap, targetSpeed);
+        ea = new LegacyEditor(ref);
+        
+        
         
         
         //LEFT HERE -> maploading

@@ -84,7 +84,7 @@ public class Engine extends JFrame implements Runnable, ActionListener {
     Supervisor k;
     public Input input;
     public int targetSpeed = 15;
-    public Engine(Supervisor ki, objectManager o, int xd, int yd, VSRadManager a, dVector g){
+    public Engine(Supervisor ki, objectManager o, int xd, int yd, VSRadManager a, dVector g, String level){
         
         this.oM = o;
         this.xd = xd;
@@ -94,8 +94,9 @@ public class Engine extends JFrame implements Runnable, ActionListener {
         input = new Input(k);
         System.out.println("out main input: " + k);
         this.rads = a;
+        this.levelName = level;
     }
-    public Engine(Supervisor ki, objectManager o, int xd, int yd, VSRadManager a, dVector g, int targetSpeed){
+    public Engine(Supervisor ki, objectManager o, int xd, int yd, VSRadManager a, dVector g, String level, int targetSpeed){
         this.targetSpeed = targetSpeed;
         this.oM = o;
         this.xd = xd;
@@ -105,6 +106,7 @@ public class Engine extends JFrame implements Runnable, ActionListener {
         input = new Input(k);
         System.out.println("out main input: " + k);
         this.rads = a;
+        this.levelName = level;
     }
     private AudioSource aM;
     VSRadManager rads;
@@ -286,8 +288,8 @@ public class Engine extends JFrame implements Runnable, ActionListener {
                 System.out.println("saving lights");
                 try {
                     FileLoader lL = new FileLoader("null", oM, k);
-                    lL.writeObject(bakedRays, "out_lights.txt");
-                    lL.writeObject(colored, "out_illumination.txt");
+                    lL.writeObject(bakedRays, levelName + "_lights.txt");
+                    lL.writeObject(colored, levelName + "_illumination.txt");
                 } catch (URISyntaxException ex) {
                     Logger.getLogger(Engine.class.getName()).log(Level.SEVERE, null, ex);
                 } catch (IOException ex) {
