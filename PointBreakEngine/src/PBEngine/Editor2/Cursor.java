@@ -82,7 +82,7 @@ public class Cursor extends Player{
             this.x = (in.mouseX() / this.masterParent.Logic.Vrenderer.factor);
             this.y = (in.mouseY() / this.masterParent.Logic.Vrenderer.factor);
             this.x = (int)x;
-            this.y = (int)y;
+            this.y = (int)y - 1;
         //    System.out.println(new dVector(this.x, this.y).represent());
         }
         usedUse = usedUse + 10;

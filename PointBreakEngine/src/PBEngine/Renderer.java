@@ -256,7 +256,7 @@ public class Renderer extends JPanel{
                         if(camMode == 0){//static
                             g.fillRect((int)((rl.x + effectOffSet.x) * factor),(int) ((rl.y + effectOffSet.y) *factor), (int) factor * size, (int) factor * size);
                         }
-                        if (camMode == 1) {//follow camera
+                        if (camMode == 1) {//follow a camera
                             g.fillRect((int) (((rl.x + effectOffSet.x) - camx) * factor + (w / 2)), (int) (((rl.y + effectOffSet.y) - camy) * factor + (h / 2)), (int) factor * size, (int) factor * size);
                         }
                     }

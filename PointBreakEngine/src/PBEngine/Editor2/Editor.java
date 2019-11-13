@@ -62,6 +62,7 @@ public class Editor {
             
         }
         k.Logic.setTitle("PointBreakEngine (Editor2)");
+        k.Logic.Vrenderer.factor = 20;
         
         JPanel editorPanel = new JPanel();
         JPanel container = new JPanel();
