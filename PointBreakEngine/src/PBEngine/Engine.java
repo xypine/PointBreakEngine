@@ -6,6 +6,9 @@
 
 package PBEngine;
 
+import jfUtils.Range;
+import jfUtils.dVector;
+import jfUtils.quickTools;
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.event.ActionEvent;

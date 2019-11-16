@@ -6,6 +6,8 @@
 
 package PBEngine;
 
+import jfUtils.dVector;
+import jfUtils.quickTools;
 import PBEngine.Rendering.MapTest;
 import java.awt.Color;
 import java.io.ByteArrayOutputStream;

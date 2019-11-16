@@ -1,4 +1,4 @@
-package PBEngine;
+package jfUtils;
 
 /**
  *  Find if a path exists from top left corner of given 2D array map, considering
@@ -12,6 +12,8 @@ package PBEngine;
  *  
  */
 
+import jfUtils.astarNode;
+import jfUtils.dVector;
 import java.util.*;
 import java.lang.*;
 import static java.lang.Math.pow;

@@ -7,6 +7,8 @@
 package PBEngine;
 
 
+import jfUtils.Range;
+import jfUtils.dVector;
 import static java.lang.Math.round;
 import java.util.LinkedList;
 

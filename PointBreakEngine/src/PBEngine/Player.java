@@ -6,6 +6,7 @@
 
 package PBEngine;
 
+import jfUtils.dVector;
 import java.awt.Color;
 
 /**

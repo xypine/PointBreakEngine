@@ -4,8 +4,10 @@
  * and open the template in the editor.
  */
 
-package PBEngine;
+package jfUtils;
 
+import PBEngine.MultiplyComposite;
+import PBEngine.Vector;
 import java.awt.AlphaComposite;
 import java.awt.Color;
 import java.awt.Graphics2D;

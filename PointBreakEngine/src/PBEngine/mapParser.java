@@ -23,6 +23,8 @@
  */
 package PBEngine;
 
+import jfUtils.dVector;
+
 /**
  *
  * @author elias eskelinen

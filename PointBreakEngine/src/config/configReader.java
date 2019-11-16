@@ -25,7 +25,7 @@
 package config;
 
 import PBEngine.Supervisor;
-import PBEngine.quickTools;
+import jfUtils.quickTools;
 import java.io.BufferedWriter;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;

@@ -23,6 +23,8 @@
  */
 package PBEngine.Editor2;
 
+import jfUtils.dVector;
+import jfUtils.quickTools;
 import PBEngine.*;
 import java.awt.BorderLayout;
 import java.awt.Color;

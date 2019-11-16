@@ -6,6 +6,8 @@
  */
 package PBEngine;
 
+import jfUtils.dVector;
+import jfUtils.quickTools;
 import java.awt.Color;
 import java.net.URISyntaxException;
 import java.util.LinkedList;
