@@ -6,8 +6,8 @@
 
 package PBEngine;
 
-import jfUtils.dVector;
-import jfUtils.quickTools;
+import JFUtils.dVector;
+import JFUtils.quickTools;
 import PBEngine.Rendering.MapTest;
 import java.awt.Color;
 import java.io.ByteArrayOutputStream;
@@ -25,7 +25,7 @@ import javax.swing.SwingUtilities;
  *
  * @author Jonnelafin
  */
-public class Supervisor implements Runnable{
+public class Supervisor extends JFUtils.InputActivated implements Runnable{
     
     private long delta = 0;
     private final Object deltaLock = new Object();

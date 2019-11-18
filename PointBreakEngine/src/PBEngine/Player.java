@@ -6,8 +6,8 @@
 
 package PBEngine;
 
-import jfUtils.Input;
-import jfUtils.dVector;
+import JFUtils.Input;
+import JFUtils.dVector;
 import java.awt.Color;
 
 /**

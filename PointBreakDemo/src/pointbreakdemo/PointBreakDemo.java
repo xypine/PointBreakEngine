@@ -4,8 +4,8 @@
  * and open the template in the editor.
  */
 package pointbreakdemo;
-import jfUtils.astar;
-import jfUtils.dVector;
+import JFUtils.astar;
+import JFUtils.dVector;
 import PBEngine.*;
 import static PBEngine.Main.k;
 import java.awt.Color;

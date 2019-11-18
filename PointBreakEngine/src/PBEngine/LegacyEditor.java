@@ -6,8 +6,8 @@
 
 package PBEngine;
 
-import jfUtils.Input;
-import jfUtils.quickTools;
+import JFUtils.Input;
+import JFUtils.quickTools;
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.event.ActionEvent;

@@ -23,9 +23,9 @@
  */
 package PBEngine.Editor2;
 
-import jfUtils.Input;
-import jfUtils.dVector;
-import jfUtils.quickTools;
+import JFUtils.Input;
+import JFUtils.dVector;
+import JFUtils.quickTools;
 import PBEngine.*;
 import java.awt.BorderLayout;
 import java.awt.Color;

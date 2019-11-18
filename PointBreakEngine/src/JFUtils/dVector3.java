@@ -22,50 +22,56 @@
  * THE SOFTWARE.
  */
 
-package jfUtils;
+package JFUtils;
 
 /**
  *
  * @author Jonnelafin
  */
-public class dVector implements java.io.Serializable{
+public class dVector3 implements java.io.Serializable{
     public double x;
     public double y;
+    public double z;
     public double intX(){
         return Math.round(x);
     }
     public double intY(){
         return Math.round(y);
     }
-    public dVector(double nx, double ny){
+    public double intZ(){
+        return Math.round(z);
+    }
+    public dVector3(double nx, double ny, double nz){
         this.x = nx;
         this.y = ny;
+        this.z = nz;
     }
-    public static dVector add(dVector one, dVector two){
+    public static dVector3 add(dVector3 one, dVector3 two){
         double nx = one.x + two.x;
         double ny = one.y + two.y;
-        return(new dVector(nx, ny));
+        double nz = one.z + two.z;
+        return(new dVector3(nx, ny, nz));
     }
-    public static dVector subtract(dVector o, dVector t){
-        return(new dVector(o.x - t.x, o.y - t.y));
+    public static dVector3 subtract(dVector3 o, dVector3 t){
+        return(new dVector3(o.x - t.x, o.y - t.y, o.z - t.z));
     }
-    public static dVector multiply(dVector one, dVector two){
-        return(new dVector(one.x * two.x, one.y * two.y));
+    public static dVector3 multiply(dVector3 one, dVector3 two){
+        return(new dVector3(one.x * two.x, one.y * two.y, one.z * two.z));
     }
-    public static dVector divide(dVector one, dVector two){
-        return(new dVector(one.x / two.x, one.y / two.y));
+    public static dVector3 divide(dVector3 one, dVector3 two){
+        return(new dVector3(one.x / two.x, one.y / two.y, one.z / two.z));
     }
     public String represent(){
-        return(this.x + ", " + this.y);
+        return(this.x + ", " + this.y + ", " + this.z);
     }
-    public static dVector round(dVector in){
-        return(new dVector(Math.round(in.x), Math.round(in.y)));
+    public static dVector3 round(dVector3 in){
+        return(new dVector3(Math.round(in.x), Math.round(in.y), Math.round(in.z)));
     }
-    public static dVector clone(dVector source){
-        return new dVector(source.x, source.y);
+    public static dVector3 clone(dVector3 source){
+        return new dVector3(source.x, source.y, source.z);
     }
     @Override
-    public dVector clone(){
-        return new dVector(x, y);
+    public dVector3 clone(){
+        return new dVector3(x, y, z);
     }
 }

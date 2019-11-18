@@ -6,10 +6,10 @@
 
 package PBEngine;
 
-import jfUtils.Vector;
-import jfUtils.Range;
-import jfUtils.dVector;
-import jfUtils.quickTools;
+import JFUtils.Vector;
+import JFUtils.Range;
+import JFUtils.dVector;
+import JFUtils.quickTools;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Font;

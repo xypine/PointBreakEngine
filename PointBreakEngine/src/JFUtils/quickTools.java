@@ -4,7 +4,7 @@
  * and open the template in the editor.
  */
 
-package jfUtils;
+package JFUtils;
 
 import java.awt.AlphaComposite;
 import java.awt.Color;
@@ -354,7 +354,7 @@ public class quickTools {
         return choosed;
     }
     public static Integer askInt_slider(String title, String msg, int spacing, int min, int max){
-        int chosen = (int) jfUtils.JSliderOnJOptionPane.Ask(title, msg, spacing, min, max);
+        int chosen = (int) JFUtils.JSliderOnJOptionPane.Ask(title, msg, spacing, min, max);
         return chosen;
     }
 }

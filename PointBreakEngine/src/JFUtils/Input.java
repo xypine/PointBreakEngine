@@ -4,10 +4,10 @@
  * and open the template in the editor.
  */
 
-package jfUtils;
+package JFUtils;
 
-import PBEngine.Supervisor;
-import jfUtils.dVector;
+//import PBEngine.Supervisor;
+import JFUtils.dVector;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.awt.event.MouseEvent;
@@ -20,7 +20,7 @@ import java.util.HashMap;
  * @author Jonnelafin
  */
 public class Input implements KeyListener, MouseMotionListener, MouseListener {
-    private Supervisor ki;
+    private InputActivated ki;
     private int up = 0, down = 0;
     private int right = 0, left = 0;
     private int up2 = 0, down2 = 0;
@@ -115,7 +115,7 @@ public class Input implements KeyListener, MouseMotionListener, MouseListener {
         }
     }
     
-    public Input(Supervisor k){
+    public Input(InputActivated k){
         this.ki = k;
         initChars();
     }
@@ -224,7 +224,7 @@ public class Input implements KeyListener, MouseMotionListener, MouseListener {
     public void mouseExited(MouseEvent e) {
         //throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
-    public dVector reverseMouse(Supervisor k){
-        return new dVector((mouseX() / k.Logic.Vrenderer.factor) - 1, (mouseY() / k.Logic.Vrenderer.factor) - 3);
+    public dVector reverseMouse(InputActivated k){
+        return new dVector((mouseX() / k.zoomfactor) - 1, (mouseY() / k.zoomfactor) - 3);
     }
 }

@@ -23,8 +23,8 @@
  */
 package PBEngine.Rendering;
 
-import jfUtils.dVector;
-import jfUtils.quickTools;
+import JFUtils.dVector;
+import JFUtils.quickTools;
 import java.awt.Canvas;
 import java.awt.Color;
 import java.awt.Dimension;
@@ -133,8 +133,8 @@ class minimap extends JPanel{
             int sizeW = w / 3;
             int sizeH = h / 3;
             
-            for(int x : new jfUtils.Range(toSee.length)){
-                for(int y : new jfUtils.Range(toSee[0].length)){
+            for(int x : new JFUtils.Range(toSee.length)){
+                for(int y : new JFUtils.Range(toSee[0].length)){
                     if(x == 1 && y == 1){
                         g.setColor(Color.yellow);
                     }

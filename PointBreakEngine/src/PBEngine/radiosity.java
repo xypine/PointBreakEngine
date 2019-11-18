@@ -6,7 +6,7 @@
 
 package PBEngine;
 
-import jfUtils.Input;
+import JFUtils.Input;
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.event.ActionEvent;

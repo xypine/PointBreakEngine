@@ -4,9 +4,9 @@
  * and open the template in the editor.
  */
 
-package jfUtils;
+package JFUtils;
 
-import jfUtils.dVector;
+import JFUtils.dVector;
 
 /**
  *

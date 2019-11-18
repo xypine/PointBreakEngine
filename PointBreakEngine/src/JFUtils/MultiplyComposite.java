@@ -4,7 +4,7 @@
  * and open the template in the editor.
  */
 
-package jfUtils;
+package JFUtils;
 
 import java.awt.Composite;
 import java.awt.CompositeContext;

@@ -24,7 +24,7 @@
 
 package audio;
 
-import jfUtils.Range;
+import JFUtils.Range;
 import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;

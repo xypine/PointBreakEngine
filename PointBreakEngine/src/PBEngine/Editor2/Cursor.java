@@ -23,7 +23,7 @@
  */
 package PBEngine.Editor2;
 
-import jfUtils.Input;
+import JFUtils.Input;
 import PBEngine.*;
 import java.awt.Color;
 import java.io.IOException;

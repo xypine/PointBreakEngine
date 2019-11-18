@@ -6,7 +6,7 @@
 
 package PBEngine;
 
-import jfUtils.Vector;
+import JFUtils.Vector;
 
 /**
  *
