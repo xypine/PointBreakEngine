@@ -31,8 +31,10 @@ public class Input implements KeyListener, MouseMotionListener, MouseListener {
     public boolean tog = false;
     public boolean tog2 = false;
     public boolean map = false;
-    public boolean[] keys = new boolean[500];
+    public boolean[] keys = new boolean[tableSize];
     public HashMap<Character, Boolean> chars = new HashMap<>();
+    public final static int tableSize = 65535;
+    
     
     @Override
     public void keyTyped(KeyEvent e) {
@@ -103,6 +105,14 @@ public class Input implements KeyListener, MouseMotionListener, MouseListener {
         if(ke == 'r'){rt = 1;tog = !tog;}
         if(ke == 'v'){ve = 1;}
         if(ke == 'm'){map = true;}
+        
+        if(chars.containsKey(ke)){
+            chars.put(ke, true);
+            System.out.println(ke + ": " +chars.get(ke));
+        }
+        if(keys.length >= kee){
+            keys[kee] = false;
+        }
     }
     
     public Input(Supervisor k){
@@ -110,7 +120,7 @@ public class Input implements KeyListener, MouseMotionListener, MouseListener {
         initChars();
     }
     private void initChars(){
-        for(int i : new Range(65535)){
+        for(int i : new Range(tableSize)){
             char uc = (char) i;
             chars.put(uc, false);
         }
@@ -149,6 +159,15 @@ public class Input implements KeyListener, MouseMotionListener, MouseListener {
         if(ke == 'r'){rt = 0;}
         if(ke == 'v'){ve = 0;}
         if(ke == 'm'){map = false;}
+        
+        if(chars.containsKey(ke)){
+            chars.put(ke, false);
+            System.out.println(ke + ": " +chars.get(ke));
+        }
+        if(keys.length >= kee){
+            keys[kee] = false;
+        }
+        
     }
 
     @Override
