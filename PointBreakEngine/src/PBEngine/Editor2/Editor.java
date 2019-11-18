@@ -49,6 +49,8 @@ import javax.swing.filechooser.FileSystemView;
  * @author elias
  */
 public class Editor {
+    public String lastFile = null;
+    
     public boolean bake = false;
     public boolean saved = false;
     public PBEngine.Supervisor k;
@@ -135,7 +137,7 @@ public class Editor {
     public String save(){
             String out = "";
             System.out.println("Save...");
-            JFileChooser jfc = new JFileChooser(FileSystemView.getFileSystemView().getHomeDirectory());
+            JFileChooser jfc = new JFileChooser(lastFile);
             int returnValue = jfc.showSaveDialog(null);
             if (returnValue == JFileChooser.APPROVE_OPTION) {
 			File selectedFile = jfc.getSelectedFile();
@@ -150,6 +152,25 @@ public class Editor {
                 }
                 out = selectedFile.getAbsolutePath();
             }
+        lastFile = out;
+        return out;
+    }
+    public String load(){
+        String out = "";
+        JFileChooser jfc = new JFileChooser(lastFile);
+            int returnValue = jfc.showOpenDialog(null);
+            if (returnValue == JFileChooser.APPROVE_OPTION) {
+			File selectedFile = jfc.getSelectedFile();
+                        out = selectedFile.getAbsolutePath();
+			System.out.println(selectedFile.getAbsolutePath());
+                try {
+                    LinkedList<gameObject> old = k.Logic.loadLevel(selectedFile.getAbsolutePath(), "", Color.BLUE, Color.GREEN);
+                    
+                } catch (URISyntaxException ex) {
+                    Logger.getLogger(BListener.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+                }
+            }
+        lastFile = out;
         return out;
     }
 }
@@ -165,35 +186,11 @@ class BListener implements ActionListener{
     public void actionPerformed(ActionEvent ae) {
         if(type == 1){
             System.out.println("Save...");
-            JFileChooser jfc = new JFileChooser(FileSystemView.getFileSystemView().getHomeDirectory());
-            int returnValue = jfc.showSaveDialog(null);
-            if (returnValue == JFileChooser.APPROVE_OPTION) {
-			File selectedFile = jfc.getSelectedFile();
-			System.out.println(selectedFile.getAbsolutePath());
-                try {
-                    PrintWriter writer = new PrintWriter(selectedFile.getAbsolutePath(), "UTF-8");
-                    writer.print("");
-                    writer.close();
-                    new FileLoader("null", editor.k.objectManager, editor.k).write(editor.k.objectManager.getObjects(), selectedFile.getAbsolutePath(), "");
-                } catch (Exception ex) {
-                    Logger.getLogger(BListener.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-                }
-            }
+            editor.save();
         }
         if(type == 2){
             System.out.println("Load");
-            JFileChooser jfc = new JFileChooser(FileSystemView.getFileSystemView().getHomeDirectory());
-            int returnValue = jfc.showOpenDialog(null);
-            if (returnValue == JFileChooser.APPROVE_OPTION) {
-			File selectedFile = jfc.getSelectedFile();
-			System.out.println(selectedFile.getAbsolutePath());
-                try {
-                    LinkedList<gameObject> old = editor.k.Logic.loadLevel(selectedFile.getAbsolutePath(), "", Color.BLUE, Color.GREEN);
-                    
-                } catch (URISyntaxException ex) {
-                    Logger.getLogger(BListener.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-                }
-            }
+            editor.load();
         }
         if(type == 3){
             editor.runLevel();
