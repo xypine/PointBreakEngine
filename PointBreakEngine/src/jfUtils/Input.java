@@ -4,14 +4,18 @@
  * and open the template in the editor.
  */
 
-package PBEngine;
+package jfUtils;
 
+import PBEngine.Supervisor;
 import jfUtils.dVector;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
+import java.util.HashMap;
+import javax.swing.KeyStroke;
+import sun.text.normalizer.UTF16;
 
 /**
  *
@@ -29,6 +33,9 @@ public class Input implements KeyListener, MouseMotionListener, MouseListener {
     public boolean tog = false;
     public boolean tog2 = false;
     public boolean map = false;
+    public boolean[] keys = new boolean[500];
+    public HashMap<Character, Boolean> chars = new HashMap<>();
+    
     @Override
     public void keyTyped(KeyEvent e) {
         
@@ -102,6 +109,13 @@ public class Input implements KeyListener, MouseMotionListener, MouseListener {
     
     public Input(Supervisor k){
         this.ki = k;
+        initChars();
+    }
+    private void initChars(){
+        for(int i : new Range(65535)){
+            char uc = (char) i;
+            chars.put(uc, false);
+        }
     }
     public char ke;
     public int kee;

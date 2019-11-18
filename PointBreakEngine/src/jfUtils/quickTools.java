@@ -6,8 +6,6 @@
 
 package jfUtils;
 
-import PBEngine.MultiplyComposite;
-import PBEngine.Vector;
 import java.awt.AlphaComposite;
 import java.awt.Color;
 import java.awt.Graphics2D;
@@ -356,7 +354,7 @@ public class quickTools {
         return choosed;
     }
     public static Integer askInt_slider(String title, String msg, int spacing, int min, int max){
-        int chosen = (int) PBEngine.customPanels.JSliderOnJOptionPane.Ask(title, msg, spacing, min, max);
+        int chosen = (int) jfUtils.JSliderOnJOptionPane.Ask(title, msg, spacing, min, max);
         return chosen;
     }
 }

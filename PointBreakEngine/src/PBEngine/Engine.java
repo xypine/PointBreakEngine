@@ -6,6 +6,8 @@
 
 package PBEngine;
 
+import jfUtils.Input;
+import jfUtils.Vector;
 import jfUtils.Range;
 import jfUtils.dVector;
 import jfUtils.quickTools;

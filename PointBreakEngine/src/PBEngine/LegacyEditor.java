@@ -6,6 +6,7 @@
 
 package PBEngine;
 
+import jfUtils.Input;
 import jfUtils.quickTools;
 import java.awt.Color;
 import java.awt.Font;

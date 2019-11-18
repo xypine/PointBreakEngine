@@ -5,6 +5,7 @@
  */
 package PBEngine;
 
+import jfUtils.Vector;
 import jfUtils.Range;
 import jfUtils.dVector;
 import java.awt.Color;
