@@ -36,7 +36,7 @@ public class test {
     public static void main(String[] args) {
         AudioPlayer t = new AudioPlayer();
         AudioClip l = new AudioClip(new directory().music + "test.wav");
-        l.loopCount = 3;
+        l.loopCount = 1;
         t.playSound(l, 1);
         int volume = 100;
         while(true){
