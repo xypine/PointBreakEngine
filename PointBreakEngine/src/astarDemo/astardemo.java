@@ -23,8 +23,8 @@
  */
 package astarDemo;
 
-import PBEngine.Range;
-import PBEngine.dVector;
+import JFUtils.Range;
+import JFUtils.dVector;
 import PBEngine.gameObject;
 import PBEngine.Supervisor;
 import java.awt.Color;
@@ -66,7 +66,7 @@ public class astardemo{
             for(int y : new Range(40)){
                 char[][] matrix = k.objectManager.getCollisionmap(new dVector(0, 0), new dVector(k.xd, k.yd), "nocoll");
                 matrix[15][15] = 'X';
-                List<PBEngine.astarNode> path = PBEngine.astar.getPath(matrix, x, y);
+                List<JFUtils.astarNode> path = JFUtils.astar.getPath(matrix, x, y);
                 float val = 255;
                 for(int i : new Range(path.size())){
                     val = val * 0.9F;

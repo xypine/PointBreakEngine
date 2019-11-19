@@ -6,6 +6,8 @@
 
 package PBEngine;
 
+import JFUtils.Range;
+import JFUtils.quickTools;
 import java.awt.Color;
 import java.io.BufferedWriter;
 import java.io.File;

@@ -89,8 +89,8 @@ public class Graph extends JFrame{
                 place = max-1;
             }
             //Rasterize
-            for(int x : new PBEngine.Range(max)){
-                for(int y : new PBEngine.Range(h)){
+            for(int x : new JFUtils.Range(max)){
+                for(int y : new JFUtils.Range(h)){
                     if(charge > 0){
                         map[y][place] = "0";
                     }

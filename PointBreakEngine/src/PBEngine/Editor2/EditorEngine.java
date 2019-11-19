@@ -23,7 +23,7 @@
  */
 package PBEngine.Editor2;
 
-import PBEngine.dVector;
+import JFUtils.dVector;
 
 /**
  *

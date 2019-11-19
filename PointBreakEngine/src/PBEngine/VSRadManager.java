@@ -24,6 +24,9 @@
 
 package PBEngine;
 
+import JFUtils.Range;
+import JFUtils.dVector;
+import JFUtils.quickTools;
 import java.awt.Color;
 import java.util.LinkedList;
 import java.util.Queue;

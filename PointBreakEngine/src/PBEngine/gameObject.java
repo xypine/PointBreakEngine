@@ -6,6 +6,10 @@
 
 package PBEngine;
 
+import JFUtils.Input;
+import JFUtils.Vector;
+import JFUtils.Range;
+import JFUtils.dVector;
 import java.awt.Color;
 import static java.lang.Math.ceil;
 import static java.lang.Math.pow;

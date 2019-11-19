@@ -5,6 +5,9 @@
  */
 package PBEngine;
 
+import JFUtils.Range;
+import JFUtils.dVector;
+import JFUtils.quickTools;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.event.ActionEvent;

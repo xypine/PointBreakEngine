@@ -6,6 +6,8 @@
 
 package PBEngine;
 
+import JFUtils.Vector;
+
 /**
  *
  * @author Jonnelafin
