@@ -105,9 +105,11 @@ public class Supervisor implements Runnable{
     
     
     }*/
+    @SuppressWarnings("unchecked")
     public Supervisor(int mode, boolean bakedLights, dVector gravity, int targetSpeed, HashMap<String, String>... param){
         SupervisorConst(mode, bakedLights, gravity, targetSpeed, param);
     }
+    @SuppressWarnings("unchecked")
     public Supervisor(int mode, boolean bakedLights, dVector gravity, HashMap<String, String>... param){
         SupervisorConst(mode, bakedLights, gravity, 15, param);
     }
@@ -119,6 +121,7 @@ public class Supervisor implements Runnable{
     public Supervisor(int mode, boolean bakedLights, dVector gravity){
         SupervisorConst(mode, bakedLights, gravity, 15);
     }
+    @SuppressWarnings("unchecked")
     private void SupervisorConst(int mode, boolean bakedLights, dVector gravity, int targetSpeed, HashMap<String, String>... param){
         this.mode = mode;
         this.bakedLights = bakedLights;

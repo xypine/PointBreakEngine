@@ -259,9 +259,13 @@ public class FileLoader {
         }
     }
     public void writeObject(Object o, String file) throws FileNotFoundException, IOException{
+        writeObject(o, file, dir.levels);
+    }
+    public void writeObject(Object o, String file, String path) throws FileNotFoundException, IOException{
+        System.out.println("Writing file [" + path + file + "]...");
       ObjectOutputStream objOut = new ObjectOutputStream(new
               ///"out_lights.txt"
-      FileOutputStream(dir.levels + file));
+      FileOutputStream(path + file));
       objOut.writeObject(o);
       objOut.close();
     }

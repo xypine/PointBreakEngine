@@ -166,7 +166,7 @@ public class VSRad {
         }else{res = newResolution;}
         sum = 0;
         for(int i : new Range(res)){
-            System.out.println("(light calculation for id " + this.id + "," + (100 / resolution * done) + "% done");
+            System.out.println("(light calculation for id [" + this.id + "], [" + ((resolution+1) / 100 * done / 100) + "]% done");
             int hp = 1;
             int hits =0;
             inside = true;
