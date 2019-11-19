@@ -1,7 +1,7 @@
 /*
  * The MIT License
  *
- * Copyright 2019 Elias Eskelinen.
+ * Copyright 2019 Elias.
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -24,23 +24,37 @@
 
 package audio;
 
+import java.io.File;
 import java.io.IOException;
-import java.util.LinkedList;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.sound.sampled.AudioInputStream;
+import javax.sound.sampled.AudioSystem;
 import javax.sound.sampled.UnsupportedAudioFileException;
 
 /**
  *
  * @author Jonnelafin
  */
-public class audioManager {
-    //private LinkedList<audioSource> sounds = new LinkedList<>();
+public class AudioClip {
+    private File file;
+    public int loopCount = 1;
     
-    public audioManager(){
-        
+    
+    
+    public AudioClip(String path){
+        file = new File(path);
+        if(!file.exists()){
+            throw new Error("FILE [" + path + "] DOES NOT EXIST");
+        }
     }
-    public audioSource play(String file, boolean loop) throws UnsupportedAudioFileException, IOException{
-        audioSource audio = new audioSource(file, loop);
-        audio.play();
-        return audio;
+    
+    public AudioInputStream getAudioStream(){
+        try {
+            return AudioSystem.getAudioInputStream(file);
+        } catch (Exception ex) {
+            Logger.getGlobal().warning("COULD NOT OBTAIN AUDIOSTREAM FOR [" + file.getAbsolutePath() + "]");
+        }
+        return null;
     }
 }
