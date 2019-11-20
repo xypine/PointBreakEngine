@@ -1,7 +1,7 @@
 /*
  * The MIT License
  *
- * Copyright 2019 Elias.
+ * Copyright 2019 Elias Eskelinen.
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -24,11 +24,9 @@
 
 package audio;
 
-import JFUtils.Range;
-import java.io.IOException;
+import PBEngine.directory;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javax.sound.sampled.UnsupportedAudioFileException;
 
 /**
  *
@@ -36,24 +34,19 @@ import javax.sound.sampled.UnsupportedAudioFileException;
  */
 public class test {
     public static void main(String[] args) {
-        try {
-            audioManager mg = new audioManager();
-            audioSource source = mg.play("test.wav", true);
-            Thread.sleep(3000);
-            for(int i : new Range(98)){
-                //source.setVolume(1 - i/100);
-                source.setVolume(1 - i/100);
-                System.out.println(source.getVolume());
-                Thread.sleep(100);
+        AudioPlayer t = new AudioPlayer();
+        AudioClip l = new AudioClip(new directory().music + "test.wav");
+        l.loopCount = 1;
+        t.playSound(l, 1);
+        int volume = 100;
+        while(true){
+            try {
+                Thread.sleep(500);
+            } catch (InterruptedException ex) {
+                Logger.getLogger(test.class.getName()).log(Level.SEVERE, null, ex);
             }
-            source.loop = false;
-        } catch (UnsupportedAudioFileException ex) {
-            Logger.getLogger(test.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (IOException ex) {
-            Logger.getLogger(test.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (InterruptedException ex) {
-            Logger.getLogger(test.class.getName()).log(Level.SEVERE, null, ex);
+            t.playSound(l, volume / 100F);
+            volume = volume - 10;
         }
-        
     }
 }
