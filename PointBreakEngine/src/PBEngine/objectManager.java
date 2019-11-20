@@ -211,9 +211,9 @@ public class objectManager {
         LinkedList<gameObject> copy = (LinkedList<gameObject>) objects.clone();
         LinkedList<gameObject> out = new LinkedList<>();
         for(gameObject ga : copy){
-            if(ga.getTag().contains("static")){
+            if(!ga.getTag().contains("preserve_lc")){
                 out.add(objects.get(objects.indexOf(ga)));
-                objects.remove(ga);
+                removeObject(ga);
             }
         }
         return out;

@@ -9,12 +9,15 @@ package PBEngine;
 import JFUtils.Input;
 import JFUtils.dVector;
 import java.awt.Color;
+import java.util.LinkedList;
 
 /**
  *
  * @author Jonnelafin
  */
 public class Player extends gameObject{
+    public LinkedList<String> tag = new LinkedList<>();
+    
     private int controlScheme = 0;
     
     private boolean noclip = false;
@@ -25,6 +28,7 @@ public class Player extends gameObject{
     public Player(int ypos, int xpos, int size, String tag, String ap, float mas, Color cot, int ID, Supervisor master) {
         super(ypos, xpos, size, tag, ap, mas, cot, ID, master);
         this.imageName = dir.textures + "player/player2.png";
+        this.tag.add("preserve_lc");
         collision_type = 0;
         //setDegrees(45);
 //        this.summon(ypos, xpos, tag, ap, mas);

@@ -157,6 +157,14 @@ class BListener implements ActionListener{
                                 k.k.objectManager.removeObject(o);
                             }
                         break;
+                    case "/g":
+                        String valuesa[] = arr[1].split(" ", 2);
+                        try {
+                            k.k.engine_gravity = new dVector(Double.parseDouble(valuesa[0]), Double.parseDouble(valuesa[1]));
+                        } catch (NumberFormatException numberFormatException) {
+                            quickTools.alert("devkit", "value :"+ arr[1] +": not understood");
+                        }
+                        break;
                     case "/relight":
                         VSRadManager vsradm = k.k.rad;
                         vsradm.recalculate("IgnoreRecalculation", 1, true);
