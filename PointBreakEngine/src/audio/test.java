@@ -25,8 +25,8 @@
 package audio;
 
 import PBEngine.directory;
-import java.util.logging.Level;
-import java.util.logging.Logger;
+import javax.swing.JOptionPane;
+import javax.swing.SwingUtilities;
 
 /**
  *
@@ -35,18 +35,19 @@ import java.util.logging.Logger;
 public class test {
     public static void main(String[] args) {
         AudioPlayer t = new AudioPlayer();
-        AudioClip l = new AudioClip(new directory().music + "test.wav");
+        AudioClip l = new AudioClip(new directory().music + "killingFlutes.wav");
         l.loopCount = 1;
         t.playSound(l, 1);
         int volume = 100;
-        while(true){
-            try {
-                Thread.sleep(500);
-            } catch (InterruptedException ex) {
-                Logger.getLogger(test.class.getName()).log(Level.SEVERE, null, ex);
-            }
-            t.playSound(l, volume / 100F);
-            volume = volume - 10;
-        }
+        boolean play =true;
+        
+        t.playSound(l, volume / 100F);
+        volume = volume - 10;
+        play = false;
+        SwingUtilities.invokeLater(() -> {
+            // A GUI element to prevent the Clip's daemon Thread
+            // from terminating at the end of the main()
+            JOptionPane.showMessageDialog(null, "Close to exit!");
+        });
     }
 }
