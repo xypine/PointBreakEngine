@@ -24,6 +24,7 @@
 package PBEngine.Editor2;
 
 import JFUtils.Input;
+import JFUtils.dVector;
 import PBEngine.*;
 import java.awt.Color;
 import java.io.IOException;
@@ -37,25 +38,39 @@ import java.util.logging.Logger;
  */
 public class Cursor extends Player{
     public PBEngine.Editor2.Editor editor;
+    Input mouse;
     
     public boolean positionValid = true;
-    public Cursor(int ypos, int xpos, int size, String tag, String ap, float mas, Color cot, int ID, Supervisor master, PBEngine.Editor2.Editor editor, Input in) {
+    public Cursor(int ypos, int xpos, int size, String tag, String ap, float mas, Color cot, int ID, Supervisor master, PBEngine.Editor2.Editor editor, Input mouse) {
         super(ypos, xpos, size, tag, ap, mas, cot, ID, master);
         this.imageName = "";
         this.editor = editor;
         this.tag.add("nocoll");
+        this.mouse = mouse;
     }
+    
     private int usedUse = 200;
     @Override
     public void doOnPreciseMovement(){
         
     }
     @Override
-    public void checkInput(Input in){
+    public void checkInput(Input in2){
         //System.out.println("input check");
         //in.mouseX() != in.lX && in.mouseY() != in.lY
-        
-        if(in.tog && !masterParent.objectManager.colliding((int)x,(int)y,"null") && positionValid){
+        //System.out.println("O=POPOP");
+        boolean r = false;
+        try {
+            if(mouse.chars.containsKey("r")){
+                if(mouse.chars.get("r") != null){
+                    r = mouse.chars.get("r");
+                    System.out.println(r);
+                }
+            }
+        } catch (Exception e) {
+           //e.printStackTrace();
+        }
+        if(r && !masterParent.objectManager.colliding((int)x,(int)y,"null") && positionValid){
             gameObject o = new gameObject((int)x,(int)y, 1, "static", "█", 1F, Color.blue, masterParent.objectManager.getUsableID(), masterParent);
             if(editor.mode == 1){
                 o = new gameObject((int)x,(int)y, 1, "light", "█", 1F, Color.green, masterParent.objectManager.getUsableID(), masterParent);
@@ -66,22 +81,24 @@ public class Cursor extends Player{
             //System.out.println("new wall!");
             editor.saved = false;
         }
-        if(in.ke == 'l' && !editor.saved){
-            try {
-                LevelLoader aol = new LevelLoader("null", masterParent.objectManager, masterParent);
-                aol.write(masterParent.objectManager.getObjects(), "newout.pblevel");
-            } catch (UnsupportedEncodingException ex) {
-                Logger.getLogger(PBEngine.LegacyEditor.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-            } catch (IOException ex) {
-                Logger.getLogger(PBEngine.LegacyEditor.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-            } catch (URISyntaxException ex) {
-                Logger.getLogger(Cursor.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-            }
-            editor.saved = true;
+        /*if(in.ke == 'l' && !editor.saved){
+        try {
+        LevelLoader aol = new LevelLoader("null", masterParent.objectManager, masterParent);
+        aol.write(masterParent.objectManager.getObjects(), "newout.pblevel");
+        } catch (UnsupportedEncodingException ex) {
+        Logger.getLogger(PBEngine.LegacyEditor.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        } catch (IOException ex) {
+        Logger.getLogger(PBEngine.LegacyEditor.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        } catch (URISyntaxException ex) {
+        Logger.getLogger(Cursor.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
+        editor.saved = true;
+        }*/
+        //System.out.println("GOT HERE");
         if(true){
-            this.x = (in.mouseX() / this.masterParent.Logic.Vrenderer.factor);
-            this.y = (in.mouseY() / this.masterParent.Logic.Vrenderer.factor);
+            //System.out.println(new dVector(this.x, this.y).represent());
+            this.x = (mouse.mouseX() / this.masterParent.Logic.Vrenderer.factor);
+            this.y = (mouse.mouseY() / this.masterParent.Logic.Vrenderer.factor);
             this.x = (int)x;
             this.y = (int)y - 1;
         //    System.out.println(new dVector(this.x, this.y).represent());

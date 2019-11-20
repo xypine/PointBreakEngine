@@ -232,7 +232,7 @@ class BListener implements ActionListener{
                         k.k.Logic.global_brightness = Integer.parseInt(arr[1]);
                         System.out.println(k.k.Logic.global_brightness);
                         break;
-                    case "/tags":
+                    case "/id":
                         int id = Integer.parseInt(arr[1]);
                         System.out.println("Object ID"+id+" tags:");
                         for(String x : k.k.objectManager.getObjectByID(id).getTag()){

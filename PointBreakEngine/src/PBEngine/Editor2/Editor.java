@@ -48,7 +48,7 @@ import javax.swing.filechooser.FileSystemView;
  *
  * @author elias
  */
-public class Editor {
+public class Editor extends JFUtils.InputActivated{
     public String lastFile = null;
     
     public boolean bake = false;
@@ -59,10 +59,12 @@ public class Editor {
     JRadioButton calcLights;
     @SuppressWarnings("unchecked")
     public Editor(){
+        Input ourInput = new Input(this);
         String[] argss = new String[2];
         argss[0] = "nodemo";
         Camera cam = new Camera(0, 0);
         k = new Supervisor(0, false, new dVector(0, 0), 0);
+        k.customInput = ourInput;
         k.timerType = 1;
         k.features_confFile = "editorConfig.txt";
         Thread A = new Thread(k);
@@ -102,9 +104,12 @@ public class Editor {
         k.Logic.Vrenderer.gridColor = new Color(0, 90, 20);
         k.Logic.overrideRayBG = Color.GRAY;
         
-        Input cursorInput = new Input(k);
+        /*Input cursorInput = k.Logic.input;
+        //new Input(k);
+        Input kbr = (Input) k.Logic.getKeyListeners()[0];
+        //k.Logic.addKeyListener(kbr);*/
         
-        cursor = new Cursor(0, 0, 1, "newcursor", "C", 1, Color.white, 0, k, this, cursorInput);
+        cursor = new Cursor(0, 0, 1, "newcursor", "C", 1, Color.white, 0, k, this, ourInput);
         quickTools.alert(k.toString());
         cursor.onlyColor = true;
         cursor.imageName = "";

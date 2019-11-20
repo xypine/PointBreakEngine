@@ -24,6 +24,7 @@
 
 package PBEngine;
 
+import JFUtils.Input;
 import JFUtils.dVector;
 import JFUtils.quickTools;
 import PBEngine.performanceGraph.Graph;
@@ -44,6 +45,7 @@ import javax.swing.SwingUtilities;
  * @author Jonnelafin
  */
 public class Supervisor extends JFUtils.InputActivated implements Runnable{
+    public Input customInput = null; //Use only if not null
     
     private long delta = 0;
     private final Object deltaLock = new Object();
@@ -169,6 +171,11 @@ public class Supervisor extends JFUtils.InputActivated implements Runnable{
         
         rad = new VSRadManager(xd, yd, objectManager, ref);
         Logic = new Engine(ref , objectManager, xd, yd, rad, engine_gravity, defaultMap, targetSpeed);
+        
+        if(customInput != null){
+            Logic.input = customInput;
+        }
+        
         ea = new LegacyEditor(ref);
         
         
@@ -409,7 +416,10 @@ public class Supervisor extends JFUtils.InputActivated implements Runnable{
             String newo = baos.toString();
             if(!oldo.equals(newo)){
                 JScrollBar vertical = kit.logs.getVerticalScrollBar();
-                vertical.setValue( vertical.getMaximum() );
+                try {
+                    vertical.setValue(vertical.getMaximum());
+                } catch (Exception e) {
+                }
                 
                 String diff = difference(oldo, newo);
                 //System.setOut(old);
