@@ -26,7 +26,7 @@ package PBEngine;
 
 import JFUtils.dVector;
 import JFUtils.quickTools;
-import PBEngine.Rendering.MapTest;
+import PBEngine.performanceGraph.Graph;
 import java.awt.Color;
 import java.io.ByteArrayOutputStream;
 import java.io.PrintStream;
@@ -361,7 +361,21 @@ public class Supervisor extends JFUtils.InputActivated implements Runnable{
         Logic.Vrenderer.sSi = false;
                 }
         };
+        Thread graph = new Thread(){
+            @Override
+            public void run(){
+                Graph g = new Graph();
+                while(true){
+                    try {
+                        double d = delta/10;
+                        g.update(d);
+                    } catch (Exception e) {
+                    }
+                }
+            }
+        };
         a.start();
+        graph.start();
         
         System.out.println("////////////////");
         System.out.println("done initializing");
