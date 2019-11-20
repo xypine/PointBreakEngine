@@ -74,6 +74,7 @@ public class Editor extends JFUtils.InputActivated{
         }
         k.Logic.setTitle("PointBreakEngine (Editor2)");
         k.Logic.Vrenderer.factor = 20;
+        k.Logic.input = ourInput;
         
         JPanel editorPanel = new JPanel();
         JPanel editorPanel2 = new JPanel();
@@ -110,7 +111,8 @@ public class Editor extends JFUtils.InputActivated{
         //k.Logic.addKeyListener(kbr);*/
         
         cursor = new Cursor(0, 0, 1, "newcursor", "C", 1, Color.white, 0, k, this, ourInput);
-        quickTools.alert(k.toString());
+        quickTools.alert(k.Logic.input.toString());
+        quickTools.alert(ourInput.toString());
         cursor.onlyColor = true;
         cursor.imageName = "";
         k.objectManager.addObject(cursor);

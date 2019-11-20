@@ -139,6 +139,7 @@ public class Engine extends JFrame implements Runnable, ActionListener {
     @Override
     @SuppressWarnings("unchecked")
     public void run() {
+        System.out.println("USING THE INPUT: " + this.input.toString());
         System.out.println("Engine targetspeed IN: "+targetSpeed);
         timer = new Timer(targetSpeed, this);
         System.out.println("Engine targetspeed OUT: "+targetSpeed);
