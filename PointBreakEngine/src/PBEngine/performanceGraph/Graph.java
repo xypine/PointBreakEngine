@@ -24,8 +24,15 @@
 
 package PBEngine.performanceGraph;
 
+import java.awt.BorderLayout;
+import java.awt.FlowLayout;
+import java.awt.GridBagLayout;
+import java.awt.GridLayout;
 import java.util.Random;
+import javax.swing.BoxLayout;
 import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
 import javax.swing.JTextArea;
 
 /**
@@ -46,11 +53,14 @@ public class Graph extends JFrame{
         this.setVisible(true);
         this.setDefaultCloseOperation(EXIT_ON_CLOSE);
         
-        JTextArea area = new JTextArea();
-        area.setVisible(true);
-        area.setEditable(false);
+        JPanel cont = new JPanel( new GridLayout(1, 1));
         
-        this.add(area);
+        JLabel area = new JLabel();
+        area.setVisible(true);
+        //area.setEditable(false);
+        cont.add(area);
+        
+        this.add(cont);
         area.setText("wait...");
         
         Integer[] history = new Integer[max];
@@ -77,7 +87,7 @@ public class Graph extends JFrame{
             }
             
             
-            int num = rnd.nextInt();
+            int num = rnd.nextInt(100);
             
             int charge = (int) (t * 20);
             
@@ -88,25 +98,26 @@ public class Graph extends JFrame{
             if(place > max-1){
                 place = max-1;
             }
+            
+            //double val = Math.sin(tick);
+            //charge = (int) val * 10;
+            
             //Rasterize
             for(int x : new JFUtils.Range(max)){
                 for(int y : new JFUtils.Range(h)){
-                    if(charge > 0){
-                        map[y][place] = "0";
-                    }
-                    else{
-                        map[y][place] = "1";
-                    }
-                    charge = charge - 1;
+                    map[y][place] = "<span color='rgb(255, 255, 255)'>#</span>";
                 }
+                //map[h-1][place] = "#\n";
             }
+            map[4 + (num / 40)][place] = "<span color='rgb(255, 0, 0)'>#</span>";
             
+            String ready = toString(map);
             //RENDER
-            area.setText(toString(map));
+            area.setText("<html>" + ready + "</html>");
             //area.setText(Math.abs(num) + "");
             
             //SLEEP
-            Thread.sleep(1);
+            Thread.sleep(10);
         }
         
         
@@ -134,7 +145,7 @@ public class Graph extends JFrame{
                     out = out + x;
                 }
             }
-            out = out + "\n";
+            out = out + "<br >";
         }
         return out;
     }

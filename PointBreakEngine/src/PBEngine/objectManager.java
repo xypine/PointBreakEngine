@@ -229,7 +229,8 @@ public class objectManager {
         LinkedList<gameObject> copy = (LinkedList<gameObject>) objects.clone();
         LinkedList<gameObject> out = new LinkedList<>();
         for(gameObject ga : copy){
-            if(!ga.getTag().contains("preserve_lc")){
+            if(!contains(ga.getTag(), "preserve_lc")){
+            } else {
                 out.add(objects.get(objects.indexOf(ga)));
                 removeObject(ga);
             }
@@ -249,6 +250,14 @@ public class objectManager {
             }
         }
         return map;
+    }
+    private boolean contains(LinkedList<String> l, String target){
+        for(String i : l){
+            if(i.equals(target)){
+                return true;
+            }
+        }
+        return false;
     }
     /*public void add(gameObject toAdd){
     if(getObjectByID(toAdd.getID()) == null){
