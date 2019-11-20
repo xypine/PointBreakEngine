@@ -68,7 +68,7 @@ public class Cursor extends Player{
         }
         if(in.ke == 'l' && !editor.saved){
             try {
-                FileLoader aol = new FileLoader("null", masterParent.objectManager, masterParent);
+                LevelLoader aol = new LevelLoader("null", masterParent.objectManager, masterParent);
                 aol.write(masterParent.objectManager.getObjects(), "newout.pblevel");
             } catch (UnsupportedEncodingException ex) {
                 Logger.getLogger(PBEngine.LegacyEditor.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);

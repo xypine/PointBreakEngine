@@ -146,7 +146,7 @@ public class Editor {
                     PrintWriter writer = new PrintWriter(selectedFile.getAbsolutePath(), "UTF-8");
                     writer.print("");
                     writer.close();
-                    new FileLoader("null", k.objectManager, k).write(k.objectManager.getObjects(), selectedFile.getAbsolutePath(), "");
+                    new LevelLoader("null", k.objectManager, k).write(k.objectManager.getObjects(), selectedFile.getAbsolutePath(), "");
                 } catch (Exception ex) {
                     Logger.getLogger(BListener.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
                 }

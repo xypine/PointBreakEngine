@@ -150,7 +150,7 @@ public class Supervisor extends JFUtils.InputActivated implements Runnable{
         Options.add(new option("gravity", engine_gravity));
         Options.add(new option("sizex", xd));
         Options.add(new option("sizey", yd));
-        for(String ar : FileLoader.readConfig("config.txt")){
+        for(String ar : LevelLoader.readConfig("config.txt")){
             for(option x : Options){
                 if(x.name.equals(ar.split(" ")[0])){
                     x.link = ar.split(" ")[1];
