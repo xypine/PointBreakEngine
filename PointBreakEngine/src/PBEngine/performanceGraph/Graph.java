@@ -24,40 +24,41 @@
 
 package PBEngine.performanceGraph;
 
-import java.awt.BorderLayout;
+
 import java.awt.Color;
-import java.awt.FlowLayout;
-import java.awt.GridBagLayout;
 import java.awt.GridLayout;
 import java.util.Random;
-import javax.swing.BoxLayout;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
-import javax.swing.JTextArea;
 
 /**
  *
  * @author Jonnelafin
  */
 public class Graph extends JFrame{
-    public int max = 45;
+    public int max = 100;
     private int lastMax = max;
-    int h = 10;
+    int h = 20;
     
     Random rnd = new Random(420);
     boolean running = true;
     
-    public Graph() throws InterruptedException{
+    JLabel area;
+    int tick = 0;
+    float t = 0;
+    String[][] map;
+    Integer[] history;
+    public Graph(){
         this.setTitle("PointBreakEngine graphing");
         this.setSize(700, 550);
         this.setVisible(true);
         this.setDefaultCloseOperation(EXIT_ON_CLOSE);
         
         JPanel cont = new JPanel( new GridLayout(1, 1));
-        cont.setBackground(Color.BLACK);
+        cont.setBackground(Color.black);
         
-        JLabel area = new JLabel();
+        area = new JLabel();
         area.setVisible(true);
         //area.setEditable(false);
         cont.add(area);
@@ -65,68 +66,11 @@ public class Graph extends JFrame{
         this.add(cont);
         area.setText("wait...");
         
-        Integer[] history = new Integer[max];
+        history = new Integer[max];
         zero(history);
         
-        String[][] map = new String[h][max];
+        map = new String[h][max];
         empty(map);
-        
-        int tick = 0;
-        float t = 0;
-        while(running){
-            t = t + 0.1F;
-            if(max != lastMax){
-                history = new Integer[max];
-                zero(history);
-                
-                map = new String[h][max];
-                empty(map);
-            }
-            
-            tick++;
-            if(tick > max){
-                tick = 0;
-            }
-            
-            
-            int num = rnd.nextInt(100);
-            
-            int charge = (int) (t * 20);
-            
-            int place = tick;
-            if(place < 0){
-                place = 0;
-            }
-            if(place > max-1){
-                place = max-1;
-            }
-            
-            double val = Math.sin(tick * t);
-            //charge = (int) val * 10;
-            
-            //Rasterize
-            for(int x : new JFUtils.Range(max)){
-                for(int y : new JFUtils.Range(h)){
-                    map[y][place] = "<span color='rgb(255, 255, 255)'>#</span>";
-                    try {
-                        map[y][place + 1] = "<span color='rgb(0, 0, 255)'>#</span>";
-                    } catch (Exception e) {
-                    }
-                }
-                //map[h-1][place] = "#\n";
-            }
-            
-            map[4 + (int)(val * 4)][place] = "<span color='rgb(255, 0, 0)'>#</span>";
-            
-            String ready = toString(map);
-            //RENDER
-            area.setText("<html>" + ready + "</html>");
-            //area.setText(Math.abs(num) + "");
-            
-            //SLEEP
-            Thread.sleep(10);
-        }
-        
         
     }
     private static void zero(Integer[] arr){
@@ -156,8 +100,62 @@ public class Graph extends JFrame{
         }
         return out;
     }
+    private double value = 0;
+    public void update(double value){
+        this.value = value;
+        t = t + 0.1F;
+            if(max != lastMax){
+                history = new Integer[max];
+                zero(history);
+                
+                map = new String[h][max];
+                empty(map);
+            }
+            
+            tick++;
+            if(tick > max){
+                tick = 0;
+            }
+            
+            
+            int num = rnd.nextInt(100);
+            
+            int charge = (int) (t * 20);
+            
+            int place = tick;
+            if(place < 0){
+                place = 0;
+            }
+            if(place > max-1){
+                place = max-1;
+            }
+            
+            double val = Math.sin(tick - t);
+            //charge = (int) val * 10;
+            
+            //Rasterize
+            for(int x : new JFUtils.Range(max)){
+                for(int y : new JFUtils.Range(h)){
+                    map[y][place] = "<span color='rgb(0, 0, 0)'>#</span>";
+                    try {
+                        map[y][place + 1] = "<span color='rgb(60, 120, 180)'>#</span>";
+                    } catch (Exception e) {
+                    }
+                }
+                //map[h-1][place] = "#\n";
+            }
+            map[19 - (int)(value)][place] = "<span color='rgb(255, 0, 0)'>#</span>";
+            
+            String ready = toString(map);
+            //RENDER
+            area.setText("<html>" + ready + "</html>");
+            //area.setText(Math.abs(num) + "");
+    }
     
     public static void main(String[] args) throws InterruptedException {
-        new Graph();
+        Graph a = new Graph();
+        while(true){
+            a.update(0);
+        }
     }
 }

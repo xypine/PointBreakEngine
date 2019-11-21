@@ -24,9 +24,10 @@
 
 package PBEngine;
 
+import JFUtils.Input;
 import JFUtils.dVector;
 import JFUtils.quickTools;
-import PBEngine.Rendering.MapTest;
+import PBEngine.performanceGraph.Graph;
 import java.awt.Color;
 import java.io.ByteArrayOutputStream;
 import java.io.PrintStream;
@@ -44,6 +45,7 @@ import javax.swing.SwingUtilities;
  * @author Jonnelafin
  */
 public class Supervisor extends JFUtils.InputActivated implements Runnable{
+    public Input customInput = null; //Use only if not null
     
     private long delta = 0;
     private final Object deltaLock = new Object();
@@ -150,7 +152,7 @@ public class Supervisor extends JFUtils.InputActivated implements Runnable{
         Options.add(new option("gravity", engine_gravity));
         Options.add(new option("sizex", xd));
         Options.add(new option("sizey", yd));
-        for(String ar : FileLoader.readConfig("config.txt")){
+        for(String ar : LevelLoader.readConfig("config.txt")){
             for(option x : Options){
                 if(x.name.equals(ar.split(" ")[0])){
                     x.link = ar.split(" ")[1];
@@ -169,6 +171,11 @@ public class Supervisor extends JFUtils.InputActivated implements Runnable{
         
         rad = new VSRadManager(xd, yd, objectManager, ref);
         Logic = new Engine(ref , objectManager, xd, yd, rad, engine_gravity, defaultMap, targetSpeed);
+        
+        if(customInput != null){
+            Logic.input = customInput;
+        }
+        
         ea = new LegacyEditor(ref);
         
         
@@ -361,7 +368,21 @@ public class Supervisor extends JFUtils.InputActivated implements Runnable{
         Logic.Vrenderer.sSi = false;
                 }
         };
+        Thread graph = new Thread(){
+            @Override
+            public void run(){
+                Graph g = new Graph();
+                while(true){
+                    try {
+                        double d = delta/10;
+                        g.update(d);
+                    } catch (Exception e) {
+                    }
+                }
+            }
+        };
         a.start();
+        graph.start();
         
         System.out.println("////////////////");
         System.out.println("done initializing");
@@ -395,7 +416,10 @@ public class Supervisor extends JFUtils.InputActivated implements Runnable{
             String newo = baos.toString();
             if(!oldo.equals(newo)){
                 JScrollBar vertical = kit.logs.getVerticalScrollBar();
-                vertical.setValue( vertical.getMaximum() );
+                try {
+                    vertical.setValue(vertical.getMaximum());
+                } catch (Exception e) {
+                }
                 
                 String diff = difference(oldo, newo);
                 //System.setOut(old);
