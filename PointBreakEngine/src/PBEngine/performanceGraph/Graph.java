@@ -25,6 +25,7 @@
 package PBEngine.performanceGraph;
 
 import java.awt.BorderLayout;
+import java.awt.Color;
 import java.awt.FlowLayout;
 import java.awt.GridBagLayout;
 import java.awt.GridLayout;
@@ -49,11 +50,12 @@ public class Graph extends JFrame{
     
     public Graph() throws InterruptedException{
         this.setTitle("PointBreakEngine graphing");
-        this.setSize(400, 550);
+        this.setSize(700, 550);
         this.setVisible(true);
         this.setDefaultCloseOperation(EXIT_ON_CLOSE);
         
         JPanel cont = new JPanel( new GridLayout(1, 1));
+        cont.setBackground(Color.BLACK);
         
         JLabel area = new JLabel();
         area.setVisible(true);
@@ -99,17 +101,22 @@ public class Graph extends JFrame{
                 place = max-1;
             }
             
-            //double val = Math.sin(tick);
+            double val = Math.sin(tick * t);
             //charge = (int) val * 10;
             
             //Rasterize
             for(int x : new JFUtils.Range(max)){
                 for(int y : new JFUtils.Range(h)){
                     map[y][place] = "<span color='rgb(255, 255, 255)'>#</span>";
+                    try {
+                        map[y][place + 1] = "<span color='rgb(0, 0, 255)'>#</span>";
+                    } catch (Exception e) {
+                    }
                 }
                 //map[h-1][place] = "#\n";
             }
-            map[4 + (num / 40)][place] = "<span color='rgb(255, 0, 0)'>#</span>";
+            
+            map[4 + (int)(val * 4)][place] = "<span color='rgb(255, 0, 0)'>#</span>";
             
             String ready = toString(map);
             //RENDER
