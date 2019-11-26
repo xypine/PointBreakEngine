@@ -24,6 +24,7 @@
 
 package PBEngine.performanceGraph;
 
+
 import java.awt.Color;
 import java.awt.GridLayout;
 import java.util.Random;
@@ -50,7 +51,7 @@ public class Graph extends JFrame{
     Integer[] history;
     public Graph(){
         this.setTitle("PointBreakEngine graphing");
-        this.setSize(725, 375);
+        this.setSize(700, 550);
         this.setVisible(true);
         this.setDefaultCloseOperation(EXIT_ON_CLOSE);
         

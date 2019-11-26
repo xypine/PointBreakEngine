@@ -56,7 +56,7 @@ import java.util.logging.Logger;
  *
  * @author Jonnelafin
  */
-public class FileLoader {
+public class LevelLoader {
     String name = "";
     
     public boolean done = true;
@@ -75,11 +75,11 @@ public class FileLoader {
     String filePath = dir.levels;
     
     List<String> levels;
-    public FileLoader(String file, objectManager oM, Supervisor master) throws URISyntaxException{
+    public LevelLoader(String file, objectManager oM, Supervisor master) throws URISyntaxException{
         FileLoaderConst(file, oM, master, filePath);
         
     }
-    public FileLoader(String file, objectManager oM, Supervisor master, String filepath1) throws URISyntaxException{
+    public LevelLoader(String file, objectManager oM, Supervisor master, String filepath1) throws URISyntaxException{
         FileLoaderConst(file, oM, master, filepath1);
         
     }
@@ -118,7 +118,7 @@ public class FileLoader {
     //            fetch(in.toString(), oM);
                 }
                 catch(Exception o){
-                    Logger.getLogger(FileLoader.class.getName()).log(Level.SEVERE, null, o);
+                    Logger.getLogger(LevelLoader.class.getName()).log(Level.SEVERE, null, o);
                     quickTools.alert("LevelLoading", o.getMessage());
                 }
             }

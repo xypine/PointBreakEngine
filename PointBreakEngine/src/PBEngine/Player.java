@@ -46,7 +46,6 @@ public class Player extends gameObject{
     public Player(int ypos, int xpos, int size, String tag, String ap, float mas, Color cot, int ID, Supervisor master) {
         super(ypos, xpos, size, tag, ap, mas, cot, ID, master);
         this.imageName = dir.textures + "player/player2.png";
-        this.tag.add("preserve_lc");
         collision_type = 0;
         //setDegrees(45);
 //        this.summon(ypos, xpos, tag, ap, mas);
@@ -114,6 +113,10 @@ public class Player extends gameObject{
     
     @Override
     public void checkInput(Input in){
+        if(!this.tag.contains("preserve_lc")){
+            this.tag.add("preserve_lc");
+        }
+        
         //setDegrees(getDegrees()+1);
         rot(in);
         //System.out.println("VELX, VELY: " + velx + " , " + vely + "     " + "up, down, left, right: " + in.up() + " " + in.down() + " " + in.right() + " " + in.left() + "      " + "x, y, mouse x, y: " + this.getX() + " , " + this.getY() + "MOUSE:"+ in.mouseX() + ", " + in.mouseY());

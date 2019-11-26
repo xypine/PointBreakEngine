@@ -85,7 +85,7 @@ public class radiosity extends JFrame implements Runnable, ActionListener {
         
     }
     //Input:
-    FileLoader aol;
+    LevelLoader aol;
     float[][] grid;
     
     VSRadManager rads;
@@ -159,7 +159,7 @@ public class radiosity extends JFrame implements Runnable, ActionListener {
         try {
             //SUMMON TEST
 
-            aol = new FileLoader("/src/com/viridistudios/viridiengine/levels/out.pblevel", oM, k);
+            aol = new LevelLoader("/src/com/viridistudios/viridiengine/levels/out.pblevel", oM, k);
         } catch (URISyntaxException ex) {
             Logger.getLogger(radiosity.class.getName()).log(Level.SEVERE, null, ex);
         }
