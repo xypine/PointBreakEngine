@@ -143,6 +143,7 @@ public class Supervisor extends JFUtils.InputActivated implements Runnable{
     }
     @SuppressWarnings("unchecked")
     private void SupervisorConst(int mode, boolean bakedLights, dVector gravity, int targetSpeed, HashMap<String, String>... param){
+        versionCheck.check.doChecks();
         this.mode = mode;
         this.bakedLights = bakedLights;
         this.engine_gravity = gravity;
@@ -174,7 +175,7 @@ public class Supervisor extends JFUtils.InputActivated implements Runnable{
         
         
         
-        //LEFT HERE -> maploading
+        //LEFT HERE -> maploading?
         
         
         

@@ -49,6 +49,8 @@ public class Main {
     boolean running;
     public static void main(String[] args) {
         // TODO code application logic here
+        
+        versionCheck.check.doChecks();
         boolean demo = true;
         
         if (args.length > 0) {
