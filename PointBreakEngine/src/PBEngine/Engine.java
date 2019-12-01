@@ -29,6 +29,7 @@ import JFUtils.Vector;
 import JFUtils.Range;
 import JFUtils.dVector;
 import JFUtils.quickTools;
+import PBEngine.sfx.engineWindow;
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
@@ -48,7 +49,9 @@ import javax.swing.Timer;
  *
  * @author Jonnelafin
  */
-public class Engine extends JFrame implements Runnable, ActionListener {
+public class Engine implements Runnable, ActionListener {
+    public engineWindow window;
+    
     public Camera cam = new Camera(0, 0);
     long last_time = System.nanoTime();
     int deltatime = 0;
@@ -157,25 +160,29 @@ public class Engine extends JFrame implements Runnable, ActionListener {
         double aspect = w / h;
         System.out.println(aspect);
         
+        
 //        int xd = 50;
 //        int yd = 25;
         //xd = (int) (w / 15.34);
         //yd = (int) (h / 22.48);
-        this.setTitle("PointBreakEngine");
-        this.setSize((int) Math.ceil(w), (int) Math.ceil(h*1.05F));
-        this.setDefaultCloseOperation(EXIT_ON_CLOSE);
+        //_this.setTitle("PointBreakEngine");
+        //_this.setSize((int) Math.ceil(w), (int) Math.ceil(h*1.05F));
+        //_this.setDefaultCloseOperation(EXIT_ON_CLOSE);
         
-        this.requestFocusInWindow();
-        this.addKeyListener(input);
-        this.addMouseMotionListener(input);
-        this.setVisible(true);
-        getContentPane().setBackground( Color.black );
+        //_this.requestFocusInWindow();
+        //_this.addKeyListener(input);
+        //_this.addMouseMotionListener(input);
+        //_this.setVisible(true);
+        //_getContentPane().setBackground( Color.black );
         
         Vrenderer = new Renderer(k);
         Vrenderer.sSi = true;
-        this.add(Vrenderer);
-        revalidate();
-        repaint();
+        //_this.add(Vrenderer);
+        //_revalidate();
+        //_repaint();
+        window = new engineWindow(input, k, Vrenderer);
+        window.clean();
+        
         Vrenderer.init(w,h, 3, false);
         //try {Vrenderer.setImage(new directory().textures + "splash.png");}
         //catch (IOException ex) {quickTools.alert(ex.getMessage());}
@@ -199,7 +206,7 @@ public class Engine extends JFrame implements Runnable, ActionListener {
         area.setForeground(Color.black);
         area.setBackground(Color.black);
         
-        this.add(area);
+        //_this.add(area);
         content.add(area);
         //fresh();
         
@@ -274,20 +281,13 @@ public class Engine extends JFrame implements Runnable, ActionListener {
         }
          */
         ready = true;
-        revalidate();
-        repaint();
+        //_revalidate();
+        //_repaint();
         //timerType = 0;
         if (timerType == 0) {
             timer.start();
         } else if(timerType == 1){
             startFullTickTimer();
-        }
-    }
-    //Function for reshfreshing the screen
-    private void fresh(){
-        this.removeAll();
-        for(Object i : content){
-            //this.add((Component) i);
         }
     }
     
@@ -340,8 +340,9 @@ public class Engine extends JFrame implements Runnable, ActionListener {
             }
             tickC++;
         }
-        revalidate();
-        repaint();
+        window.clean();
+        //_revalidate();
+        //_repaint();
     }
     public int timerType = 1;
     public void startFullTickTimer(){
@@ -420,8 +421,9 @@ public class Engine extends JFrame implements Runnable, ActionListener {
             }
             tickC++;
         }
-        revalidate();
-        repaint();
+        window.clean();
+        //_revalidate();
+        //_repaint();
     }
     
     private String levelName = "";

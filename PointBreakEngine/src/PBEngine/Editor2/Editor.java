@@ -77,7 +77,7 @@ public class Editor extends JFUtils.InputActivated{
         while(!k.ready){
             
         }
-        k.Logic.setTitle("PointBreakEngine (Editor2)");
+        k.Logic.window.setTitle("PointBreakEngine (Editor2)");
         k.Logic.Vrenderer.factor = 20;
         k.Logic.input = ourInput;
         

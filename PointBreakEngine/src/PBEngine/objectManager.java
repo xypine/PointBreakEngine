@@ -136,7 +136,7 @@ public class objectManager {
             }
         }
         //System.out.println("No gameobject with tag: " + tagToGet);
-        return(99999999);
+        return(-1);
     }
     public LinkedList<Integer> findGameObjects(String tagToGet){
         @SuppressWarnings("unchecked")
