@@ -50,7 +50,7 @@ public class astardemo{
         while(!k.ready){
             
         }
-        k.Logic.setTitle("PointBreakEngine (A* Demo)");
+        k.Logic.window.setTitle("PointBreakEngine (A* Demo)");
         
         System.out.println("Editor initialization complete, running custom code...");
         k.Logic.abright = true;

@@ -225,7 +225,18 @@ public class Renderer extends JPanel{
     public boolean dispEffectsEnabled = false;
     @Override
     public void paintComponent(Graphics g) {
-        Dimension currentSize = getParent().getSize();
+        Dimension currentSize = null;
+        try {
+            currentSize = getParent().getSize();
+            w = currentSize.width;
+            h = currentSize.height;
+            
+        } catch (Exception e) {
+            Logger.getGlobal().warning("COULD NOT DETERMINE FRAME SIZE: USING THE LAST KNOWN");
+            w = getWidth();
+            h = getHeight();
+            currentSize = new Dimension(w, h);
+        }
         w = currentSize.width;
         h = currentSize.height;
         this.setSize(currentSize);

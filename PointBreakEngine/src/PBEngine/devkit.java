@@ -59,7 +59,7 @@ public class devkit extends JFrame{
         this.setTitle("PointBreakEngine devkit");
         this.k = k;
         this.setSize(400, 550);
-        this.setLocationRelativeTo(k.Logic);
+        this.setLocationRelativeTo(k.Logic.window);
         this.setLocation(1080, 0);
         
         cont.setLayout(new BorderLayout());

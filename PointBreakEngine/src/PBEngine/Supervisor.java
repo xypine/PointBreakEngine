@@ -171,7 +171,7 @@ public class Supervisor extends JFUtils.InputActivated implements Runnable{
         }
         
         rad = new VSRadManager(xd, yd, objectManager, ref);
-        Logic = new Engine(ref , objectManager, xd, yd, rad, engine_gravity, defaultMap, targetSpeed);
+        Logic = new Engine(ref , objectManager, xd, yd, rad, engine_gravity, defaultMap + ".pblevel", targetSpeed);
         
         if(customInput != null){
             Logic.input = customInput;
@@ -211,7 +211,7 @@ public class Supervisor extends JFUtils.InputActivated implements Runnable{
         if(tog){
         //    Logic.record();
         }
-        Logic.setVisible(true);
+        Logic.window.setVisible(true);
         Logic.running = true;
 //        rad.setVisible(tog);
 //        rad.running = tog;
