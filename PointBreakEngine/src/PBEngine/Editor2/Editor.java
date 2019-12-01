@@ -42,7 +42,6 @@ import javax.swing.JComboBox;
 import javax.swing.JFileChooser;
 import javax.swing.JPanel;
 import javax.swing.JRadioButton;
-import javax.swing.filechooser.FileSystemView;
 
 /**
  *
@@ -57,6 +56,12 @@ public class Editor extends JFUtils.InputActivated{
     public int mode = 0;
     JComboBox select;
     JRadioButton calcLights;
+    
+    @Override
+    public void tog(){
+        System.out.println("TOG!");
+    }
+    
     @SuppressWarnings("unchecked")
     public Editor(){
         Input ourInput = new Input(this);
