@@ -376,7 +376,7 @@ public class Supervisor extends JFUtils.InputActivated implements Runnable{
                 while(true){
                     try {
                         double d = delta/10;
-                        g.update(d);
+                        g.update(d, Logic.tickC);
                     } catch (Exception e) {
                     }
                 }
