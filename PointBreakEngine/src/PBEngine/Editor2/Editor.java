@@ -27,12 +27,16 @@ import JFUtils.Input;
 import JFUtils.dVector;
 import JFUtils.quickTools;
 import PBEngine.*;
+import com.sun.java.swing.plaf.windows.WindowsBorders;
+import filedrop.FileDrop;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
+import java.io.IOException;
 import java.io.PrintWriter;
+import java.io.UnsupportedEncodingException;
 import java.net.URISyntaxException;
 import java.util.HashMap;
 import java.util.LinkedList;
@@ -40,9 +44,11 @@ import java.util.logging.Logger;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JFileChooser;
+import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JRadioButton;
-import javax.swing.filechooser.FileSystemView;
+import javax.swing.border.BevelBorder;
+import javax.swing.border.Border;
 
 /**
  *
@@ -57,6 +63,12 @@ public class Editor extends JFUtils.InputActivated{
     public int mode = 0;
     JComboBox select;
     JRadioButton calcLights;
+    
+    @Override
+    public void tog(){
+        System.out.println("TOG!");
+    }
+    
     @SuppressWarnings("unchecked")
     public Editor(){
         Input ourInput = new Input(this);
@@ -80,6 +92,22 @@ public class Editor extends JFUtils.InputActivated{
         JPanel editorPanel2 = new JPanel();
         JPanel container = new JPanel();
         container.setLayout(new BorderLayout(45, 0));
+        JPanel drop = new JPanel();
+        
+        JLabel info = new JLabel("\n\nDrag-and-Drop a levelfile (.pblevel) here to load it\n\n");
+        drop.add(info);
+        drop.setBackground(Color.BLACK);
+        drop.setForeground(Color.WHITE);
+        info.setForeground(Color.WHITE);
+        drop.setBorder(new BevelBorder(1));
+        
+        new FileDrop( drop, new FileDrop.Listener()
+        {   public void  filesDropped( java.io.File[] files )
+            {   
+                // handle file drop
+                load(files[0]);
+            }   // end filesDropped
+        }); // end FileDrop.Listener
         
         JButton saveB = new JButton("Save");saveB.addActionListener(new BListener(1, this));
         JButton loadB = new JButton("Load");loadB.addActionListener(new BListener(2, this));
@@ -97,6 +125,7 @@ public class Editor extends JFUtils.InputActivated{
         
         container.add(editorPanel, BorderLayout.NORTH);
         container.add(editorPanel2, BorderLayout.CENTER);
+        container.add(drop, BorderLayout.SOUTH);
         k.kit.cont.add(container, BorderLayout.NORTH);
         
         k.Logic.abright = true;
@@ -161,6 +190,14 @@ public class Editor extends JFUtils.InputActivated{
             }
         lastFile = out;
         return out;
+    }
+    public void load(File file){
+        try {
+            LinkedList<gameObject> old = k.Logic.loadLevel(file.getAbsolutePath(), "", Color.BLUE, Color.GREEN);
+            lastFile = file.getAbsolutePath();
+        } catch (URISyntaxException ex) {
+            Logger.getLogger(Editor.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        }
     }
     public String load(){
         String out = "";

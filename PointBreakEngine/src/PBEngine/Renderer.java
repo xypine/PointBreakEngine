@@ -175,8 +175,8 @@ public class Renderer extends JPanel{
     float x = 15.34F;
     float y = 22.48F;
     public float factor = 13;
-    private int w = 0;
-    private int h = 0;
+    private int w = 0;  public void setW(int newW){this.w = newW;}
+    private int h = 0;  public void setH(int newH){this.h = newH;}
     public boolean sSi = false;
     Image image;
     BufferedImage buffer;
@@ -232,9 +232,9 @@ public class Renderer extends JPanel{
             h = currentSize.height;
             
         } catch (Exception e) {
-            Logger.getGlobal().warning("COULD NOT DETERMINE FRAME SIZE: USING THE LAST KNOWN");
-            w = getWidth();
-            h = getHeight();
+            //Logger.getGlobal().warning("COULD NOT DETERMINE FRAME SIZE: USING THE LAST KNOWN");
+            //w = getWidth();
+            //h = getHeight();
             currentSize = new Dimension(w, h);
         }
         w = currentSize.width;

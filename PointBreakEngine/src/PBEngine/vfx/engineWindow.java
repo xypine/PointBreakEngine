@@ -1,7 +1,7 @@
 /*
  * The MIT License
  *
- * Copyright 2019 Elias.
+ * Copyright 2019 Elias Arno Eskelinen.
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -25,6 +25,7 @@
 package PBEngine.vfx;
 
 import JFUtils.Input;
+import JFUtils.Range;
 import JFUtils.dVector;
 import PBEngine.Renderer;
 import PBEngine.Supervisor;
@@ -40,6 +41,7 @@ import javax.swing.JPanel;
  * @author Jonnelafin
  */
 public class engineWindow extends JFrame{
+    public boolean useVFX = false;
     
     Input input = null;
     Renderer Vrenderer;
@@ -68,30 +70,58 @@ public class engineWindow extends JFrame{
         Vrenderer.sSi = true;
         clean();
         out = new ImagePanel2(actualImage);
-        this.add(out);
         //this.add(Vrenderer);
+        this.add(out);
+        Vrenderer.setVisible(false);
         clean();
     }
     
     
     public void clean(){
-        try {
-            actualImage = createImage(Vrenderer);
-            out.imagec = actualImage;
-        } catch (Exception e) {
-            //e.printStackTrace();
+        if (useVFX) {
+            try {
+                Vrenderer.setVisible(false);
+                this.remove(Vrenderer);
+                this.add(out);} catch (Exception e) {}
+            try {
+                actualImage = createImage(Vrenderer);
+                out.imagec = actualImage;
+            } catch (Exception e) {
+                //e.printStackTrace();
+            }
+        } else {
+            try {this.remove(out);
+                this.add(Vrenderer);
+                Vrenderer.setVisible(true);
+                } catch (Exception e) {}
+            
         }
         this.revalidate();
         this.repaint();
     }
     
-    public BufferedImage createImage(JPanel panel) {
-        int w = panel.getWidth();
-        int h = panel.getHeight();
-        BufferedImage bi = new BufferedImage(w, h, BufferedImage.TYPE_INT_RGB);
+    
+    
+    public BufferedImage createImage(Renderer panel) {
+        int w2 = getWidth();  panel.setW(w2);
+        int h2 = getHeight(); panel.setH(h2);
+        BufferedImage bi = new BufferedImage(w2, h2, BufferedImage.TYPE_INT_RGB);
         Graphics2D g = bi.createGraphics();
+        
+        
         panel.paint(g);
         g.dispose();
+        for(int x : new Range(bi.getWidth())){
+            for(int y : new Range(bi.getHeight())){
+                int rgb = bi.getRGB(x, y);
+                Color i = new Color(rgb);
+                i = new Color(0, i.getGreen(), i.getBlue());
+                
+                //System.out.println(rgb);
+                bi.setRGB(x, y, i.getRGB());
+            }
+        }
+        
         return bi;
     }
     

@@ -226,7 +226,7 @@ public class Engine implements Runnable, ActionListener {
         screen = "";
         
         if(k.bakedLights){
-            System.out.println("Loading baked level lights");
+            System.out.println("Loading baked level lights for the level [" + levelName + "]...");
 
             try {
                 bakedcolor = (Color[][]) new LevelLoader("null", oM, k).readObject(levelName + "_illumination.txt");

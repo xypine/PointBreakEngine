@@ -101,7 +101,9 @@ public class Graph extends JFrame{
         return out;
     }
     private double value = 0;
-    public void update(double value){
+    
+    double lastTick = 0;
+    public void update(double value, int tickC){
         this.value = value;
         t = t + 0.1F;
             if(max != lastMax){
@@ -130,6 +132,13 @@ public class Graph extends JFrame{
                 place = max-1;
             }
             
+            String normal = "<span color='rgb(0, 255, 0)'>#</span>";
+            //System.out.println(lastTick - tickC);
+            if(tick - tickC  > 0){
+                normal = "<span color='rgb(255, 0, 0)'>#</span>";
+            }
+            
+            
             double val = Math.sin(tick - t);
             //charge = (int) val * 10;
             
@@ -144,18 +153,21 @@ public class Graph extends JFrame{
                 }
                 //map[h-1][place] = "#\n";
             }
-            map[19 - (int)(value)][place] = "<span color='rgb(255, 0, 0)'>#</span>";
+            map[19 - (int)(value)][place] = normal;
             
             String ready = toString(map);
             //RENDER
             area.setText("<html>" + ready + "</html>");
             //area.setText(Math.abs(num) + "");
+            lastTick = tickC;
     }
     
     public static void main(String[] args) throws InterruptedException {
         Graph a = new Graph();
+        int tc = 0;
         while(true){
-            a.update(0);
+            a.update(0, 0);
+            tc++;
         }
     }
 }

@@ -171,7 +171,7 @@ public class Supervisor extends JFUtils.InputActivated implements Runnable{
         }
         
         rad = new VSRadManager(xd, yd, objectManager, ref);
-        Logic = new Engine(ref , objectManager, xd, yd, rad, engine_gravity, defaultMap + ".pblevel", targetSpeed);
+        Logic = new Engine(ref , objectManager, xd, yd, rad, engine_gravity, defaultMap, targetSpeed);
         
         if(customInput != null){
             Logic.input = customInput;
@@ -196,7 +196,7 @@ public class Supervisor extends JFUtils.InputActivated implements Runnable{
         
         
     }
-    public String defaultMap = "null";
+    public String defaultMap = "null.pblevel";
     
     public void tick_pre(){
         
@@ -376,7 +376,7 @@ public class Supervisor extends JFUtils.InputActivated implements Runnable{
                 while(true){
                     try {
                         double d = delta/10;
-                        g.update(d);
+                        g.update(d, Logic.tickC);
                     } catch (Exception e) {
                     }
                 }

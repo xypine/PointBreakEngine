@@ -251,6 +251,10 @@ class BListener implements ActionListener{
                     case "/nausea":
                         k.k.Logic.Vrenderer.dispEffectsEnabled = true;
                         break;
+                    case "/vfx":
+                        k.k.Logic.window.useVFX = !k.k.Logic.window.useVFX;
+                        System.out.println("VFX IS NOW: " + k.k.Logic.window.useVFX);
+                        break;
                     default:
                         quickTools.alert("devkit", "command not understood");
                         break;
