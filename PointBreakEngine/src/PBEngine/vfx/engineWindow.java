@@ -22,7 +22,7 @@
  * THE SOFTWARE.
  */
 
-package PBEngine.sfx;
+package PBEngine.vfx;
 
 import JFUtils.Input;
 import JFUtils.dVector;
@@ -40,6 +40,7 @@ import javax.swing.JPanel;
  * @author Jonnelafin
  */
 public class engineWindow extends JFrame{
+    
     Input input = null;
     Renderer Vrenderer;
     public final double h = 540D;
