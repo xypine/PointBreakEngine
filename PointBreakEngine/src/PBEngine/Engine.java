@@ -381,8 +381,11 @@ public class Engine implements Runnable, ActionListener {
     public void generalTick(){
         mouseX = input.mouseX();
         mouseY = input.mouseY();
-        mouse_projected.x = mouseX / window.Vrenderer.factor;
-        mouse_projected.y = mouseY / window.Vrenderer.factor;
+        mouse_projected.x = (mouseX - (window.Vrenderer.getW() / 2)+ cam.x) / window.Vrenderer.factor;
+        mouse_projected.y = (mouseY - (window.Vrenderer.getH() / 2)+ cam.y) / window.Vrenderer.factor;
+        mouse_projected.x = (window.Vrenderer.getW() / 2) - window.Vrenderer.factor / (cam.x - mouseX);
+        mouse_projected.y = (window.Vrenderer.getH() / 2) - window.Vrenderer.factor / (cam.y - mouseY);
+        rrrrrrrrrrrrrrr
         //System.out.println(mouse_projected.represent());
     }
     public void fulltick(){

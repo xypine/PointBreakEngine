@@ -175,8 +175,8 @@ public class Renderer extends JPanel{
     float x = 15.34F;
     float y = 22.48F;
     public float factor = 13;
-    private int w = 0;  public void setW(int newW){this.w = newW;}
-    private int h = 0;  public void setH(int newH){this.h = newH;}
+    private int w = 0;  public void setW(int newW){this.w = newW;} public int getW(){return w;}
+    private int h = 0;  public void setH(int newH){this.h = newH;} public int getH(){return h;}
     public boolean sSi = false;
     Image image;
     BufferedImage buffer;

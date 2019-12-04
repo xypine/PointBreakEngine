@@ -68,10 +68,11 @@ public class Player extends gameObject{
                 for(String x : i.tag){
                     //System.out.println("    "+x);
                 }
-                double c2 = Math.sqrt(Math.pow(i.velx, 2) + Math.pow(i.vely, 2));
-                double rot2 = Math.acos(i.velx/c2);
+                double c2 = Math.sqrt(Math.pow(masterParent.Logic.mouse_projected.x -i.x, 2) + Math.pow(masterParent.Logic.mouse_projected.y -i.y, 2));
+                System.out.println(c2);
+                double rot2 = Math.acos((masterParent.Logic.mouse_projected.x - i.x) / c2);
                 if(!Double.isNaN(rot2)){
-                    i.setRadians(masterParent.Logic.tickC /10D);
+                    i.setRadians(rot2);
                     //System.out.println(rot2);
                 }
             }
