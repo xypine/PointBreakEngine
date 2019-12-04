@@ -96,7 +96,7 @@ public class Engine implements Runnable, ActionListener {
     //GAMEOBJECTS:
 //    Player p1;
     int co = 0;
-    objectManager oM;
+    public objectManager oM;
     //objectManager oM = new objectManager();
     LinkedList<gameObject> objects;
     //VARIABLES FOR TICKS:
@@ -297,6 +297,7 @@ public class Engine implements Runnable, ActionListener {
             System.out.println("Wrong timerType ignored.");
             return;
         }
+        generalTick();
         k.tick_pre();
         //fresh();
         long time = System.nanoTime();
@@ -374,11 +375,22 @@ public class Engine implements Runnable, ActionListener {
         };
         a.start();
     }
+    public int mouseX = 0;
+    public int mouseY = 0;
+    public dVector mouse_projected = new dVector(0, 0);
+    public void generalTick(){
+        mouseX = input.mouseX();
+        mouseY = input.mouseY();
+        mouse_projected.x = mouseX / window.Vrenderer.factor;
+        mouse_projected.y = mouseY / window.Vrenderer.factor;
+        //System.out.println(mouse_projected.represent());
+    }
     public void fulltick(){
         if(this.timerType != 1){
             System.out.println("Wrong timerType ignored.");
             return;
         }
+        generalTick();
         k.tick_pre();
         //fresh();
         long time = System.nanoTime();
@@ -465,6 +477,7 @@ public class Engine implements Runnable, ActionListener {
         out = oM.removeLevel();
         for(gameObject x : lL.level){
             x.tag.set(x.tag.indexOf("newlevel"), "static");
+            x.tag.add("delete_lc");
         }
         last_time = System.nanoTime() - time;
         last_time = last_time / 1000000;
@@ -499,6 +512,7 @@ public class Engine implements Runnable, ActionListener {
             }
             x.imageName = "";
             x.onlyColor = true;
+            x.tag.add("delete_lc");
         }
         last_time = System.nanoTime() - time;
         last_time = last_time / 1000000;

@@ -44,7 +44,7 @@ public class engineWindow extends JFrame{
     public boolean useVFX = false;
     
     Input input = null;
-    Renderer Vrenderer;
+    public Renderer Vrenderer;
     public final double h = 540D;
     public final double w = 1080D;
     public final double size = 1D;

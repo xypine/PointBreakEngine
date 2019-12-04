@@ -71,7 +71,7 @@ public class Player extends gameObject{
                 double c2 = Math.sqrt(Math.pow(i.velx, 2) + Math.pow(i.vely, 2));
                 double rot2 = Math.acos(i.velx/c2);
                 if(!Double.isNaN(rot2)){
-                    i.setRadians(rot2);
+                    i.setRadians(masterParent.Logic.tickC /10D);
                     //System.out.println(rot2);
                 }
             }
@@ -113,9 +113,6 @@ public class Player extends gameObject{
     
     @Override
     public void checkInput(Input in){
-        if(!this.tag.contains("preserve_lc")){
-            this.tag.add("preserve_lc");
-        }
         
         //setDegrees(getDegrees()+1);
         rot(in);

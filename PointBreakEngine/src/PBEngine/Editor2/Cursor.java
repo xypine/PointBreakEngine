@@ -54,30 +54,33 @@ public class Cursor extends Player{
     public void doOnPreciseMovement(){
         
     }
+    boolean t = false;
     @Override
     public void checkInput(Input in2){
         //System.out.println("input check");
         //in.mouseX() != in.lX && in.mouseY() != in.lY
         //System.out.println("O=POPOP");
-        boolean r = false;
+        boolean r = mouse.keys[82];
+        if(r){t = !t;System.out.println(t);}
+        //System.out.println(t);
         try {
             if(mouse.chars.containsKey("r")){
                 if(mouse.chars.get("r") != null){
-                    r = mouse.chars.get("r");
+                    //r = mouse.chars.get("r");
                     System.out.println(r);
                 }
             }
         } catch (Exception e) {
            //e.printStackTrace();
         }
-        if(r && !masterParent.objectManager.colliding((int)x,(int)y,"null") && positionValid){
+        if(t && !masterParent.objectManager.colliding((int)x,(int)y,"null") && positionValid){
             gameObject o = new gameObject((int)x,(int)y, 1, "static", "█", 1F, Color.blue, masterParent.objectManager.getUsableID(), masterParent);
             if(editor.mode == 1){
-                o = new gameObject((int)x,(int)y, 1, "light", "█", 1F, Color.green, masterParent.objectManager.getUsableID(), masterParent);
+                o = new gameObject((int)x,(int)y, 1, "light", "█", 1F, Color.green, masterParent.objectManager.getUsableID()+1, masterParent);
                 o.tag.add("static");
             }
             o.onlyColor = true;
-            masterParent.objectManager.addObject(o);
+            masterParent.Logic.oM.addObject(o);
             //System.out.println("new wall!");
             editor.saved = false;
         }

@@ -71,12 +71,12 @@ public class Editor extends JFUtils.InputActivated{
     
     @SuppressWarnings("unchecked")
     public Editor(){
-        Input ourInput = new Input(this);
+        //Input ourInput = new Input(this);
         String[] argss = new String[2];
         argss[0] = "nodemo";
         Camera cam = new Camera(0, 0);
         k = new Supervisor(0, false, new dVector(0, 0), 0);
-        k.customInput = ourInput;
+        //k.customInput = ourInput;
         k.timerType = 1;
         k.features_confFile = "editorConfig.txt";
         Thread A = new Thread(k);
@@ -86,7 +86,7 @@ public class Editor extends JFUtils.InputActivated{
         }
         k.Logic.window.setTitle("PointBreakEngine (Editor2)");
         k.Logic.Vrenderer.factor = 20;
-        k.Logic.input = ourInput;
+        //k.Logic.input = ourInput;
         
         JPanel editorPanel = new JPanel();
         JPanel editorPanel2 = new JPanel();
@@ -139,9 +139,10 @@ public class Editor extends JFUtils.InputActivated{
         Input kbr = (Input) k.Logic.getKeyListeners()[0];
         //k.Logic.addKeyListener(kbr);*/
         
-        cursor = new Cursor(0, 0, 1, "newcursor", "C", 1, Color.white, 0, k, this, ourInput);
-        quickTools.alert(k.Logic.input.toString());
-        quickTools.alert(ourInput.toString());
+        cursor = new Cursor(0, 0, 1, "newcursor", "C", 1, Color.white, 0, k, this, k.Logic.input);
+        k.Logic.input.verbodose = true;
+        //quickTools.alert(k.Logic.input.toString());
+        //quickTools.alert(ourInput.toString());
         cursor.onlyColor = true;
         cursor.imageName = "";
         k.objectManager.addObject(cursor);

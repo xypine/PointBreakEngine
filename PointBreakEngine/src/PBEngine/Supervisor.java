@@ -81,8 +81,9 @@ public class Supervisor extends JFUtils.InputActivated implements Runnable{
     public VSRadManager rad;
     public boolean tog;
     public Supervisor ref = this;
-    public int xd = 50;
-    public int yd = 50;
+    int size = 1;
+    public int xd = 50 * size;
+    public int yd = 50 * size;
     public Thread c;
     public Thread b;
     public Thread a;
