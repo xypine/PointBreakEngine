@@ -69,7 +69,7 @@ public class Player extends gameObject{
                     //System.out.println("    "+x);
                 }
                 double c2 = Math.sqrt(Math.pow(masterParent.Logic.mouse_projected.x -i.x, 2) + Math.pow(masterParent.Logic.mouse_projected.y -i.y, 2));
-                System.out.println(c2);
+                System.out.println(dVector.divide(masterParent.Logic.mouse_projected, new dVector(100, 100)));
                 double rot2 = Math.acos((masterParent.Logic.mouse_projected.x - i.x) / c2);
                 if(!Double.isNaN(rot2)){
                     i.setRadians(rot2);

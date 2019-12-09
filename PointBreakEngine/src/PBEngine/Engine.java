@@ -385,7 +385,11 @@ public class Engine implements Runnable, ActionListener {
         mouse_projected.y = (mouseY - (window.Vrenderer.getH() / 2)+ cam.y) / window.Vrenderer.factor;
         mouse_projected.x = (window.Vrenderer.getW() / 2) - window.Vrenderer.factor / (cam.x - mouseX);
         mouse_projected.y = (window.Vrenderer.getH() / 2) - window.Vrenderer.factor / (cam.y - mouseY);
-        rrrrrrrrrrrrrrr
+        
+        //(int) (((rl.x + effectOffSet.x) - cam.x) * factor + (w / 2)), (int) (((rl.y + effectOffSet.y) - camy) * factor + (h / 2)), (int) factor * size, (int) factor * size
+        mouse_projected.x = ((mouseX+0)-cam.x)*window.Vrenderer.factor+(window.Vrenderer.getW()/2);
+        mouse_projected.y = ((mouseY+0)-cam.y)*window.Vrenderer.factor+(window.Vrenderer.getH()/2);
+        //LEFT HERE
         //System.out.println(mouse_projected.represent());
     }
     public void fulltick(){
