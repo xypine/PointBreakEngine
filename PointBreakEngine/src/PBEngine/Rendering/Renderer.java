@@ -22,12 +22,15 @@
  * THE SOFTWARE.
  */
 
-package PBEngine;
+package PBEngine.Rendering;
 
 import JFUtils.Vector;
 import JFUtils.Range;
 import JFUtils.dVector;
 import JFUtils.quickTools;
+import PBEngine.Supervisor;
+import PBEngine.colorParser;
+import PBEngine.directory;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Font;
@@ -46,6 +49,10 @@ import java.util.logging.Logger;
 import javax.imageio.ImageIO;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
+
+import PBEngine.Rendering.extra.*;
+import PBEngine.Rendering.core.*;
+import java.util.Objects;
 /**
  *
  * @author Jonnelafin
@@ -84,7 +91,8 @@ public class Renderer extends JPanel{
             try {
                 image = ImageIO.read(img);
             } catch (IOException ex) {
-                Logger.getLogger(Renderer.class.getName()).log(Level.SEVERE, null, ex);
+                //Logger.getLogger(Renderer.class.getName()).log(Level.SEVERE, null, ex);
+                //Logger.getGlobal().warning("COULD NOT LOAD IMAGE: " + ex);
             }
             this.images.add(new imageWithId(image, name.hashCode()));
             return new imageWithId(image, id);
@@ -211,7 +219,7 @@ public class Renderer extends JPanel{
                                     scaleY = scaleDiff.y;
                                     buffer = buffer2;}
                                 catch(Exception e){
-                                    throw e;
+                                    //throw e;
                                 }
                             }
                             double offsetX = scaleX;
@@ -249,6 +257,12 @@ public class Renderer extends JPanel{
         }
         
         if(drawGrid){
+            int XO = 0;
+            int YO = 0;
+            if(camMode == 1){
+                XO = (int) camx;
+                YO = (int) camy;
+            }
             for(int i=0;i<(w/factor);i++){
                 for(int z=0;z<(h/factor);z++){
                     g.setColor(gridColor);
@@ -345,6 +359,10 @@ public class Renderer extends JPanel{
         }
     }
     private metaImage createRotated(BufferedImage image, double angle,GraphicsConfiguration gc) {
+        if(Objects.isNull(image)){
+            System.out.println("COULD NOT ROTATE THE IMAGE, IT IS NULL");
+            return null;
+        }
         double sin = Math.abs(Math.sin(angle)), cos = Math.abs(Math.cos(angle));
         int mw = image.getWidth(), mh = image.getHeight();
         int neww;
@@ -371,107 +389,12 @@ public class Renderer extends JPanel{
         double h2 = source2.getHeight();
         return new dVector(w1/w2, h1/h2);
     }
-    class metaImage{
-        BufferedImage image;
-        dVector newSizes;
-        public metaImage(BufferedImage image, dVector sizes){
-            this.image = image;
-            this.newSizes = sizes;
-        }
-    }
-}
-class vectorLayer{
-    int lastUpdated = 0;
-    LinkedList<Vector> points = new LinkedList<>();
-    LinkedList<String> images = new LinkedList<>();
-    LinkedList<Color> colors = new LinkedList<>();
-    LinkedList<Integer> sizes = new LinkedList<>();
-    public int blur;
-    float x = 15.34F;
-    float y = 22.48F;
-    float factor = 2F;
-    public int w = 0;
-    public int h = 0;
-    public String title = "";
-    public void init(String title, int blur){
-        this.title = title;
-    }
     
-    public void update(LinkedList<Vector> p,LinkedList<Color> c, LinkedList<String> images, LinkedList<Integer> sizes, float factor, int tick){
-        if(lastUpdated > tick){
-            return;
-        }
-        lastUpdated = tick;
-        this.points = p;
-        this.colors = c;
-        this.images = images;
-        this.factor = factor;
-        this.sizes = sizes;
-    }
 }
-class newVectorLayer{
-    int lastUpdated = 0;
-    LinkedList<renderContainer> containers = new LinkedList<>();
-    public int blur;
-    float x = 15.34F;
-    float y = 22.48F;
-    float factor = 2F;
-    public int w = 0;
-    public int h = 0;
-    public String title = "";
-    public void init(String title, int blur){
-        this.title = title;
-    }
-    
-    public void update(LinkedList<renderContainer> containers, int tick){
-        if(lastUpdated > tick){
-            return;
-        }
-        this.containers = containers;
-    }
-}
-class ImagePanel extends JPanel{
 
-    public BufferedImage image;
 
-    public ImagePanel() {
-       try {                
-          image = ImageIO.read(new File("image name and path"));
-       } catch (IOException ex) {
-            // handle exception...
-       }
-    }
 
-    @Override
-    protected void paintComponent(Graphics g) {
-        super.paintComponent(g);
-        g.drawImage(image, 0, 0, this); // see javadoc for more info on the parameters            
-    }
 
-}
-class renderContainer implements java.io.Serializable{
-    //int age;
-    dVector location;
-    String ImageName;
-    Color color;
-    int size;
-    double rotation = 0;
-    public renderContainer(dVector location, String ImageName, Color color, int size, double rotation){
-        this.location = location;
-        this.ImageName = ImageName;
-        this.color = color;
-        this.size = size;
-        this.rotation = rotation;
-    }
-}
-class imageWithId{
-    BufferedImage image;
-    int id;
-    public imageWithId(BufferedImage image, int id){
-        this.image = image;
-        this.id = id;
-    }
-}
 class msg{
     int life = 0;
     String msg;
@@ -485,111 +408,3 @@ class msg{
 
 
 
-class LegacyRenderer {
-    private int a;
-    private int b;
-    private String[][] space;
-    private Color[][] colors;
-    //public vCanvas canvas = new vCanvas();
-    private int y;
-    private int x;
-    private JFrame frame;
-    colorParser cP;
-    int cW;
-    int cH;
-    dVector cSize;
-    
-    public void init(int x, int y, JFrame f){
-        this.frame = f;
-        cP = new colorParser();
-        this.x = y;
-        this.y = x;
-        this.space = new String[y][x];
-//        this.colors = new Color[x][y];
-        this.a = (space.length);
-        this.b = (space[0].length);
-//        colorFill(Color.white);
-        fill("█", Color.black, "null");
-        initVector(767, 562);
-    }
-    public void initVector(int x, int y){
-        cSize = new dVector(x, y);
-        //canvas.setSize(x, y);
-        //canvas.setMaximumSize(new Dimension(x,y));
-        //canvas.setMinimumSize(new Dimension(x,y));
-    }
-    
-    public String[][] gets(){return(this.space);}
-    public Color[][] getc(){return(this.colors);}
-    
-    void fill(String goal, Color gc, String style){
-        String[][] tmp;
-        tmp = this.space;
-        for(int c = 0; c < this.x; c++){
-            for(int u = 0; u < this.y; u++){
-                this.space[c][u] = cP.parse("█",  gc, style);
-                
-            }
-        }
-//        this.space = tmp;
-    }
-    /*void vectorFill(Color co, int vec){
-        //BufferStrategy bs = canvas.getBufferStrategy();
-        if(bs == null){
-            canvas.createBufferStrategy(3);
-            return;
-        }
-        
-        Graphics g = bs.getDrawGraphics();
-        g.setColor(Color.red);
-        g.drawRect(0, 0, 767, 562);
-        g.setColor(co);
-        g.clearRect(0, 0, 767, 562);
-        //canvas.setSize(767, 562);
-        g.dispose();
-        bs.show();
-    }*/
-    void colorFill(Color goal){
-        Color[][] tmp;
-        tmp = this.colors;
-        for(int c = 0; c < this.x; c++){
-            for(int u = 0; u < this.y; u++){
-                this.colors[c][u] = goal;
-            }
-        }
-    }
-    void scan(int fx,int fy,int tx,int ty){
-        
-    }
-    void change(int locy,int locx,String to, Color c, String style){
-        try{
-            this.space[locx][locy] = cP.parse(to,  c, style);
-            
-            //this.colors[locx][locy] = c;
-        }
-        catch (Exception e){
-            System.out.println("Tried writing out of bounds: y(" + locy + "), x(" + locx + "): ");
-            System.out.println(e);
-        }
-    }
-    void vChange(float locx,float locy, Color c){
-        try{
-            //canvas.render(locx, locy, c);
-        }
-        catch (Exception e){
-            System.out.println("Tried writing out of bounds: y(" + locy + "), x(" + locx + "): ");
-            System.out.println(e);
-        }
-    }
-    
-    public int sizey(){return(this.x);}
-    public int sizex(){return(this.y);}
-    
-    
-    
-    
-
-    
-
-    
-}

@@ -1,7 +1,7 @@
 /*
  * The MIT License
  *
- * Copyright 2019 Elias Eskelinen.
+ * Copyright 2019 eliase.
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -21,29 +21,19 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package PBEngine;
+package PBEngine.Rendering.extra;
 
-import java.util.LinkedList;
+import java.awt.image.BufferedImage;
 
 /**
  *
- * @author Elias Eskelinen <elias.eskelinen@protonmail.com> eskelinen
+ * @author Elias Eskelinen <elias.eskelinen@protonmail.com>e
  */
-public class Level {
-    public LinkedList<gameObject> objects = new LinkedList<>();
-    public Level next = null;
-    
-    
-    public Level(LinkedList<gameObject> objects1){
-        this.objects = objects1;
-    }
-    public Level(){
-    
-    }
-    public void add(gameObject gameObject1){
-        this.objects.add(gameObject1);
-    }
-    public LinkedList<gameObject> getAll(){
-        return this.objects;
+public class imageWithId{
+    public BufferedImage image;
+    public int id;
+    public imageWithId(BufferedImage image, int id){
+        this.image = image;
+        this.id = id;
     }
 }

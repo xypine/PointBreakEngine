@@ -25,7 +25,7 @@ package PBEngine.Editor2;
 
 /**
  *
- * @author Elias
+ * @author Elias Eskelinen <elias.eskelinen@protonmail.com>
  */
 public class EditorPanel extends javax.swing.JPanel {
 

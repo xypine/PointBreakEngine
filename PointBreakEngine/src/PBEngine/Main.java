@@ -33,7 +33,7 @@ import java.util.logging.Logger;
 
 /**
  *
- * @author Elias
+ * @author Elias Eskelinen <elias.eskelinen@protonmail.com>
  */
 public class Main {
 

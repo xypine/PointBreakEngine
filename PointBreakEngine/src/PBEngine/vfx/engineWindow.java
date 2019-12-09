@@ -27,7 +27,7 @@ package PBEngine.vfx;
 import JFUtils.Input;
 import JFUtils.Range;
 import JFUtils.dVector;
-import PBEngine.Renderer;
+import PBEngine.Rendering.Renderer;
 import PBEngine.Supervisor;
 import java.awt.Color;
 import java.awt.Graphics;

@@ -24,6 +24,7 @@
 
 package PBEngine;
 
+import PBEngine.Rendering.legacy.LegacyRenderer;
 import JFUtils.Input;
 import JFUtils.quickTools;
 import java.awt.Color;

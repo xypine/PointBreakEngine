@@ -24,6 +24,9 @@
 
 package PBEngine;
 
+//L_import PBEngine.Rendering.legacy.LegacyRenderer;
+import PBEngine.Rendering.core.*;
+import PBEngine.Rendering.Renderer;
 import JFUtils.Input;
 import JFUtils.Vector;
 import JFUtils.Range;
@@ -82,7 +85,7 @@ public class Engine implements Runnable, ActionListener {
     colorParser cP = new colorParser();
     Timer timer = new Timer(15, this);
     double[][] red;
-    int tickC = 0;
+    public int tickC = 0;
     int number;
     String screen;
     String[][] tmp;
@@ -381,14 +384,19 @@ public class Engine implements Runnable, ActionListener {
     public void generalTick(){
         mouseX = input.mouseX();
         mouseY = input.mouseY();
-        mouse_projected.x = (mouseX - (window.Vrenderer.getW() / 2)+ cam.x) / window.Vrenderer.factor;
-        mouse_projected.y = (mouseY - (window.Vrenderer.getH() / 2)+ cam.y) / window.Vrenderer.factor;
-        mouse_projected.x = (window.Vrenderer.getW() / 2) - window.Vrenderer.factor / (cam.x - mouseX);
-        mouse_projected.y = (window.Vrenderer.getH() / 2) - window.Vrenderer.factor / (cam.y - mouseY);
+        //mouse_projected.x = (mouseX - (window.Vrenderer.getW() / 2)+ cam.x) / window.Vrenderer.factor;
+        //mouse_projected.y = (mouseY - (window.Vrenderer.getH() / 2)+ cam.y) / window.Vrenderer.factor;
+        //mouse_projected.x = (window.Vrenderer.getW() / 2) - window.Vrenderer.factor / (cam.x - mouseX);
+        //mouse_projected.y = (window.Vrenderer.getH() / 2) - window.Vrenderer.factor / (cam.y - mouseY);
         
         //(int) (((rl.x + effectOffSet.x) - cam.x) * factor + (w / 2)), (int) (((rl.y + effectOffSet.y) - camy) * factor + (h / 2)), (int) factor * size, (int) factor * size
-        mouse_projected.x = ((mouseX+0)-cam.x)*window.Vrenderer.factor+(window.Vrenderer.getW()/2);
-        mouse_projected.y = ((mouseY+0)-cam.y)*window.Vrenderer.factor+(window.Vrenderer.getH()/2);
+        //+(window.Vrenderer.getW()/2)
+        //+(window.Vrenderer.getH()/2)
+        int w = window.Vrenderer.getW()/2;
+        int h = window.Vrenderer.getH()/2;
+        mouse_projected.x =( ((mouseX+0)-cam.x-w)*window.Vrenderer.factor) /1000;
+        mouse_projected.y =( ((mouseY+0)-cam.y-h)*window.Vrenderer.factor) /1000;
+        //System.out.println(mouse_projected);
         //LEFT HERE
         //System.out.println(mouse_projected.represent());
     }
@@ -904,59 +912,59 @@ public class Engine implements Runnable, ActionListener {
         k.tick_late();
     }
     public Color overrideRayBG = null;
-    String fetch(LegacyRenderer render)
+    /*_LString fetch(LegacyRenderer render)
     {
-//        System.out.println("Started fetching!");
-        int cx = 0;
-        int cy = 0;
-        
-        //RENDER
-        tmp = render.gets();
-        Color[][] colors = render.getc();
-        
-        screen = "<html>";
-        
-        for (String[] y : tmp)
-        {  
-            
-            screen = screen + "<p>";
-            for (String x : y)
-            {
-                
-//                System.out.print(y);
-                try
-                {
-                    
-                    screen += x;
-                }
-                catch(Exception e)
-                {
-                    System.out.println("failed to fetch screen at: " + cx + " " + cy);
-                }
-            }
-            cx++;
-        }
-        screen = screen + "</p>";
-//            System.out.println();
-        cy++;
-            
-        
-        screen = screen + "</html>";
-//        System.out.println(colors);
-//        System.out.println("Done fetching!");
-        return(screen);
+    //        System.out.println("Started fetching!");
+    int cx = 0;
+    int cy = 0;
+    
+    //RENDER
+    tmp = render.gets();
+    Color[][] colors = render.getc();
+    
+    screen = "<html>";
+    
+    for (String[] y : tmp)
+    {
+    
+    screen = screen + "<p>";
+    for (String x : y)
+    {
+    
+    //                System.out.print(y);
+    try
+    {
+    
+    screen += x;
     }
-
+    catch(Exception e)
+    {
+    System.out.println("failed to fetch screen at: " + cx + " " + cy);
+    }
+    }
+    cx++;
+    }
+    screen = screen + "</p>";
+    //            System.out.println();
+    cy++;
+    
+    
+    screen = screen + "</html>";
+    //        System.out.println(colors);
+    //        System.out.println("Done fetching!");
+    return(screen);
+    }
+    
     void record() {
-        try {
-            
-            recorder.write(recorder.recorded, "/src/com/viridistudios/viridiengine/records/recorded.txt");
-        } catch (UnsupportedEncodingException ex) {
-            Logger.getLogger(Engine.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (IOException ex) {
-            Logger.getLogger(Engine.class.getName()).log(Level.SEVERE, null, ex);
-        }
+    try {
+    
+    recorder.write(recorder.recorded, "/src/com/viridistudios/viridiengine/records/recorded.txt");
+    } catch (UnsupportedEncodingException ex) {
+    Logger.getLogger(Engine.class.getName()).log(Level.SEVERE, null, ex);
+    } catch (IOException ex) {
+    Logger.getLogger(Engine.class.getName()).log(Level.SEVERE, null, ex);
     }
+    }*/
 
     
     

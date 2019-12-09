@@ -34,6 +34,12 @@ import java.util.LinkedList;
  * @author Jonnelafin
  */
 public class Player extends gameObject{
+    
+    /**
+     * Not used after object construction, setting this will cause a custom image to be loaded
+     */
+    public String customImage = "";
+    
     public LinkedList<String> tag = new LinkedList<>();
     
     private int controlScheme = 0;
@@ -41,16 +47,21 @@ public class Player extends gameObject{
     private boolean noclip = false;
     public int fuel = 136;
     boolean canjump = true;
-    private final directory dir = new directory();
+    protected final directory dir = new directory();
     public boolean point2_2 = false;
     public Player(int ypos, int xpos, int size, String tag, String ap, float mas, Color cot, int ID, Supervisor master) {
         super(ypos, xpos, size, tag, ap, mas, cot, ID, master);
-        this.imageName = dir.textures + "player/player2.png";
+        if(customImage == ""){
+            this.imageName = dir.textures + "player/player2.png";
+        }
+        else{
+            this.imageName = customImage;
+        }
         collision_type = 0;
         //setDegrees(45);
 //        this.summon(ypos, xpos, tag, ap, mas);
     }
-    private void rot(Input inp){
+    public void rot(Input inp){
         dVector reversed = inp.reverseMouse(masterParent);
         double xc = x-reversed.x;
         double yc = y-reversed.y;
@@ -69,7 +80,7 @@ public class Player extends gameObject{
                     //System.out.println("    "+x);
                 }
                 double c2 = Math.sqrt(Math.pow(masterParent.Logic.mouse_projected.x -i.x, 2) + Math.pow(masterParent.Logic.mouse_projected.y -i.y, 2));
-                System.out.println(dVector.divide(masterParent.Logic.mouse_projected, new dVector(100, 100)));
+                //System.out.println(dVector.divide(masterParent.Logic.mouse_projected, new dVector(100, 100)));
                 double rot2 = Math.acos((masterParent.Logic.mouse_projected.x - i.x) / c2);
                 if(!Double.isNaN(rot2)){
                     i.setRadians(rot2);

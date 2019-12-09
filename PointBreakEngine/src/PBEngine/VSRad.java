@@ -31,7 +31,7 @@ import java.util.LinkedList;
 
 /**
  *
- * @author elias
+ * @author Elias Eskelinen <elias.eskelinen@protonmail.com>
  */
 public class VSRad {
     int id;

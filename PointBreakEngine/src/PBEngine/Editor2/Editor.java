@@ -52,7 +52,7 @@ import javax.swing.border.Border;
 
 /**
  *
- * @author elias
+ * @author Elias Eskelinen <elias.eskelinen@protonmail.com>
  */
 public class Editor extends JFUtils.InputActivated{
     public String lastFile = null;

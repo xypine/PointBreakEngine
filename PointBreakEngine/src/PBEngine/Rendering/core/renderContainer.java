@@ -1,7 +1,7 @@
 /*
  * The MIT License
  *
- * Copyright 2019 Elias Eskelinen.
+ * Copyright 2019 eliase.
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -21,29 +21,27 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package PBEngine;
+package PBEngine.Rendering.core;
 
-import java.util.LinkedList;
+import JFUtils.dVector;
+import java.awt.Color;
 
 /**
  *
- * @author Elias Eskelinen <elias.eskelinen@protonmail.com> eskelinen
+ * @author Elias Eskelinen <elias.eskelinen@protonmail.com>e
  */
-public class Level {
-    public LinkedList<gameObject> objects = new LinkedList<>();
-    public Level next = null;
-    
-    
-    public Level(LinkedList<gameObject> objects1){
-        this.objects = objects1;
-    }
-    public Level(){
-    
-    }
-    public void add(gameObject gameObject1){
-        this.objects.add(gameObject1);
-    }
-    public LinkedList<gameObject> getAll(){
-        return this.objects;
+public class renderContainer implements java.io.Serializable{
+    //int age;
+    public dVector location;
+    public String ImageName;
+    public Color color;
+    public int size;
+    public double rotation = 0;
+    public renderContainer(dVector location, String ImageName, Color color, int size, double rotation){
+        this.location = location;
+        this.ImageName = ImageName;
+        this.color = color;
+        this.size = size;
+        this.rotation = rotation;
     }
 }

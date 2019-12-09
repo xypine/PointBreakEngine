@@ -27,7 +27,7 @@ import JFUtils.dVector;
 
 /**
  *
- * @author elias eskelinen
+ * @author Elias Eskelinen <elias.eskelinen@protonmail.com> eskelinen
  */
 public class mapParser {
     static String[][] sampleFinish = {

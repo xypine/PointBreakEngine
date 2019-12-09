@@ -25,11 +25,11 @@ package PBEngine;
 
 /**
  *
- * @author elias
+ * @author Elias Eskelinen <elias.eskelinen@protonmail.com>
  */
 public class Camera {
-    double x;
-    double y;
+    public double x;
+    public double y;
     public Camera(double x, double y){
         this.x = x;
         this.y = y;

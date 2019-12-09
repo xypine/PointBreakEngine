@@ -1,7 +1,7 @@
 /*
  * The MIT License
  *
- * Copyright 2019 Elias Eskelinen.
+ * Copyright 2019 eliase.
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -21,29 +21,36 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package PBEngine;
+package PBEngine.Rendering.extra;
 
-import java.util.LinkedList;
+import java.awt.Graphics;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
+import javax.imageio.ImageIO;
+import javax.swing.JPanel;
 
 /**
  *
- * @author Elias Eskelinen <elias.eskelinen@protonmail.com> eskelinen
+ * @author Elias Eskelinen <elias.eskelinen@protonmail.com>e
  */
-public class Level {
-    public LinkedList<gameObject> objects = new LinkedList<>();
-    public Level next = null;
-    
-    
-    public Level(LinkedList<gameObject> objects1){
-        this.objects = objects1;
+public class ImagePanel extends JPanel{
+
+    public BufferedImage image;
+
+    public ImagePanel() {
+       try {                
+          image = ImageIO.read(new File("image name and path"));
+       } catch (IOException ex) {
+            // handle exception...
+            ex.printStackTrace();
+       }
     }
-    public Level(){
-    
+
+    @Override
+    protected void paintComponent(Graphics g) {
+        super.paintComponent(g);
+        g.drawImage(image, 0, 0, this); // see javadoc for more info on the parameters            
     }
-    public void add(gameObject gameObject1){
-        this.objects.add(gameObject1);
-    }
-    public LinkedList<gameObject> getAll(){
-        return this.objects;
-    }
+
 }

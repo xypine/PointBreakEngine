@@ -43,7 +43,7 @@ import javax.swing.JTextField;
 
 /**
  *
- * @author elias
+ * @author Elias Eskelinen <elias.eskelinen@protonmail.com>
  */
 public class devkit extends JFrame{
     public JPanel cont = new JPanel();
