@@ -42,6 +42,7 @@ import java.io.UnsupportedEncodingException;
 import static java.lang.Math.round;
 import java.net.URISyntaxException;
 import java.util.LinkedList;
+import java.util.Objects;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JFrame;
@@ -55,7 +56,7 @@ import javax.swing.Timer;
 public class Engine implements Runnable, ActionListener {
     public engineWindow window;
     
-    public Camera cam = new Camera(0, 0);
+    public Camera cam = new Camera(0, 0, null);
     long last_time = System.nanoTime();
     int deltatime = 0;
     
@@ -225,7 +226,7 @@ public class Engine implements Runnable, ActionListener {
         //rads.add(24, 24, 4, new Color(1, 0, 0), 1);
         //rads.add(25, 12, 4, new Color(1, 1, 1), 0);
         //rads.add(12, 1, 1, new Color(0, 0, 10));
-        red = rads.read(99);
+        if(!k.disableVSRAD){red = rads.read(99);}
         screen = "";
         
         if(k.bakedLights){
@@ -640,9 +641,9 @@ public class Engine implements Runnable, ActionListener {
             constructLevelmap();
         }
         dVector newLevel = dVector.add(currentMap, quickTools.vectorDirs4[direction]);
-        System.out.println("current location: "+currentMap.represent()+ " possible new loc: "+newLevel.represent());
+        //System.out.println("current location: "+currentMap.represent()+ " possible new loc: "+newLevel.represent());
         //newLevel.x <= mapw && newLevel.y >= maph
-        System.out.println(newLevel.represent());
+        //System.out.println(newLevel.represent());
         if((int)newLevel.x >= mapw && (int)newLevel.y >= maph){
             return false;
         }
@@ -699,7 +700,7 @@ public class Engine implements Runnable, ActionListener {
         //System.out.println(input.mapKeyAction());
         //rads.removeA();
         //rads.add(25, 12, 4);
-        if(renderRays == 1){
+        if(renderRays == 1 && !k.disableVSRAD){
             if(rayDetail == 0){
                 rads.recalculate("none", 1, false);
                 
@@ -755,13 +756,40 @@ public class Engine implements Runnable, ActionListener {
         objects = oM.getObjects();
         int xp = 0, yp = 0;
         
-        double rb[][] = quickTools.blur(rads.getR(xd, yd), xd, yd, blurStrenght);
-        double gb[][] = quickTools.blur(rads.getG(xd, yd), xd, yd, blurStrenght);
-        double bb[][] = quickTools.blur(rads.getB(xd, yd), xd, yd, blurStrenght);
+        double[][] rb = null;
+        try {
+            rb = quickTools.blur(rads.getR(xd, yd), xd, yd, blurStrenght);
+        } catch (Exception e) {
+        }
+        double[][] gb = null;
+        try {
+            gb = quickTools.blur(rads.getG(xd, yd), xd, yd, blurStrenght);
+        } catch (Exception e) {
+        }
+        double[][] bb = null;
+        try {
+            bb = quickTools.blur(rads.getB(xd, yd), xd, yd, blurStrenght);
+        } catch (Exception e) {
+        }
         if(k.bakedLights){colored = bakedcolor;}
-        else{colored = quickTools.parseColor(xd, yd, rb, gb, bb);}
+        else{try {
+                colored = quickTools.parseColor(xd, yd, rb, gb, bb);
+            } catch (Exception e) {
+            }
+}
+        double[][] out = null;
+        if(k.disableVSRAD){out = new double[][]{{}};}
         
-        double[][] out = quickTools.blur(red, xd, yd, blurStrenght);
+        else{out = quickTools.blur(red, xd, yd, blurStrenght);}
+        if(overrideRayBG != null){
+            for(int x: new Range(xd)){
+                for(int y: new Range(yd)){
+                    cont2.add( new renderContainer(new dVector(x,y), "", new Color((int) overrideRayBG.getRed(),(int) overrideRayBG.getGreen(),(int) overrideRayBG.getBlue()), 1, 0));
+                }
+                    
+            }
+        }
+        
         for(double[] x : out){
             for(double y : x){
                 Color c = new Color(0,0,0);
@@ -780,11 +808,8 @@ public class Engine implements Runnable, ActionListener {
                 if(r > 255){r = 255;}
                 if(g > 255){g = 255;}
                 if(b > 255){b = 255;}
-                if(overrideRayBG != null){
-                    cont2.add( new renderContainer(new dVector(xp,yp), "", new Color((int) overrideRayBG.getRed(),(int) overrideRayBG.getGreen(),(int) overrideRayBG.getBlue()), 1, 0));
-                }else{
-                    cont2.add( new renderContainer(new dVector(xp,yp), "", new Color((int) r,(int) g,(int) b), 1, 0));
-                }
+                cont2.add( new renderContainer(new dVector(xp,yp), "", new Color((int) r,(int) g,(int) b), 1, 0));
+                
                 
                 points2.add(new dVector(xp,yp));
                 colors2.add(new Color((int) r,(int) g,(int) b));
@@ -807,6 +832,10 @@ public class Engine implements Runnable, ActionListener {
         }
         System.out.println("########################################");*/
 //        oM.doPhysics(renderer);
+
+                cam.update();
+            if(Objects.isNull(cam.target)){
+            }
         for(gameObject p : objects){
 //            renderer.change(tx, ty, "█", Color.WHITE);
 //            System.out.println(p.getTag().getClass() + " " + "static".getClass());
@@ -831,9 +860,6 @@ public class Engine implements Runnable, ActionListener {
 //                aM.setVolume(d/10);
 //                System.out.println(aM.getVolume());
             }else{}
-            if(p.getTag().contains("player1_torso2")){
-                cam.setLocation(p.x, p.y);
-            }
             if(p.getTag().contains(new String("player2"))){
 //                oM.addObject(new Player(tx, ty, "null", "█", 1F, Color.CYAN,co+3));
 //                co++;

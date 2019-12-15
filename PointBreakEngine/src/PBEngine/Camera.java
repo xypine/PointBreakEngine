@@ -23,6 +23,8 @@
  */
 package PBEngine;
 
+import java.util.Objects;
+
 /**
  *
  * @author Elias Eskelinen <elias.eskelinen@protonmail.com>
@@ -30,12 +32,19 @@ package PBEngine;
 public class Camera {
     public double x;
     public double y;
-    public Camera(double x, double y){
+    public gameObject target;
+    public Camera(double x, double y, gameObject t){
         this.x = x;
         this.y = y;
+        this.target = t;
     }
     public void setLocation(double x, double y){
         this.x = x;
         this.y = y;
+    }
+    public void update(){
+        if(!Objects.isNull(target)){
+            this.setLocation(target.getX(), target.getY());
+        }
     }
 }

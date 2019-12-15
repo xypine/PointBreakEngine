@@ -63,6 +63,15 @@ public class Supervisor extends JFUtils.InputActivated implements Runnable{
         }
     }
     
+    public boolean stopAll(){
+        try {
+            Thread.currentThread().join();
+            return true;
+        } catch (InterruptedException ex) {
+            return false;
+        }
+    }
+    
     public int loadingsteps = 4;
     public int loading_completed = 0;
     
@@ -72,6 +81,7 @@ public class Supervisor extends JFUtils.InputActivated implements Runnable{
     public double world_friction_multiplier = 0.8;
     public dVector engine_gravity = new dVector(0D, 0.1D);
     public boolean engine_collisions = true;
+    public boolean disableVSRAD = false;
     
     public boolean bakedLights = false;
     
@@ -81,7 +91,7 @@ public class Supervisor extends JFUtils.InputActivated implements Runnable{
     public VSRadManager rad;
     public boolean tog;
     public Supervisor ref = this;
-    int size = 1;
+    public int size = 1;
     public int xd = 50 * size;
     public int yd = 50 * size;
     public Thread c;
@@ -128,6 +138,12 @@ public class Supervisor extends JFUtils.InputActivated implements Runnable{
     
     
     }*/
+    @SuppressWarnings("unchecked")
+    public Supervisor(int mode, boolean bakedLights, dVector gravity, int targetSpeed, dVector size, HashMap<String, String>... param){
+        this.xd = (int) size.x;
+        this.yd = (int) size.y;
+        SupervisorConst(mode, bakedLights, gravity, targetSpeed, param);
+    }
     @SuppressWarnings("unchecked")
     public Supervisor(int mode, boolean bakedLights, dVector gravity, int targetSpeed, HashMap<String, String>... param){
         SupervisorConst(mode, bakedLights, gravity, targetSpeed, param);
@@ -343,7 +359,7 @@ public class Supervisor extends JFUtils.InputActivated implements Runnable{
             torso2.visible = false;
             
             
-            Camera cam = new Camera(p.x, p.y);
+            Camera cam = new Camera(p.x, p.y, p);
             Logic.cam = cam;
             
             Logic.oM.addObject(torso2);
@@ -446,6 +462,17 @@ public class Supervisor extends JFUtils.InputActivated implements Runnable{
         }
     }
     public String latestConsole = "";
+
+    public void updateSize(dVector d) {
+        int x = (int) d.x;
+        int y = (int) d.y;
+        this.xd = x;
+        this.yd = y;
+        this.Logic.xd = x;
+        this.Logic.yd = y;
+        this.rad.w = x;
+        this.rad.h = y;
+    }
     class option{
         public String name;
         public Object link;

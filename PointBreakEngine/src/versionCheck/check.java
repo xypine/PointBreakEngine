@@ -29,11 +29,12 @@ package versionCheck;
  * @author Jonnelafin
  */
 public class check {
-    public static double JFUtilsV = 2.4;
+    public static double JFUtilsV = 2.451;
     
     public static void doChecks(){
         if(JFUtils.versionCheck.version != JFUtilsV){
-            throw new ClassFormatError("JFUtils version [" + JFUtilsV + "] is needed, but [" + JFUtils.versionCheck.version + "] was found. Please download the required version from: https://github.com/jonnelafin/JFUtils/releases");
+            JFUtils.versionCheck.throwException("PBEngine", JFUtilsV);
+            //throw new ClassFormatError("JFUtils version [" + JFUtilsV + "] is needed, but [" + JFUtils.versionCheck.version + "] was found. Please download the required version from: https://github.com/jonnelafin/JFUtils/releases");
         }
     }
 }

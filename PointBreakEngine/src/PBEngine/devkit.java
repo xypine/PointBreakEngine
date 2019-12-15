@@ -131,6 +131,11 @@ class BListener implements ActionListener{
                     case "/blur":
                         k.k.Logic.blurStrenght = Integer.parseInt(arr[1]);
                         break;
+                    case "/exit":
+                        System.out.println("Stopping the current thread...");
+                        boolean yeet = k.k.stopAll();
+                        System.out.println("Termination succeeded: " + yeet);
+                        break;
                     case "/bright":
                         k.k.Logic.global_brightness = Float.parseFloat(arr[1]);
                         break;
@@ -254,6 +259,17 @@ class BListener implements ActionListener{
                     case "/vfx":
                         k.k.Logic.window.useVFX = !k.k.Logic.window.useVFX;
                         System.out.println("VFX IS NOW: " + k.k.Logic.window.useVFX);
+                        break;
+                    case "/s":
+                        String valuesz[] = arr[1].split(" ", 2);
+                        try {
+                            dVector n = new dVector(Double.parseDouble(valuesz[0]), Double.parseDouble(valuesz[1]));
+                            System.out.println("Setting sizes to: " + n);
+                            k.k.updateSize(n);
+                            
+                        } catch (NumberFormatException numberFormatException) {
+                            quickTools.alert("devkit", "value :"+ arr[1] +": not understood");
+                        }
                         break;
                     default:
                         quickTools.alert("devkit", "command not understood");

@@ -23,20 +23,15 @@
  */
 package PBEngine.Editor2;
 
-import JFUtils.Input;
 import JFUtils.dVector;
-import JFUtils.quickTools;
 import PBEngine.*;
-import com.sun.java.swing.plaf.windows.WindowsBorders;
 import filedrop.FileDrop;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
-import java.io.IOException;
 import java.io.PrintWriter;
-import java.io.UnsupportedEncodingException;
 import java.net.URISyntaxException;
 import java.util.HashMap;
 import java.util.LinkedList;
@@ -48,7 +43,6 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JRadioButton;
 import javax.swing.border.BevelBorder;
-import javax.swing.border.Border;
 
 /**
  *
@@ -74,7 +68,7 @@ public class Editor extends JFUtils.InputActivated{
         //Input ourInput = new Input(this);
         String[] argss = new String[2];
         argss[0] = "nodemo";
-        Camera cam = new Camera(0, 0);
+        Camera cam = new Camera(0, 0, null);
         k = new Supervisor(0, false, new dVector(0, 0), 0);
         //k.customInput = ourInput;
         k.timerType = 1;

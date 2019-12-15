@@ -29,7 +29,6 @@ import JFUtils.Range;
 import JFUtils.dVector;
 import JFUtils.quickTools;
 import PBEngine.Supervisor;
-import PBEngine.colorParser;
 import PBEngine.directory;
 import java.awt.Color;
 import java.awt.Dimension;
@@ -47,7 +46,6 @@ import java.util.LinkedList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.imageio.ImageIO;
-import javax.swing.JFrame;
 import javax.swing.JPanel;
 
 import PBEngine.Rendering.extra.*;
@@ -143,10 +141,14 @@ public class Renderer extends JPanel{
         this.setSize(currentSize);
         camx = masterkick.Logic.cam.x;
         camy = masterkick.Logic.cam.y;
+        
+        super.paintComponent(g);
+        
         GraphicsEnvironment ge = GraphicsEnvironment.getLocalGraphicsEnvironment();
         GraphicsDevice gd = ge.getDefaultScreenDevice();
         GraphicsConfiguration gc = gd.getDefaultConfiguration();
-        super.paintComponent(g);
+        
+        Graphics2D g2d = (Graphics2D) g.create();
         
         g.setColor(Color.black);
         g.fillRect(0, 0, w, h);
@@ -210,7 +212,8 @@ public class Renderer extends JPanel{
                             double scaleX = 1;
                             double scaleY = 1;
                             imageWithId gImage = getImage(imageloc);
-                            buffer = new quickTools().colorImage(gImage.image, c.getRed(), c.getGreen(), c.getBlue(), 1F);
+                            buffer = gImage.image;
+                            //buffer = new quickTools().colorImage(gImage.image, c.getRed(), c.getGreen(), c.getBlue(), 0.5F);
                             if(rotation != 0){
                                 try{
                                     BufferedImage buffer2 = createRotated(buffer, rotation, gc).image;
@@ -244,7 +247,7 @@ public class Renderer extends JPanel{
                             xTo = xTo + effectOffSet.x;
                             yTo = yTo + effectOffSet.y;*/
                             
-                            g.drawImage(buffer, (int)(xFrom),(int) (yFrom), (int) xTo, (int) yTo, this);
+                            g2d.drawImage(buffer, (int)(xFrom),(int) (yFrom), (int) xTo, (int) yTo, this);
                         }catch(Exception e){
                             g.setColor(Color.MAGENTA);
                             g.fillRect((int)(rl.x-camx*factor + (w/2)),(int) (rl.y-camy*factor + (h/2)), (int) factor, (int) factor);

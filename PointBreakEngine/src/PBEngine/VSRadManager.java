@@ -42,7 +42,7 @@ public class VSRadManager{
     public Color[][] colors;
     public ConcurrentLinkedQueue<VSRad> sVSRad;
     private VSRad director;
-    private int w, h;
+    public int w, h;
     private objectManager oM;
     private radiosity demo;
     private dVector[] directions;
