@@ -25,7 +25,7 @@
 package PBEngine;
 
 import JFUtils.Input;
-import JFUtils.dVector;
+import JFUtils.Point2D;
 import JFUtils.quickTools;
 import PBEngine.performanceGraph.Graph;
 import java.awt.Color;
@@ -79,7 +79,7 @@ public class Supervisor extends JFUtils.InputActivated implements Runnable{
     
     //Global variables
     public double world_friction_multiplier = 0.8;
-    public dVector engine_gravity = new dVector(0D, 0.1D);
+    public Point2D engine_gravity = new Point2D(0D, 0.1D);
     public boolean engine_collisions = true;
     public boolean disableVSRAD = false;
     
@@ -139,29 +139,29 @@ public class Supervisor extends JFUtils.InputActivated implements Runnable{
     
     }*/
     @SuppressWarnings("unchecked")
-    public Supervisor(int mode, boolean bakedLights, dVector gravity, int targetSpeed, dVector size, HashMap<String, String>... param){
+    public Supervisor(int mode, boolean bakedLights, Point2D gravity, int targetSpeed, Point2D size, HashMap<String, String>... param){
         this.xd = (int) size.x;
         this.yd = (int) size.y;
         SupervisorConst(mode, bakedLights, gravity, targetSpeed, param);
     }
     @SuppressWarnings("unchecked")
-    public Supervisor(int mode, boolean bakedLights, dVector gravity, int targetSpeed, HashMap<String, String>... param){
+    public Supervisor(int mode, boolean bakedLights, Point2D gravity, int targetSpeed, HashMap<String, String>... param){
         SupervisorConst(mode, bakedLights, gravity, targetSpeed, param);
     }
     @SuppressWarnings("unchecked")
-    public Supervisor(int mode, boolean bakedLights, dVector gravity, HashMap<String, String>... param){
+    public Supervisor(int mode, boolean bakedLights, Point2D gravity, HashMap<String, String>... param){
         SupervisorConst(mode, bakedLights, gravity, 15, param);
     }
     @SuppressWarnings("unchecked")
-    public Supervisor(int mode, boolean bakedLights, dVector gravity, int targetSpeed){
+    public Supervisor(int mode, boolean bakedLights, Point2D gravity, int targetSpeed){
         SupervisorConst(mode, bakedLights, gravity, targetSpeed);
     }
     @SuppressWarnings("unchecked")
-    public Supervisor(int mode, boolean bakedLights, dVector gravity){
+    public Supervisor(int mode, boolean bakedLights, Point2D gravity){
         SupervisorConst(mode, bakedLights, gravity, 15);
     }
     @SuppressWarnings("unchecked")
-    private void SupervisorConst(int mode, boolean bakedLights, dVector gravity, int targetSpeed, HashMap<String, String>... param){
+    private void SupervisorConst(int mode, boolean bakedLights, Point2D gravity, int targetSpeed, HashMap<String, String>... param){
         versionCheck.check.doChecks();
         this.mode = mode;
         this.bakedLights = bakedLights;
@@ -184,6 +184,9 @@ public class Supervisor extends JFUtils.InputActivated implements Runnable{
             paramMap = param[0];
             if(paramMap.containsKey("loadLevel")){
                 this.defaultMap = paramMap.get("loadLevel");
+            }
+            if(paramMap.containsKey("noplayer")){
+                noplayer = true;
             }
         }
         
@@ -213,6 +216,7 @@ public class Supervisor extends JFUtils.InputActivated implements Runnable{
         
         
     }
+    private boolean noplayer = false;
     public String defaultMap = "null.pblevel";
     
     public void tick_pre(){
@@ -341,30 +345,31 @@ public class Supervisor extends JFUtils.InputActivated implements Runnable{
             } catch (URISyntaxException ex) {
                 Logger.getLogger(Supervisor.class.getName()).log(Level.SEVERE, null, ex);
             }
-            //wM.oM.addObject(new Player(5, 5, "player1", "█", 1F, Color.black, 1, ref));
-            gameObject p = new Player(25, 5, 1, "player1", "█", 1F, Color.black, 1, ref);
-            gameObject torso = new gameObject(25, 5, 1, "player1_torso", "T", 1F, Color.red, 2, ref);
-            gameObject torso2 = new gameObject(25, 5, 1, "player1_torso2", "T", 1F, Color.red, 3, ref);
-            //gameObject torso3 = new gameObject(25, 5, 1, "player1_torso2", "T", 1F, Color.red, 3, ref);
-            p.addChild(torso);
-            torso.addChild(torso2);
-            torso2.setParent(torso);
-       
-            torso.setParent(p);
-            torso.tag.add("nocoll");
-            torso.collisions = false;
-            torso2.tag.add("nocoll");
-            torso2.collisions = false;
-            torso.visible = false;
-            torso2.visible = false;
-            
-            
-            Camera cam = new Camera(p.x, p.y, p);
-            Logic.cam = cam;
-            
-            Logic.oM.addObject(torso2);
-            Logic.oM.addObject(torso);
-            Logic.oM.addObject(p);
+            if (!noplayer) {
+//wM.oM.addObject(new Player(5, 5, "player1", "█", 1F, Color.black, 1, ref));
+                gameObject p = new Player(25, 5, 1, "player1", "█", 1F, Color.black, 1, ref);
+                gameObject torso = new gameObject(25, 5, 1, "player1_torso", "T", 1F, Color.red, 2, ref);
+                gameObject torso2 = new gameObject(25, 5, 1, "player1_torso2", "T", 1F, Color.red, 3, ref);
+                //gameObject torso3 = new gameObject(25, 5, 1, "player1_torso2", "T", 1F, Color.red, 3, ref);
+                p.addChild(torso);
+                torso.addChild(torso2);
+                torso2.setParent(torso);
+                
+                torso.setParent(p);
+                torso.tag.add("nocoll");
+                torso.collisions = false;
+                torso2.tag.add("nocoll");
+                torso2.collisions = false;
+                torso.visible = false;
+                torso2.visible = false;
+                
+                Camera cam = new Camera(p.x, p.y, p);
+                Logic.cam = cam;
+                
+                Logic.oM.addObject(torso2);
+                Logic.oM.addObject(torso);
+                Logic.oM.addObject(p);
+            }
             //wM.oM.addObject(new Player(5, 6, "player1", "█", 1F, Color.black, 3, ref));
             //wM.oM.addObject(new Player(6, 6, "player1", "█", 1F, Color.black, 4, ref));
             //rad.setTitle("VSRad");
@@ -463,7 +468,7 @@ public class Supervisor extends JFUtils.InputActivated implements Runnable{
     }
     public String latestConsole = "";
 
-    public void updateSize(dVector d) {
+    public void updateSize(Point2D d) {
         int x = (int) d.x;
         int y = (int) d.y;
         this.xd = x;

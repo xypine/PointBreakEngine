@@ -24,7 +24,7 @@
 
 package PBEngine;
 
-import JFUtils.Vector;
+import JFUtils.Point2Int;
 import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -45,9 +45,9 @@ import java.util.logging.Logger;
  * @author Jonnelafin
  */
 public class Recorder {
-    public LinkedList<Vector> recorded = new LinkedList<>();
-    public LinkedList<LinkedList<Vector>> locationsByTime;
-    public LinkedList<Vector> lastLocations;
+    public LinkedList<Point2Int> recorded = new LinkedList<>();
+    public LinkedList<LinkedList<Point2Int>> locationsByTime;
+    public LinkedList<Point2Int> lastLocations;
     public LinkedList<gameObject> gameObjects;
     private LinkedList<container> changed = new LinkedList<>();
     private String out;
@@ -69,11 +69,11 @@ public class Recorder {
         //System.out.println("frame: " + frame + ": " + recorded.getLast().x);
         frame++;
     }
-    public void write(LinkedList<Vector> g, String file) throws FileNotFoundException, UnsupportedEncodingException, IOException{
+    public void write(LinkedList<Point2Int> g, String file) throws FileNotFoundException, UnsupportedEncodingException, IOException{
         System.out.println(System.getProperty("user.dir") + "/" + file + "  " + g.size());
         String tmp = "";
         int idi = 90;
-        for(Vector p : g){
+        for(Point2Int p : g){
             tmp = tmp + p.x + "l" + p.y + ":";
         }
         try (Writer writer = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(System.getProperty("user.dir") + file), "utf-8"))) {
@@ -81,7 +81,7 @@ public class Recorder {
         }
     }
     String filePath = new File("").getAbsolutePath();
-    public LinkedList<Vector> read(String file){
+    public LinkedList<Point2Int> read(String file){
         System.out.println("trying to reconstruct recording [" + filePath.concat(file)+"]");
         try {
             Scanner in = new Scanner(new FileReader(filePath.concat(file)));
@@ -94,7 +94,7 @@ public class Recorder {
             int l = 0;
             String ax = "";
             String ay = "";
-            LinkedList<Vector> out = new LinkedList<>();
+            LinkedList<Point2Int> out = new LinkedList<>();
             int framer =0;
             for(char x : text.toCharArray())
             {
@@ -123,13 +123,13 @@ public class Recorder {
             return(out);
         } catch (FileNotFoundException ex) {
             Logger.getLogger(Recorder.class.getName()).log(Level.SEVERE, null, ex);
-            return new LinkedList<Vector>();
+            return new LinkedList<Point2Int>();
         }
     }
     class container{
-        public Vector location;
+        public Point2Int location;
         public int id;
-        public container(Vector v, int ta){
+        public container(Point2Int v, int ta){
             this.location = v;
             this.id = ta;
         }

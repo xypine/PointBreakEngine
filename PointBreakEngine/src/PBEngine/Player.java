@@ -25,7 +25,7 @@
 package PBEngine;
 
 import JFUtils.Input;
-import JFUtils.dVector;
+import JFUtils.Point2D;
 import java.awt.Color;
 import java.util.LinkedList;
 
@@ -62,7 +62,7 @@ public class Player extends gameObject{
 //        this.summon(ypos, xpos, tag, ap, mas);
     }
     public void rot(Input inp){
-        dVector reversed = inp.reverseMouse(masterParent);
+        Point2D reversed = inp.reverseMouse(masterParent);
         double xc = x-reversed.x;
         double yc = y-reversed.y;
         double c = Math.sqrt(Math.pow(xc, 2) + Math.pow(yc, 2));
@@ -84,6 +84,7 @@ public class Player extends gameObject{
                 double rot2 = Math.acos((masterParent.Logic.mouse_projected.x - i.x) / c2);
                 if(!Double.isNaN(rot2)){
                     i.setRadians(rot2);
+                    i.setRadians(-i.getRadians());
                     //System.out.println(rot2);
                 }
             }

@@ -25,21 +25,25 @@
 package PBEngine;
 
 import JFUtils.Input;
-import JFUtils.Vector;
+import JFUtils.Point2Int;
 import JFUtils.Range;
-import JFUtils.dVector;
+import JFUtils.Point2D;
+import PBEngine.Rendering.core.renderType;
 import java.awt.Color;
 import static java.lang.Math.ceil;
 import static java.lang.Math.pow;
 import static java.lang.Math.round;
 import static java.lang.Math.sqrt;
 import java.util.LinkedList;
+import java.util.Objects;
 
 /**
  *
  * @author Jonnelafin
  */
 public class gameObject {
+    public renderType shape;
+    
     //0: handle by the parent, 1: handle by each children
     public int children_translationMode = 0;
     public boolean onlyColor = false;
@@ -93,7 +97,18 @@ public class gameObject {
 //    Renderer re = new Renderer();
     //objectManager oM = new objectManager();
     public Supervisor masterParent;
+    
+    public gameObject(Point2D location, int size, double mass, renderType shape, Supervisor master, int ID){
+        gameObjectConst((int) location.x, (int) location.y, size, "Unnamed GameObject", "D", mass, Color.PINK, ID, master, shape);
+    }
+    public gameObject(int xpos, int ypos, int size, String tag, String ap, double mas, Color cot, int ID, Supervisor master, renderType t){
+        gameObjectConst( xpos,  ypos,  size,  tag,  ap,  mas,  cot,  ID,  master, t);
+    }
     public gameObject(int xpos, int ypos, int size, String tag, String ap, double mas, Color cot, int ID, Supervisor master){
+        gameObjectConst(xpos,  ypos,  size,  tag,  ap,  mas,  cot,  ID,  master, shape.box);
+    }
+    public void gameObjectConst(int xpos, int ypos, int size, String tag, String ap, double mas, Color cot, int ID, Supervisor master, renderType shape){
+        this.shape = shape;
         this.masterParent = master;
         this.summon(ypos, xpos, tag, ap, mas, cot, ID);
         this.children.add(this);
@@ -161,8 +176,8 @@ public class gameObject {
         double finish = (double) sqrt(rx + ry);
         return(finish);
     }
-    public dVector getLocation(){
-        return(new dVector(this.x, this.y));
+    public Point2D getLocation(){
+        return(new Point2D(this.x, this.y));
     }
     public String gAppearance(){return(this.appereance);}
     
@@ -175,7 +190,7 @@ public class gameObject {
         this.acolor = cat;
         this.id = ID;
     }
-    public void setLocation(dVector v){
+    public void setLocation(Point2D v){
         this.x = v.x;
         this.y = v.y;
     }
@@ -210,7 +225,7 @@ public class gameObject {
                         if(this.velx < 0){this.x = this.x - 0.1F;}
                         if(this.velx > 0){this.x = this.x + 0.1F;}
                         checkAdvancedCollisions(oMb, this);
-                        for(dVector dir : Vector.dir()){
+                        for(Point2D dir : Point2Int.dir()){
                         //    checkAdvancedCollisions(oMb, this, x+dir.x, y+dir.y);
                         }
                         
@@ -221,7 +236,7 @@ public class gameObject {
                         if(this.vely < 0){this.y = this.y - 0.1F;}
                         if(this.vely > 0){this.y = this.y + 0.1F;}
                         checkAdvancedCollisions(oMb, this);
-                        for(dVector dir : Vector.dir()){
+                        for(Point2D dir : Point2Int.dir()){
                         //    checkAdvancedCollisions(oMb, this, x+dir.x, y+dir.y);
                         }
                     }
@@ -299,21 +314,28 @@ public class gameObject {
     }
     public void overBound(int direction, int xd, int yd){
         if(direction == 2){
-                    this.y = 0;
+                //    this.y = 0;
+                this.y = yd - 1;
                 }
         if(direction == 1){
-                    this.x = 0;
+                //    this.x = 0;
+                this.x = xd - 1;
                 }
         if(direction == 0){
-                    this.y = yd - 1;
+                //    this.y = yd - 1;
+                this.y = 0;
                 }
         if(direction == 3){
-                    this.x = xd - 1;
+                //    this.x = xd - 1;
+                this.x = 0;
         }
     }
-    public void addForce(Vector force){
+    public void addForce(Point2D force){
         this.velx = this.velx + force.x;
         this.vely = this.vely + force.y;
+    }
+    public Point2D getVelocity(){
+        return new Point2D(velx, vely);
     }
     void checkInput(Input input) {
           //Ignore if not player...
@@ -367,27 +389,32 @@ public class gameObject {
         }
         for(int xc : new Range(size)){
             for(int yc : new Range(size)){
-                if((o.colliding((int)Math.round(i.x + xc), (int)Math.round(i.y + yc), ignore)) || (o.colliding((int)Math.ceil(i.x + xc), (int)Math.ceil(i.y + yc), ignore)) || (o.colliding((int)Math.floor(i.x + xc), (int)Math.floor(i.y + yc), ignore))){
-//##                if(o.colliding((int)Math.round(i.x + xc), (int)Math.round(i.y + yc), ignore)){
-//                    point1(i, o.collidingGA(xc, yc, ignore));
-                    this.x = this.x + velx * -1;
-                    this.y = this.y + vely * -1;
+                boolean qualifier = false;
+                Point2D caught = new Point2D(x, y);
+                Point2D[] possible = new Point2D[]{
+                    new Point2D(Math.round(i.x+xc), Math.round(i.y+yc)),
+                    new Point2D(Math.ceil(i.x+xc), Math.ceil(i.y+yc)),
+                    new Point2D(Math.floor(i.x+xc), Math.floor(i.y+yc))
                     
-                    double gy = masterParent.engine_gravity.y;
-                    double gx = masterParent.engine_gravity.x;
-                    this.velx = this.velx * -0;
-                    this.vely = this.vely * -0;
-                    if(!((o.colliding((int)Math.round(i.x + xc - gx), (int)Math.round(i.y + yc - gy), ignore)) || (o.colliding((int)Math.ceil(i.x + xc - gx), (int)Math.ceil(i.y + yc - gy), ignore)) || (o.colliding((int)Math.floor(i.x + xc - gx), (int)Math.floor(i.y + yc - gy), ignore)))){
-//##                    if(o.colliding((int)Math.round(i.x + xc - gx), (int)Math.round(i.y + yc - gx), ignore)){
-                        this.y = this.y - masterParent.engine_gravity.y;
-                        this.x = this.x - masterParent.engine_gravity.x;
-                    }else{
-                        this.y = this.y + masterParent.engine_gravity.y;
-                        this.x = this.x + masterParent.engine_gravity.x;
+                };
+                if(this.shape == renderType.box){
+                    qualifier = (o.colliding((int)Math.round(i.x + xc), (int)Math.round(i.y + yc), ignore)) || (o.colliding((int)Math.ceil(i.x + xc), (int)Math.ceil(i.y + yc), ignore)) || (o.colliding((int)Math.floor(i.x + xc), (int)Math.floor(i.y + yc), ignore));
+                    if(qualifier){
+                        for(Point2D zz: possible){
+                            if(o.colliding((int)zz.x, (int)zz.y, ignore)){
+                                caught = zz;
+                            }
+                        }
                     }
-                    
-                    collisionCount++;
                 }
+                if(this.shape == renderType.circle){
+                    qualifier = o.circleColliding(i.x + xc, i.y +yc, this.size, ignore, null);
+                    //qualifier = (o.circleColliding((int)Math.round(i.x + xc), (int)Math.round(i.y + yc), this.size, ignore)) || (o.circleColliding((int)Math.ceil(i.x + xc), (int)Math.ceil(i.y + yc), this.size, ignore)) || (o.circleColliding((int)Math.floor(i.x + xc), (int)Math.floor(i.y + yc), this.size, ignore));
+                }
+                if(qualifier){
+                    doCollisions(i, xc, yc, o, ignore, caught);
+                }
+                
                 else if(o.colliding((int)Math.round(i.x + xc), (int) Math.ceil(i.y + yc), ignore)){
 //                    point2 = true;
 //                    point2(i, o.collidingGA((int)Math.round(i.x + xc),(int) Math.round(i.y + yc + 1), ignore));
@@ -398,21 +425,69 @@ public class gameObject {
             }
         }
     }
+    
+    private void doCollisions(gameObject i, int xc, int yc, objectManager o, LinkedList<String> ignore, Point2D caught){
+//##                if(o.colliding((int)Math.round(i.x + xc), (int)Math.round(i.y + yc), ignore)){
+//                    point1(i, o.collidingGA(xc, yc, ignore));
+                    gameObject ck = o.collidingGA((int)caught.x, (int)caught.y, ignore);
+                    double oldVX = this.velx;
+                    double oldVY = this.vely;
+                    
+                    this.x = this.x + velx * -1;
+                    this.y = this.y + vely * -1;
+                    
+                    double gy = masterParent.engine_gravity.y;
+                    double gx = masterParent.engine_gravity.x;
+                    this.velx = this.velx * -0;
+                    this.vely = this.vely * -0;
+                    
+                    
+                    System.out.println(new Point2D(oldVX, oldVY));
+                    if(true){
+                        if (true) {
+                            ck.addForce(new Point2D(
+                                    oldVX / 2,
+                                    oldVY / 2)
+                            );
+                            System.out.println("Yeet: " + ck.getVelocity());
+                        }
+                    }
+                    
+                    //if(!((o.colliding((int)Math.round(i.x + xc - gx), (int)Math.round(i.y + yc - gy), ignore)) || (o.colliding((int)Math.ceil(i.x + xc - gx), (int)Math.ceil(i.y + yc - gy), ignore)) || (o.colliding((int)Math.floor(i.x + xc - gx), (int)Math.floor(i.y + yc - gy), ignore)))){
+//##                    if(o.colliding((int)Math.round(i.x + xc - gx), (int)Math.round(i.y + yc - gx), ignore)){
+                    
+/*//Check qualifiers (again)
+
+if(this.shape == renderType.box){
+qualifier = (o.colliding((int)Math.round(i.x + xc), (int)Math.round(i.y + yc), ignore)) || (o.colliding((int)Math.ceil(i.x + xc), (int)Math.ceil(i.y + yc), ignore)) || (o.colliding((int)Math.floor(i.x + xc), (int)Math.floor(i.y + yc), ignore));
+}
+if(this.shape == renderType.circle){
+qualifier = o.circleColliding(i.x + xc, i.y +yc, this.size, ignore);
+//qualifier = (o.circleColliding((int)Math.round(i.x + xc), (int)Math.round(i.y + yc), this.size, ignore)) || (o.circleColliding((int)Math.ceil(i.x + xc), (int)Math.ceil(i.y + yc), this.size, ignore)) || (o.circleColliding((int)Math.floor(i.x + xc), (int)Math.floor(i.y + yc), this.size, ignore));
+}
+if(qualifier){
+this.y = this.y - masterParent.engine_gravity.y;
+this.x = this.x - masterParent.engine_gravity.x;
+}else{
+this.y = this.y + masterParent.engine_gravity.y;
+this.x = this.x + masterParent.engine_gravity.x;
+}*/
+                    
+                    collisionCount++;
+    }
+    
     private void checkAdvancedCollisions(objectManager o, gameObject i, double x, double y){
         if(!i.masterParent.engine_collisions || !collisions){
             return;
         }
-        LinkedList<String> ignore = tag;
+        LinkedList<Integer> ignore = new LinkedList<>();
+        ignore.add(this.id);
         for(gameObject ga : children){
-            for(String tag : ga.getTag()){
-                if(!ignore.contains(tag)){
-                    ignore.add(tag);
-                }
-            }
+            ignore.add(ga.id);
         }
         for(int xc : new Range(size)){
             for(int yc : new Range(size)){
-                if(o.colliding((int)Math.round(x + xc), (int)Math.round(y + yc), ignore)){
+                if(o.colliding((int)Math.round(x + xc), (int)Math.round(y + yc), ignore, null)){
 //                    point1(i, o.collidingGA(xc, yc, ignore));
                     this.x = this.x + velx * -1;
                     this.y = this.y + vely * -1;
@@ -424,7 +499,7 @@ public class gameObject {
                     this.vely = this.vely * -0;
                     collisionCount++;
                 }
-                else if(o.colliding((int)Math.round(x + xc), (int) Math.ceil(y + yc), ignore)){
+                else if(o.colliding((int)Math.round(x + xc), (int) Math.ceil(y + yc), ignore, null)){
                     //point2 = true;
                     //point2(i, o.collidingGA((int)Math.round(x + xc),(int) Math.round(y + yc + 1), ignore));
                 }
@@ -441,12 +516,12 @@ public class gameObject {
     public void checkCollisions(objectManager o, gameObject i){
         LinkedList<gameObject> tmpoa = o.getObjects();
         if(this.collision_type == 1){
-            dVector[] dirs = Vector.dir();
+            Point2D[] dirs = Point2Int.dir();
             int result = 0;
-            dVector cursor = new dVector(i.x, i.y);
+            Point2D cursor = new Point2D(i.x, i.y);
             if(o.colliding((int)cursor.x,(int) cursor.y, i.tag.get(0))){result++;}
             for(int d : new Range(dirs.length)){
-                cursor = new dVector(i.x + dirs[d].x, i.y + dirs[d].y);
+                cursor = new Point2D(i.x + dirs[d].x, i.y + dirs[d].y);
                 if(o.colliding((int)cursor.x,(int) cursor.y, i.tag.get(0))){result++;}
             }
             if(result != 0){

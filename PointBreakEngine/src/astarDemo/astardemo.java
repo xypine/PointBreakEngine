@@ -24,7 +24,7 @@
 package astarDemo;
 
 import JFUtils.Range;
-import JFUtils.dVector;
+import JFUtils.Point2D;
 import PBEngine.gameObject;
 import PBEngine.Supervisor;
 import java.awt.Color;
@@ -42,7 +42,7 @@ public class astardemo{
     
     public static void main(String[] args) {
         Supervisor k;
-        k = new Supervisor(0, false, new dVector(0, 0), 1);
+        k = new Supervisor(0, false, new Point2D(0, 0), 1);
         k.timerType = 0;
         
         Thread A = new Thread(k);
@@ -64,7 +64,7 @@ public class astardemo{
         LinkedList<gameObject> lis = new LinkedList<>();
         for(int x : new Range(50)){
             for(int y : new Range(40)){
-                char[][] matrix = k.objectManager.getCollisionmap(new dVector(0, 0), new dVector(k.xd, k.yd), "nocoll");
+                char[][] matrix = k.objectManager.getCollisionmap(new Point2D(0, 0), new Point2D(k.xd, k.yd), "nocoll");
                 matrix[15][15] = 'X';
                 List<JFUtils.astarNode> path = JFUtils.astar.getPath(matrix, x, y);
                 float val = 255;
@@ -78,7 +78,7 @@ public class astardemo{
                 g.tag.add("nocoll");
                 g.tag.add("static");
                 //k.objectManager.addObject(g);
-                g.setLocation(new dVector(x, y));
+                g.setLocation(new Point2D(x, y));
                 g.onlyColor = true;
                 lis.add(g);
                 id++;

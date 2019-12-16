@@ -1,7 +1,7 @@
 /*
  * The MIT License
  *
- * Copyright 2019 eliase.
+ * Copyright 2019 Elias Eskelinen <elias.eskelinen@protonmail.com>.
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -21,20 +21,18 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package PBEngine.Rendering.extra;
-
-import JFUtils.Point2D;
-import java.awt.image.BufferedImage;
+package PBEngine.Rendering.core;
 
 /**
  *
- * @author Elias Eskelinen <elias.eskelinen@protonmail.com>e
+ * @author Elias Eskelinen <elias.eskelinen@protonmail.com>
  */
-public class metaImage{
-        public BufferedImage image;
-        public Point2D newSizes;
-        public metaImage(BufferedImage image, Point2D sizes){
-            this.image = image;
-            this.newSizes = sizes;
-        }
+public enum renderType{
+
+    box, circle, NaN;
+
+    private renderType() {
+        
+    }
+    
 }

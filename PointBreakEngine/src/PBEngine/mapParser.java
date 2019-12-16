@@ -23,7 +23,7 @@
  */
 package PBEngine;
 
-import JFUtils.dVector;
+import JFUtils.Point2D;
 
 /**
  *
@@ -57,7 +57,7 @@ public class mapParser {
         }
         yd = y;
         //xd++;yd++;
-        System.out.println(new dVector(xd,yd).represent());
+        System.out.println(new Point2D(xd,yd).represent());
         x = 0; y = 0;
         
         

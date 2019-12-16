@@ -24,13 +24,15 @@
 package PBEngine;
 
 import JFUtils.Range;
-import JFUtils.dVector;
+import JFUtils.Point2D;
 import JFUtils.quickTools;
+import PBEngine.Rendering.core.renderType;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.net.URISyntaxException;
+import java.util.LinkedList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JButton;
@@ -121,7 +123,7 @@ class BListener implements ActionListener{
             
             if(k.lum.getText().charAt(0) == '/'){
                 switch(arr[0]){
-                    case "/collisions":
+                    case "/coll":
                         if(arr[1].matches("true")){k.k.engine_collisions = true;}
                         else if(arr[1].matches("false")){k.k.engine_collisions = false;}
                         else{
@@ -145,7 +147,7 @@ class BListener implements ActionListener{
                             int x = Integer.parseInt(values[1].split(" ", 2)[0]);
                             int y = Integer.parseInt(values[1].split(" ", 2)[1]);
                             for(gameObject o : k.k.objectManager.getObjectsByTag(values[0])){
-                                o.setLocation(new dVector(x, y));
+                                o.setLocation(new Point2D(x, y));
                             }
                             //k.k.objectManager.getObjectByTag(values[0]).setLocation(new Vector(x, y));
                         } catch (NumberFormatException numberFormatException) {
@@ -167,7 +169,48 @@ class BListener implements ActionListener{
                             int x = Integer.parseInt(values[1].split(" ", 2)[0]);
                             int y = Integer.parseInt(values[1].split(" ", 2)[1]);
                             String tag = values[0];
-                            k.k.objectManager.addObject(new gameObject(x, y, 1, tag, "N", 1, Color.black, 1919, k.k));
+                            k.k.objectManager.addObject(new gameObject(x, y, 1, tag, "N", 1, Color.black, k.k.objectManager.getUsableID(), k.k));
+                            //k.k.objectManager.getObjectByTag(values[0]).setLocation(new Vector(x, y));
+                        } catch (NumberFormatException numberFormatException) {
+                            quickTools.alert("devkit", "value :"+ arr[1] +": not understood");
+                            
+                        }
+                        break;
+                    case "/NID":
+                        System.out.println("Next usable ID: " + k.k.objectManager.getUsableID());
+                        break;
+                    case "/GAList":
+                        LinkedList<gameObject> ga = k.k.objectManager.getObjects();
+                        System.out.println("ALL the game objects:");
+                        System.out.println("---------------------");
+                        for(gameObject iz : ga){
+                            System.out.println("ID " + iz.getID() + " :");
+                            System.out.println("    Tags:");
+                            iz.getTag().forEach(l->{
+                                System.out.println("        " + l);
+                            });
+                            System.out.println("    x:  " + iz.x);
+                            System.out.println("    y:  " + iz.y);
+                            System.out.println("    Children:");
+                            iz.getChildren().forEach(l->{
+                                System.out.println("        " + l + " (ID" + l.getID() + ")");
+                            });
+                            System.out.println("ImageName: " + iz.imageName);
+                            System.out.println(".....");
+                        }
+                        System.out.println("---------------------");
+                        
+                        break;
+                    case "/addCircle":
+                        try {
+                            String values[] = arr[1].split(" ", 2);
+                            int x = Integer.parseInt(values[1].split(" ", 2)[0]);
+                            int y = Integer.parseInt(values[1].split(" ", 2)[1]);
+                            double r = Double.valueOf(values[0]);
+                            String tag = values[0];
+                            gameObject c= new gameObject(x, y, (int) r, "circle", "N", 1, Color.black, k.k.objectManager.getUsableID(), k.k, renderType.circle);
+                            System.out.println(c.shape);
+                            k.k.objectManager.addObject(c);
                             //k.k.objectManager.getObjectByTag(values[0]).setLocation(new Vector(x, y));
                         } catch (NumberFormatException numberFormatException) {
                             quickTools.alert("devkit", "value :"+ arr[1] +": not understood");
@@ -183,7 +226,7 @@ class BListener implements ActionListener{
                     case "/g":
                         String valuesa[] = arr[1].split(" ", 2);
                         try {
-                            k.k.engine_gravity = new dVector(Double.parseDouble(valuesa[0]), Double.parseDouble(valuesa[1]));
+                            k.k.engine_gravity = new Point2D(Double.parseDouble(valuesa[0]), Double.parseDouble(valuesa[1]));
                         } catch (NumberFormatException numberFormatException) {
                             quickTools.alert("devkit", "value :"+ arr[1] +": not understood");
                         }
@@ -263,7 +306,7 @@ class BListener implements ActionListener{
                     case "/s":
                         String valuesz[] = arr[1].split(" ", 2);
                         try {
-                            dVector n = new dVector(Double.parseDouble(valuesz[0]), Double.parseDouble(valuesz[1]));
+                            Point2D n = new Point2D(Double.parseDouble(valuesz[0]), Double.parseDouble(valuesz[1]));
                             System.out.println("Setting sizes to: " + n);
                             k.k.updateSize(n);
                             

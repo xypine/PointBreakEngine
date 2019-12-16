@@ -26,7 +26,8 @@ package PBEngine;
 
 
 import JFUtils.Range;
-import JFUtils.dVector;
+import JFUtils.Point2D;
+import JFUtils.quickTools;
 import static java.lang.Math.round;
 import java.util.LinkedList;
 
@@ -67,16 +68,16 @@ public class objectManager {
         LinkedList<gameObject> copy = (LinkedList<gameObject>) objects.clone();
         int id = 0;
         LinkedList<Integer> used = new LinkedList<>();
-        for(gameObject x : copy){
+        copy.forEach((x) -> {
             used.add(x.getID());
-        }
+        });
         boolean found = false;
         while(!found){
-            if(!used.contains(id)){
-                found = true;
+            if(used.contains((Integer)id)){
+                id++;
             }
             else{
-                id++;
+                found = true;
             }
         }
         return id;
@@ -174,6 +175,19 @@ public class objectManager {
         }
         return false;
     }
+    public boolean colliding(int x, int y, int ignore){
+        @SuppressWarnings("unchecked")
+        LinkedList<gameObject> copy = (LinkedList<gameObject>) objects.clone();
+        for(gameObject i : copy){
+            if(i.getTag().contains("cursor") || i.getID() == ignore || i.getTag().contains("nocoll")){}
+            else{
+                if((round(i.x) == x && round(i.y) == y)){
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
     public gameObject collidingGA(int x, int y, String ignore){
         @SuppressWarnings("unchecked")
         LinkedList<gameObject> copy = (LinkedList<gameObject>) objects.clone();
@@ -187,12 +201,77 @@ public class objectManager {
         }
         return null;
     }
+    public gameObject collidingGA(int x, int y, int ignore){
+        @SuppressWarnings("unchecked")
+        LinkedList<gameObject> copy = (LinkedList<gameObject>) objects.clone();
+        for(gameObject i : copy){
+            if(i.getTag().contains("cursor") || i.getID() == ignore || i.getTag().contains("nocoll")){}
+            else{
+                if((round(i.x) == x && round(i.y) == y)){
+                    return i;
+                }
+            }
+        }
+        return null;
+    }
+    public boolean circleColliding(double x, double y, double r, LinkedList<String> ignore, Object thisIsABadWayToCodeAndIHateIt){
+        @SuppressWarnings("unchecked")
+        LinkedList<gameObject> copy = (LinkedList<gameObject>) objects.clone();
+        for(gameObject i : copy){
+            try {
+                if (i.getTag().contains("cursor") || containsany(ignore, i.getTag()) || i.getTag().contains("nocoll")) {
+                } else {//System.out.println(i.getTag().get(0));
+                    Point2D a = new Point2D(x, y);
+                    Point2D b = new Point2D(i.x, i.y);
+                    if (JFUtils.math.distance(a, b) < r) {
+                        return true;
+                    }
+                }
+            } catch (Exception e) {
+            }
+        }
+        return false;
+    }
+    public boolean circleColliding(double x, double y, double r, LinkedList<Integer> ignore){
+        @SuppressWarnings("unchecked")
+        LinkedList<gameObject> copy = (LinkedList<gameObject>) objects.clone();
+        for(gameObject i : copy){
+            try {
+                if (i.getTag().contains("cursor") || ignore.contains(i.getID()) || i.getTag().contains("nocoll")) {
+                } else {//System.out.println(i.getTag().get(0));
+                    Point2D a = new Point2D(x, y);
+                    Point2D b = new Point2D(i.x, i.y);
+                    if (JFUtils.math.distance(a, b) < r) {
+                        return true;
+                    }
+                }
+            } catch (Exception e) {
+            }
+        }
+        return false;
+    }
     public boolean colliding(int x, int y, LinkedList<String> ignore){
         @SuppressWarnings("unchecked")
         LinkedList<gameObject> copy = (LinkedList<gameObject>) objects.clone();
         for(gameObject i : copy){
             try {
                 if (i.getTag().contains("cursor") || containsany(ignore, i.getTag()) || i.getTag().contains("nocoll")) {
+                } else {//System.out.println(i.getTag().get(0));
+                    if ((round(i.x) == x && round(i.y) == y)) {
+                        return true;
+                    }
+                }
+            } catch (Exception e) {
+            }
+        }
+        return false;
+    }
+    public boolean colliding(int x, int y, LinkedList<Integer> ignore, Object thisObjectIsNotNeededAndIRegretIt){
+        @SuppressWarnings("unchecked")
+        LinkedList<gameObject> copy = (LinkedList<gameObject>) objects.clone();
+        for(gameObject i : copy){
+            try {
+                if (i.getTag().contains("cursor") || ignore.contains(i.getID()) || i.getTag().contains("nocoll")) {
                 } else {//System.out.println(i.getTag().get(0));
                     if ((round(i.x) == x && round(i.y) == y)) {
                         return true;
@@ -237,7 +316,7 @@ public class objectManager {
         }
         return out;
     }
-    public char[][] getCollisionmap(dVector min, dVector max, String ignore){
+    public char[][] getCollisionmap(Point2D min, Point2D max, String ignore){
         int sizex = (int) (max.x - min.x);
         int sizey = (int) (max.y - min.y);
         char[][] map = new char[sizex][sizey];

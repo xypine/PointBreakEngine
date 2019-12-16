@@ -23,7 +23,7 @@
  */
 package PBEngine.Editor2;
 
-import JFUtils.dVector;
+import JFUtils.Point2D;
 
 /**
  *
@@ -31,11 +31,11 @@ import JFUtils.dVector;
  */
 public class EditorEngine extends PBEngine.Supervisor{
     Editor editor;
-    public EditorEngine(int mode, boolean bakedLights, dVector gravity, Editor e) {
+    public EditorEngine(int mode, boolean bakedLights, Point2D gravity, Editor e) {
         super(mode, bakedLights, gravity);
         this.editor = e;
     }
-    public EditorEngine(int mode, boolean bakedLights, dVector gravity, int i, Editor e) {
+    public EditorEngine(int mode, boolean bakedLights, Point2D gravity, int i, Editor e) {
         super(mode, bakedLights, gravity, i);
         this.editor = e;
     }

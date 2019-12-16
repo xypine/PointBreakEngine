@@ -23,7 +23,7 @@
  */
 package PBEngine.Rendering;
 
-import JFUtils.dVector;
+import JFUtils.Point2D;
 import JFUtils.quickTools;
 import java.awt.Canvas;
 import java.awt.Color;
@@ -124,9 +124,9 @@ class minimap extends JPanel{
         //Paint
         if(this.map.sup.Logic.getLevelMap() != null){
             String[][] fullmap = quickTools.clone2d(map.sup.Logic.getLevelMap());
-            dVector current = map.sup.Logic.getCurrentLevelCoord();
+            Point2D current = map.sup.Logic.getCurrentLevelCoord();
             String[][] toSee = new String[3][3];
-            for(dVector dir : quickTools.vectorDirs4){
+            for(Point2D dir : quickTools.vectorDirs4){
                 toSee[(int)(1+dir.x)][(int)(1+dir.y)] = fullmap[(int)(current.x+dir.x)][(int)(current.y+dir.y)];
             }
             

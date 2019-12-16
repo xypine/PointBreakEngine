@@ -23,7 +23,7 @@
  */
 package PBEngine.Rendering.legacy;
 
-import JFUtils.dVector;
+import JFUtils.Point2D;
 import PBEngine.colorParser;
 import java.awt.Color;
 import javax.swing.JFrame;
@@ -44,7 +44,7 @@ public class LegacyRenderer {
     colorParser cP;
     int cW;
     int cH;
-    dVector cSize;
+    Point2D cSize;
     
     public void init(int x, int y, JFrame f){
         this.frame = f;
@@ -60,7 +60,7 @@ public class LegacyRenderer {
         initVector(767, 562);
     }
     public void initVector(int x, int y){
-        cSize = new dVector(x, y);
+        cSize = new Point2D(x, y);
         //canvas.setSize(x, y);
         //canvas.setMaximumSize(new Dimension(x,y));
         //canvas.setMinimumSize(new Dimension(x,y));

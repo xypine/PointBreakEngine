@@ -23,7 +23,7 @@
  */
 package PBEngine.Editor2;
 
-import JFUtils.dVector;
+import JFUtils.Point2D;
 import PBEngine.*;
 import filedrop.FileDrop;
 import java.awt.BorderLayout;
@@ -42,6 +42,7 @@ import javax.swing.JFileChooser;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JRadioButton;
+import javax.swing.SwingUtilities;
 import javax.swing.border.BevelBorder;
 
 /**
@@ -69,7 +70,7 @@ public class Editor extends JFUtils.InputActivated{
         String[] argss = new String[2];
         argss[0] = "nodemo";
         Camera cam = new Camera(0, 0, null);
-        k = new Supervisor(0, false, new dVector(0, 0), 0);
+        k = new Supervisor(0, false, new Point2D(0, 0), 0);
         //k.customInput = ourInput;
         k.timerType = 1;
         k.features_confFile = "editorConfig.txt";
@@ -149,8 +150,10 @@ public class Editor extends JFUtils.InputActivated{
         HashMap params = new HashMap();
         String location = save();
         params.put("loadLevel", location);
-        Supervisor supervisor = new Supervisor(3, !bake, new dVector(0, 0), 0, params);
+        params.put("noplayer", "");
+        Supervisor supervisor = new Supervisor(3, !bake, new Point2D(0, 0), 0, params);
         Thread A = new Thread(supervisor);
+        //SwingUtilities.invokeLater(A);
         A.start();
         k.Logic.targetSpeed = 60;
         while(!supervisor.ready){

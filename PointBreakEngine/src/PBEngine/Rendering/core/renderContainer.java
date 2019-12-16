@@ -23,7 +23,7 @@
  */
 package PBEngine.Rendering.core;
 
-import JFUtils.dVector;
+import JFUtils.Point2D;
 import java.awt.Color;
 
 /**
@@ -32,16 +32,20 @@ import java.awt.Color;
  */
 public class renderContainer implements java.io.Serializable{
     //int age;
-    public dVector location;
+    public Point2D location;
     public String ImageName;
     public Color color;
     public int size;
     public double rotation = 0;
-    public renderContainer(dVector location, String ImageName, Color color, int size, double rotation){
+    
+    public renderType type = renderType.NaN;
+    
+    public renderContainer(Point2D location, String ImageName, Color color, int size, renderType t, double rotation){
         this.location = location;
         this.ImageName = ImageName;
         this.color = color;
         this.size = size;
         this.rotation = rotation;
+        this.type = t;
     }
 }

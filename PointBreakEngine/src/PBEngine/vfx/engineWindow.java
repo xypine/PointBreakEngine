@@ -26,7 +26,7 @@ package PBEngine.vfx;
 
 import JFUtils.Input;
 import JFUtils.Range;
-import JFUtils.dVector;
+import JFUtils.Point2D;
 import PBEngine.Rendering.Renderer;
 import PBEngine.Supervisor;
 import java.awt.Color;
@@ -126,7 +126,7 @@ public class engineWindow extends JFrame{
     }
     
     public static void main(String[] args) {
-        Supervisor k = new Supervisor(0, true, new dVector(0, 0), 0);
+        Supervisor k = new Supervisor(0, true, new Point2D(0, 0), 0);
         k.run();
         new engineWindow(k.Logic.input, k, k.Logic.Vrenderer);
     }

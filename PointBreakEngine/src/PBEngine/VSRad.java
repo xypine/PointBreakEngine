@@ -23,9 +23,9 @@
  */
 package PBEngine;
 
-import JFUtils.Vector;
+import JFUtils.Point2Int;
 import JFUtils.Range;
-import JFUtils.dVector;
+import JFUtils.Point2D;
 import java.awt.Color;
 import java.util.LinkedList;
 
@@ -43,9 +43,9 @@ public class VSRad {
     public int resolution = 1000; //1000
     public int newResolution = 3600;
     public float shutter = 0.01F;
-    private Vector source;
+    private Point2Int source;
     public int width, height;
-    dVector[] directions = new dVector[resolution];
+    Point2D[] directions = new Point2D[resolution];
     private objectManager oM;
     //private radiosity demo;
     public VSRad(objectManager oM, Color c, int type){
@@ -65,27 +65,27 @@ public class VSRad {
         grid = new float[w][h];
         this.width = w;
         this.height = h;
-        dVector cur = new dVector(0,1);
+        Point2D cur = new Point2D(0,1);
         //System.out.println(dVector.add(cur, new dVector(0.1, -0.1)).represent());
         Range r = new Range(resolution);
         Range nr = new Range(newResolution);
-        if(type != 0){directions = new dVector[newResolution];}
+        if(type != 0){directions = new Point2D[newResolution];}
         for(int i : nr){
             if(type == 0){break;}
             double dir = (Math.PI * 2) * ((double)i/newResolution);
             dir = (dir) * Math.PI/180.0;
-            dVector direc = new dVector(Math.sin(dir), Math.cos(dir));
+            Point2D direc = new Point2D(Math.sin(dir), Math.cos(dir));
             directions[i] = direc;
             
         }
         for(int i : r){
             if(type != 0){break;}
-            directions[i] = new dVector(0, 0);
+            directions[i] = new Point2D(0, 0);
             if(state == 0){
                 if(cur.x < 1){
                     //System.out.println("Calculating directions phase 0: " + cur.represent());
                     
-                    cur = dVector.add(cur, new dVector(0.1/(resolution * shutter), -0.1/(resolution * shutter)));
+                    cur = Point2D.add(cur, new Point2D(0.1/(resolution * shutter), -0.1/(resolution * shutter)));
                     directions[i] = cur;
                 }
                 else{
@@ -96,7 +96,7 @@ public class VSRad {
                 if(cur.x > 0){
                     //System.out.println("Calculating directions phase 1: " + cur.represent());
                     
-                    cur = dVector.add(cur, new dVector(-0.1/(resolution * shutter), -0.1/(resolution * shutter)));
+                    cur = Point2D.add(cur, new Point2D(-0.1/(resolution * shutter), -0.1/(resolution * shutter)));
                     directions[i] = cur;
                 }
                 else{
@@ -107,7 +107,7 @@ public class VSRad {
                 if(cur.x > -1){
                     //System.out.println("Calculating directions phase 2: " + cur.represent());
                     
-                    cur = dVector.add(cur, new dVector(-0.1/(resolution * shutter), 0.1/(resolution * shutter)));
+                    cur = Point2D.add(cur, new Point2D(-0.1/(resolution * shutter), 0.1/(resolution * shutter)));
                     directions[i] = cur;
                 }
                 else{
@@ -118,7 +118,7 @@ public class VSRad {
                 if(cur.y < 1){
                     //System.out.println("Calculating directions phase 3: " + cur.represent());
                     
-                    cur = dVector.add(cur, new dVector(0.1/(resolution * shutter), 0.1/(resolution * shutter)));
+                    cur = Point2D.add(cur, new Point2D(0.1/(resolution * shutter), 0.1/(resolution * shutter)));
                     directions[i] = cur;
                 }
                 else{
@@ -145,16 +145,16 @@ public class VSRad {
         }
     }
     private boolean inside = true;
-    dVector cursor = new dVector(0,0);
+    Point2D cursor = new Point2D(0,0);
     int done = 0;
     int hits = 0;
     public float s = 0;
     int requests = 0;
     public float sum = 0;
-    dVector dir = new dVector(0, 0);
-    public dVector from;
+    Point2D dir = new Point2D(0, 0);
+    public Point2D from;
     public float lastS;
-    public void calculate(dVector from, float strenght, String ignoreCollWith){
+    public void calculate(Point2D from, float strenght, String ignoreCollWith){
 //        strenght = strenght / 100;
         this.from = from;
         this.lastS = strenght;
@@ -200,7 +200,7 @@ public class VSRad {
                 try{
                     //System.out.print(hits + " ");
                     //System.out.println(dir.represent());
-                    cursor = new dVector(cursor.x + dir.x, cursor.y + dir.y);
+                    cursor = new Point2D(cursor.x + dir.x, cursor.y + dir.y);
                     if(cursor.y > height-1){
                         cursor.y = height - 1;
                         dir.y = dir.y * - 1;
@@ -233,7 +233,7 @@ public class VSRad {
                             dir.x = dir.x * -1;
                             dir.y = dir.y * -1;
                         }
-                        cursor = new dVector(cursor.x + dir.x, cursor.y + dir.y);
+                        cursor = new Point2D(cursor.x + dir.x, cursor.y + dir.y);
                         s = s * decay;
                         //System.out.println(dVector.round(cursor).represent() + " " + requests);
                     }
@@ -257,6 +257,7 @@ public class VSRad {
         }
         //rays.add(ray);
         System.out.println("raycaster "+id+" calculated, mass: "+sum);
+        System.out.println("You can press the (lowercase) key 'L' to save the lighting, if you are running on the default engine");
     }
 }
 

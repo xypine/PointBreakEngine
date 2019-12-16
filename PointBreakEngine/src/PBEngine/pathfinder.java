@@ -24,7 +24,7 @@
 
 package PBEngine;
 
-import JFUtils.Vector;
+import JFUtils.Point2Int;
 
 /**
  *
@@ -40,8 +40,8 @@ public class pathfinder {
         this.h = h;
         this.steps = new int[w][h];
     }
-    public void calculate(Vector from, Vector to){
-        Vector cur = new Vector(from.x, from.y);
+    public void calculate(Point2Int from, Point2Int to){
+        Point2Int cur = new Point2Int(from.x, from.y);
         while(cur != to){
             
         }

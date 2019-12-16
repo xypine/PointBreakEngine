@@ -25,7 +25,7 @@
 package PBEngine;
 
 import JFUtils.Range;
-import JFUtils.dVector;
+import JFUtils.Point2D;
 import JFUtils.quickTools;
 import java.awt.Color;
 import java.util.LinkedList;
@@ -45,7 +45,7 @@ public class VSRadManager{
     public int w, h;
     private objectManager oM;
     private radiosity demo;
-    private dVector[] directions;
+    private Point2D[] directions;
     private double[][] last;
     public VSRadManager(int w, int h,objectManager oM, Supervisor k){
         this.sVSRad = new ConcurrentLinkedQueue<>();
@@ -74,7 +74,7 @@ public class VSRadManager{
         System.out.println("RAY ID "+id);
         tmp.init(w, h, 0, id);
         //tmp.directions = directions;
-        tmp.calculate(new dVector(x,y), s, "null");
+        tmp.calculate(new Point2D(x,y), s, "null");
         System.out.println(tmp.sum);
         this.sVSRad.add(tmp);
         if(recalculateParent){recalculateParent();}

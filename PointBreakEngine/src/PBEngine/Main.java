@@ -23,10 +23,11 @@
  */
 package PBEngine;
 
-import JFUtils.dVector;
+import JFUtils.Point2D;
 import JFUtils.quickTools;
 import java.awt.Color;
 import java.net.URISyntaxException;
+import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -43,7 +44,7 @@ public class Main {
     static LinkedList<Object> list;
     static public Supervisor k;
     private static boolean blights = false;
-    private static dVector grav = new dVector(0D, 0D);;
+    private static Point2D grav = new Point2D(0D, 0D);;
     public Engine main;
     LegacyEditor editor;
     boolean running;
@@ -65,7 +66,7 @@ public class Main {
                     blights = false;
                 }
                 if(arg.matches("defgrav")){
-                    grav = new dVector(0D, 0.1D);
+                    grav = new Point2D(0D, 0.1D);
                 }
             }
             System.out.println("////");
@@ -76,7 +77,7 @@ public class Main {
             System.out.println("If you wish not to use the demo, please add the 'nodemo' argument");
             quickTools.alert("demo", "If you wish not to use the demo, please add the 'nodemo' argument");
         //if(args.length != 0){if(args[0].equals("template")){
-            k = new Supervisor(3, true, new dVector(0D, 0D), 10);
+            k = new Supervisor(3, true, new Point2D(0D, 0D), 10);
         }else{
             k = new Supervisor(0, blights, grav, 10);
         }
@@ -89,7 +90,7 @@ public class Main {
         main = k.Logic;
         editor = k.ea;
         float c = 0F;
-        k = new Supervisor(3, true, new dVector(0, 0.1D));
+        k = new Supervisor(3, true, new Point2D(0, 0.1D));
         while(!main.ready){
             System.out.println("initializing main... " + c);
             c++;

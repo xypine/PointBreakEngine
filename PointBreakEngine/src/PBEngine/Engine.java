@@ -26,11 +26,12 @@ package PBEngine;
 
 //L_import PBEngine.Rendering.legacy.LegacyRenderer;
 import PBEngine.Rendering.core.*;
+
 import PBEngine.Rendering.Renderer;
 import JFUtils.Input;
-import JFUtils.Vector;
+import JFUtils.Point2Int;
 import JFUtils.Range;
-import JFUtils.dVector;
+import JFUtils.Point2D;
 import JFUtils.quickTools;
 import PBEngine.vfx.engineWindow;
 import java.awt.Color;
@@ -75,14 +76,14 @@ public class Engine implements Runnable, ActionListener {
     public boolean running = true;
     //Screen components
     int blurStrenght = 1;
-    public dVector gravity;
+    public Point2D gravity;
     quickTools effects = new quickTools();
     public LinkedList<Object> content = new LinkedList<>();
     public float global_brightness = 0.55F;
     public int rayDetail = 0;
     public int vector = 1;
     public int renderRays = 0;
-    public LinkedList<Vector> record;
+    public LinkedList<Point2Int> record;
     colorParser cP = new colorParser();
     Timer timer = new Timer(15, this);
     double[][] red;
@@ -114,7 +115,7 @@ public class Engine implements Runnable, ActionListener {
     Supervisor k;
     public Input input;
     public int targetSpeed = 15;
-    public Engine(Supervisor ki, objectManager o, int xd, int yd, VSRadManager a, dVector g, String level){
+    public Engine(Supervisor ki, objectManager o, int xd, int yd, VSRadManager a, Point2D g, String level){
         
         this.oM = o;
         this.xd = xd;
@@ -126,7 +127,7 @@ public class Engine implements Runnable, ActionListener {
         this.rads = a;
         this.levelName = level;
     }
-    public Engine(Supervisor ki, objectManager o, int xd, int yd, VSRadManager a, dVector g, String level, int targetSpeed){
+    public Engine(Supervisor ki, objectManager o, int xd, int yd, VSRadManager a, Point2D g, String level, int targetSpeed){
         this.targetSpeed = targetSpeed;
         this.oM = o;
         this.xd = xd;
@@ -381,7 +382,7 @@ public class Engine implements Runnable, ActionListener {
     }
     public int mouseX = 0;
     public int mouseY = 0;
-    public dVector mouse_projected = new dVector(0, 0);
+    public Point2D mouse_projected = new Point2D(0, 0);
     public void generalTick(){
         mouseX = input.mouseX();
         mouseY = input.mouseY();
@@ -465,7 +466,7 @@ public class Engine implements Runnable, ActionListener {
     public String[][] getLevelMap(){
         return this.levelmap;
     }
-    public dVector getCurrentLevelCoord(){
+    public Point2D getCurrentLevelCoord(){
         return currentMap.clone();
     }
     
@@ -543,7 +544,7 @@ public class Engine implements Runnable, ActionListener {
     String[][] levelmap = null;
     LinkedList<gameObject>[][] cachedLevels = null;
     
-    dVector currentMap = new dVector(1, 1);
+    Point2D currentMap = new Point2D(1, 1);
     @SuppressWarnings("unchecked")
     public void constructLevelmap(){
         levelmap = mapParser.parseMap(LevelLoader.getLevelMap("00.pbMap"));
@@ -605,7 +606,7 @@ public class Engine implements Runnable, ActionListener {
                         for(int i : new Range(levelmap.length)){
                             map[i] = levelmap[i].clone();
                         }
-                        dVector currentmap2 = currentMap.clone();
+                        Point2D currentmap2 = currentMap.clone();
                         //Mark cached
                         for(int x : new Range(map.length)){
                             for(int y : new Range(map[0].length)){
@@ -640,7 +641,7 @@ public class Engine implements Runnable, ActionListener {
         if(levelmap == null){
             constructLevelmap();
         }
-        dVector newLevel = dVector.add(currentMap, quickTools.vectorDirs4[direction]);
+        Point2D newLevel = Point2D.add(currentMap, quickTools.vectorDirs4[direction]);
         //System.out.println("current location: "+currentMap.represent()+ " possible new loc: "+newLevel.represent());
         //newLevel.x <= mapw && newLevel.y >= maph
         //System.out.println(newLevel.represent());
@@ -691,7 +692,7 @@ public class Engine implements Runnable, ActionListener {
         rads.recalculateParent();
         return true;
     }
-    dVector las;
+    Point2D las;
     public Recorder recorder = new Recorder();
     boolean ve = false;
     Color[][] colored;
@@ -732,22 +733,22 @@ public class Engine implements Runnable, ActionListener {
             double y;  
             String a;
             Color c;
-            dVector last;
-            private xyac(double tx, double ty, String ta, Color tc, dVector last) {
+            Point2D last;
+            private xyac(double tx, double ty, String ta, Color tc, Point2D last) {
                 this.x = tx; this.y = ty; this.a = ta; this.c = tc; this.last = last;
             }
         }
 ;
         LinkedList<xyac> lis = new LinkedList<xyac>();
         
-        LinkedList<dVector> points = new LinkedList<>();
+        LinkedList<Point2D> points = new LinkedList<>();
         LinkedList<renderContainer> cont1 = new LinkedList<>();
         LinkedList<Color> colors = new LinkedList<>();
         LinkedList<String> images = new LinkedList<>();
         LinkedList<Integer> sizes = new LinkedList<>();
         LinkedList<Double> rotations = new LinkedList<>();
         
-        LinkedList<dVector> points2 = new LinkedList<>();
+        LinkedList<Point2D> points2 = new LinkedList<>();
         LinkedList<renderContainer> cont2 = new LinkedList<>();
         LinkedList<Color> colors2 = new LinkedList<>();
         LinkedList<String> images2 = new LinkedList<>();
@@ -784,7 +785,7 @@ public class Engine implements Runnable, ActionListener {
         if(overrideRayBG != null){
             for(int x: new Range(xd)){
                 for(int y: new Range(yd)){
-                    cont2.add( new renderContainer(new dVector(x,y), "", new Color((int) overrideRayBG.getRed(),(int) overrideRayBG.getGreen(),(int) overrideRayBG.getBlue()), 1, 0));
+                    cont2.add(new renderContainer(new Point2D(x,y), "", new Color((int) overrideRayBG.getRed(),(int) overrideRayBG.getGreen(),(int) overrideRayBG.getBlue()),1, renderType.box, 0));
                 }
                     
             }
@@ -808,10 +809,10 @@ public class Engine implements Runnable, ActionListener {
                 if(r > 255){r = 255;}
                 if(g > 255){g = 255;}
                 if(b > 255){b = 255;}
-                cont2.add( new renderContainer(new dVector(xp,yp), "", new Color((int) r,(int) g,(int) b), 1, 0));
+                cont2.add(new renderContainer(new Point2D(xp,yp), "", new Color((int) r,(int) g,(int) b), 1, renderType.box, 0));
                 
                 
-                points2.add(new dVector(xp,yp));
+                points2.add(new Point2D(xp,yp));
                 colors2.add(new Color((int) r,(int) g,(int) b));
                 images2.add("");
                 sizes2.add(1);
@@ -847,7 +848,7 @@ public class Engine implements Runnable, ActionListener {
             this.tyf = p.getY();
             this.tx = (int) round(p.getX());
             this.ty = (int) round(p.getY());
-            this.las = new dVector(p.lastX, p.lastY);
+            this.las = new Point2D(p.lastX, p.lastY);
             p.lastX = txf;
             p.lastY = tyf;
             ta = p.gAppearance();
@@ -871,7 +872,7 @@ public class Engine implements Runnable, ActionListener {
         
 //          System.out.println("pelaaja: x:" + tx + " y:" + ty);
 /////////////////            renderer.change(tx, ty, ta, tc);
-            points.add(new dVector(txf, tyf));
+            points.add(new Point2D(txf, tyf));
             images.add(p.imageName);
             float r = tc.getRed();
             float g = tc.getGreen();
@@ -907,7 +908,7 @@ public class Engine implements Runnable, ActionListener {
                 g = p.getColor().getGreen();
                 b = p.getColor().getBlue();
             }
-            if(p.visible){cont1.add( new renderContainer(new dVector(txf, tyf), p.imageName, new Color((int)r,(int)g,(int)b), p.size, p.getRadians()));}
+            if(p.visible){cont1.add(new renderContainer(new Point2D(txf, tyf), p.imageName, new Color((int)r,(int)g,(int)b), p.size, p.shape, p.getRadians()));}
             colors.add(new Color((int)r,(int)g,(int)b));
             lis.add(new xyac(tx,ty,ta,tc,las));
             sizes.add(p.size);

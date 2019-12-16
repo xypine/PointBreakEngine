@@ -24,9 +24,9 @@
 
 package PBEngine.Rendering;
 
-import JFUtils.Vector;
+import JFUtils.Point2Int;
 import JFUtils.Range;
-import JFUtils.dVector;
+import JFUtils.Point2D;
 import JFUtils.quickTools;
 import PBEngine.Supervisor;
 import PBEngine.directory;
@@ -67,7 +67,7 @@ public class Renderer extends JPanel{
     
     LinkedList<imageWithId> images = new LinkedList<>();
     
-    LinkedList<Vector> points = new LinkedList<>();
+    LinkedList<Point2Int> points = new LinkedList<>();
     LinkedList<Color> colors = new LinkedList<>();
     LinkedList<newVectorLayer> layers = new LinkedList<>();
     float x = 15.34F;
@@ -174,20 +174,33 @@ public class Renderer extends JPanel{
                 newVectorLayer vL = layers.get(layer);
                 for(int i : new Range(vL.containers.size())){
                     double rotation = vL.containers.get(i).rotation;
-                    dVector rl = vL.containers.get(i).location;
+                    renderType shape = vL.containers.get(i).type;
+                    Point2D rl = vL.containers.get(i).location;
                     Color c = vL.containers.get(i).color;
                     int size = vL.containers.get(i).size;
                     String imageloc = vL.containers.get(i).ImageName;
                     
                     int tick = masterkick.Logic.tickC;
-                    dVector effectOffSet = new dVector(0, 0);
+                    Point2D effectOffSet = new Point2D(0, 0);
                     if(dispEffectsEnabled){
                         effectOffSet.x = Math.cos(rl.y + tick) / 5;
                     }
                     //effectOffSet.y = Math.sin(rl.x + tick);
                     
-                    
-                    if(imageloc.equals("")){
+                    if(shape == renderType.circle){
+                        //System.out.println("FOUND A CIRCLE!!! :D");
+                        g2d.setColor(Color.RED);
+                        if(camMode == 0){//static
+                            g2d.fillOval((int)((rl.x + effectOffSet.x) * factor),(int) ((rl.y + effectOffSet.y) *factor), (int) factor * size, (int) factor * size);
+                            //g.setColor(Color.gray);
+                            //g.fillRect((int)((rl.x + effectOffSet.x) * factor),(int) ((rl.y + effectOffSet.y) *factor), (int) factor * size, (int) factor * size);
+                        }
+                        if (camMode == 1) {//follow a camera
+                            g2d.fillOval((int)(((rl.x + effectOffSet.x) - camx) * factor + (w / 2)),(int) (((rl.y + effectOffSet.y) -camy) *factor + (h / 2)), (int) factor * size, (int) factor * size);
+                            //g.fillRect((int) (((rl.x + effectOffSet.x) - camx) * factor + (w / 2)), (int) (((rl.y + effectOffSet.y) - camy) * factor + (h / 2)), (int) factor * size, (int) factor * size);
+                        }
+                    }
+                    else if(imageloc.equals("")){
                         g.setColor(c);
                         if(camMode == 0){//static
                             g.fillRect((int)((rl.x + effectOffSet.x) * factor),(int) ((rl.y + effectOffSet.y) *factor), (int) factor * size, (int) factor * size);
@@ -217,7 +230,7 @@ public class Renderer extends JPanel{
                             if(rotation != 0){
                                 try{
                                     BufferedImage buffer2 = createRotated(buffer, rotation, gc).image;
-                                    dVector scaleDiff = getImgScale(buffer2, buffer);
+                                    Point2D scaleDiff = getImgScale(buffer2, buffer);
                                     scaleX = scaleDiff.x;
                                     scaleY = scaleDiff.y;
                                     buffer = buffer2;}
@@ -377,20 +390,20 @@ public class Renderer extends JPanel{
         try {
             result = new BufferedImage(neww, newh, BufferedImage.TYPE_4BYTE_ABGR);
         } catch (Exception e) {
-            return new metaImage(image, new dVector(mw, mh));
+            return new metaImage(image, new Point2D(mw, mh));
         }
         Graphics2D g = result.createGraphics();
         g.translate((neww - mw) / 2, (newh - mh) / 2);
         g.rotate(angle, mw / 2, mh / 2);
         g.drawRenderedImage(image, null);
-        return new metaImage(result, new dVector(neww, newh));
+        return new metaImage(result, new Point2D(neww, newh));
     }
-    public static dVector getImgScale(BufferedImage source, BufferedImage source2){
+    public static Point2D getImgScale(BufferedImage source, BufferedImage source2){
         double w1 = source.getWidth();
         double h1 = source.getHeight();
         double w2 = source2.getWidth();
         double h2 = source2.getHeight();
-        return new dVector(w1/w2, h1/h2);
+        return new Point2D(w1/w2, h1/h2);
     }
     
 }
