@@ -83,8 +83,8 @@ public class Player extends gameObject{
                 //System.out.println(dVector.divide(masterParent.Logic.mouse_projected, new dVector(100, 100)));
                 double rot2 = Math.acos((masterParent.Logic.mouse_projected.x - i.x) / c2);
                 if(!Double.isNaN(rot2)){
-                    i.setRadians(rot2);
-                    i.setRadians(-i.getRadians());
+                    //i.setRadians(rot2);
+                    i.setRadians(JFUtils.math.Conversions.toRadians(JFUtils.math.Conversions.toDegrees((float) i.getRadians()))*-1);
                     //System.out.println(rot2);
                 }
             }

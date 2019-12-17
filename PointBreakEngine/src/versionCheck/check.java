@@ -29,7 +29,7 @@ package versionCheck;
  * @author Jonnelafin
  */
 public class check {
-    public static double JFUtilsV = 2.5;
+    public static double JFUtilsV = 2.51;
     
     public static void doChecks(){
         if(JFUtils.versionCheck.version != JFUtilsV){

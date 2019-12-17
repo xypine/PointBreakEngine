@@ -62,8 +62,11 @@ public class astardemo{
             Logger.getLogger(astardemo.class.getName()).log(Level.SEVERE, null, ex);
         }
         LinkedList<gameObject> lis = new LinkedList<>();
-        for(int x : new Range(50)){
-            for(int y : new Range(40)){
+        int res = 50;
+        int res2 = 40;
+        int p = 0;
+        for(int x : new Range(res)){
+            for(int y : new Range(res2)){
                 char[][] matrix = k.objectManager.getCollisionmap(new Point2D(0, 0), new Point2D(k.xd, k.yd), "nocoll");
                 matrix[15][15] = 'X';
                 List<JFUtils.astarNode> path = JFUtils.astar.getPath(matrix, x, y);
@@ -82,6 +85,8 @@ public class astardemo{
                 g.onlyColor = true;
                 lis.add(g);
                 id++;
+                p++;
+                System.out.println("Progress: " + 100F/(res*res2) * p + "%");
             }
         }
         System.out.println("Complete.");

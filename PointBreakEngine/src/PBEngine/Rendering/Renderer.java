@@ -226,7 +226,7 @@ public class Renderer extends JPanel{
                             double scaleY = 1;
                             imageWithId gImage = getImage(imageloc);
                             buffer = gImage.image;
-                            //buffer = new quickTools().colorImage(gImage.image, c.getRed(), c.getGreen(), c.getBlue(), 0.5F);
+                            buffer = new quickTools().colorImage(gImage.image, c.getRed(), c.getGreen(), c.getBlue(), 1F);
                             if(rotation != 0){
                                 try{
                                     BufferedImage buffer2 = createRotated(buffer, rotation, gc).image;

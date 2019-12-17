@@ -379,13 +379,10 @@ public class gameObject {
             return;
         }
         //checkAdvancedCollisions(o, i, x+(velx / 2), y+(vely / 2));
-        LinkedList<String> ignore = tag;
+        LinkedList<Integer> ignore = new LinkedList<>();
+        ignore.add(this.getID());
         for(gameObject ga : children){
-            for(String tag : ga.getTag()){
-                if(!ignore.contains(tag)){
-                    ignore.add(tag);
-                }
-            }
+            ga.getID();
         }
         for(int xc : new Range(size)){
             for(int yc : new Range(size)){
@@ -398,24 +395,24 @@ public class gameObject {
                     
                 };
                 if(this.shape == renderType.box){
-                    qualifier = (o.colliding((int)Math.round(i.x + xc), (int)Math.round(i.y + yc), ignore)) || (o.colliding((int)Math.ceil(i.x + xc), (int)Math.ceil(i.y + yc), ignore)) || (o.colliding((int)Math.floor(i.x + xc), (int)Math.floor(i.y + yc), ignore));
+                    qualifier = (o.colliding((int)Math.round(i.x + xc), (int)Math.round(i.y + yc), ignore, null)) || (o.colliding((int)Math.ceil(i.x + xc), (int)Math.ceil(i.y + yc), ignore, null)) || (o.colliding((int)Math.floor(i.x + xc), (int)Math.floor(i.y + yc), ignore, null));
                     if(qualifier){
                         for(Point2D zz: possible){
-                            if(o.colliding((int)zz.x, (int)zz.y, ignore)){
+                            if(o.colliding((int)zz.x, (int)zz.y, ignore, null)){
                                 caught = zz;
                             }
                         }
                     }
                 }
                 if(this.shape == renderType.circle){
-                    qualifier = o.circleColliding(i.x + xc, i.y +yc, this.size, ignore, null);
+                    qualifier = o.circleColliding(i.x + xc, i.y +yc, this.size, ignore);
                     //qualifier = (o.circleColliding((int)Math.round(i.x + xc), (int)Math.round(i.y + yc), this.size, ignore)) || (o.circleColliding((int)Math.ceil(i.x + xc), (int)Math.ceil(i.y + yc), this.size, ignore)) || (o.circleColliding((int)Math.floor(i.x + xc), (int)Math.floor(i.y + yc), this.size, ignore));
                 }
                 if(qualifier){
                     doCollisions(i, xc, yc, o, ignore, caught);
                 }
                 
-                else if(o.colliding((int)Math.round(i.x + xc), (int) Math.ceil(i.y + yc), ignore)){
+                else if(o.colliding((int)Math.round(i.x + xc), (int) Math.ceil(i.y + yc), ignore, null)){
 //                    point2 = true;
 //                    point2(i, o.collidingGA((int)Math.round(i.x + xc),(int) Math.round(i.y + yc + 1), ignore));
                 }
@@ -426,10 +423,17 @@ public class gameObject {
         }
     }
     
-    private void doCollisions(gameObject i, int xc, int yc, objectManager o, LinkedList<String> ignore, Point2D caught){
+    private void doCollisions(gameObject i, int xc, int yc, objectManager o, LinkedList<Integer> ignore, Point2D caught){
 //##                if(o.colliding((int)Math.round(i.x + xc), (int)Math.round(i.y + yc), ignore)){
 //                    point1(i, o.collidingGA(xc, yc, ignore));
-                    gameObject ck = o.collidingGA((int)caught.x, (int)caught.y, ignore);
+
+                    gameObject ck = null;
+                    if(ignore.size() > 0){
+                        ck = o.collidingGA((int)caught.x, (int)caught.y, ignore, null);
+                    }
+                    else{
+                        //ck = o.collidingGA((int)caught.x, (int)caught.y, -1);
+                    }
                     double oldVX = this.velx;
                     double oldVY = this.vely;
                     
@@ -442,14 +446,18 @@ public class gameObject {
                     this.vely = this.vely * -0;
                     
                     
-                    System.out.println(new Point2D(oldVX, oldVY));
+                    //System.out.println(new Point2D(oldVX, oldVY));
                     if(true){
                         if (true) {
-                            ck.addForce(new Point2D(
-                                    oldVX / 2,
-                                    oldVY / 2)
-                            );
-                            System.out.println("Yeet: " + ck.getVelocity());
+                            try {
+                                ck.addForce(new Point2D(
+                                        oldVX / 2,
+                                        oldVY / 2)
+                                );
+                            } catch (Exception e) {
+                                //Propably a nullpointer exception
+                            }
+                            //System.out.println("Yeet: " + ck.getVelocity());
                         }
                     }
                     

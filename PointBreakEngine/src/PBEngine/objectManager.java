@@ -214,6 +214,19 @@ public class objectManager {
         }
         return null;
     }
+    public gameObject collidingGA(int x, int y, LinkedList<Integer> ignore, Object IDONOTSUPPORTTHISBADPRACTISE){
+        @SuppressWarnings("unchecked")
+        LinkedList<gameObject> copy = (LinkedList<gameObject>) objects.clone();
+        for(gameObject i : copy){
+            if(i.getTag().contains("cursor") || ignore.contains(i.getID()) || i.getTag().contains("nocoll")){}
+            else{
+                if((round(i.x) == x && round(i.y) == y)){
+                    return i;
+                }
+            }
+        }
+        return null;
+    }
     public boolean circleColliding(double x, double y, double r, LinkedList<String> ignore, Object thisIsABadWayToCodeAndIHateIt){
         @SuppressWarnings("unchecked")
         LinkedList<gameObject> copy = (LinkedList<gameObject>) objects.clone();
@@ -223,7 +236,7 @@ public class objectManager {
                 } else {//System.out.println(i.getTag().get(0));
                     Point2D a = new Point2D(x, y);
                     Point2D b = new Point2D(i.x, i.y);
-                    if (JFUtils.math.distance(a, b) < r) {
+                    if (JFUtils.math.General.distance(a, b) < r) {
                         return true;
                     }
                 }
@@ -241,7 +254,7 @@ public class objectManager {
                 } else {//System.out.println(i.getTag().get(0));
                     Point2D a = new Point2D(x, y);
                     Point2D b = new Point2D(i.x, i.y);
-                    if (JFUtils.math.distance(a, b) < r) {
+                    if (JFUtils.math.General.distance(a, b) < r) {
                         return true;
                     }
                 }

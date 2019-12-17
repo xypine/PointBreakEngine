@@ -1,0 +1,2 @@
+nausea:1
+stockMenus:true
