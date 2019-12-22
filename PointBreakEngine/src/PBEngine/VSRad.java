@@ -23,9 +23,9 @@
  */
 package PBEngine;
 
-import JFUtils.Point2Int;
+import JFUtils.point.Point2Int;
 import JFUtils.Range;
-import JFUtils.Point2D;
+import JFUtils.point.Point2D;
 import java.awt.Color;
 import java.util.LinkedList;
 

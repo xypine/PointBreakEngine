@@ -23,7 +23,7 @@
  */
 package PBEngine.Editor2;
 
-import JFUtils.Point2D;
+import JFUtils.point.Point2D;
 import PBEngine.*;
 import filedrop.FileDrop;
 import java.awt.BorderLayout;
@@ -42,7 +42,6 @@ import javax.swing.JFileChooser;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JRadioButton;
-import javax.swing.SwingUtilities;
 import javax.swing.border.BevelBorder;
 
 /**
@@ -73,11 +72,17 @@ public class Editor extends JFUtils.InputActivated{
         k = new Supervisor(0, false, new Point2D(0, 0), 0);
         //k.customInput = ourInput;
         k.timerType = 1;
+        
+        k.disableVSRAD = true;
         k.features_confFile = "editorConfig.txt";
         Thread A = new Thread(k);
         A.start();
         while(!k.ready){
-            
+            try {
+                Thread.sleep(10);
+            } catch (InterruptedException ex) {
+                Logger.getLogger(Editor.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            }
         }
         k.Logic.window.setTitle("PointBreakEngine (Editor2)");
         k.Logic.Vrenderer.factor = 20;

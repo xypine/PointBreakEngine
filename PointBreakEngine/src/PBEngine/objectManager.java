@@ -26,7 +26,7 @@ package PBEngine;
 
 
 import JFUtils.Range;
-import JFUtils.Point2D;
+import JFUtils.point.Point2D;
 import JFUtils.quickTools;
 import static java.lang.Math.round;
 import java.util.LinkedList;

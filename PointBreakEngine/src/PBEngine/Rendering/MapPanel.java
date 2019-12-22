@@ -23,7 +23,7 @@
  */
 package PBEngine.Rendering;
 
-import JFUtils.Point2D;
+import JFUtils.point.Point2D;
 import JFUtils.quickTools;
 import java.awt.Canvas;
 import java.awt.Color;

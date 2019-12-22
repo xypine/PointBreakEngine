@@ -24,9 +24,10 @@
 package PBEngine;
 
 import JFUtils.Range;
-import JFUtils.Point2D;
+import JFUtils.point.Point2D;
 import JFUtils.quickTools;
 import PBEngine.Rendering.core.renderType;
+import PBEngine.performanceGraph.Graph;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.event.ActionEvent;
@@ -132,6 +133,9 @@ class BListener implements ActionListener{
                         break;
                     case "/blur":
                         k.k.Logic.blurStrenght = Integer.parseInt(arr[1]);
+                        break;
+                    case "/newGraph":
+                        k.k.grapher = new Graph();
                         break;
                     case "/exit":
                         System.out.println("Stopping the current thread...");

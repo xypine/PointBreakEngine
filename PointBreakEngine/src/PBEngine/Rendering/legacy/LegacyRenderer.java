@@ -23,7 +23,7 @@
  */
 package PBEngine.Rendering.legacy;
 
-import JFUtils.Point2D;
+import JFUtils.point.Point2D;
 import PBEngine.colorParser;
 import java.awt.Color;
 import javax.swing.JFrame;

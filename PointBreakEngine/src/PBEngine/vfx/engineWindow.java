@@ -26,7 +26,7 @@ package PBEngine.vfx;
 
 import JFUtils.Input;
 import JFUtils.Range;
-import JFUtils.Point2D;
+import JFUtils.point.Point2D;
 import PBEngine.Rendering.Renderer;
 import PBEngine.Supervisor;
 import java.awt.Color;

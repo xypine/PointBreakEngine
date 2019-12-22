@@ -23,7 +23,7 @@
  */
 package PBEngine;
 
-import JFUtils.Point2D;
+import JFUtils.point.Point2D;
 
 /**
  *

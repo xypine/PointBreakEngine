@@ -25,7 +25,7 @@
 package PBEngine;
 
 import JFUtils.Input;
-import JFUtils.Point2D;
+import JFUtils.point.Point2D;
 import JFUtils.quickTools;
 import PBEngine.performanceGraph.Graph;
 import java.awt.Color;
@@ -46,6 +46,9 @@ import javax.swing.SwingUtilities;
  */
 public class Supervisor extends JFUtils.InputActivated implements Runnable{
     public Input customInput = null; //Use only if not null
+    
+    
+    public Graph grapher;
     
     private long delta = 0;
     private final Object deltaLock = new Object();
@@ -391,14 +394,15 @@ public class Supervisor extends JFUtils.InputActivated implements Runnable{
         Logic.Vrenderer.sSi = false;
                 }
         };
-        Thread graph = new Thread(){
+        Thread graph;
+        graph = new Thread(){
             @Override
             public void run(){
-                Graph g = new Graph();
+                grapher = new Graph();
                 while(true){
                     try {
                         double d = delta/10;
-                        g.update(d, Logic.tickC);
+                        grapher.update(d, Logic.tickC);
                     } catch (Exception e) {
                     }
                 }

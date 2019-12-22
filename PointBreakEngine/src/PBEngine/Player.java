@@ -25,7 +25,7 @@
 package PBEngine;
 
 import JFUtils.Input;
-import JFUtils.Point2D;
+import JFUtils.point.Point2D;
 import java.awt.Color;
 import java.util.LinkedList;
 

@@ -24,7 +24,7 @@
 
 package PBEngine;
 
-import JFUtils.Point2Int;
+import JFUtils.point.Point2Int;
 import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileNotFoundException;

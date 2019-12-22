@@ -24,7 +24,7 @@
 package astarDemo;
 
 import JFUtils.Range;
-import JFUtils.Point2D;
+import JFUtils.point.Point2D;
 import PBEngine.gameObject;
 import PBEngine.Supervisor;
 import java.awt.Color;

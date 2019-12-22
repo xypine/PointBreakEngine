@@ -24,7 +24,7 @@
 
 package PBEngine;
 
-import JFUtils.Point2Int;
+import JFUtils.point.Point2Int;
 
 /**
  *

@@ -29,9 +29,9 @@ import PBEngine.Rendering.core.*;
 
 import PBEngine.Rendering.Renderer;
 import JFUtils.Input;
-import JFUtils.Point2Int;
+import JFUtils.point.Point2Int;
 import JFUtils.Range;
-import JFUtils.Point2D;
+import JFUtils.point.Point2D;
 import JFUtils.quickTools;
 import PBEngine.vfx.engineWindow;
 import java.awt.Color;

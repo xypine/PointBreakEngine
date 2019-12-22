@@ -25,9 +25,9 @@
 package PBEngine;
 
 import JFUtils.Input;
-import JFUtils.Point2Int;
+import JFUtils.point.Point2Int;
 import JFUtils.Range;
-import JFUtils.Point2D;
+import JFUtils.point.Point2D;
 import PBEngine.Rendering.core.renderType;
 import java.awt.Color;
 import static java.lang.Math.ceil;

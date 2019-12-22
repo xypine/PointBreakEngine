@@ -53,7 +53,7 @@ public class Graph extends JFrame{
         this.setTitle("PointBreakEngine graphing");
         this.setSize(700, 550);
         this.setVisible(true);
-        this.setDefaultCloseOperation(EXIT_ON_CLOSE);
+        //this.setDefaultCloseOperation(EXIT_ON_CLOSE);
         
         JPanel cont = new JPanel( new GridLayout(1, 1));
         cont.setBackground(Color.black);

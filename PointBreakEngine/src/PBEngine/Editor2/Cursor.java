@@ -24,12 +24,13 @@
 package PBEngine.Editor2;
 
 import JFUtils.Input;
-import JFUtils.Point2D;
+import JFUtils.point.Point2D;
 import PBEngine.*;
 import java.awt.Color;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.net.URISyntaxException;
+import java.util.Objects;
 import java.util.logging.Logger;
 
 /**
@@ -60,20 +61,22 @@ public class Cursor extends Player{
         //System.out.println("input check");
         //in.mouseX() != in.lX && in.mouseY() != in.lY
         //System.out.println("O=POPOP");
-        boolean r = mouse.keys[82];
-        if(r){t = !t;System.out.println(t);}
+        boolean r = mouse.keys[32];
+        //System.out.println(r);
+        //if(r){t = !t;System.out.println(t);}
         //System.out.println(t);
         try {
             if(mouse.chars.containsKey("r")){
-                if(mouse.chars.get("r") != null){
+                if(Objects.isNull(mouse.chars.get("r"))){
                     //r = mouse.chars.get("r");
-                    System.out.println(r);
+                    //System.out.println(r);
                 }
             }
         } catch (Exception e) {
            //e.printStackTrace();
         }
-        if(t && !masterParent.objectManager.colliding((int)x,(int)y,"null") && positionValid){
+        //System.out.println();
+        if(r && !masterParent.objectManager.colliding((int)x,(int)y,this.getTag().getFirst()) && positionValid){
             gameObject o = new gameObject((int)x,(int)y, 1, "static", "█", 1F, Color.blue, masterParent.objectManager.getUsableID(), masterParent);
             if(editor.mode == 1){
                 o = new gameObject((int)x,(int)y, 1, "light", "█", 1F, Color.green, masterParent.objectManager.getUsableID()+1, masterParent);

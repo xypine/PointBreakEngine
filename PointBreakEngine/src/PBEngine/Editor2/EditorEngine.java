@@ -23,7 +23,7 @@
  */
 package PBEngine.Editor2;
 
-import JFUtils.Point2D;
+import JFUtils.point.Point2D;
 
 /**
  *
