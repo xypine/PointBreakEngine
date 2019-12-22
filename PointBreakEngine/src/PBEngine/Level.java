@@ -27,7 +27,7 @@ import java.util.LinkedList;
 
 /**
  *
- * @author Elias Eskelinen <elias.eskelinen@protonmail.com> eskelinen
+ * @author Elias Eskelinen (Jonnelafin) eskelinen
  */
 public class Level {
     public LinkedList<gameObject> objects = new LinkedList<>();

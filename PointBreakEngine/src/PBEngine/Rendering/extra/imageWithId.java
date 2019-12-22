@@ -27,7 +27,7 @@ import java.awt.image.BufferedImage;
 
 /**
  *
- * @author Elias Eskelinen <elias.eskelinen@protonmail.com>e
+ * @author Elias Eskelinen (Jonnelafin)e
  */
 public class imageWithId{
     public BufferedImage image;

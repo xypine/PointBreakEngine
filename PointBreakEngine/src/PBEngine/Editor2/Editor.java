@@ -46,7 +46,7 @@ import javax.swing.border.BevelBorder;
 
 /**
  *
- * @author Elias Eskelinen <elias.eskelinen@protonmail.com>
+ * @author Elias Eskelinen (Jonnelafin)
  */
 public class Editor extends JFUtils.InputActivated{
     public String lastFile = null;

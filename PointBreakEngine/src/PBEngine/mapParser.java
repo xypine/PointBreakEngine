@@ -27,7 +27,7 @@ import JFUtils.point.Point2D;
 
 /**
  *
- * @author Elias Eskelinen <elias.eskelinen@protonmail.com> eskelinen
+ * @author Elias Eskelinen (Jonnelafin) eskelinen
  */
 public class mapParser {
     static String[][] sampleFinish = {

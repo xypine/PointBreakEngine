@@ -27,7 +27,7 @@ import java.util.LinkedList;
 
 /**
  *
- * @author Elias Eskelinen <elias.eskelinen@protonmail.com>e
+ * @author Elias Eskelinen (Jonnelafin)e
  */
 /*public class vectorLayer{
 int lastUpdated = 0;

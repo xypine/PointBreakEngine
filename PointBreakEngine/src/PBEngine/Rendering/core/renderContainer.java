@@ -28,7 +28,7 @@ import java.awt.Color;
 
 /**
  *
- * @author Elias Eskelinen <elias.eskelinen@protonmail.com>e
+ * @author Elias Eskelinen (Jonnelafin)e
  */
 public class renderContainer implements java.io.Serializable{
     //int age;

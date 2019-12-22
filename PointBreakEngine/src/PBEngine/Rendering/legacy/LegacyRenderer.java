@@ -30,7 +30,7 @@ import javax.swing.JFrame;
 
 /**
  *
- * @author Elias Eskelinen <elias.eskelinen@protonmail.com>e
+ * @author Elias Eskelinen (Jonnelafin)e
  */
 public class LegacyRenderer {
     private int a;

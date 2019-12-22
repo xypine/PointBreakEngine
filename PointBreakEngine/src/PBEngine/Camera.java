@@ -27,7 +27,7 @@ import java.util.Objects;
 
 /**
  *
- * @author Elias Eskelinen <elias.eskelinen@protonmail.com>
+ * @author Elias Eskelinen (Jonnelafin)
  */
 public class Camera {
     public double x;
