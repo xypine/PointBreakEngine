@@ -25,4 +25,4 @@ jobs:
       with:
         java-version: 8
     - name: Build with Ant
-      run: cd PointBreakEngine && ant -Xdoclint:none -noinput -buildfile build.xml
+      run: cd PointBreakEngine && ant -D=Xdoclint:none -noinput -buildfile build.xml
