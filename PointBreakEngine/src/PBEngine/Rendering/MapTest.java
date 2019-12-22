@@ -31,6 +31,7 @@ public class MapTest extends javax.swing.JFrame {
 
     /**
      * Creates new form MapTest
+     * @param sup supervisor to use
      */
     public MapTest(PBEngine.Supervisor sup) {
         //initComponents();

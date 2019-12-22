@@ -8,7 +8,9 @@ package filedrop;
 public class Example {
 
 
-    /** Runs a sample program that shows dropped files */
+    /** Runs a sample program that shows dropped files
+     * @param args params to feed to the supervisor
+     */
     public static void main( String[] args )
     {
         javax.swing.JFrame frame = new javax.swing.JFrame( "FileDrop" );

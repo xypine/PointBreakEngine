@@ -11,6 +11,30 @@
 <project name="viridiEngine" default="default" basedir=".">
     <description>Builds, tests, and runs the project PointBreakEngine.</description>
     <import file="nbproject/build-impl.xml"/>
+    <target name="javadocs" depends="init">
+        <mkdir dir="${build.docs}"/>
+        <javadoc destdir="${build.docs}"
+                author="true"
+                version="true"
+                windowtitle="${Name} API"
+                doctitle="${Name}"
+                extdirs="${module.thirdparty}"
+
+                additionalparam="-Xdoclint:none"
+
+                excludepackagenames="${excludedPackages}"
+                bottom="Copyright &#169; 2001-2015 Jaybird (Firebird JDBC/JCA) team. All rights reserved.">
+            <arg line="${java.module.arg}"/>
+            <classpath refid="javac.driver.classpath"/>
+            <sourcepath>
+                <pathelement path="${source.java}"/>
+                <pathelement path="${source.jna-client}"/>
+            </sourcepath>
+            <sourcepath refid="source.java.openoffice"/>
+            <sourcepath refid="source.java.additional"/>
+            <link href="http://docs.oracle.com/javase/7/docs/api/"/>
+        </javadoc>
+    </target>
     <!--
 
     There exist several targets which are by default empty and which can be 

@@ -49,8 +49,9 @@ public class configReader {
 
     /**
      * PLEASE RUN ONLY AFTER KICK HAS CREATED THE ENGINE LOGIC
-     * @param filename
-     * @param k
+     * @param filename filename to load
+     * @param k Supervisor to use
+     * @throws java.io.FileNotFoundException becouse why not
      */
     public static void load(String filename, Supervisor k) throws FileNotFoundException{
         String source = "";

@@ -129,13 +129,13 @@
 
         <P>
           This class makes it easy to drag and drop files from the operating
-          system to a Java program. Any <tt>java.awt.Component</tt> can be
-          dropped onto, but only <tt>javax.swing.JComponent</tt>s will indicate
+          system to a Java program. Any java.awt.Component can be
+          dropped onto, but only javax.swing.JComponents will indicate
           the drop event with a changed border.
         </P>
         <P>
-          To use this class, construct a new <tt>FileDrop</tt> by passing
-          it the target component and a <tt>Listener</tt> to receive notification
+          To use this class, construct a new FileDrop by passing
+          it the target component and a Listener to receive notification
           when file(s) have been dropped. Here is an example:
         </P>
 <p>Note that some operating systems and Java virtual machine combinations do not support file dragging and dropping. If you are on one of these systems, you're kind of out of luck. I'm sory.</p>
@@ -164,23 +164,23 @@
         </P>
         <P>
           You can specify the border that will appear when files are being dragged by
-          calling the constructor with a <tt>javax.swing.border.Border</tt>. Only
-          <tt>JComponent</tt>s will show any indication with a border.
+          calling the constructor with a javax.swing.border.Border. Only
+          JComponents will show any indication with a border.
         </P>
         <P>
-          You can turn on some debugging features by passing a <tt>PrintStream</tt>
-          object (such as <tt>System.out</tt>) into the full constructor. A <tt>null</tt>
+          You can turn on some debugging features by passing a PrintStream
+          object (such as System.out) into the full constructor. A null
           value will result in no extra debugging information being output.
         </P>
 
 <h2>Running the Example</h2>
         <p>
-          The <tt>FileDrop</tt> class has a built-in demo that can be 
+          The FileDrop class has a built-in demo that can be 
           run in any of the following ways:
           <ul>
-            <li>Double-click the <tt>filedrop.jar</tt> file.</li>
-            <li>At a command prompt, enter <tt>java -jar filedrop.jar</tt>.</li>
-            <li>With filedrop.jar in the classpath enter <tt>java Example</tt>.</li>
+            <li>Double-click the filedrop.jar file.</li>
+            <li>At a command prompt, enter java -jar filedrop.jar.</li>
+            <li>With filedrop.jar in the classpath enter java Example.</li>
           </ul>
         </p>
 
