@@ -39,14 +39,12 @@ import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.IOException;
-import java.io.UnsupportedEncodingException;
 import static java.lang.Math.round;
 import java.net.URISyntaxException;
 import java.util.LinkedList;
 import java.util.Objects;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.Timer;
 
@@ -545,6 +543,10 @@ public class Engine implements Runnable, ActionListener {
     LinkedList<gameObject>[][] cachedLevels = null;
     
     Point2D currentMap = new Point2D(1, 1);
+
+    /**
+     * loads, parses and constructs the levelmap
+     */
     @SuppressWarnings("unchecked")
     public void constructLevelmap(){
         levelmap = mapParser.parseMap(LevelLoader.getLevelMap("00.pbMap"));

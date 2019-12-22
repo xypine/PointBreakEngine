@@ -58,6 +58,11 @@ public class devkit extends JFrame{
     JTextArea log = new JTextArea("PointBreakEngine devkit");
     JTextField lum = new JTextField(20);
     JScrollPane logs = new JScrollPane(log);
+
+    /**
+     *
+     * @param k the used supervisor, used for the actions of the commands
+     */
     public devkit(Supervisor k) {
         this.setTitle("PointBreakEngine devkit");
         this.k = k;
