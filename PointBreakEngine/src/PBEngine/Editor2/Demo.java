@@ -25,7 +25,7 @@ package PBEngine.Editor2;
 
 /**
  *
- * @author Elias Eskelinen <elias.eskelinen@protonmail.com>
+ * @author Elias Eskelinen (Jonnelafin)
  */
 public class Demo {
     public static void main(String[] args) {

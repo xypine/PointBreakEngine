@@ -35,7 +35,7 @@ import java.util.logging.Logger;
 
 /**
  *
- * @author Elias Eskelinen <elias.eskelinen@protonmail.com>
+ * @author Elias Eskelinen (Jonnelafin)
  */
 public class Cursor extends Player{
     public PBEngine.Editor2.Editor editor;

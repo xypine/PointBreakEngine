@@ -32,7 +32,7 @@ import javax.swing.JPanel;
 
 /**
  *
- * @author Elias Eskelinen <elias.eskelinen@protonmail.com>e
+ * @author Elias Eskelinen (Jonnelafin)e
  */
 public class ImagePanel extends JPanel{
 
