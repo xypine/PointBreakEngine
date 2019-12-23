@@ -25,6 +25,8 @@
 package PBEngine;
 
 import JFUtils.Range;
+import JFUtils.point.Point2D;
+import JFUtils.point.Point2Int;
 import JFUtils.quickTools;
 import java.awt.Color;
 import java.io.BufferedWriter;
@@ -49,6 +51,7 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Random;
 import java.util.Scanner;
+import java.util.function.Function;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -75,6 +78,18 @@ public class LevelLoader {
     String filePath = dir.levels;
     
     List<String> levels;
+    public LevelLoader(){
+        
+    }
+    public void LoadLevel(String file, objectManager oM, Supervisor master) throws URISyntaxException{
+        FileLoaderConst(file, oM, master, filePath);
+    }
+    public void LoadLevel(String file, objectManager oM, Supervisor master, String filepath1) throws URISyntaxException{
+        FileLoaderConst(file, oM, master, filepath1);
+    }
+    
+    
+    
     public LevelLoader(String file, objectManager oM, Supervisor master) throws URISyntaxException{
         FileLoaderConst(file, oM, master, filePath);
         
@@ -83,7 +98,30 @@ public class LevelLoader {
         FileLoaderConst(file, oM, master, filepath1);
         
     }
-    public void FileLoaderConst(String file, objectManager oM, Supervisor master, String filepath1) throws URISyntaxException{
+    
+    /**
+     * Replace this to make new objects appear in dfferent locations, by defaut this just returns the input
+     */
+    public Function<Double, Double> coordinateCalculateFuntionX = (t) -> t;
+    
+    /**
+     * Replace this to make new objects appear in dfferent locations, by defaut this just returns the input
+     */
+    public Function<Double, Double> coordinateCalculateFuntionY = (t) -> t;
+    /**
+     * you can replace this function to determine custom locations for loaded objects.
+     * (this funtion is run in the fetch funtion of the LevelLoader.)
+     * @param in the raw object coordinates loaded from the file
+     * @return the processed final coordinates
+     */
+    
+    
+    public Point2D customCoordinateFormula(Point2Int in){
+        double xn = coordinateCalculateFuntionX.apply((double)in.x);
+        double yn = coordinateCalculateFuntionX.apply((double)in.x);
+        return new Point2D(xn, yn);
+    }
+    private void FileLoaderConst(String file, objectManager oM, Supervisor master, String filepath1) throws URISyntaxException{
         this.done = false;
         levels = getLevels(filePath);
         this.master = master;
@@ -188,9 +226,11 @@ public class LevelLoader {
                     break;
                 case ':':
                     //this.c
-                    if(tag == "light" && !loadLightsAsObjects){rads.add(x, y, mass, c, 1, false);}
+                    Point2D pz = customCoordinateFormula(new Point2Int(this.x, this.y));
+                    if(tag == "light" && !loadLightsAsObjects){rads.add((int)pz.x, (int)pz.y, mass, c, 1, false);}
                     else if (tag == "light"){
-                        gameObject tml = new gameObject(this.x, this.y, 1, this.tag, this.appereance, this.mass, Color.black, this.id, master);
+                        gameObject tml = new gameObject((int)pz.x, (int)pz.y, 1, this.tag, this.appereance, this.mass, Color.black, this.id, master);
+                        tml.setLocation(pz);
                         newObjects.add(tml);
                     }
                     if(tag.equals("static")){gameObject tm = new gameObject(this.x, this.y, 1, this.tag, this.appereance, this.mass, Color.black, this.id, master);

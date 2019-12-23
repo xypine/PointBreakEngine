@@ -53,6 +53,8 @@ import javax.swing.Timer;
  * @author Jonnelafin
  */
 public class Engine implements Runnable, ActionListener {
+    public LevelLoader levelLoader;
+    
     public engineWindow window;
     
     public Camera cam = new Camera(0, 0, null);
@@ -115,6 +117,19 @@ public class Engine implements Runnable, ActionListener {
     public int targetSpeed = 15;
     public Engine(Supervisor ki, objectManager o, int xd, int yd, VSRadManager a, Point2D g, String level){
         
+        /*this.oM = o;
+        this.xd = xd;
+        this.yd = yd;
+        System.out.println("Initializing main input: " + ki);
+        this.k = ki;
+        input = new Input(k);
+        System.out.println("out main input: " + k);
+        this.rads = a;
+        this.levelName = level;*/
+        constr(ki, o, xd, yd, a, g, level, targetSpeed);
+    }
+    public Engine(Supervisor ki, objectManager o, int xd, int yd, VSRadManager a, Point2D g, String level, int targetSpeed2){
+        /*this.targetSpeed = targetSpeed;
         this.oM = o;
         this.xd = xd;
         this.yd = yd;
@@ -123,9 +138,10 @@ public class Engine implements Runnable, ActionListener {
         input = new Input(k);
         System.out.println("out main input: " + k);
         this.rads = a;
-        this.levelName = level;
+        this.levelName = level;*/
+        constr(ki, o, xd, yd, a, g, level, targetSpeed2);
     }
-    public Engine(Supervisor ki, objectManager o, int xd, int yd, VSRadManager a, Point2D g, String level, int targetSpeed){
+    private void constr(Supervisor ki, objectManager o, int xd, int yd, VSRadManager a, Point2D g, String level, int targetSpeed){
         this.targetSpeed = targetSpeed;
         this.oM = o;
         this.xd = xd;
@@ -136,6 +152,7 @@ public class Engine implements Runnable, ActionListener {
         System.out.println("out main input: " + k);
         this.rads = a;
         this.levelName = level;
+        this.levelLoader = new LevelLoader();
     }
     private AudioSource aM;
     VSRadManager rads;
@@ -232,10 +249,8 @@ public class Engine implements Runnable, ActionListener {
             System.out.println("Loading baked level lights for the level [" + levelName + "]...");
 
             try {
-                bakedcolor = (Color[][]) new LevelLoader("null", oM, k).readObject(levelName + "_illumination.txt");
-                LoadedRays = (LinkedList<renderContainer>) new LevelLoader("null", oM, k).readObject(levelName + "_lights.txt");
-            } catch (URISyntaxException ex) {
-                Logger.getLogger(Engine.class.getName()).log(Level.SEVERE, null, ex);
+                bakedcolor = (Color[][]) levelLoader.readObject(levelName + "_illumination.txt");
+                LoadedRays = (LinkedList<renderContainer>) levelLoader.readObject(levelName + "_lights.txt");
             } catch (IOException ex) {
                 Logger.getLogger(Engine.class.getName()).log(Level.SEVERE, null, ex);
             } catch (ClassNotFoundException ex) {
@@ -317,11 +332,11 @@ public class Engine implements Runnable, ActionListener {
                 System.out.println("Writing to [" + levelName + "_lights.txt]");
                 System.out.println("Writing to [" + levelName + "_illumination.txt]");
                 try {
-                    LevelLoader lL = new LevelLoader("null", oM, k);
-                    lL.writeObject(bakedRays, levelName + "_lights.txt", "");
-                    lL.writeObject(colored, levelName + "_illumination.txt", "");
-                } catch (URISyntaxException ex) {
-                    Logger.getLogger(Engine.class.getName()).log(Level.SEVERE, null, ex);
+                    //LevelLoader lL = new LevelLoader("null", oM, k);
+                    levelLoader.writeObject(bakedRays, levelName + "_lights.txt", "");
+                    levelLoader.writeObject(colored, levelName + "_illumination.txt", "");
+                    /*} catch (URISyntaxException ex) {
+                    Logger.getLogger(Engine.class.getName()).log(Level.SEVERE, null, ex);*/
                 } catch (IOException ex) {
                     Logger.getLogger(Engine.class.getName()).log(Level.SEVERE, null, ex);
                 }
@@ -421,11 +436,11 @@ public class Engine implements Runnable, ActionListener {
                 System.out.println("Writing to [" + levelName + "_lights.txt]");
                 System.out.println("Writing to [" + levelName + "_illumination.txt]");
                 try {
-                    LevelLoader lL = new LevelLoader("null", oM, k);
-                    lL.writeObject(bakedRays, levelName + "_lights.txt", "");
-                    lL.writeObject(colored, levelName + "_illumination.txt", "");
-                } catch (URISyntaxException ex) {
-                    Logger.getLogger(Engine.class.getName()).log(Level.SEVERE, null, ex);
+                    //LevelLoader lL = new LevelLoader("null", oM, k);
+                    levelLoader.writeObject(bakedRays, levelName + "_lights.txt", "");
+                    levelLoader.writeObject(colored, levelName + "_illumination.txt", "");
+                    /*} catch (URISyntaxException ex) {
+                    Logger.getLogger(Engine.class.getName()).log(Level.SEVERE, null, ex);*/
                 } catch (IOException ex) {
                     Logger.getLogger(Engine.class.getName()).log(Level.SEVERE, null, ex);
                 }
@@ -476,8 +491,9 @@ public class Engine implements Runnable, ActionListener {
     public LinkedList<gameObject> loadLevel(String level, String levelpath) throws URISyntaxException{
         LinkedList<gameObject> out = new LinkedList<>();
         long time = System.nanoTime();
-        LevelLoader lL = new LevelLoader(level, oM, k, levelpath);
-        while(!lL.done){
+        //LevelLoader lL = new LevelLoader(level, oM, k, levelpath);
+        levelLoader.LoadLevel(level, oM, k, levelpath);
+        while(!levelLoader.done){
             try {
                 Thread.sleep(1);
             } catch (InterruptedException ex) {
@@ -485,12 +501,12 @@ public class Engine implements Runnable, ActionListener {
             }
         }
         
-        for(gameObject x : lL.level){
+        for(gameObject x : levelLoader.level){
             x.tag.set(x.tag.indexOf("static"), "newlevel");
             oM.addObject(x);
         }
         out = oM.removeLevel();
-        for(gameObject x : lL.level){
+        for(gameObject x : levelLoader.level){
             x.tag.set(x.tag.indexOf("newlevel"), "static");
             x.tag.add("delete_lc");
         }
@@ -506,20 +522,20 @@ public class Engine implements Runnable, ActionListener {
     public LinkedList<gameObject> loadLevel(String level, String filepath, Color wall, Color light) throws URISyntaxException{
         LinkedList<gameObject> out = new LinkedList<>();
         long time = System.nanoTime();
-        LevelLoader lL = new LevelLoader(level, oM, k, filepath);
-        while(!lL.done){
+        //LevelLoader lL = new LevelLoader(level, oM, k, filepath);
+        while(!levelLoader.done){
             try {
                 Thread.sleep(1);
             } catch (InterruptedException ex) {
                 Logger.getLogger(Engine.class.getName()).log(Level.SEVERE, null, ex);
             }
         }
-        for(gameObject x : lL.level){
+        for(gameObject x : levelLoader.level){
             x.tag.set(x.tag.indexOf("static"), "newlevel");
             oM.addObject(x);
         }
         out = oM.removeLevel();
-        for(gameObject x : lL.level){
+        for(gameObject x : levelLoader.level){
             x.tag.set(x.tag.indexOf("newlevel"), "static");
             x.setColor(wall);
             if(x.tag.contains("light")){
@@ -678,10 +694,10 @@ public class Engine implements Runnable, ActionListener {
             if(k.bakedLights){
                 System.out.println("Loading baked level lights");
                 try {
-                    bakedcolor = (Color[][]) new LevelLoader("null", oM, k).readObject(levelmap[(int)newLevel.x][(int)newLevel.y] + ".pblevel_illumination.txt");
+                    bakedcolor = (Color[][]) levelLoader.readObject(levelmap[(int)newLevel.x][(int)newLevel.y] + ".pblevel_illumination.txt");
                     System.out.println(levelmap[(int)newLevel.x][(int)newLevel.y] + "_illumination.txt");
-                    LoadedRays = (LinkedList<renderContainer>) new LevelLoader("null", oM, k).readObject(levelmap[(int)newLevel.x][(int)newLevel.y]+".pblevel_lights.txt");
-                } catch (URISyntaxException | IOException | ClassNotFoundException ex) {
+                    LoadedRays = (LinkedList<renderContainer>) levelLoader.readObject(levelmap[(int)newLevel.x][(int)newLevel.y]+".pblevel_lights.txt");
+                } catch (IOException | ClassNotFoundException ex) {
                     Logger.getLogger(Engine.class.getName()).log(Level.SEVERE, null, ex);
                 }
             }else{
