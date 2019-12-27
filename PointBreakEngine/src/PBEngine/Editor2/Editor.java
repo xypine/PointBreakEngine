@@ -102,7 +102,7 @@ public class Editor extends JFUtils.InputActivated{
         //Move enginewindows to one, unified one
         k.Logic.window.setVisible(false);
         Renderer v = k.Logic.Vrenderer;
-        k.Logic.window.remove(k.Logic.window.Vrenderer);
+        //k.Logic.window.remove(k.Logic.window.Vrenderer);
         
         Component devcont = k.kit.cont;
         k.kit.remove(devcont);
@@ -114,7 +114,12 @@ public class Editor extends JFUtils.InputActivated{
         
         EditorWindow w = new EditorWindow();
         
-        w.container.add(k.Logic.Vrenderer, BorderLayout.CENTER);
+        Component editorPane = k.Logic.window.content;
+        w.container.requestFocusInWindow();
+        w.container.addKeyListener(k.Logic.window.input);
+        w.container.addMouseMotionListener(k.Logic.window.input);
+        
+        w.container.add(editorPane, BorderLayout.CENTER);
         w.container.add(k.kit.cont, BorderLayout.LINE_END);
         JPanel grapherPanel = new JPanel();
         grapherPanel.setBackground(Color.black);
