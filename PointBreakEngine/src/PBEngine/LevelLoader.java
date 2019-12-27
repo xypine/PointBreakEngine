@@ -24,6 +24,7 @@
 
 package PBEngine;
 
+import PBEngine.gameObjects.gameObject;
 import JFUtils.Range;
 import JFUtils.point.Point2D;
 import JFUtils.point.Point2Int;
@@ -81,21 +82,28 @@ public class LevelLoader {
     public LevelLoader(){
         
     }
+    public void editorLoadLevel(String file, objectManager oM, Supervisor master, String filepath1) throws URISyntaxException{
+        LoadLevel(file, oM, master, filepath1, true);
+    }
+    
     public void LoadLevel(String file, objectManager oM, Supervisor master) throws URISyntaxException{
-        FileLoaderConst(file, oM, master, filePath);
+        FileLoaderConst(file, oM, master, filePath, false);
     }
     public void LoadLevel(String file, objectManager oM, Supervisor master, String filepath1) throws URISyntaxException{
-        FileLoaderConst(file, oM, master, filepath1);
+        FileLoaderConst(file, oM, master, filepath1, false);
+    }
+    public void LoadLevel(String file, objectManager oM, Supervisor master, String filepath1, boolean lightsAsObjects) throws URISyntaxException{
+        FileLoaderConst(file, oM, master, filepath1, lightsAsObjects);
     }
     
     
     
     public LevelLoader(String file, objectManager oM, Supervisor master) throws URISyntaxException{
-        FileLoaderConst(file, oM, master, filePath);
+        LoadLevel(file, oM, master, filePath);
         
     }
     public LevelLoader(String file, objectManager oM, Supervisor master, String filepath1) throws URISyntaxException{
-        FileLoaderConst(file, oM, master, filepath1);
+        LoadLevel(file, oM, master, filepath1);
         
     }
     
@@ -121,12 +129,12 @@ public class LevelLoader {
         double yn = coordinateCalculateFuntionX.apply((double)in.x);
         return new Point2D(xn, yn);
     }
-    private void FileLoaderConst(String file, objectManager oM, Supervisor master, String filepath1) throws URISyntaxException{
+    private void FileLoaderConst(String file, objectManager oM, Supervisor master, String filepath1, boolean lightsASObjects) throws URISyntaxException{
         this.done = false;
         levels = getLevels(filePath);
         this.master = master;
         if(file == "null" || file == null){
-            fetch("", oM, master.Logic.rads);
+            fetch("", oM, master.Logic.rads, file);
             System.out.println("Level ["+filePath.concat(file)+"] loaded with " + count + " objects!");
             return;
         }
@@ -149,7 +157,7 @@ public class LevelLoader {
         }
         catch (FileNotFoundException ex) {
                 try{
-                    fetch(fallback, oM, master.Logic.rads);
+                    fetch(fallback, oM, master.Logic.rads, "preloaded fallback level");
                     System.out.println("!!! level " + filePath + file + " FAILED TO LOAD!!!");
                     quickTools.alert("Level not found!", "!!! level " + filePath + file + " FAILED TO LOAD!!!");
                     System.out.println("fallback level loaded with " + count + " objects!");
@@ -163,18 +171,18 @@ public class LevelLoader {
         if(arr[0].equals("!random")){
             text = file;
         }
-        fetch(text, oM, master.Logic.rads);
+        fetch(text, oM, master.Logic.rads, lightsASObjects, file);
         System.out.println("Level ["+filePath.concat(file)+"] loaded with " + count + " objects!");
 //            fetch(in.toString(), oM);
         
     }
     public LinkedList<gameObject> level = new LinkedList<>();
     
-    public void fetch(String i, objectManager oM, VSRadManager rads){
-        fetch(i, oM, rads, false);
+    public void fetch(String i, objectManager oM, VSRadManager rads, String filename){
+        fetch(i, oM, rads, false, filename);
     }
     
-    public void fetch(String i, objectManager oM, VSRadManager rads, boolean loadLightsAsObjects){
+    public void fetch(String i, objectManager oM, VSRadManager rads, boolean loadLightsAsObjects, String filename){
         LinkedList<gameObject> newObjects = new LinkedList<>();
         boolean meta = false;
         int metachar = 0;
@@ -182,6 +190,7 @@ public class LevelLoader {
         String name = "";
         String tmp = "";
         String arr[] = i.split(" ", 2);
+        dotC = 0;
         int xd = rads.masterParent.xd;
         int yd = rads.masterParent.yd;
         if(arr[0].equals("!random")){
@@ -203,6 +212,7 @@ public class LevelLoader {
             }
             return;
         }
+        int charNum = 0;
         for(char x : i.toCharArray()){
             if(meta){
                 switch(metachar){
@@ -227,8 +237,8 @@ public class LevelLoader {
                 case ':':
                     //this.c
                     Point2D pz = customCoordinateFormula(new Point2Int(this.x, this.y));
-                    if(tag == "light" && !loadLightsAsObjects){rads.add((int)pz.x, (int)pz.y, mass, c, 1, false);}
-                    else if (tag == "light"){
+                    if(tag.equals("light") && !loadLightsAsObjects){rads.add((int)pz.x, (int)pz.y, mass, c, 1, false);}
+                    else if (tag.equals("light")){
                         gameObject tml = new gameObject((int)pz.x, (int)pz.y, 1, this.tag, this.appereance, this.mass, Color.black, this.id, master);
                         tml.setLocation(pz);
                         newObjects.add(tml);
@@ -244,6 +254,7 @@ public class LevelLoader {
                     break;
                 case '.':
                     //                System.out.println(tmp);
+                    System.out.println("DOTCOUNT [" + dotC + "], value [" + tmp + "]");
                     if(dotC == 0){
                         this.x = toInt(tmp);
                     }   if(dotC == 1){
@@ -255,7 +266,14 @@ public class LevelLoader {
                     }   if(dotC == 4){
                         this.mass = toInt(tmp);
                     }   if(dotC == 5){
-                        this.c = getColorByName(tmp);
+                            try {
+                                this.c = getColorByName(tmp);
+                            } catch (Exception e) {
+                                String err = "Error parsing color [" + tmp + "] (character " + charNum + " in the file " + filename + "): " + e;
+                                System.out.println(err);
+                                quickTools.alert(err);
+                                
+                            }
                     }   if(dotC == 6){
                         this.id = toInt(tmp);
                     }   dotC++;
@@ -264,8 +282,9 @@ public class LevelLoader {
                 default:
                     tmp = tmp + x;
                     break;
+                
             }
-            
+            charNum++;
             
         }
         this.level = newObjects;
@@ -328,6 +347,7 @@ public class LevelLoader {
       FileOutputStream(path + file));
       objOut.writeObject(o);
       objOut.close();
+      System.out.print("OK");
     }
     public Object readObject(String file) throws IOException, ClassNotFoundException{
         Object out;
@@ -354,13 +374,12 @@ public class LevelLoader {
         }
         return out;
     }
-    public static Color getColorByName(String name) {
+    public static Color getColorByName(String name) throws IllegalArgumentException, IllegalAccessException, NoSuchFieldException {
         try {
             return (Color)Color.class.getField(name.toUpperCase()).get(null);
         } catch (IllegalArgumentException | IllegalAccessException | NoSuchFieldException | SecurityException e) {
-            quickTools.alert(name);
-            e.printStackTrace();
-            return null;
+            //quickTools.alert("Failed to parse color: " + name);
+            throw e;
         }
     }
     static String readFile(String path, Charset encoding) throws IOException 

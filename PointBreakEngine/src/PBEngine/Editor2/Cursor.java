@@ -23,15 +23,12 @@
  */
 package PBEngine.Editor2;
 
+import PBEngine.gameObjects.Player;
+import PBEngine.gameObjects.gameObject;
 import JFUtils.Input;
-import JFUtils.point.Point2D;
 import PBEngine.*;
 import java.awt.Color;
-import java.io.IOException;
-import java.io.UnsupportedEncodingException;
-import java.net.URISyntaxException;
 import java.util.Objects;
-import java.util.logging.Logger;
 
 /**
  *
@@ -53,7 +50,7 @@ public class Cursor extends Player{
     private int usedUse = 200;
     @Override
     public void doOnPreciseMovement(){
-        
+        checkInput(masterParent.Logic.input);
     }
     boolean t = false;
     @Override
@@ -77,7 +74,7 @@ public class Cursor extends Player{
         }
         //System.out.println();
         if(r && !masterParent.objectManager.colliding((int)x,(int)y,this.getTag().getFirst()) && positionValid){
-            gameObject o = new gameObject((int)x,(int)y, 1, "static", "█", 1F, Color.blue, masterParent.objectManager.getUsableID(), masterParent);
+            gameObject o = new gameObject((int)x,(int)y, 1, "static", "█", 100, Color.blue, masterParent.objectManager.getUsableID(), masterParent);
             if(editor.mode == 1){
                 o = new gameObject((int)x,(int)y, 1, "light", "█", 1F, Color.green, masterParent.objectManager.getUsableID()+1, masterParent);
                 o.tag.add("static");

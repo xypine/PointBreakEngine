@@ -24,6 +24,8 @@
 
 package PBEngine;
 
+import PBEngine.gameObjects.Player;
+import PBEngine.gameObjects.gameObject;
 import PBEngine.Rendering.legacy.LegacyRenderer;
 import JFUtils.Input;
 import JFUtils.quickTools;

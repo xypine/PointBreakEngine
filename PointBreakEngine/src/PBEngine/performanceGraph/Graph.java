@@ -26,6 +26,7 @@ package PBEngine.performanceGraph;
 
 
 import java.awt.Color;
+import java.awt.Font;
 import java.awt.GridLayout;
 import java.util.Random;
 import javax.swing.JFrame;
@@ -44,14 +45,14 @@ public class Graph extends JFrame{
     Random rnd = new Random(420);
     boolean running = true;
     
-    JLabel area;
+    public JLabel area;
     int tick = 0;
     float t = 0;
     String[][] map;
     Integer[] history;
     public Graph(){
         this.setTitle("PointBreakEngine graphing");
-        this.setSize(700, 550);
+        this.setSize(740, 240);
         this.setVisible(true);
         //this.setDefaultCloseOperation(EXIT_ON_CLOSE);
         
@@ -60,6 +61,7 @@ public class Graph extends JFrame{
         
         area = new JLabel();
         area.setVisible(true);
+        
         //area.setEditable(false);
         cont.add(area);
         
@@ -158,6 +160,25 @@ public class Graph extends JFrame{
             String ready = toString(map);
             //RENDER
             area.setText("<html>" + ready + "</html>");
+            
+            Font labelFont = area.getFont();
+            String labelText = area.getText();
+            int stringWidth = area.getFontMetrics(labelFont).stringWidth(labelText);
+            int componentWidth = area.getWidth();
+            // Find out how much the font can grow in width.
+            double widthRatio = (double)componentWidth / (double)stringWidth;
+
+            int newFontSize = (int)(labelFont.getSize() * widthRatio);
+            int componentHeight = area.getHeight();
+
+            // Pick a new font size so it will not be larger than the height of label.
+            int fontSizeToUse = Math.min(newFontSize, componentHeight);
+
+            // Set the label's font size to the newly determined size.
+            area.setFont(new Font(labelFont.getName(), Font.PLAIN, 8));
+            //System.out.println(this.getSize());
+            area.setForeground(Color.red);
+            
             //area.setText(Math.abs(num) + "");
             lastTick = tickC;
     }

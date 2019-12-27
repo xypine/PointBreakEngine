@@ -103,13 +103,14 @@ public class engineWindow extends JFrame{
     
     
     public BufferedImage createImage(Renderer panel) {
-        int w2 = getWidth();  panel.setW(w2);
-        int h2 = getHeight(); panel.setH(h2);
+        int w2 = panel.getWidth();  panel.setW(w2);
+        int h2 = panel.getHeight(); panel.setH(h2);
         BufferedImage bi = new BufferedImage(w2, h2, BufferedImage.TYPE_INT_RGB);
         Graphics2D g = bi.createGraphics();
         
         
-        panel.paint(g);
+        //panel.paint(g);
+        panel.printAll(g);
         g.dispose();
         for(int x : new Range(bi.getWidth())){
             for(int y : new Range(bi.getHeight())){

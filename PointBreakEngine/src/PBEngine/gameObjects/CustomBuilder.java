@@ -1,7 +1,7 @@
 /*
  * The MIT License
  *
- * Copyright 2019 Elias Eskelinen.
+ * Copyright 2019 Elias Arno Eskelinen.
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -21,31 +21,23 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package PBEngine;
+package PBEngine.gameObjects;
 
-import PBEngine.gameObjects.gameObject;
-import java.util.Objects;
+import JFUtils.point.Point2D;
+import PBEngine.Rendering.core.renderType;
+import PBEngine.Supervisor;
+import PBEngine.gameObjects.customBuilderFunctions.CustomFunction_oncollision;
 
 /**
  *
  * @author Elias Eskelinen (Jonnelafin)
  */
-public class Camera {
-    public double x;
-    public double y;
-    public gameObject target;
-    public Camera(double x, double y, gameObject t){
-        this.x = x;
-        this.y = y;
-        this.target = t;
+public class CustomBuilder extends PBEngine.gameObjects.gameObject{
+    
+    public CustomFunction_oncollision doOnCollision;
+    
+    public CustomBuilder(Point2D location, int size, double mass, renderType shape, Supervisor master, int ID) {
+        super(location, size, mass, shape, master, ID);
     }
-    public void setLocation(double x, double y){
-        this.x = x;
-        this.y = y;
-    }
-    public void update(){
-        if(!Objects.isNull(target)){
-            this.setLocation(target.getX(), target.getY());
-        }
-    }
+    
 }

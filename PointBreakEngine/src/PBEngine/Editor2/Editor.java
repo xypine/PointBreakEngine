@@ -23,6 +23,7 @@
  */
 package PBEngine.Editor2;
 
+import PBEngine.gameObjects.gameObject;
 import JFUtils.point.Point2D;
 import PBEngine.*;
 import filedrop.FileDrop;
@@ -84,6 +85,20 @@ public class Editor extends JFUtils.InputActivated{
                 Logger.getLogger(Editor.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
             }
         }
+        
+        //Move enginewindows to one, unified one
+        //k.Logic.window.setVisible(false);
+        //k.kit.setVisible(false);
+        //k.grapher.setVisible(false);
+        
+        //EditorWindow w = new EditorWindow();
+        
+        //w.add(k.Logic.Vrenderer, BorderLayout.CENTER);
+        //w.add(k.kit.cont, BorderLayout.LINE_END);
+        //w.add(k.grapher.area, BorderLayout.PAGE_END);
+        
+        
+        
         k.Logic.window.setTitle("PointBreakEngine (Editor2)");
         k.Logic.Vrenderer.factor = 20;
         //k.Logic.input = ourInput;
@@ -156,6 +171,11 @@ public class Editor extends JFUtils.InputActivated{
         String location = save();
         params.put("loadLevel", location);
         params.put("noplayer", "");
+        int lightC = k.Logic.oM.getObjects().size();
+        System.out.println( lightC + " lights present in the scene.");
+        if(lightC == 0 || lightC < 0){
+            params.put("nodefaultlight", "");
+        }
         Supervisor supervisor = new Supervisor(3, !bake, new Point2D(0, 0), 0, params);
         Thread A = new Thread(supervisor);
         //SwingUtilities.invokeLater(A);
@@ -196,7 +216,7 @@ public class Editor extends JFUtils.InputActivated{
     }
     public void load(File file){
         try {
-            LinkedList<gameObject> old = k.Logic.loadLevel(file.getAbsolutePath(), "", Color.BLUE, Color.GREEN);
+            LinkedList<gameObject> old = k.Logic.loadLevel_lightsAsObjects(file.getAbsolutePath(), "", Color.BLUE, Color.GREEN);
             lastFile = file.getAbsolutePath();
         } catch (URISyntaxException ex) {
             Logger.getLogger(Editor.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
@@ -211,7 +231,7 @@ public class Editor extends JFUtils.InputActivated{
                         out = selectedFile.getAbsolutePath();
 			System.out.println(selectedFile.getAbsolutePath());
                 try {
-                    LinkedList<gameObject> old = k.Logic.loadLevel(selectedFile.getAbsolutePath(), "", Color.BLUE, Color.GREEN);
+                    LinkedList<gameObject> old = k.Logic.loadLevel_lightsAsObjects(selectedFile.getAbsolutePath(), "", Color.BLUE, Color.GREEN);
                     
                 } catch (URISyntaxException ex) {
                     Logger.getLogger(BListener.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);

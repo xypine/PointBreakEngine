@@ -23,6 +23,7 @@
  */
 package PBEngine;
 
+import PBEngine.gameObjects.Player;
 import JFUtils.point.Point2D;
 import JFUtils.quickTools;
 import java.awt.Color;

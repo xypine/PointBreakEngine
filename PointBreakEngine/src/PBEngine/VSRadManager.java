@@ -40,7 +40,16 @@ public class VSRadManager{
     public Supervisor masterParent;
     public int blurStrenght = 0; //Disabled by default
     public Color[][] colors;
-    public ConcurrentLinkedQueue<VSRad> sVSRad;
+    private ConcurrentLinkedQueue<VSRad> sVSRad;
+    
+    public LinkedList<VSRad> getSources(){
+        LinkedList<VSRad> out = new LinkedList<>();
+        for(VSRad rad : sVSRad){
+            out.add(rad);
+        }
+        return out;
+    }
+    
     private VSRad director;
     public int w, h;
     private objectManager oM;
@@ -96,7 +105,7 @@ public class VSRadManager{
         quickTools.zero(colors);
         double[][] sum = new double[w][h];
         int xp = 0, yp = 0;
-        Queue<VSRad> list = sVSRad;
+        Queue<VSRad> list = new ConcurrentLinkedQueue<>(sVSRad);
         for(VSRad ray : list){
             if(ray.type != ignore){
                 for(float[] line : ray.grid){

@@ -25,6 +25,7 @@
 package PBEngine;
 
 //L_import PBEngine.Rendering.legacy.LegacyRenderer;
+import PBEngine.gameObjects.gameObject;
 import PBEngine.Rendering.core.*;
 
 import PBEngine.Rendering.Renderer;
@@ -519,10 +520,11 @@ public class Engine implements Runnable, ActionListener {
         //k.rad.recalculateParent();
         return out;
     }
-    public LinkedList<gameObject> loadLevel(String level, String filepath, Color wall, Color light) throws URISyntaxException{
+    public LinkedList<gameObject> loadLevel_lightsAsObjects(String level, String filepath, Color wall, Color light) throws URISyntaxException{
         LinkedList<gameObject> out = new LinkedList<>();
         long time = System.nanoTime();
         //LevelLoader lL = new LevelLoader(level, oM, k, filepath);
+        levelLoader.editorLoadLevel(level, oM, k, filepath);
         while(!levelLoader.done){
             try {
                 Thread.sleep(1);
@@ -531,12 +533,30 @@ public class Engine implements Runnable, ActionListener {
             }
         }
         for(gameObject x : levelLoader.level){
-            x.tag.set(x.tag.indexOf("static"), "newlevel");
+            try {
+                x.tag.set(x.tag.indexOf("static"), "newlevel");
+            } catch (Exception e) {
+                try {
+                    x.tag.set(x.tag.indexOf("light"), "newlevel_light");
+                } catch (Exception ez) {
+                    quickTools.alert("GAMEOBJECT ID [" + x.getID() + "] is NOT COMPATIBLE, pausing the engine... to unpause type \"/ps\" into the console.");
+                    k.stop();
+                }
+            }
             oM.addObject(x);
         }
         out = oM.removeLevel();
         for(gameObject x : levelLoader.level){
-            x.tag.set(x.tag.indexOf("newlevel"), "static");
+            try {
+                x.tag.set(x.tag.indexOf("newlevel"), "static");
+            } catch (Exception e) {
+                try {
+                    x.tag.set(x.tag.indexOf("newlevel_light"), "light");
+                } catch (Exception ez) {
+                    quickTools.alert("GAMEOBJECT ID [" + x.getID() + "] is NOT COMPATIBLE, pausing the engine... to unpause type \"/ps\" into the console.");
+                    k.stop();
+                }
+            }
             x.setColor(wall);
             if(x.tag.contains("light")){
                 x.setColor(light);

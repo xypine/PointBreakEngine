@@ -1,7 +1,7 @@
 /*
  * The MIT License
  *
- * Copyright 2019 Elias Eskelinen.
+ * Copyright 2019 Elias Eskelinen <elias.eskelinen@protonmail.com>.
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -21,31 +21,21 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package PBEngine;
-
-import PBEngine.gameObjects.gameObject;
-import java.util.Objects;
+package PBEngine.gameObjects.customBuilderFunctions;
 
 /**
  *
- * @author Elias Eskelinen (Jonnelafin)
+ * @author Elias Eskelinen <elias.eskelinen@protonmail.com>
  */
-public class Camera {
-    public double x;
-    public double y;
-    public gameObject target;
-    public Camera(double x, double y, gameObject t){
-        this.x = x;
-        this.y = y;
-        this.target = t;
-    }
-    public void setLocation(double x, double y){
-        this.x = x;
-        this.y = y;
-    }
-    public void update(){
-        if(!Objects.isNull(target)){
-            this.setLocation(target.getX(), target.getY());
-        }
-    }
+public enum CustomFunction_oncollision {
+
+    /**
+     * Die on collision
+     */
+    die,
+
+    /**
+     * set a color on collision
+     */
+    color;
 }

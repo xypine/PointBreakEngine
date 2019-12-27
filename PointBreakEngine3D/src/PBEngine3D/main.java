@@ -7,7 +7,7 @@ package PBEngine3D;
 
 /**
  *
- * @author Elias
+ * @author Elias Eskelinen
  */
 public class main {
 
