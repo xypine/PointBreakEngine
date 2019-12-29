@@ -29,7 +29,7 @@ import PBEngine.gameObjects.gameObject;
 import JFUtils.Input;
 import JFUtils.point.Point2D;
 import JFUtils.quickTools;
-import PBEngine.performanceGraph.Graph;
+import JFUtils.graphing.Graph;
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.FontFormatException;

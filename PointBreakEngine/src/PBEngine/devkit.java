@@ -28,7 +28,7 @@ import JFUtils.Range;
 import JFUtils.point.Point2D;
 import JFUtils.quickTools;
 import PBEngine.Rendering.core.renderType;
-import PBEngine.performanceGraph.Graph;
+import JFUtils.graphing.Graph;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.event.ActionEvent;
