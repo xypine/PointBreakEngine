@@ -160,6 +160,9 @@ public class Engine implements Runnable, ActionListener {
     public final double h = 540D;
     public final double w = 1080D;
     public final double size = 1D;
+    
+    public boolean noWindows = false;
+    
     @Override
     @SuppressWarnings("unchecked")
     public void run() {
@@ -201,8 +204,10 @@ public class Engine implements Runnable, ActionListener {
         //_this.add(Vrenderer);
         //_revalidate();
         //_repaint();
-        window = new engineWindow(input, k, Vrenderer);
-        window.clean();
+        if (!noWindows) {
+            window = new engineWindow(input, k, Vrenderer);
+            window.clean();
+        }
         
         Vrenderer.init(w,h, 3, false);
         //try {Vrenderer.setImage(new directory().textures + "splash.png");}
