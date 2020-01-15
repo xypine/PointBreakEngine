@@ -163,6 +163,13 @@ public class Engine implements Runnable, ActionListener {
     
     public boolean noWindows = false;
     
+    public void clean(){
+        try {
+            window.clean();
+        } catch (Exception e) {
+        }
+    }
+    
     @Override
     @SuppressWarnings("unchecked")
     public void run() {
@@ -206,7 +213,7 @@ public class Engine implements Runnable, ActionListener {
         //_repaint();
         if (!noWindows) {
             window = new engineWindow(input, k, Vrenderer);
-            window.clean();
+            clean();
         }
         
         Vrenderer.init(w,h, 3, false);
@@ -365,7 +372,7 @@ public class Engine implements Runnable, ActionListener {
             }
             tickC++;
         }
-        window.clean();
+        clean();
         //_revalidate();
         //_repaint();
     }
@@ -413,10 +420,13 @@ public class Engine implements Runnable, ActionListener {
         //(int) (((rl.x + effectOffSet.x) - cam.x) * factor + (w / 2)), (int) (((rl.y + effectOffSet.y) - camy) * factor + (h / 2)), (int) factor * size, (int) factor * size
         //+(window.Vrenderer.getW()/2)
         //+(window.Vrenderer.getH()/2)
-        int w = window.Vrenderer.getW()/2;
-        int h = window.Vrenderer.getH()/2;
-        mouse_projected.x =( ((mouseX+0)-cam.x-w)*window.Vrenderer.factor) /1000;
-        mouse_projected.y =( ((mouseY+0)-cam.y-h)*window.Vrenderer.factor) /1000;
+        try {
+            int w = window.Vrenderer.getW() / 2;
+            int h = window.Vrenderer.getH() / 2;
+            mouse_projected.x = (((mouseX + 0) - cam.x - w) * window.Vrenderer.factor) / 1000;
+            mouse_projected.y = (((mouseY + 0) - cam.y - h) * window.Vrenderer.factor) / 1000;
+        } catch (Exception e) {
+        }
         //System.out.println(mouse_projected);
         //LEFT HERE
         //System.out.println(mouse_projected.represent());
@@ -469,7 +479,7 @@ public class Engine implements Runnable, ActionListener {
             }
             tickC++;
         }
-        window.clean();
+        clean();
         //_revalidate();
         //_repaint();
     }

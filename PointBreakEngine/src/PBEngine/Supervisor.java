@@ -113,7 +113,7 @@ public class Supervisor extends JFUtils.InputActivated implements Runnable{
     public Thread b;
     public Thread a;
     public objectManager objectManager = new objectManager(this);
-    public devkit kit;
+    public devkit_interface kit = new devkit_empty();
     int mode;
     public volatile boolean ready = false;
     
@@ -537,7 +537,10 @@ public class Supervisor extends JFUtils.InputActivated implements Runnable{
                 
 
                 oldo = newo;
-                vertical.setValue( vertical.getMaximum() );
+                try {
+                    vertical.setValue(vertical.getMaximum());
+                } catch (Exception e) {
+                }
                 
             }
             
