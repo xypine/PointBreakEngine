@@ -23,6 +23,7 @@
  */
 package PBEngine;
 
+import PBEngine.gameObjects.gameObject;
 import java.util.LinkedList;
 
 /**

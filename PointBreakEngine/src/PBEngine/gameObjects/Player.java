@@ -22,10 +22,13 @@
  * THE SOFTWARE.
  */
 
-package PBEngine;
+package PBEngine.gameObjects;
 
+import PBEngine.gameObjects.gameObject;
 import JFUtils.Input;
 import JFUtils.point.Point2D;
+import PBEngine.Supervisor;
+import PBEngine.directory;
 import java.awt.Color;
 import java.util.LinkedList;
 

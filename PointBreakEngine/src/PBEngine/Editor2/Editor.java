@@ -23,11 +23,14 @@
  */
 package PBEngine.Editor2;
 
+import PBEngine.gameObjects.gameObject;
 import JFUtils.point.Point2D;
 import PBEngine.*;
+import PBEngine.Rendering.Renderer;
 import filedrop.FileDrop;
 import java.awt.BorderLayout;
 import java.awt.Color;
+import java.awt.Component;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
@@ -39,6 +42,7 @@ import java.util.logging.Logger;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JFileChooser;
+import javax.swing.JInternalFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JRadioButton;
@@ -51,6 +55,7 @@ import javax.swing.border.BevelBorder;
 public class Editor extends JFUtils.InputActivated{
     public String lastFile = null;
     
+    public JPanel propertiesPanel;
     public boolean bake = false;
     public boolean saved = false;
     public PBEngine.Supervisor k;
@@ -75,6 +80,8 @@ public class Editor extends JFUtils.InputActivated{
         
         k.disableVSRAD = true;
         k.features_confFile = "editorConfig.txt";
+        
+        System.out.println("Params set, starting PBEngine and waiting for the initialization to finish...");
         Thread A = new Thread(k);
         A.start();
         while(!k.ready){
@@ -84,6 +91,44 @@ public class Editor extends JFUtils.InputActivated{
                 Logger.getLogger(Editor.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
             }
         }
+        while(!k.Logic.ready){
+            try {
+                Thread.sleep(10);
+            } catch (InterruptedException ex) {
+                Logger.getLogger(Editor.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            }
+        }
+        
+        //Move enginewindows to one, unified one
+        k.Logic.window.setVisible(false);
+        Renderer v = k.Logic.Vrenderer;
+        //k.Logic.window.remove(k.Logic.window.Vrenderer);
+        
+        Component devcont = k.kit.cont;
+        k.kit.remove(devcont);
+        k.kit.setVisible(false);
+        
+        k.grapher.setVisible(false);
+        Component grapher = k.grapher.area;
+        k.grapher.remove(grapher);
+        
+        EditorWindow w = new EditorWindow();
+        
+        Component editorPane = k.Logic.window.content;
+        w.container.requestFocusInWindow();
+        w.container.addKeyListener(k.Logic.window.input);
+        w.container.addMouseMotionListener(k.Logic.window.input);
+        
+        w.container.add(editorPane, BorderLayout.CENTER);
+        w.container.add(k.kit.cont, BorderLayout.LINE_END);
+        JPanel grapherPanel = new JPanel();
+        grapherPanel.setBackground(Color.black);
+        grapherPanel.add(k.grapher.area);
+        w.container.add(grapherPanel, BorderLayout.PAGE_END);
+        
+        
+        propertiesPanel = new JPanel(new BorderLayout());
+        
         k.Logic.window.setTitle("PointBreakEngine (Editor2)");
         k.Logic.Vrenderer.factor = 20;
         //k.Logic.input = ourInput;
@@ -121,12 +166,13 @@ public class Editor extends JFUtils.InputActivated{
         editorPanel.add(loadB);
         editorPanel.add(testB);
         editorPanel.add(calcLights);
-        editorPanel2.add(select);
+        propertiesPanel.add(select, BorderLayout.PAGE_START);
         
         container.add(editorPanel, BorderLayout.NORTH);
         container.add(editorPanel2, BorderLayout.CENTER);
         container.add(drop, BorderLayout.SOUTH);
-        k.kit.cont.add(container, BorderLayout.NORTH);
+        w.container.add(container, BorderLayout.PAGE_START);
+        w.container.add(propertiesPanel, BorderLayout.LINE_START);
         
         k.Logic.abright = true;
         k.Logic.Vrenderer.camMode = 0;
@@ -156,6 +202,11 @@ public class Editor extends JFUtils.InputActivated{
         String location = save();
         params.put("loadLevel", location);
         params.put("noplayer", "");
+        int lightC = k.Logic.oM.getObjects().size();
+        System.out.println( lightC + " lights present in the scene.");
+        if(lightC == 0 || lightC < 0){
+            params.put("nodefaultlight", "");
+        }
         Supervisor supervisor = new Supervisor(3, !bake, new Point2D(0, 0), 0, params);
         Thread A = new Thread(supervisor);
         //SwingUtilities.invokeLater(A);
@@ -196,7 +247,7 @@ public class Editor extends JFUtils.InputActivated{
     }
     public void load(File file){
         try {
-            LinkedList<gameObject> old = k.Logic.loadLevel(file.getAbsolutePath(), "", Color.BLUE, Color.GREEN);
+            LinkedList<gameObject> old = k.Logic.loadLevel_lightsAsObjects(file.getAbsolutePath(), "", Color.BLUE, Color.GREEN);
             lastFile = file.getAbsolutePath();
         } catch (URISyntaxException ex) {
             Logger.getLogger(Editor.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
@@ -211,7 +262,7 @@ public class Editor extends JFUtils.InputActivated{
                         out = selectedFile.getAbsolutePath();
 			System.out.println(selectedFile.getAbsolutePath());
                 try {
-                    LinkedList<gameObject> old = k.Logic.loadLevel(selectedFile.getAbsolutePath(), "", Color.BLUE, Color.GREEN);
+                    LinkedList<gameObject> old = k.Logic.loadLevel_lightsAsObjects(selectedFile.getAbsolutePath(), "", Color.BLUE, Color.GREEN);
                     
                 } catch (URISyntaxException ex) {
                     Logger.getLogger(BListener.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);

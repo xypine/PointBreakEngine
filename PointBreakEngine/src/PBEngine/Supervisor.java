@@ -24,14 +24,23 @@
 
 package PBEngine;
 
+import PBEngine.gameObjects.Player;
+import PBEngine.gameObjects.gameObject;
 import JFUtils.Input;
 import JFUtils.point.Point2D;
 import JFUtils.quickTools;
-import PBEngine.performanceGraph.Graph;
+import JFUtils.graphing.Graph;
 import java.awt.Color;
+import java.awt.Font;
+import java.awt.FontFormatException;
 import java.io.ByteArrayOutputStream;
+import java.io.File;
+import java.io.IOException;
 import java.io.PrintStream;
+import java.net.MalformedURLException;
+import java.net.URI;
 import java.net.URISyntaxException;
+import java.net.URL;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.concurrent.TimeUnit;
@@ -39,6 +48,8 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JScrollBar;
 import javax.swing.SwingUtilities;
+import javax.swing.UIManager;
+import javax.swing.plaf.FontUIResource;
 
 /**
  *
@@ -52,6 +63,7 @@ public class Supervisor extends JFUtils.InputActivated implements Runnable{
     
     private long delta = 0;
     private final Object deltaLock = new Object();
+    public boolean noWindows;
     
     public void setDelta(long x) {
         synchronized (deltaLock) {
@@ -163,9 +175,51 @@ public class Supervisor extends JFUtils.InputActivated implements Runnable{
     public Supervisor(int mode, boolean bakedLights, Point2D gravity){
         SupervisorConst(mode, bakedLights, gravity, 15);
     }
+    
+    public static void setUIFont (java.awt.Font f){
+        java.util.Enumeration keys = UIManager.getDefaults().keys();
+        while (keys.hasMoreElements()) {
+          Object key = keys.nextElement();
+          Object value = UIManager.get (key);
+          if (value instanceof java.awt.Font)
+            UIManager.put (key, f);
+          }
+    }
+    
+    /**
+     * Set the font size for all native UI elements
+     * @param size font size to use
+     */
+    public void setFontSize(int size){
+        if(font == null){
+            throw new IllegalStateException("Font is not loaded properly: is null");
+        }
+        font = new Font(font.getName(), Font.PLAIN,size);
+        setUIFont(font);
+    }
+    private Font font = null;
     @SuppressWarnings("unchecked")
     private void SupervisorConst(int mode, boolean bakedLights, Point2D gravity, int targetSpeed, HashMap<String, String>... param){
         versionCheck.check.doChecks();
+        
+        //Apply basic fonts
+        File fontfile = null;
+        try {
+            fontfile = new File(new directory().fonts + "Roboto-Regular.ttf");
+            font = Font.createFont(Font.TRUETYPE_FONT, fontfile);
+            
+            font = new Font(font.getName(), Font.PLAIN,12);
+            
+            //UIManager.put("Label.font", font);
+            setUIFont(font);
+        } catch (MalformedURLException ex) {
+            quickTools.alert("COULD NOT DOWNLOAD FONTS", "font download failed: " + ex);
+        } catch (IOException | FontFormatException ex) {
+            quickTools.alert("Loading fonts failed", "loading fonts failed: " + ex);
+        }
+        
+        
+        
         this.mode = mode;
         this.bakedLights = bakedLights;
         this.engine_gravity = gravity;
@@ -191,16 +245,26 @@ public class Supervisor extends JFUtils.InputActivated implements Runnable{
             if(paramMap.containsKey("noplayer")){
                 noplayer = true;
             }
+            if(paramMap.containsKey("nodefaultlight")){
+                nodefaultlight = true;
+            }
+            if(paramMap.containsKey("nowindows")){
+                noWindows = true;
+            }
         }
         
         rad = new VSRadManager(xd, yd, objectManager, ref);
         Logic = new Engine(ref , objectManager, xd, yd, rad, engine_gravity, defaultMap, targetSpeed);
+        if(noWindows){
+            Logic.noWindows = true;
+        }
+        
         
         if(customInput != null){
             Logic.input = customInput;
         }
         
-        ea = new LegacyEditor(ref);
+        //ea = new LegacyEditor(ref);
         
         
         
@@ -288,6 +352,7 @@ public class Supervisor extends JFUtils.InputActivated implements Runnable{
     public boolean features_overrideAllStandard = false;
     public config.configReader features_customReader = null;
     
+    private boolean nodefaultlight = false;
     
     @Override
     public void run() {
@@ -296,17 +361,17 @@ public class Supervisor extends JFUtils.InputActivated implements Runnable{
         PrintStream ps = new PrintStream(baos);
         // IMPORTANT: Save the old System.out!
         PrintStream old = System.out;
-        // Tell Java to use your special stream
+        // Tell Java to use our special stream
         System.setOut(ps);
-        kit = new devkit(ref);
+        
         
         //ED = new EffectsDemo(ref , objectManager, 50, 25, rad, engine_gravity);
         b  = new Thread(){
             @Override
             public void run(){
-                SwingUtilities.invokeLater(ea);
-                ea.setVisible(false);
-                ea.running = false;
+                //SwingUtilities.invokeLater(ea);
+                //ea.setVisible(false);
+                //ea.running = false;
             }
         };
         System.out.println("PointBreakEngine by Elias Eskelinen alias Jonnelafin");
@@ -315,6 +380,10 @@ public class Supervisor extends JFUtils.InputActivated implements Runnable{
         b.start();
         
         loading_completed++;
+        
+        if (!noWindows) {
+                        kit = new devkit(ref);
+                    }
         
         a = new Thread(){
                 @Override
@@ -339,6 +408,7 @@ public class Supervisor extends JFUtils.InputActivated implements Runnable{
         Logic.running = true;
         
         loading_completed++;
+        
         
         
         
@@ -376,7 +446,7 @@ public class Supervisor extends JFUtils.InputActivated implements Runnable{
             //wM.oM.addObject(new Player(5, 6, "player1", "█", 1F, Color.black, 3, ref));
             //wM.oM.addObject(new Player(6, 6, "player1", "█", 1F, Color.black, 4, ref));
             //rad.setTitle("VSRad");
-            if(!bakedLights){
+            if(!bakedLights && !nodefaultlight){
                 Logic.rads.add(20, 20, 20, new Color(1, 1, 1), 1, true);
                 //Logic.rads.add(50, 2, 0, new Color(0, 1, 1), 1, true);
                 //Logic.rads.add(49, 10, 2, new Color(1, 1, 1), 1, false);
@@ -389,6 +459,9 @@ public class Supervisor extends JFUtils.InputActivated implements Runnable{
         }
         loading_completed++;
         //wM.running = true;
+        
+                    
+        
         System.out.println("THREAD 'A' INITIATED");
         System.out.println("Steps completed: " + loading_completed);
         Logic.Vrenderer.sSi = false;
@@ -409,7 +482,9 @@ public class Supervisor extends JFUtils.InputActivated implements Runnable{
             }
         };
         a.start();
-        graph.start();
+        if (!noWindows) {
+            graph.start();
+        }
         
         System.out.println("////////////////");
         System.out.println("done initializing");
@@ -442,12 +517,15 @@ public class Supervisor extends JFUtils.InputActivated implements Runnable{
         while(true){
             String newo = baos.toString();
             if(!oldo.equals(newo)){
-                JScrollBar vertical = kit.logs.getVerticalScrollBar();
-                try {
-                    vertical.setValue(vertical.getMaximum());
-                } catch (Exception e) {
+                JScrollBar vertical = null;
+                if (!noWindows) {
+                    vertical = kit.logs.getVerticalScrollBar();
+
+                    try {
+                        vertical.setValue(vertical.getMaximum());
+                    } catch (Exception e) {
+                    }
                 }
-                
                 String diff = difference(oldo, newo);
                 //System.setOut(old);
                 old.print(diff);

@@ -22,13 +22,15 @@
  * THE SOFTWARE.
  */
 
-package PBEngine;
+package PBEngine.gameObjects;
 
 import JFUtils.Input;
 import JFUtils.point.Point2Int;
 import JFUtils.Range;
 import JFUtils.point.Point2D;
 import PBEngine.Rendering.core.renderType;
+import PBEngine.Supervisor;
+import PBEngine.objectManager;
 import java.awt.Color;
 import static java.lang.Math.ceil;
 import static java.lang.Math.pow;
@@ -115,7 +117,7 @@ public class gameObject {
         this.size = size;
     }
     
-    double mass = 1F;
+    public double mass = 1F;
     
     double vely = 0;
     double velx = 0;
@@ -337,7 +339,7 @@ public class gameObject {
     public Point2D getVelocity(){
         return new Point2D(velx, vely);
     }
-    void checkInput(Input input) {
+    public void checkInput(Input input) {
           //Ignore if not player...
 //        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
@@ -382,7 +384,7 @@ public class gameObject {
         LinkedList<Integer> ignore = new LinkedList<>();
         ignore.add(this.getID());
         for(gameObject ga : children){
-            ga.getID();
+            ignore.add(ga.getID());
         }
         for(int xc : new Range(size)){
             for(int yc : new Range(size)){
@@ -437,8 +439,8 @@ public class gameObject {
                     double oldVX = this.velx;
                     double oldVY = this.vely;
                     
-                    this.x = this.x + velx * -1;
-                    this.y = this.y + vely * -1;
+                    this.x = this.x + velx * -1.1;
+                    this.y = this.y + vely * -1.1;
                     
                     double gy = masterParent.engine_gravity.y;
                     double gx = masterParent.engine_gravity.x;
@@ -484,40 +486,40 @@ this.x = this.x + masterParent.engine_gravity.x;
                     collisionCount++;
     }
     
-    private void checkAdvancedCollisions(objectManager o, gameObject i, double x, double y){
-        if(!i.masterParent.engine_collisions || !collisions){
-            return;
-        }
-        LinkedList<Integer> ignore = new LinkedList<>();
-        ignore.add(this.id);
-        for(gameObject ga : children){
-            ignore.add(ga.id);
-        }
-        for(int xc : new Range(size)){
-            for(int yc : new Range(size)){
-                if(o.colliding((int)Math.round(x + xc), (int)Math.round(y + yc), ignore, null)){
-//                    point1(i, o.collidingGA(xc, yc, ignore));
-                    this.x = this.x + velx * -1;
-                    this.y = this.y + vely * -1;
-                    
-                    this.vely = this.vely - masterParent.engine_gravity.y;
-                    this.velx = this.velx - masterParent.engine_gravity.x;
-                    
-                    this.velx = this.velx * -0;
-                    this.vely = this.vely * -0;
-                    collisionCount++;
-                }
-                else if(o.colliding((int)Math.round(x + xc), (int) Math.ceil(y + yc), ignore, null)){
-                    //point2 = true;
-                    //point2(i, o.collidingGA((int)Math.round(x + xc),(int) Math.round(y + yc + 1), ignore));
-                }
-                else{
-                    colliding = false;
-                    point2 = false;
-                }
-            }
-        }
+    /*private void checkAdvancedCollisions(objectManager o, gameObject i, double x, double y){
+    if(!i.masterParent.engine_collisions || !collisions){
+    return;
     }
+    LinkedList<Integer> ignore = new LinkedList<>();
+    ignore.add(this.id);
+    for(gameObject ga : children){
+    ignore.add(ga.id);
+    }
+    for(int xc : new Range(size)){
+    for(int yc : new Range(size)){
+    if(o.colliding((int)Math.round(x + xc), (int)Math.round(y + yc), ignore, null)){
+    //                    point1(i, o.collidingGA(xc, yc, ignore));
+    this.x = this.x + velx * -1;
+    this.y = this.y + vely * -1;
+    
+    this.vely = this.vely - masterParent.engine_gravity.y;
+    this.velx = this.velx - masterParent.engine_gravity.x;
+    
+    this.velx = this.velx * -0;
+    this.vely = this.vely * -0;
+    collisionCount++;
+    }
+    else if(o.colliding((int)Math.round(x + xc), (int) Math.ceil(y + yc), ignore, null)){
+    //point2 = true;
+    //point2(i, o.collidingGA((int)Math.round(x + xc),(int) Math.round(y + yc + 1), ignore));
+    }
+    else{
+    colliding = false;
+    point2 = false;
+    }
+    }
+    }
+    }*/
     public void setID(int ID){
         this.id = id;
     }

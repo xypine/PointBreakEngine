@@ -24,6 +24,7 @@
 
 package PBEngine;
 
+import PBEngine.gameObjects.gameObject;
 import PBEngine.Rendering.legacy.LegacyRenderer;
 import JFUtils.Input;
 import java.awt.Color;

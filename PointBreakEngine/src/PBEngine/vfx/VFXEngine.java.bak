@@ -29,9 +29,7 @@ import JFUtils.Range;
 import JFUtils.point.Point2D;
 import PBEngine.Rendering.Renderer;
 import PBEngine.Supervisor;
-import java.awt.BorderLayout;
 import java.awt.Color;
-import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.image.BufferedImage;
@@ -43,10 +41,9 @@ import javax.swing.JPanel;
  * @author Jonnelafin
  */
 public class engineWindow extends JFrame{
-    public JPanel content;
     public boolean useVFX = false;
     
-    public Input input = null;
+    Input input = null;
     public Renderer Vrenderer;
     public final double h = 540D;
     public final double w = 1080D;
@@ -61,7 +58,6 @@ public class engineWindow extends JFrame{
         
         this.setTitle("PointBreakEngine");
         this.setSize((int) Math.ceil(w), (int) Math.ceil(h*1.05F));
-        content = new JPanel(new BorderLayout());
         this.setDefaultCloseOperation(EXIT_ON_CLOSE);
         
         this.requestFocusInWindow();
@@ -75,23 +71,18 @@ public class engineWindow extends JFrame{
         clean();
         out = new ImagePanel2(actualImage);
         //this.add(Vrenderer);
-        this.add(content);
-        this.content.add(out);
-        
+        this.add(out);
         Vrenderer.setVisible(false);
         clean();
     }
     
+    
     public void clean(){
-        clean(this.getContentPane().getSize());
-    }
-    public void clean(Dimension size){
-        content.setSize(size);
         if (useVFX) {
             try {
                 Vrenderer.setVisible(false);
-                this.content.remove(Vrenderer);
-                this.content.add(out);} catch (Exception e) {}
+                this.remove(Vrenderer);
+                this.add(out);} catch (Exception e) {}
             try {
                 actualImage = createImage(Vrenderer);
                 out.imagec = actualImage;
@@ -99,8 +90,8 @@ public class engineWindow extends JFrame{
                 //e.printStackTrace();
             }
         } else {
-            try {this.content.remove(out);
-                this.content.add(Vrenderer);
+            try {this.remove(out);
+                this.add(Vrenderer);
                 Vrenderer.setVisible(true);
                 } catch (Exception e) {}
             

@@ -23,11 +23,12 @@
  */
 package PBEngine;
 
+import PBEngine.gameObjects.gameObject;
 import JFUtils.Range;
 import JFUtils.point.Point2D;
 import JFUtils.quickTools;
 import PBEngine.Rendering.core.renderType;
-import PBEngine.performanceGraph.Graph;
+import JFUtils.graphing.Graph;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.event.ActionEvent;
@@ -58,6 +59,11 @@ public class devkit extends JFrame{
     JTextArea log = new JTextArea("PointBreakEngine devkit");
     JTextField lum = new JTextField(20);
     JScrollPane logs = new JScrollPane(log);
+
+    /**
+     *
+     * @param k the used supervisor, used for the actions of the commands
+     */
     public devkit(Supervisor k) {
         this.setTitle("PointBreakEngine devkit");
         this.k = k;
@@ -124,6 +130,16 @@ class BListener implements ActionListener{
             
             if(k.lum.getText().charAt(0) == '/'){
                 switch(arr[0]){
+                    case "/fontS":
+                        try {
+                            int s = Integer.parseInt(arr[1]);
+                            System.out.println("Setting new GUI Font size to [" + s + "].");
+                            k.k.setFontSize(s);
+                        } 
+                        catch (NumberFormatException numberFormatException) {
+                            quickTools.alert(arr[1] + " is not a number: " + numberFormatException);
+                        }
+                        break;
                     case "/coll":
                         if(arr[1].matches("true")){k.k.engine_collisions = true;}
                         else if(arr[1].matches("false")){k.k.engine_collisions = false;}
@@ -184,8 +200,9 @@ class BListener implements ActionListener{
                         System.out.println("Next usable ID: " + k.k.objectManager.getUsableID());
                         break;
                     case "/GAList":
+                        System.out.println();
                         LinkedList<gameObject> ga = k.k.objectManager.getObjects();
-                        System.out.println("ALL the game objects:");
+                        System.out.println(ga.size() + " gameobjects in the record of " + k.k.objectManager + ":");
                         System.out.println("---------------------");
                         for(gameObject iz : ga){
                             System.out.println("ID " + iz.getID() + " :");
@@ -200,6 +217,20 @@ class BListener implements ActionListener{
                                 System.out.println("        " + l + " (ID" + l.getID() + ")");
                             });
                             System.out.println("ImageName: " + iz.imageName);
+                            System.out.println(".....");
+                        }
+                        System.out.println("---------------------");
+                        
+                        break;
+                    case "/RADList":
+                        LinkedList<VSRad> gas = k.k.rad.getSources();
+                        System.out.println(gas.size() + " lights in total:");
+                        System.out.println("---------------------");
+                        for(VSRad iz : gas){
+                            System.out.println("ID " + iz.id + " :");
+                            System.out.println("    location:  " + iz.cursor.represent());
+                            System.out.println("    color:  " + iz.color.getRGB());
+                            System.out.println("    strength: ");
                             System.out.println(".....");
                         }
                         System.out.println("---------------------");

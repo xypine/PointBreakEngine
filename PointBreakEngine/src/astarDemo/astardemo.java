@@ -25,7 +25,7 @@ package astarDemo;
 
 import JFUtils.Range;
 import JFUtils.point.Point2D;
-import PBEngine.gameObject;
+import PBEngine.gameObjects.gameObject;
 import PBEngine.Supervisor;
 import java.awt.Color;
 import java.net.URISyntaxException;
@@ -69,7 +69,7 @@ public class astardemo{
             for(int y : new Range(res2)){
                 char[][] matrix = k.objectManager.getCollisionmap(new Point2D(0, 0), new Point2D(k.xd, k.yd), "nocoll");
                 matrix[15][15] = 'X';
-                List<JFUtils.astarNode> path = JFUtils.astar.getPath(matrix, x, y);
+                List<JFUtils.pathfinding.astarNode> path = JFUtils.pathfinding.astar.getPath(matrix, x, y);
                 float val = 255;
                 for(int i : new Range(path.size())){
                     val = val * 0.9F;

@@ -34,7 +34,7 @@ import javax.swing.JFrame;
  * @author Jonnelafin
  */
 public class Driver implements Runnable, MouseMotionListener, KeyListener{
-    int res = 80000;
+    int res = 4000;
     double rotation = 0;
     //private int CameraX=698, CameraY=129;
     private int CameraX=300, CameraY=300;
@@ -192,6 +192,16 @@ public class Driver implements Runnable, MouseMotionListener, KeyListener{
         
             int i = 1;
             for(int dist : distances){
+                int size = dist / 2;
+                size = dist / 5;
+                
+                if(size < 0){
+                    size = 0;
+                }
+                if(size > HEIGHT){
+                    size = HEIGHT;
+                }
+                
                 //int c = 255 - dist;
                 int c = (int) (dist * 0.75);
                 int c2 = (int) ((dist - 10) * 0.5);
@@ -218,7 +228,7 @@ public class Driver implements Runnable, MouseMotionListener, KeyListener{
                 g2.setColor(new Color(c/2, c3, c2));
                 //g2.setColor(new Color(c/2, c, c/4));
                 if(res <= WIDTH){
-                    g2.fillRect(WIDTH / res * i, 0, WIDTH / res, HEIGHT);
+                    g2.fillRect(WIDTH / res * i, size, WIDTH / res, HEIGHT - dist);
                 }
                 else{
                     System.out.println("resolution too high, setting it to the max (screen width): " + WIDTH);
