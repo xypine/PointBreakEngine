@@ -1,7 +1,7 @@
 /*
  * The MIT License
  *
- * Copyright 2019 Elias.
+ * Copyright 2020 guest-qdd89j.
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -21,20 +21,32 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
+package PBEngine;
 
-package versionCheck;
+import java.awt.Component;
 
 /**
  *
- * @author Jonnelafin
+ * @author guest-qdd89j
  */
-public class check {
-    public static double JFUtilsV = 2.58;
-    
-    public static void doChecks(){
-        if(JFUtils.versionCheck.version != JFUtilsV){
-            JFUtils.versionCheck.throwException("PBEngine", JFUtilsV);
-            //throw new ClassFormatError("JFUtils version [" + JFUtilsV + "] is needed, but [" + JFUtils.versionCheck.version + "] was found. Please download the required version from: https://github.com/jonnelafin/JFUtils/releases");
-        }
+public class devkit_empty implements devkit_interface{
+
+    @Override
+    public void togG() {
     }
+
+    @Override
+    public void togV() {
+    }
+
+    @Override
+    public void remove(Component c) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public void setVisible(boolean b) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+    
 }
