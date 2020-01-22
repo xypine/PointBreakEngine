@@ -55,6 +55,9 @@ public class engineWindow extends JFrame{
     public BufferedImage actualImage;
     ImagePanel2 out;
     
+    public BufferedImage getIMG(){
+        return out.imagec;
+    }
     public engineWindow(Input in, Supervisor k, Renderer ren){
         this.k = k;
         this.input = in;
@@ -67,6 +70,7 @@ public class engineWindow extends JFrame{
         this.requestFocusInWindow();
         this.addKeyListener(input);
         this.addMouseMotionListener(input);
+        this.addMouseWheelListener(input);
         this.setVisible(true);
         getContentPane().setBackground( Color.black );
         

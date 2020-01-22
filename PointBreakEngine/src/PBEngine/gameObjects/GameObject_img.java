@@ -1,7 +1,7 @@
 /*
  * The MIT License
  *
- * Copyright 2019 Elias.
+ * Copyright 2020 guest-fjrlfh.
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -21,20 +21,40 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
+package PBEngine.gameObjects;
 
-package versionCheck;
+import JFUtils.point.Point2D;
+import JFUtils.quickTools;
+import PBEngine.Rendering.core.renderType;
+import PBEngine.Supervisor;
+import java.awt.image.BufferedImage;
+import java.util.Objects;
 
 /**
  *
- * @author Jonnelafin
+ * @author guest-fjrlfh
  */
-public class check {
-    public static double JFUtilsV = 3.00;
-    
-    public static void doChecks(){
-        if(JFUtils.versionCheck.version != JFUtilsV){
-            JFUtils.versionCheck.throwException("PBEngine", JFUtilsV);
-            //throw new ClassFormatError("JFUtils version [" + JFUtilsV + "] is needed, but [" + JFUtils.versionCheck.version + "] was found. Please download the required version from: https://github.com/jonnelafin/JFUtils/releases");
+public class GameObject_img extends gameObject {
+    //Basic tag: "level_preview"
+    private BufferedImage image;
+    public boolean collisions = false;
+    public GameObject_img(Point2D location, int size, Supervisor master, BufferedImage image) {
+        super(location, size, 1, renderType.box, master, master.Logic.oM.getUsableID());
+        setImage(image);
+    }
+    public void setImage(BufferedImage bi){
+        //this.brightColor = true;
+        //this.onlyColor = true;
+        this.setShading(false);
+        if(Objects.isNull(bi)){
+            quickTools.alert("could not set image: it was null!");
+            return;
         }
+        masterParent.Logic.Vrenderer.addImageToCache(bi);
+        this.imageName =bi.hashCode() + "";
+    }
+    @Override
+    public void overBound(int direction, int xd, int yd){
+        //Do nothing...
     }
 }
