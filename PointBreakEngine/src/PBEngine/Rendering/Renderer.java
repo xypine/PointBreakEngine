@@ -104,6 +104,19 @@ public class Renderer extends JPanel{
         }
         return null;
     }
+    
+    public BufferedImage latest_out = new BufferedImage(1, 1, BufferedImage.TYPE_INT_RGB);
+    /**
+     * Adds your image to the cache, to assign this image to your gameObject, you may set it's imageName to i.hashCode() + ""
+     * @param i the BufferedImage you want to add to the cache
+     * @return the id of the added image
+     */
+    public int addImageToCache(BufferedImage i){
+        int id = new String(i.hashCode() + "").hashCode();
+        System.out.println("adding image to memory: " + id);
+        this.images.add(new imageWithId(i, id));
+        return id;
+    }
     public void removeImage(int id){
         this.images.remove(id);
     }
@@ -142,28 +155,31 @@ public class Renderer extends JPanel{
         camx = masterkick.Logic.cam.x;
         camy = masterkick.Logic.cam.y;
         
-        super.paintComponent(g);
+        BufferedImage bi = new BufferedImage(w, h, BufferedImage.TYPE_INT_RGB);
+        Graphics g2 = bi.createGraphics();
+        
+        super.paintComponent(g2);
         
         GraphicsEnvironment ge = GraphicsEnvironment.getLocalGraphicsEnvironment();
         GraphicsDevice gd = ge.getDefaultScreenDevice();
         GraphicsConfiguration gc = gd.getDefaultConfiguration();
         
-        Graphics2D g2d = (Graphics2D) g.create();
+        Graphics2D g2d = (Graphics2D) g2.create();
         
-        g.setColor(Color.black);
-        g.fillRect(0, 0, w, h);
+        g2.setColor(Color.black);
+        g2.fillRect(0, 0, w, h);
         
         if(sSi){
 //            g.drawImage(full, 0, 0, w, h, this);
             
-            g.setColor(new Color(150, 150, 150));
-            g.fillRect((w-300)/(masterkick.loadingsteps), h/2-10, (w-300)/masterkick.loadingsteps*masterkick.loadingsteps, 10);
-            g.setColor(new Color(0, 200, 0));
-            g.fillRect((w-300)/(masterkick.loadingsteps), h/2-10, (w-300)/masterkick.loadingsteps*masterkick.loading_completed, 10);
-            g.setColor(Color.white);
-            g.setFont(new Font("Verdana", Font.PLAIN, 34)); 
-            g.drawString("Loading, step " + masterkick.loading_completed + " of " + masterkick.loadingsteps, w/3, h/2);
-            g.setColor(Color.green);
+            g2.setColor(new Color(150, 150, 150));
+            g2.fillRect((w-300)/(masterkick.loadingsteps), h/2-10, (w-300)/masterkick.loadingsteps*masterkick.loadingsteps, 10);
+            g2.setColor(new Color(0, 200, 0));
+            g2.fillRect((w-300)/(masterkick.loadingsteps), h/2-10, (w-300)/masterkick.loadingsteps*masterkick.loading_completed, 10);
+            g2.setColor(Color.white);
+            g2.setFont(new Font("Verdana", Font.PLAIN, 34)); 
+            g2.drawString("Loading, step " + masterkick.loading_completed + " of " + masterkick.loadingsteps, w/3, h/2);
+            g2.setColor(Color.green);
             /*g.setFont(new Font("Verdana", Font.PLAIN, 14));
             String latest = masterkick.latestConsole.split("\n")[masterkick.latestConsole.split("\n").length-1];
             g.drawString(latest, 0, h/40*38);*/
@@ -201,12 +217,12 @@ public class Renderer extends JPanel{
                         }
                     }
                     else if(imageloc.equals("")){
-                        g.setColor(c);
+                        g2.setColor(c);
                         if(camMode == 0){//static
-                            g.fillRect((int)((rl.x + effectOffSet.x) * factor),(int) ((rl.y + effectOffSet.y) *factor), (int) factor * size, (int) factor * size);
+                            g2.fillRect((int)((rl.x + effectOffSet.x) * factor),(int) ((rl.y + effectOffSet.y) *factor), (int) factor * size, (int) factor * size);
                         }
                         if (camMode == 1) {//follow a camera
-                            g.fillRect((int) (((rl.x + effectOffSet.x) - camx) * factor + (w / 2)), (int) (((rl.y + effectOffSet.y) - camy) * factor + (h / 2)), (int) factor * size, (int) factor * size);
+                            g2.fillRect((int) (((rl.x + effectOffSet.x) - camx) * factor + (w / 2)), (int) (((rl.y + effectOffSet.y) - camy) * factor + (h / 2)), (int) factor * size, (int) factor * size);
                         }
                     }
                     else{
@@ -262,8 +278,8 @@ public class Renderer extends JPanel{
                             
                             g2d.drawImage(buffer, (int)(xFrom),(int) (yFrom), (int) xTo, (int) yTo, this);
                         }catch(Exception e){
-                            g.setColor(Color.MAGENTA);
-                            g.fillRect((int)(rl.x-camx*factor + (w/2)),(int) (rl.y-camy*factor + (h/2)), (int) factor, (int) factor);
+                            g2.setColor(Color.MAGENTA);
+                            g2.fillRect((int)(rl.x-camx*factor + (w/2)),(int) (rl.y-camy*factor + (h/2)), (int) factor, (int) factor);
                             throw e;
                         }
                     }
@@ -281,20 +297,20 @@ public class Renderer extends JPanel{
             }
             for(int i=0;i<(w/factor);i++){
                 for(int z=0;z<(h/factor);z++){
-                    g.setColor(gridColor);
-                    g.drawRect((int) (i*factor), (int) (z*factor), (int) factor, (int) factor);
+                    g2.setColor(gridColor);
+                    g2.drawRect((int) (i*factor), (int) (z*factor), (int) factor, (int) factor);
                 }
             }
             
         }
-        g.setColor(Color.green);
-        g.setFont(new Font("Verdana", Font.PLAIN, 14)); 
+        g2.setColor(Color.green);
+        g2.setFont(new Font("Verdana", Font.PLAIN, 14)); 
         try {
             String latest = masterkick.latestConsole.split("\n")[masterkick.latestConsole.split("\n").length - 1];
-            g.drawString(latest, 0, h / 40 * 38);
+            g2.drawString(latest, 0, h / 40 * 38);
             oldC = latest;
         } catch (Exception e) {
-            g.drawString("*: "+oldC, 0, h / 40 * 38);
+            g2.drawString("*: "+oldC, 0, h / 40 * 38);
         }
         /*
         float[][] rs = quickTools.separateRGB(master, w, h).get(0);
@@ -317,6 +333,8 @@ public class Renderer extends JPanel{
             ////g.drawRect(0, 0, WIDTH, HEIGHT);
             //g.fillRect(WIDTH/6, HEIGHT/6, WIDTH-(WIDTH/6), HEIGHT-(HEIGHT/6));
         }
+        latest_out = bi;
+        g.drawImage(bi, 0, 0, this);
     }
     public boolean showMap = true;
     private String oldC = "";

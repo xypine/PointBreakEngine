@@ -314,6 +314,12 @@ class BListener implements ActionListener{
                             quickTools.alert("devkit", "value :"+ arr[1] +": not understood");
                         }
                         break;
+                    case "/togHide":
+                        String valuesza = arr[1];
+                        LinkedList<gameObject> ob = k.k.objectManager.getObjectsByTag(valuesza);
+                        for(gameObject o : ob){
+                            o.setHidden(!o.isHidden());
+                        }
                     default:
                         quickTools.alert("devkit", "command not understood");
                         break;
