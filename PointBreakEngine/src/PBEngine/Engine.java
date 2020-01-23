@@ -708,11 +708,11 @@ public class Engine implements Runnable, ActionListener {
         }
         //BufferedImage out = window.createImage(Vrenderer);
         window.clean();
-        BufferedImage out = Vrenderer.latest_out;
+        BufferedImage out = Vrenderer.latest_out_clean;
         for(gameObject i : hidden){
             i.setHidden((boolean) old.get(i));
         }
-        return null;
+        return out;
     }
     public void createSnapshot(Point2D rev_dir){
         BufferedImage snap = buildPreview();
@@ -816,7 +816,7 @@ public class Engine implements Runnable, ActionListener {
 //        aM.play();
 //        recorder.record(oM);
 
-        input.verbodose = true;
+        //input.verbodose = true;
         
         if(input.keys[80]){
             File outputfile = new File("screenshot.jpg");

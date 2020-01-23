@@ -71,6 +71,8 @@ public interface devkit_interface{
     public void togV();
     public void remove(Component c);
     public void setVisible(boolean b);
+    
+    public void setLog(String n);
 }
 class BListener implements ActionListener{
     boolean abright = false;

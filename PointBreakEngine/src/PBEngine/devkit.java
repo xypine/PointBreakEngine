@@ -23,24 +23,12 @@
  */
 package PBEngine;
 
-import PBEngine.gameObjects.gameObject;
-import JFUtils.Range;
-import JFUtils.point.Point2D;
-import JFUtils.quickTools;
-import PBEngine.Rendering.core.renderType;
-import JFUtils.graphing.Graph;
 import java.awt.BorderLayout;
-import java.awt.Color;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.net.URISyntaxException;
-import java.util.LinkedList;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JScrollBar;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
@@ -105,5 +93,13 @@ public class devkit extends JFrame implements devkit_interface{
             k.Logic.renderRays = 1;
         }
         togV = !togV;
+    }
+
+    @Override
+    public void setLog(String n) {
+        this.log.setText(n);
+        JScrollBar vertical = null;
+        vertical = logs.getVerticalScrollBar();
+        vertical.setValue(vertical.getMaximum());
     }
 }

@@ -109,6 +109,7 @@ public class Renderer extends JPanel{
     }
     
     public BufferedImage latest_out = new BufferedImage(1, 1, BufferedImage.TYPE_INT_RGB);
+    public BufferedImage latest_out_clean = new BufferedImage(1, 1, BufferedImage.TYPE_INT_RGB);
     /**
      * Adds your image to the cache, to assign this image to your gameObject, you may set it's imageName to i.hashCode() + ""
      * @param i the BufferedImage you want to add to the cache
@@ -331,6 +332,7 @@ public class Renderer extends JPanel{
             }
         }
         */
+        latest_out_clean = bi;
         if(showMap){
             //g.setColor(Color.WHITE);
             ////g.drawRect(0, 0, WIDTH, HEIGHT);

@@ -38,18 +38,14 @@ import java.io.File;
 import java.io.IOException;
 import java.io.PrintStream;
 import java.net.MalformedURLException;
-import java.net.URI;
 import java.net.URISyntaxException;
-import java.net.URL;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.concurrent.TimeUnit;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JScrollBar;
-import javax.swing.SwingUtilities;
 import javax.swing.UIManager;
-import javax.swing.plaf.FontUIResource;
 
 /**
  *
@@ -518,19 +514,20 @@ public class Supervisor extends JFUtils.InputActivated implements Runnable{
             String newo = baos.toString();
             if(!oldo.equals(newo)){
                 JScrollBar vertical = null;
-                if (!noWindows) {
-                    vertical = kit.logs.getVerticalScrollBar();
-
-                    try {
-                        vertical.setValue(vertical.getMaximum());
-                    } catch (Exception e) {
-                    }
+                /*if (!noWindows) {
+                vertical = kit.logs.getVerticalScrollBar();
+                
+                try {
+                vertical.setValue(vertical.getMaximum());
+                } catch (Exception e) {
                 }
+                }*/
                 String diff = difference(oldo, newo);
                 //System.setOut(old);
                 old.print(diff);
                 latestConsole = diff;
-                kit.log.setText(newo);
+                //kit.log.setText(newo);
+                kit.setLog(newo);
                 
                 //System.setOut(ps);
                 //System.out.flush();
