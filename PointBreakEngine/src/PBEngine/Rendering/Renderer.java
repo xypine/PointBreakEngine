@@ -57,6 +57,9 @@ import java.util.Objects;
  */
 
 public class Renderer extends JPanel{
+    
+    public boolean drawFPS = true;
+    
     double camx = 0;
     double camy = 0;
     
@@ -316,6 +319,11 @@ public class Renderer extends JPanel{
             //g.setColor(Color.WHITE);
             ////g.drawRect(0, 0, WIDTH, HEIGHT);
             //g.fillRect(WIDTH/6, HEIGHT/6, WIDTH-(WIDTH/6), HEIGHT-(HEIGHT/6));
+        }
+        if(drawFPS){
+            int fps = (int) JFUtils.math.Conversions.toFPS(masterkick.getDelta() ) / 1000000;
+            g.setColor(Color.green);
+            g.drawString(fps + "FPS", w-w/10, h/10);
         }
     }
     public boolean showMap = true;

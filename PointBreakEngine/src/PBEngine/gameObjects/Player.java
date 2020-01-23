@@ -85,8 +85,9 @@ public class Player extends gameObject{
                 double c2 = Math.sqrt(Math.pow(masterParent.Logic.mouse_projected.x -i.x, 2) + Math.pow(masterParent.Logic.mouse_projected.y -i.y, 2));
                 //System.out.println(dVector.divide(masterParent.Logic.mouse_projected, new dVector(100, 100)));
                 double rot2 = Math.acos((masterParent.Logic.mouse_projected.x - i.x) / c2);
+                //rot2 = Math.acos()
                 if(!Double.isNaN(rot2)){
-                    //i.setRadians(rot2);
+                    i.setRadians(rot2);
                     i.setRadians(JFUtils.math.Conversions.toRadians(JFUtils.math.Conversions.toDegrees((float) i.getRadians()))*-1);
                     //System.out.println(rot2);
                 }
@@ -181,14 +182,15 @@ public class Player extends gameObject{
             }
             else{
                 if(in.keyPressed.getKeyCode() == 32){
-                    gameObject projectile = new gameObject((int)this.x,(int) this.y, 1, "projectile", "D", 1, Color.white, 919, masterParent);
+                    gameObject projectile = new gameObject((int)this.x,(int) this.y, 1, "projectile", "D", 1, Color.white, masterParent.objectManager.getUsableID(), masterParent);
+                    projectile.tag.add("delete_lc");
                     masterParent.objectManager.addObject(projectile);
                     projectile.velx = this.velx * -3;
                     projectile.vely = this.vely * -3;
                     projectile.x = projectile.x + projectile.velx;
                     projectile.y = projectile.y + projectile.vely;
-                    projectile.collision_Explode = true;
-                    projectile.collision_type = 1;
+                    //projectile.collision_Explode = true;
+                    //projectile.collision_type = 1;
                 }
             }
             //this.velx = this.velx + in.cX / 75;

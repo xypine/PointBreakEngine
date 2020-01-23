@@ -85,6 +85,7 @@ public class Editor extends JFUtils.InputActivated{
         Thread A = new Thread(k);
         A.start();
         while(!k.ready){
+            
             try {
                 Thread.sleep(10);
             } catch (InterruptedException ex) {
