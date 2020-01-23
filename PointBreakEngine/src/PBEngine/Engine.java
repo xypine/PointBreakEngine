@@ -34,18 +34,23 @@ import JFUtils.point.Point2Int;
 import JFUtils.Range;
 import JFUtils.point.Point2D;
 import JFUtils.quickTools;
+import PBEngine.gameObjects.GameObject_img;
 import PBEngine.vfx.engineWindow;
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.image.BufferedImage;
+import java.io.File;
 import java.io.IOException;
 import static java.lang.Math.round;
 import java.net.URISyntaxException;
+import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.Objects;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.imageio.ImageIO;
 import javax.swing.JLabel;
 import javax.swing.Timer;
 
@@ -160,6 +165,16 @@ public class Engine implements Runnable, ActionListener {
     public final double h = 540D;
     public final double w = 1080D;
     public final double size = 1D;
+    
+    public boolean noWindows = false;
+    
+    public void clean(){
+        try {
+            window.clean();
+        } catch (Exception e) {
+        }
+    }
+    
     @Override
     @SuppressWarnings("unchecked")
     public void run() {
@@ -201,8 +216,10 @@ public class Engine implements Runnable, ActionListener {
         //_this.add(Vrenderer);
         //_revalidate();
         //_repaint();
-        window = new engineWindow(input, k, Vrenderer);
-        window.clean();
+        if (!noWindows) {
+            window = new engineWindow(input, k, Vrenderer);
+            clean();
+        }
         
         Vrenderer.init(w,h, 3, false);
         //try {Vrenderer.setImage(new directory().textures + "splash.png");}
@@ -360,7 +377,7 @@ public class Engine implements Runnable, ActionListener {
             }
             tickC++;
         }
-        window.clean();
+        clean();
         //_revalidate();
         //_repaint();
     }
@@ -408,10 +425,13 @@ public class Engine implements Runnable, ActionListener {
         //(int) (((rl.x + effectOffSet.x) - cam.x) * factor + (w / 2)), (int) (((rl.y + effectOffSet.y) - camy) * factor + (h / 2)), (int) factor * size, (int) factor * size
         //+(window.Vrenderer.getW()/2)
         //+(window.Vrenderer.getH()/2)
-        int w = window.Vrenderer.getW()/2;
-        int h = window.Vrenderer.getH()/2;
-        mouse_projected.x =( ((mouseX+0)-cam.x-w)*window.Vrenderer.factor) /1000;
-        mouse_projected.y =( ((mouseY+0)-cam.y-h)*window.Vrenderer.factor) /1000;
+        try {
+            int w = window.Vrenderer.getW() / 2;
+            int h = window.Vrenderer.getH() / 2;
+            mouse_projected.x = (((mouseX + 0) - cam.x - w) * window.Vrenderer.factor) / 1000;
+            mouse_projected.y = (((mouseY + 0) - cam.y - h) * window.Vrenderer.factor) / 1000;
+        } catch (Exception e) {
+        }
         //System.out.println(mouse_projected);
         //LEFT HERE
         //System.out.println(mouse_projected.represent());
@@ -464,7 +484,7 @@ public class Engine implements Runnable, ActionListener {
             }
             tickC++;
         }
-        window.clean();
+        clean();
         //_revalidate();
         //_repaint();
     }
@@ -673,6 +693,33 @@ public class Engine implements Runnable, ActionListener {
                         }
                         System.out.println("end of levelmap.");
     }
+
+    /**
+     * Creates a preview of the current level, not including those with the tag "no_preview"
+     * @return the preview
+     */
+    @SuppressWarnings("unchecked")
+    public BufferedImage buildPreview(){
+        LinkedList<gameObject> hidden = oM.getObjectsByTag("no_preview");
+        HashMap old = new HashMap();
+        for(gameObject i : hidden){
+            old.put(i, i.isHidden());
+            i.setHidden(true);
+        }
+        //BufferedImage out = window.createImage(Vrenderer);
+        window.clean();
+        BufferedImage out = Vrenderer.latest_out;
+        for(gameObject i : hidden){
+            i.setHidden((boolean) old.get(i));
+        }
+        return null;
+    }
+    public void createSnapshot(Point2D rev_dir){
+        BufferedImage snap = buildPreview();
+        gameObject img = new GameObject_img(Point2D.multiply(rev_dir, new Point2D(xd, yd)), xd, k, snap);
+        img.tag.add("level_preview");
+        oM.addObject(img);
+    }
     @SuppressWarnings("unchecked")
     public boolean nextLevel(int direction){
         
@@ -700,6 +747,7 @@ public class Engine implements Runnable, ActionListener {
                 }
             }
             else{
+                createSnapshot(Point2D.multiply(newLevel, new Point2D(-1, -1)));
                 try {
                     LinkedList<gameObject> old = loadLevel(levelmap[(int)newLevel.x][(int)newLevel.y]+".pblevel");
                     cachedLevels[(int)currentMap.x][(int)currentMap.y] = old;
@@ -734,6 +782,9 @@ public class Engine implements Runnable, ActionListener {
     public Recorder recorder = new Recorder();
     boolean ve = false;
     Color[][] colored;
+    
+    private float mv_vel = 0;
+    
     void tick(){
         k.tick_first();
         //System.out.println(input.mapKeyAction());
@@ -764,6 +815,28 @@ public class Engine implements Runnable, ActionListener {
         
 //        aM.play();
 //        recorder.record(oM);
+
+        input.verbodose = true;
+        
+        if(input.keys[80]){
+            File outputfile = new File("screenshot.jpg");
+            try {
+                ImageIO.write(Vrenderer.latest_out, "jpg", outputfile);
+            } catch (IOException ex) {
+                quickTools.alert(ex + "");
+            }
+        }
+        
+        int mw = input.mouseWheel;
+        if(mw == 2){
+            mv_vel = mv_vel - 0.5F;
+        }
+        if(mw == 0){
+            mv_vel = mv_vel + 0.5F;
+        }
+        Vrenderer.factor = Vrenderer.factor - mv_vel;
+        mv_vel = (int)(mv_vel * 0.95F*50)/50F;
+        input.mouseWheel = 1;
         //UPDATE ARRAY
         class xyac
         {
@@ -882,6 +955,10 @@ public class Engine implements Runnable, ActionListener {
 //            p.checkInput(input);
             
 //            oM.doPhysics(renderer, p);
+
+            if(p.isHidden()){
+                continue;
+            }
             this.txf = p.getX();
             this.tyf = p.getY();
             this.tx = (int) round(p.getX());
@@ -931,7 +1008,7 @@ public class Engine implements Runnable, ActionListener {
                 try{b = (float) (b * global_brightness * (red[tx][ty] * 0.55F) / 2 );if(b > 255){b = 255;}}catch(Exception e2){b = 0;}
                 throw(e);
             }
-            if(abright){
+            if(abright || !p.isShaded()){
                 r = 255;
                 g = 255;
                 b = 255;

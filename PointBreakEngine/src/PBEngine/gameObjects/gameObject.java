@@ -44,6 +44,25 @@ import java.util.Objects;
  * @author Jonnelafin
  */
 public class gameObject {
+    
+    //Shading
+    private boolean shading = true;
+    public boolean isShaded(){
+        return shading;
+    }
+    public void setShading(boolean value){
+        this.shading = value;
+    }
+    
+    //Hide functionality
+    private boolean hidden = false;
+    public boolean isHidden(){
+        return hidden;
+    }
+    public void setHidden(boolean value){
+        this.hidden = value;
+    }
+    
     public renderType shape;
     
     //0: handle by the parent, 1: handle by each children

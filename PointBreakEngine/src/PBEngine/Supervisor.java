@@ -63,6 +63,7 @@ public class Supervisor extends JFUtils.InputActivated implements Runnable{
     
     private long delta = 0;
     private final Object deltaLock = new Object();
+    public boolean noWindows;
     
     public void setDelta(long x) {
         synchronized (deltaLock) {
@@ -112,7 +113,7 @@ public class Supervisor extends JFUtils.InputActivated implements Runnable{
     public Thread b;
     public Thread a;
     public objectManager objectManager = new objectManager(this);
-    public devkit kit;
+    public devkit_interface kit = new devkit_empty();
     int mode;
     public volatile boolean ready = false;
     
@@ -247,16 +248,23 @@ public class Supervisor extends JFUtils.InputActivated implements Runnable{
             if(paramMap.containsKey("nodefaultlight")){
                 nodefaultlight = true;
             }
+            if(paramMap.containsKey("nowindows")){
+                noWindows = true;
+            }
         }
         
         rad = new VSRadManager(xd, yd, objectManager, ref);
         Logic = new Engine(ref , objectManager, xd, yd, rad, engine_gravity, defaultMap, targetSpeed);
+        if(noWindows){
+            Logic.noWindows = true;
+        }
+        
         
         if(customInput != null){
             Logic.input = customInput;
         }
         
-        ea = new LegacyEditor(ref);
+        //ea = new LegacyEditor(ref);
         
         
         
@@ -353,17 +361,17 @@ public class Supervisor extends JFUtils.InputActivated implements Runnable{
         PrintStream ps = new PrintStream(baos);
         // IMPORTANT: Save the old System.out!
         PrintStream old = System.out;
-        // Tell Java to use your special stream
+        // Tell Java to use our special stream
         System.setOut(ps);
-        kit = new devkit(ref);
+        
         
         //ED = new EffectsDemo(ref , objectManager, 50, 25, rad, engine_gravity);
         b  = new Thread(){
             @Override
             public void run(){
-                SwingUtilities.invokeLater(ea);
-                ea.setVisible(false);
-                ea.running = false;
+                //SwingUtilities.invokeLater(ea);
+                //ea.setVisible(false);
+                //ea.running = false;
             }
         };
         System.out.println("PointBreakEngine by Elias Eskelinen alias Jonnelafin");
@@ -372,6 +380,10 @@ public class Supervisor extends JFUtils.InputActivated implements Runnable{
         b.start();
         
         loading_completed++;
+        
+        if (!noWindows) {
+                        kit = new devkit(ref);
+                    }
         
         a = new Thread(){
                 @Override
@@ -396,6 +408,7 @@ public class Supervisor extends JFUtils.InputActivated implements Runnable{
         Logic.running = true;
         
         loading_completed++;
+        
         
         
         
@@ -446,6 +459,9 @@ public class Supervisor extends JFUtils.InputActivated implements Runnable{
         }
         loading_completed++;
         //wM.running = true;
+        
+                    
+        
         System.out.println("THREAD 'A' INITIATED");
         System.out.println("Steps completed: " + loading_completed);
         Logic.Vrenderer.sSi = false;
@@ -466,7 +482,9 @@ public class Supervisor extends JFUtils.InputActivated implements Runnable{
             }
         };
         a.start();
-        graph.start();
+        if (!noWindows) {
+            graph.start();
+        }
         
         System.out.println("////////////////");
         System.out.println("done initializing");
@@ -499,12 +517,15 @@ public class Supervisor extends JFUtils.InputActivated implements Runnable{
         while(true){
             String newo = baos.toString();
             if(!oldo.equals(newo)){
-                JScrollBar vertical = kit.logs.getVerticalScrollBar();
-                try {
-                    vertical.setValue(vertical.getMaximum());
-                } catch (Exception e) {
+                JScrollBar vertical = null;
+                if (!noWindows) {
+                    vertical = kit.logs.getVerticalScrollBar();
+
+                    try {
+                        vertical.setValue(vertical.getMaximum());
+                    } catch (Exception e) {
+                    }
                 }
-                
                 String diff = difference(oldo, newo);
                 //System.setOut(old);
                 old.print(diff);
@@ -516,7 +537,10 @@ public class Supervisor extends JFUtils.InputActivated implements Runnable{
                 
 
                 oldo = newo;
-                vertical.setValue( vertical.getMaximum() );
+                try {
+                    vertical.setValue(vertical.getMaximum());
+                } catch (Exception e) {
+                }
                 
             }
             
