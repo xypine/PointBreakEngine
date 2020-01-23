@@ -139,8 +139,12 @@ public class Renderer extends JPanel{
     public boolean drawGrid = false;
     public Color gridColor = Color.white;
     public boolean dispEffectsEnabled = false;
+    
+    public String renderID = "";
+    
     @Override
     public void paintComponent(Graphics g) {
+        
         Dimension currentSize = null;
         try {
             currentSize = getParent().getSize();
@@ -291,7 +295,7 @@ public class Renderer extends JPanel{
             }
             
         }
-        
+        latest_out_clean = JFUtils.Clone.Images.deepCopy(bi);
         if(drawGrid){
             int XO = 0;
             int YO = 0;
@@ -332,7 +336,7 @@ public class Renderer extends JPanel{
             }
         }
         */
-        latest_out_clean = bi;
+        
         if(showMap){
             //g.setColor(Color.WHITE);
             ////g.drawRect(0, 0, WIDTH, HEIGHT);
@@ -344,7 +348,9 @@ public class Renderer extends JPanel{
             g2.drawString(fps + "FPS", w-w/10, h/10);
         }
         latest_out = bi;
+        
         g.drawImage(bi, 0, 0, this);
+        renderID = bi.hashCode() + "";
     }
     public boolean showMap = true;
     private String oldC = "";

@@ -41,6 +41,7 @@ public class GameObject_img extends gameObject {
     public GameObject_img(Point2D location, int size, Supervisor master, BufferedImage image) {
         super(location, size, 1, renderType.box, master, master.Logic.oM.getUsableID());
         setImage(image);
+        this.collisions = false;
     }
     public void setImage(BufferedImage bi){
         //this.brightColor = true;

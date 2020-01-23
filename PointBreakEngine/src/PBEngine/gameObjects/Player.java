@@ -43,7 +43,7 @@ public class Player extends gameObject{
      */
     public String customImage = "";
     
-    public LinkedList<String> tag = new LinkedList<>();
+    //public LinkedList<String> tag = new LinkedList<>();
     
     private int controlScheme = 0;
     
@@ -61,6 +61,7 @@ public class Player extends gameObject{
             this.imageName = customImage;
         }
         collision_type = 0;
+        this.tag.add("no_preview");
         //setDegrees(45);
 //        this.summon(ypos, xpos, tag, ap, mas);
     }
@@ -96,6 +97,9 @@ public class Player extends gameObject{
     }
     @Override
     public void overBound(int direction, int xd, int yd){
+        if(noclip){
+            return;
+        }
         boolean succ = masterParent.Logic.nextLevel(direction);
         if(succ){
             if(direction == 2){

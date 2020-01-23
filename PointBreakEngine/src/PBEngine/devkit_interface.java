@@ -322,6 +322,7 @@ class BListener implements ActionListener{
                         for(gameObject o : ob){
                             o.setHidden(!o.isHidden());
                         }
+                        break;
                     default:
                         quickTools.alert("devkit", "command not understood");
                         break;

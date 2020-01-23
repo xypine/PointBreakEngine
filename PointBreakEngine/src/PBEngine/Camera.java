@@ -48,4 +48,8 @@ public class Camera {
             this.setLocation(target.getX(), target.getY());
         }
     }
+    @Override
+    public Camera clone(){
+        return new Camera(this.x, this.y, this.target);
+    }
 }

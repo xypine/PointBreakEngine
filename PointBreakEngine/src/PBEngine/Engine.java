@@ -701,22 +701,34 @@ public class Engine implements Runnable, ActionListener {
     @SuppressWarnings("unchecked")
     public BufferedImage buildPreview(){
         LinkedList<gameObject> hidden = oM.getObjectsByTag("no_preview");
+        Camera oldc = cam.clone();
+        float oldF = Vrenderer.factor;
+        //cam = new Camera(xd/2, yd/2, null);
+        cam = new Camera(0, 0, null);
+        Vrenderer.factor = Vrenderer.latest_out.getHeight() / yd;
         HashMap old = new HashMap();
         for(gameObject i : hidden){
             old.put(i, i.isHidden());
             i.setHidden(true);
         }
         //BufferedImage out = window.createImage(Vrenderer);
+        
         window.clean();
+        String currentID = Vrenderer.renderID;
+        this.rerender(true);
+        
         BufferedImage out = Vrenderer.latest_out_clean;
         for(gameObject i : hidden){
             i.setHidden((boolean) old.get(i));
         }
+        cam = oldc;
+        Vrenderer.factor = oldF;
         return out;
     }
     public void createSnapshot(Point2D rev_dir){
         BufferedImage snap = buildPreview();
-        gameObject img = new GameObject_img(Point2D.multiply(rev_dir, new Point2D(xd, yd)), xd, k, snap);
+        snap = snap.getSubimage(0, 0, snap.getHeight(), snap.getHeight());
+        gameObject img = new GameObject_img(JFUtils.point.Point2D.multiply(rev_dir, new Point2D(10, 10)), xd, k, snap);
         img.tag.add("level_preview");
         oM.addObject(img);
     }
@@ -747,7 +759,7 @@ public class Engine implements Runnable, ActionListener {
                 }
             }
             else{
-                createSnapshot(Point2D.multiply(newLevel, new Point2D(-1, -1)));
+                createSnapshot(newLevel);
                 try {
                     LinkedList<gameObject> old = loadLevel(levelmap[(int)newLevel.x][(int)newLevel.y]+".pblevel");
                     cachedLevels[(int)currentMap.x][(int)currentMap.y] = old;
@@ -785,6 +797,18 @@ public class Engine implements Runnable, ActionListener {
     
     private float mv_vel = 0;
     
+    
+    class xyac
+        {
+            double x;
+            double y;  
+            String a;
+            Color c;
+            Point2D last;
+            private xyac(double tx, double ty, String ta, Color tc, Point2D last) {
+                this.x = tx; this.y = ty; this.a = ta; this.c = tc; this.last = last;
+            }
+        }
     void tick(){
         k.tick_first();
         //System.out.println(input.mapKeyAction());
@@ -816,12 +840,20 @@ public class Engine implements Runnable, ActionListener {
 //        aM.play();
 //        recorder.record(oM);
 
-        //input.verbodose = true;
+        input.verbodose = true;
         
         if(input.keys[80]){
             File outputfile = new File("screenshot.jpg");
             try {
                 ImageIO.write(Vrenderer.latest_out, "jpg", outputfile);
+            } catch (IOException ex) {
+                quickTools.alert(ex + "");
+            }
+        }
+        if(input.keys[79]){
+            File outputfile = new File("screenshot_snapshot.jpg");
+            try {
+                ImageIO.write(buildPreview(), "jpg", outputfile);
             } catch (IOException ex) {
                 quickTools.alert(ex + "");
             }
@@ -838,18 +870,16 @@ public class Engine implements Runnable, ActionListener {
         mv_vel = (int)(mv_vel * 0.95F*50)/50F;
         input.mouseWheel = 1;
         //UPDATE ARRAY
-        class xyac
-        {
-            double x;
-            double y;  
-            String a;
-            Color c;
-            Point2D last;
-            private xyac(double tx, double ty, String ta, Color tc, Point2D last) {
-                this.x = tx; this.y = ty; this.a = ta; this.c = tc; this.last = last;
-            }
-        }
-;
+        rerender(false);
+        
+        
+        
+        
+//        area.setText(fetch(renderer));
+        k.tick_late();
+    }
+    
+    public void rerender(boolean onlyrender){
         LinkedList<xyac> lis = new LinkedList<xyac>();
         
         LinkedList<Point2D> points = new LinkedList<>();
@@ -951,7 +981,9 @@ public class Engine implements Runnable, ActionListener {
         for(gameObject p : objects){
 //            renderer.change(tx, ty, "█", Color.WHITE);
 //            System.out.println(p.getTag().getClass() + " " + "static".getClass());
-            p.update(xd, yd, oM);
+            if (!onlyrender) {
+                p.update(xd, yd, oM);
+            }
 //            p.checkInput(input);
             
 //            oM.doPhysics(renderer, p);
@@ -1043,16 +1075,8 @@ public class Engine implements Runnable, ActionListener {
         Vrenderer.update(cont1, 1, tickC);
         if(LoadedRays != null && k.bakedLights){Vrenderer.update(LoadedRays,0,tickC);}
         else{Vrenderer.update(cont2, 0,tickC);}
-        
-        for(xyac a : lis){
-//            renderer.change((int) (a.x), (int) (a.y), a.a, a.c, "n");
-            //lM.vChange(a.last.x * 15.34F, a.last.y * 22.48F, a.a, Color.black, vector);
-            //renderer.vChange(a.x * 15.34F, a.y * 22.48F, a.c);
-        }
-        
-//        area.setText(fetch(renderer));
-        k.tick_late();
     }
+    
     public Color overrideRayBG = null;
     /*_LString fetch(LegacyRenderer render)
     {
