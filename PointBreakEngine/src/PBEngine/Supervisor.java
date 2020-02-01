@@ -416,7 +416,7 @@ public class Supervisor extends JFUtils.InputActivated implements Runnable{
             }
             if (!noplayer) {
 //wM.oM.addObject(new Player(5, 5, "player1", "█", 1F, Color.black, 1, ref));
-                gameObject p = new Player(25, 5, 1, "player1", "█", 1F, Color.black, 1, ref);
+                gameObject p = new Player(2, 2, 1, "player1", "█", 1F, Color.black, 1, ref);
                 gameObject torso = new gameObject(25, 5, 1, "player1_torso", "T", 1F, Color.red, 2, ref);
                 gameObject torso2 = new gameObject(25, 5, 1, "player1_torso2", "T", 1F, Color.red, 3, ref);
                 //gameObject torso3 = new gameObject(25, 5, 1, "player1_torso2", "T", 1F, Color.red, 3, ref);

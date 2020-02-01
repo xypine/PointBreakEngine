@@ -111,8 +111,8 @@ public class Engine implements Runnable, ActionListener {
     //objectManager oM = new objectManager();
     LinkedList<gameObject> objects;
     //VARIABLES FOR TICKS:
-    int tx;
-    int ty;
+    double tx;
+    double ty;
     String ta;
     private double txf;
     private double tyf;
@@ -716,7 +716,13 @@ public class Engine implements Runnable, ActionListener {
         window.clean();
         String currentID = Vrenderer.renderID;
         this.rerender(true);
-        
+        while (currentID.equals(Vrenderer.renderID)) {            
+            try {
+                Thread.sleep(10);
+            } catch (InterruptedException ex) {
+                Logger.getLogger(Engine.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
         BufferedImage out = Vrenderer.latest_out_clean;
         for(gameObject i : hidden){
             i.setHidden((boolean) old.get(i));
@@ -728,7 +734,10 @@ public class Engine implements Runnable, ActionListener {
     public void createSnapshot(Point2D rev_dir){
         BufferedImage snap = buildPreview();
         snap = snap.getSubimage(0, 0, snap.getHeight(), snap.getHeight());
-        gameObject img = new GameObject_img(JFUtils.point.Point2D.multiply(rev_dir, new Point2D(10, 10)), xd, k, snap);
+        Point2D loc = new Point2D(-k.xd*rev_dir.x/2, -k.yd*rev_dir.y/2);
+        loc = new Point2D(rev_dir.intX()-1, rev_dir.intY()-1);
+        //gameObject img = new GameObject_img(JFUtils.point.Point2D.multiply(rev_dir, new Point2D(-k.xd, -k.yd)), xd, k, snap);
+        gameObject img = new GameObject_img(new Point2D(-loc.x*k.xd, -loc.y*k.yd), xd, k, snap);
         img.tag.add("level_preview");
         oM.addObject(img);
     }
@@ -759,7 +768,7 @@ public class Engine implements Runnable, ActionListener {
                 }
             }
             else{
-                createSnapshot(newLevel);
+                createSnapshot(quickTools.vectorDirs4[direction]);
                 try {
                     LinkedList<gameObject> old = loadLevel(levelmap[(int)newLevel.x][(int)newLevel.y]+".pblevel");
                     cachedLevels[(int)currentMap.x][(int)currentMap.y] = old;
@@ -840,7 +849,7 @@ public class Engine implements Runnable, ActionListener {
 //        aM.play();
 //        recorder.record(oM);
 
-        input.verbodose = true;
+        //input.verbodose = true;
         
         if(input.keys[80]){
             File outputfile = new File("screenshot.jpg");
@@ -950,7 +959,7 @@ public class Engine implements Runnable, ActionListener {
                 if(r > 255){r = 255;}
                 if(g > 255){g = 255;}
                 if(b > 255){b = 255;}
-                cont2.add(new renderContainer(new Point2D(xp,yp), "", new Color((int) r,(int) g,(int) b), 1, renderType.box, 0));
+                cont2.add(new renderContainer(new Point2D(xp,yp), "", new Color((int) r,(int) g,(int) b), 1, renderType.circle, 0));
                 
                 
                 points2.add(new Point2D(xp,yp));
@@ -993,8 +1002,8 @@ public class Engine implements Runnable, ActionListener {
             }
             this.txf = p.getX();
             this.tyf = p.getY();
-            this.tx = (int) round(p.getX());
-            this.ty = (int) round(p.getY());
+            this.tx = p.getX();
+            this.ty = p.getY();
             this.las = new Point2D(p.lastX, p.lastY);
             p.lastX = txf;
             p.lastY = tyf;
@@ -1027,17 +1036,17 @@ public class Engine implements Runnable, ActionListener {
                     //global brightness
             
             try{                                //.readColor(tx, ty).getRed()
-                try{r = (r * global_brightness + (colored[tx][ty].getRed()));if(r > 255){r = 255;}}catch(Exception e2){r = 0;}
-                try{g = (g * global_brightness + (colored[tx][ty].getGreen()));if(g > 255){g = 255;}}catch(Exception e2){g = 0;}
-                try{b = (b * global_brightness + (colored[tx][ty].getBlue()));if(b > 255){b = 255;}}catch(Exception e2){b = 0;}
+                try{r = (r * global_brightness + (colored[(int)tx][(int)ty].getRed()));if(r > 255){r = 255;}}catch(Exception e2){r = 0;}
+                try{g = (g * global_brightness + (colored[(int)tx][(int)ty].getGreen()));if(g > 255){g = 255;}}catch(Exception e2){g = 0;}
+                try{b = (b * global_brightness + (colored[(int)tx][(int)ty].getBlue()));if(b > 255){b = 255;}}catch(Exception e2){b = 0;}
             //    r = (r * global_brightness + (rads.colors[tx][ty].getRed() * 0.5F) / 2 );if(r > 255){r = 255;}
             //    g = (g * global_brightness + (rads.colors[tx][ty].getGreen() * 0.5F) / 2 );if(g > 255){g = 255;}
             //    b = (b * global_brightness + (rads.colors[tx][ty].getBlue() * 0.5F) / 2 );if(b > 255){b = 255;}
             }catch(Exception e){
                 
-                try{r = (float) (r * global_brightness * (red[tx][ty] * 0.55F) / 2 );if(r > 255){r = 255;}}catch(Exception e2){r = 0;}
-                try{g = (float) (g * global_brightness * (red[tx][ty] * 0.55F) / 2 );if(g > 255){g = 255;}}catch(Exception e2){g = 0;}
-                try{b = (float) (b * global_brightness * (red[tx][ty] * 0.55F) / 2 );if(b > 255){b = 255;}}catch(Exception e2){b = 0;}
+                try{r = (float) (r * global_brightness * (red[(int)tx][(int)ty] * 0.55F) / 2 );if(r > 255){r = 255;}}catch(Exception e2){r = 0;}
+                try{g = (float) (g * global_brightness * (red[(int)tx][(int)ty] * 0.55F) / 2 );if(g > 255){g = 255;}}catch(Exception e2){g = 0;}
+                try{b = (float) (b * global_brightness * (red[(int)tx][(int)ty] * 0.55F) / 2 );if(b > 255){b = 255;}}catch(Exception e2){b = 0;}
                 throw(e);
             }
             if(abright || !p.isShaded()){

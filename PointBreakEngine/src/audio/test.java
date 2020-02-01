@@ -24,30 +24,65 @@
 
 package audio;
 
+import JFUtils.dirs;
 import PBEngine.directory;
-import javax.swing.JOptionPane;
-import javax.swing.SwingUtilities;
-
+import java.awt.BorderLayout;
+import java.awt.FlowLayout;
+import java.io.File;
+import java.io.IOException;
+import java.net.URL;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.sound.sampled.LineUnavailableException;
+import javax.sound.sampled.UnsupportedAudioFileException;
+import javax.swing.JFrame;
+import static javax.swing.JFrame.EXIT_ON_CLOSE;
+import javax.swing.JSlider;
+import kuusisto.tinysound.Music;
+import kuusisto.tinysound.TinySound;
 /**
  *
  * @author Jonnelafin
  */
-public class test {
+public class test extends JFrame{
     public static void main(String[] args) {
-        AudioPlayer t = new AudioPlayer();
-        AudioClip l = new AudioClip(new directory().music + "killingFlutes.wav");
-        l.loopCount = 1;
-        t.playSound(l, 1);
-        int volume = 100;
-        boolean play =true;
+        new test();
+    }
+    public JSlider vol;
+    public JSlider pan;
+    public test(){
+        this.setSize(300, 300);
+        this.setTitle("PBEngine Audiotest");
+        this.setDefaultCloseOperation(EXIT_ON_CLOSE);
+        this.setLayout(new FlowLayout());
+        vol = new JSlider(0, 2, 1);
+        pan = new JSlider(-100, 100, 0);
+        this.add(vol);
+        this.add(pan);
         
-        t.playSound(l, volume / 100F);
-        volume = volume - 10;
-        play = false;
-        SwingUtilities.invokeLater(() -> {
-            // A GUI element to prevent the Clip's daemon Thread
-            // from terminating at the end of the main()
-            JOptionPane.showMessageDialog(null, "Close to exit!");
-        });
+        this.setVisible(true);
+        
+        boolean play = true;
+        
+        // Simple case example ("fire-and-forget" playback):
+        // assumes sound file "myAudio.wav" exists in same file folder,
+        // we will allow up to four concurrent instances.
+
+        // Preparatory steps (do these prior to playback): 
+        File src = new File(new directory().music + "test.wav");
+        
+        TinySound.init();
+        Music music = TinySound.loadMusic(src);
+        music.play(true);
+        
+        
+        while (play) {
+            music.setVolume(vol.getValue());
+            music.setPan(pan.getValue()/100F);
+        //    t.setVolume(vol.getValue()/100F);
+        //    t.setPAN(pan.getValue());
+        }
+        //t.setLooping(false);
+        
     }
 }

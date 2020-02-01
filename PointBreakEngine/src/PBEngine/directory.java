@@ -28,7 +28,7 @@ package PBEngine;
  *
  * @author Jonnelafin
  */
-public class directory {
+public class directory extends JFUtils.dirs{
     private String appendix = "";
     public String levels = appendix+"assets/levels/";
     public String textures = appendix+"assets/textures/";
