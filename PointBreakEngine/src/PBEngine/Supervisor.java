@@ -46,6 +46,8 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JScrollBar;
 import javax.swing.UIManager;
+import kuusisto.tinysound.Music;
+import kuusisto.tinysound.TinySound;
 
 /**
  *
@@ -54,6 +56,9 @@ import javax.swing.UIManager;
 public class Supervisor extends JFUtils.InputActivated implements Runnable{
     public Input customInput = null; //Use only if not null
     
+    
+    
+    public Music musicTrack;
     
     public Graph grapher;
     
@@ -215,7 +220,10 @@ public class Supervisor extends JFUtils.InputActivated implements Runnable{
         }
         
         
-        
+        TinySound.init();
+        musicTrack = TinySound.loadMusic(new File(new directory().music + "test3.wav"));
+        musicTrack.setVolume(0);
+        musicTrack.play(true);
         this.mode = mode;
         this.bakedLights = bakedLights;
         this.engine_gravity = gravity;
@@ -305,12 +313,17 @@ public class Supervisor extends JFUtils.InputActivated implements Runnable{
         tog = !tog;
     }
     public void stop(){
+        stop(false);
+    }
+    public void stop(boolean pauseMusic){
+        if(pauseMusic){musicTrack.pause();}
         Logic.running = false;
-        ea.running = false;
+        //ea.running = false;
     }
     public void continu(){
-        Logic.running = tog;
-        ea.running = !tog;
+        musicTrack.resume();
+        Logic.running = true;
+        //ea.running = !tog;
     }
     public static String difference(String str1, String str2) {
         if (str1 == null) {

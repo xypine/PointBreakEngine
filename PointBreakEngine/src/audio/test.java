@@ -55,7 +55,7 @@ public class test extends JFrame{
         this.setTitle("PBEngine Audiotest");
         this.setDefaultCloseOperation(EXIT_ON_CLOSE);
         this.setLayout(new FlowLayout());
-        vol = new JSlider(0, 2, 1);
+        vol = new JSlider(0, 200, 100);
         pan = new JSlider(-100, 100, 0);
         this.add(vol);
         this.add(pan);
@@ -63,13 +63,7 @@ public class test extends JFrame{
         this.setVisible(true);
         
         boolean play = true;
-        
-        // Simple case example ("fire-and-forget" playback):
-        // assumes sound file "myAudio.wav" exists in same file folder,
-        // we will allow up to four concurrent instances.
-
-        // Preparatory steps (do these prior to playback): 
-        File src = new File(new directory().music + "test.wav");
+        File src = new File(new directory().music + "test3.wav");
         
         TinySound.init();
         Music music = TinySound.loadMusic(src);
@@ -77,7 +71,7 @@ public class test extends JFrame{
         
         
         while (play) {
-            music.setVolume(vol.getValue());
+            music.setVolume(vol.getValue()/100F);
             music.setPan(pan.getValue()/100F);
         //    t.setVolume(vol.getValue()/100F);
         //    t.setPAN(pan.getValue());

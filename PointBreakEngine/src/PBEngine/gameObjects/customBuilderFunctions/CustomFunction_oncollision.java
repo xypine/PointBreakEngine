@@ -25,7 +25,7 @@ package PBEngine.gameObjects.customBuilderFunctions;
 
 /**
  *
- * @author Elias Eskelinen <elias.eskelinen@protonmail.com>
+ * @author Elias Eskelinen aka Jonnelafin, elias.eskelinen@protonmail.com
  */
 public enum CustomFunction_oncollision {
 

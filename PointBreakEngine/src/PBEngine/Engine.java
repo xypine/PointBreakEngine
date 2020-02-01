@@ -43,7 +43,6 @@ import java.awt.event.ActionListener;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
-import static java.lang.Math.round;
 import java.net.URISyntaxException;
 import java.util.HashMap;
 import java.util.LinkedList;
@@ -148,6 +147,7 @@ public class Engine implements Runnable, ActionListener {
         constr(ki, o, xd, yd, a, g, level, targetSpeed2);
     }
     private void constr(Supervisor ki, objectManager o, int xd, int yd, VSRadManager a, Point2D g, String level, int targetSpeed){
+        
         this.targetSpeed = targetSpeed;
         this.oM = o;
         this.xd = xd;

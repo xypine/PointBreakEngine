@@ -31,7 +31,7 @@ import javax.swing.JPanel;
 
 /**
  *
- * @author Elias Eskelinen <elias.eskelinen@protonmail.com>
+ * @author Elias Eskelinen aka Jonnelafin
  */
 public class EditorWindow extends JFrame{
     public static void main(String[] args) {

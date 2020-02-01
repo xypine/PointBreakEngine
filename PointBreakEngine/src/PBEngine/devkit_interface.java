@@ -61,11 +61,6 @@ public interface devkit_interface{
     JTextField lum = new JTextField(20);
     JScrollPane logs = new JScrollPane(log);
 
-    /**
-     *
-     * @param k the used supervisor, used for the actions of the commands
-     * @return 
-     */
     public void togG();
     boolean togV = true;
     public void togV();
@@ -91,6 +86,9 @@ class BListener implements ActionListener{
         if(type == 2){
             System.out.println("Rays!");
             k.togV();
+        }
+        if(type == 10){
+            PBEngine.settings.settingsUI.showSettingsUI(k.k);
         }
         try{
             String arr[] = k.lum.getText().split(" ", 2);

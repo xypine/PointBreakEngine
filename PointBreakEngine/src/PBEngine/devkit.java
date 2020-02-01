@@ -47,7 +47,7 @@ public class devkit extends JFrame implements devkit_interface{
     JTextArea log = new JTextArea("PointBreakEngine devkit");
     JTextField lum = new JTextField(20);
     JScrollPane logs = new JScrollPane(log);
-
+    JButton options = new JButton("Options");
     /**
      *
      * @param k the used supervisor, used for the actions of the commands
@@ -69,7 +69,9 @@ public class devkit extends JFrame implements devkit_interface{
         logs.setWheelScrollingEnabled(true);
         //cont.add(graphic, BorderLayout.NORTH);
         //cont.add(rays, BorderLayout.NORTH);
-        cont.add(time, BorderLayout.EAST);
+        options.addActionListener(new BListener(10, this));
+        cont.add(options, BorderLayout.EAST);
+        //cont.add(time, BorderLayout.EAST);
         cont.add(logs, BorderLayout.CENTER);
         cont.add(lum, BorderLayout.SOUTH);
         this.add(cont);
