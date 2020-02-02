@@ -225,7 +225,7 @@ public class gameObject {
         this.y = v.y;
     }
     public void update(int xd, int yd, objectManager oMb){
-        if(this.enabled){
+        if(!this.enabled){
             return;
         }
         //int deltatime = (int) (masterParent.Logic.deltatime * 0.1);
@@ -371,7 +371,7 @@ public class gameObject {
         return new Point2D(velx, vely);
     }
     public void checkInput(Input input) {
-        if(this.enabled){
+        if(!this.enabled){
             return;
         }
           //Ignore if not player...

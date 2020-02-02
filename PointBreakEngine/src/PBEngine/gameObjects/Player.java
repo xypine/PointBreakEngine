@@ -132,7 +132,7 @@ public class Player extends gameObject{
     
     @Override
     public void checkInput(Input in){
-        if(this.enabled){
+        if(!this.enabled){
             return;
         }
         //setDegrees(getDegrees()+1);
