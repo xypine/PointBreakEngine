@@ -756,7 +756,12 @@ public class Engine implements Runnable, ActionListener {
         }
         else if(!(levelmap[(int)newLevel.x][(int)newLevel.y]).equals("block")){
             //currentMap = newLevel;
-            if(cachedLevels[(int)newLevel.x][(int)newLevel.y] != null){
+            try{
+                oM.getObjectByTag("BG_" + newLevel.represent());
+            }catch(Exception e){
+                
+            }
+            if(!Objects.isNull(cachedLevels[(int)newLevel.x][(int)newLevel.y])){
                 try{
                     cachedLevels[(int)currentMap.x][(int)currentMap.y] = oM.removeLevel();
                     for(gameObject x : cachedLevels[(int)newLevel.x][(int)newLevel.y]){
@@ -768,7 +773,7 @@ public class Engine implements Runnable, ActionListener {
                 }
             }
             else{
-                createSnapshot(quickTools.vectorDirs4[direction]);
+                //createSnapshot(quickTools.vectorDirs4[direction]);
                 try {
                     LinkedList<gameObject> old = loadLevel(levelmap[(int)newLevel.x][(int)newLevel.y]+".pblevel");
                     cachedLevels[(int)currentMap.x][(int)currentMap.y] = old;

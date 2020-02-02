@@ -22,7 +22,7 @@
  * THE SOFTWARE.
  */
 
-package PBEngine;
+package PBEngine.gameObjects;
 
 import java.util.ArrayList;
 

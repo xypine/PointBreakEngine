@@ -24,17 +24,9 @@
 
 package audio;
 
-import JFUtils.dirs;
 import PBEngine.directory;
-import java.awt.BorderLayout;
 import java.awt.FlowLayout;
 import java.io.File;
-import java.io.IOException;
-import java.net.URL;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-import javax.sound.sampled.LineUnavailableException;
-import javax.sound.sampled.UnsupportedAudioFileException;
 import javax.swing.JFrame;
 import static javax.swing.JFrame.EXIT_ON_CLOSE;
 import javax.swing.JSlider;
