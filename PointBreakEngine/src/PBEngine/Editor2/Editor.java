@@ -203,7 +203,7 @@ public class Editor extends JFUtils.InputActivated{
         String location = save();
         params.put("loadLevel", location);
         params.put("noplayer", "");
-        int lightC = k.Logic.oM.getObjects().size();
+        int lightC = k.Logic.oM.getFlattenedObjects().size();
         System.out.println( lightC + " lights present in the scene.");
         if(lightC == 0 || lightC < 0){
             params.put("nodefaultlight", "");
@@ -237,7 +237,7 @@ public class Editor extends JFUtils.InputActivated{
                     PrintWriter writer = new PrintWriter(selectedFile.getAbsolutePath(), "UTF-8");
                     writer.print("");
                     writer.close();
-                    new LevelLoader("null", k.objectManager, k).write(k.objectManager.getObjects(), selectedFile.getAbsolutePath(), "");
+                    new LevelLoader("null", k.objectManager, k).write(k.objectManager.getFlattenedObjects(), selectedFile.getAbsolutePath(), "");
                 } catch (Exception ex) {
                     Logger.getLogger(BListener.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
                 }

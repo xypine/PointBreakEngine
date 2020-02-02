@@ -25,6 +25,7 @@
 package PBEngine;
 
 //L_import PBEngine.Rendering.legacy.LegacyRenderer;
+import PBEngine.gameObjects.objectManager;
 import PBEngine.gameObjects.gameObject;
 import PBEngine.Rendering.core.*;
 
@@ -909,7 +910,7 @@ public class Engine implements Runnable, ActionListener {
         LinkedList<String> images2 = new LinkedList<>();
         LinkedList<Integer> sizes2 = new LinkedList<>();
         LinkedList<Double> rotations2 = new LinkedList<>();
-        objects = oM.getObjects();
+        objects = oM.getFlattenedObjects();
         int xp = 0, yp = 0;
         
         double[][] rb = null;

@@ -22,14 +22,12 @@
  * THE SOFTWARE.
  */
 
-package PBEngine;
+package PBEngine.gameObjects;
 
 
-import PBEngine.gameObjects.objectContainer;
-import PBEngine.gameObjects.gameObject;
 import JFUtils.Range;
 import JFUtils.point.Point2D;
-import JFUtils.quickTools;
+import PBEngine.Supervisor;
 import static java.lang.Math.round;
 import java.util.LinkedList;
 
@@ -94,12 +92,12 @@ public class objectManager {
     
     public gameObject getObjectByTag(String tagToGet){
         @SuppressWarnings("unchecked")
-        LinkedList<gameObject> copy = (LinkedList<gameObject>) objects.clone();
+        LinkedList<gameObject> copy = (LinkedList<gameObject>) getFlattenedObjects().clone();
         return(copy.get(findGameObject(tagToGet)));
     }
     public gameObject getObjectByID(int ID){
         @SuppressWarnings("unchecked")
-        LinkedList<gameObject> copy = (LinkedList<gameObject>) objects.clone();
+        LinkedList<gameObject> copy = (LinkedList<gameObject>) getFlattenedObjects().clone();
         LinkedList<gameObject> objectsFound = new LinkedList<>();
         gameObject latestFound = null;
         for(gameObject i : objects){
@@ -122,7 +120,7 @@ public class objectManager {
     }
     public LinkedList<gameObject> getObjectsByTag(String tagToGet){
         @SuppressWarnings("unchecked")
-        LinkedList<gameObject> copy = (LinkedList<gameObject>) objects.clone();
+        LinkedList<gameObject> copy = (LinkedList<gameObject>) getFlattenedObjects().clone();
         LinkedList<gameObject> out = new LinkedList<gameObject>();
         for(int i : findGameObjects(tagToGet)){
             out.add(copy.get(i));
@@ -131,7 +129,7 @@ public class objectManager {
     }
     public int findGameObject(String tagToGet){
         @SuppressWarnings("unchecked")
-        LinkedList<gameObject> copy = (LinkedList<gameObject>) objects.clone();
+        LinkedList<gameObject> copy = (LinkedList<gameObject>) getFlattenedObjects().clone();
         for(int i = 0;i<copy.size();i++){
             gameObject tmp = copy.get(i);
             if(tmp.getTag().contains(new String(tagToGet))){
@@ -143,7 +141,7 @@ public class objectManager {
     }
     public LinkedList<Integer> findGameObjects(String tagToGet){
         @SuppressWarnings("unchecked")
-        LinkedList<gameObject> copy = (LinkedList<gameObject>) objects.clone();
+        LinkedList<gameObject> copy = (LinkedList<gameObject>) getFlattenedObjects().clone();
         LinkedList<Integer> out = new LinkedList<>();
         for(int i = 0;i<copy.size();i++){
             gameObject tmp = copy.get(i);
@@ -154,19 +152,25 @@ public class objectManager {
         //System.out.println("No gameobject with tag: " + tagToGet);
         return(out);
     }
-    public LinkedList<gameObject> getObjects(){
+    public LinkedList<gameObject> getFlattenedObjects(){
         @SuppressWarnings("unchecked")
         LinkedList<gameObject> copy = (LinkedList<gameObject>) objects.clone();
         LinkedList<gameObject> tmpob = new LinkedList<gameObject>();
         for(int i = 0;i<copy.size();i++){
             gameObject tmp = copy.get(i);
-            tmpob.add(tmp);
+            if(objectContainer.class.isInstance(tmp)){
+                objectContainer tmz = (objectContainer) tmp;
+                tmz.objects.forEach(l -> tmpob.add(l));
+            }
+            else{
+                tmpob.add(tmp);
+            }
         }
         return(tmpob);
     }
     public boolean colliding(int x, int y, String ignore){
         @SuppressWarnings("unchecked")
-        LinkedList<gameObject> copy = (LinkedList<gameObject>) objects.clone();
+        LinkedList<gameObject> copy = (LinkedList<gameObject>) getFlattenedObjects().clone();
         for(gameObject i : copy){
             if(i.getTag().contains("cursor") || i.getTag().contains(ignore) || i.getTag().contains("nocoll")){}
             else{
@@ -179,7 +183,7 @@ public class objectManager {
     }
     public boolean colliding(int x, int y, int ignore){
         @SuppressWarnings("unchecked")
-        LinkedList<gameObject> copy = (LinkedList<gameObject>) objects.clone();
+        LinkedList<gameObject> copy = (LinkedList<gameObject>) getFlattenedObjects().clone();
         for(gameObject i : copy){
             if(i.getTag().contains("cursor") || i.getID() == ignore || i.getTag().contains("nocoll")){}
             else{
@@ -192,7 +196,7 @@ public class objectManager {
     }
     public gameObject collidingGA(int x, int y, String ignore){
         @SuppressWarnings("unchecked")
-        LinkedList<gameObject> copy = (LinkedList<gameObject>) objects.clone();
+        LinkedList<gameObject> copy = (LinkedList<gameObject>) getFlattenedObjects().clone();
         for(gameObject i : copy){
             if(i.getTag().contains("cursor") || i.getTag().contains(ignore) || i.getTag().contains("nocoll")){}
             else{
@@ -205,7 +209,7 @@ public class objectManager {
     }
     public gameObject collidingGA(int x, int y, int ignore){
         @SuppressWarnings("unchecked")
-        LinkedList<gameObject> copy = (LinkedList<gameObject>) objects.clone();
+        LinkedList<gameObject> copy = (LinkedList<gameObject>) getFlattenedObjects().clone();
         for(gameObject i : copy){
             if(i.getTag().contains("cursor") || i.getID() == ignore || i.getTag().contains("nocoll")){}
             else{
@@ -218,7 +222,7 @@ public class objectManager {
     }
     public gameObject collidingGA(int x, int y, LinkedList<Integer> ignore, Object IDONOTSUPPORTTHISBADPRACTISE){
         @SuppressWarnings("unchecked")
-        LinkedList<gameObject> copy = (LinkedList<gameObject>) objects.clone();
+        LinkedList<gameObject> copy = (LinkedList<gameObject>) getFlattenedObjects().clone();
         for(gameObject i : copy){
             if(i.getTag().contains("cursor") || ignore.contains(i.getID()) || i.getTag().contains("nocoll")){}
             else{
@@ -231,7 +235,7 @@ public class objectManager {
     }
     public boolean circleColliding(double x, double y, double r, LinkedList<String> ignore, Object thisIsABadWayToCodeAndIHateIt){
         @SuppressWarnings("unchecked")
-        LinkedList<gameObject> copy = (LinkedList<gameObject>) objects.clone();
+        LinkedList<gameObject> copy = (LinkedList<gameObject>) getFlattenedObjects().clone();
         for(gameObject i : copy){
             try {
                 if (i.getTag().contains("cursor") || containsany(ignore, i.getTag()) || i.getTag().contains("nocoll")) {
@@ -249,7 +253,7 @@ public class objectManager {
     }
     public boolean circleColliding(double x, double y, double r, LinkedList<Integer> ignore){
         @SuppressWarnings("unchecked")
-        LinkedList<gameObject> copy = (LinkedList<gameObject>) objects.clone();
+        LinkedList<gameObject> copy = (LinkedList<gameObject>) getFlattenedObjects().clone();
         for(gameObject i : copy){
             try {
                 if (i.getTag().contains("cursor") || ignore.contains(i.getID()) || i.getTag().contains("nocoll")) {
@@ -267,7 +271,7 @@ public class objectManager {
     }
     public boolean colliding(int x, int y, LinkedList<String> ignore){
         @SuppressWarnings("unchecked")
-        LinkedList<gameObject> copy = (LinkedList<gameObject>) objects.clone();
+        LinkedList<gameObject> copy = (LinkedList<gameObject>) getFlattenedObjects().clone();
         for(gameObject i : copy){
             try {
                 if (i.getTag().contains("cursor") || containsany(ignore, i.getTag()) || i.getTag().contains("nocoll")) {
@@ -283,7 +287,7 @@ public class objectManager {
     }
     public boolean colliding(int x, int y, LinkedList<Integer> ignore, Object thisObjectIsNotNeededAndIRegretIt){
         @SuppressWarnings("unchecked")
-        LinkedList<gameObject> copy = (LinkedList<gameObject>) objects.clone();
+        LinkedList<gameObject> copy = (LinkedList<gameObject>) getFlattenedObjects().clone();
         for(gameObject i : copy){
             try {
                 if (i.getTag().contains("cursor") || ignore.contains(i.getID()) || i.getTag().contains("nocoll")) {
@@ -307,7 +311,7 @@ public class objectManager {
     }
     public gameObject collidingGA(int x, int y, LinkedList<String> ignore){
         @SuppressWarnings("unchecked")
-        LinkedList<gameObject> copy = (LinkedList<gameObject>) objects.clone();
+        LinkedList<gameObject> copy = (LinkedList<gameObject>) getFlattenedObjects().clone();
         for(gameObject i : copy){
             if(i.getTag().contains("cursor") || containsany(ignore, i.getTag()) || i.getTag().contains("nocoll")){}
             else{
@@ -320,7 +324,7 @@ public class objectManager {
     }
     public LinkedList<gameObject> removeLevel(){
         @SuppressWarnings("unchecked")
-        LinkedList<gameObject> copy = (LinkedList<gameObject>) objects.clone();
+        LinkedList<gameObject> copy = (LinkedList<gameObject>) getFlattenedObjects().clone();
         LinkedList<gameObject> out = new LinkedList<>();
         for(gameObject ga : copy){
             if(!ga.tag.contains("delete_lc")){

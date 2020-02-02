@@ -24,6 +24,7 @@
 
 package PBEngine;
 
+import PBEngine.gameObjects.objectManager;
 import PBEngine.gameObjects.Player;
 import PBEngine.gameObjects.gameObject;
 import JFUtils.Input;

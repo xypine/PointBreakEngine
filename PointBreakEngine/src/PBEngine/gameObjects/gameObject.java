@@ -30,7 +30,6 @@ import JFUtils.Range;
 import JFUtils.point.Point2D;
 import PBEngine.Rendering.core.renderType;
 import PBEngine.Supervisor;
-import PBEngine.objectManager;
 import java.awt.Color;
 import static java.lang.Math.ceil;
 import static java.lang.Math.pow;
@@ -45,8 +44,18 @@ import java.util.Objects;
  */
 public class gameObject {
     
+    //Disabled functionality
+     boolean enabled = true;
+     public boolean isEnabled(){
+        return enabled;
+    }
+    public void setEnabled(boolean value){
+        this.enabled = value;
+    }
+    
+    
     //Shading
-    private boolean shading = true;
+     boolean shading = true;
     public boolean isShaded(){
         return shading;
     }
@@ -55,7 +64,7 @@ public class gameObject {
     }
     
     //Hide functionality
-    private boolean hidden = false;
+     boolean hidden = false;
     public boolean isHidden(){
         return hidden;
     }
@@ -216,6 +225,9 @@ public class gameObject {
         this.y = v.y;
     }
     public void update(int xd, int yd, objectManager oMb){
+        if(this.enabled){
+            return;
+        }
         //int deltatime = (int) (masterParent.Logic.deltatime * 0.1);
         int deltatime = 1;
         if(this.collision_Explode){
@@ -359,6 +371,9 @@ public class gameObject {
         return new Point2D(velx, vely);
     }
     public void checkInput(Input input) {
+        if(this.enabled){
+            return;
+        }
           //Ignore if not player...
 //        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
@@ -543,7 +558,7 @@ this.x = this.x + masterParent.engine_gravity.x;
         this.id = id;
     }
     public void checkCollisions(objectManager o, gameObject i){
-        LinkedList<gameObject> tmpoa = o.getObjects();
+        LinkedList<gameObject> tmpoa = o.getFlattenedObjects();
         if(this.collision_type == 1){
             Point2D[] dirs = Point2Int.dir();
             int result = 0;

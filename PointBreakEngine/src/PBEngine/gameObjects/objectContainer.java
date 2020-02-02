@@ -24,21 +24,39 @@
 
 package PBEngine.gameObjects;
 
-import java.util.ArrayList;
+import JFUtils.point.Point2D;
+import PBEngine.Rendering.core.renderType;
+import PBEngine.Supervisor;
+import java.util.LinkedList;
 
 /**
  *
  * @author Jonnelafin
  */
-public class objectContainer {
-    public static String tag;
-    public static Object object;
-    public static int id;
-    public static String type;
-    public objectContainer(String tag, Object o, int id, String t){
-        this.tag = tag;
-        this.object = o;
-        this.id = id;
-        this.type = t;
+public class objectContainer extends gameObject{
+    public LinkedList<gameObject> objects;
+
+    public objectContainer(LinkedList<gameObject> objects, Point2D location, int size, double mass, renderType shape, Supervisor master, int ID) {
+        super(location, size, mass, shape, master, ID);
+        this.objects = objects;
+        general();
+    }
+    public objectContainer(Point2D location, int size, double mass, renderType shape, Supervisor master, int ID) {
+        super(location, size, mass, shape, master, ID);
+        this.objects = new LinkedList<>();
+        general();
+    }
+    private void general(){
+        this.collisions = false;
+        this.hidden = true;
+        this.tag.add("nocoll");
+    }
+    @Override
+    public void setEnabled(boolean val){
+        this.objects.forEach(l -> l.setEnabled(val));
+    }
+    @Override
+    public void setHidden(boolean val){
+        this.objects.forEach(l -> l.setHidden(val));
     }
 }

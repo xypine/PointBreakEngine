@@ -24,6 +24,7 @@
 
 package PBEngine;
 
+import PBEngine.gameObjects.objectManager;
 import JFUtils.Range;
 import JFUtils.point.Point2D;
 import JFUtils.quickTools;

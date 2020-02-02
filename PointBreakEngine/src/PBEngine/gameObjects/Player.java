@@ -132,7 +132,9 @@ public class Player extends gameObject{
     
     @Override
     public void checkInput(Input in){
-        
+        if(this.enabled){
+            return;
+        }
         //setDegrees(getDegrees()+1);
         rot(in);
         //System.out.println("VELX, VELY: " + velx + " , " + vely + "     " + "up, down, left, right: " + in.up() + " " + in.down() + " " + in.right() + " " + in.left() + "      " + "x, y, mouse x, y: " + this.getX() + " , " + this.getY() + "MOUSE:"+ in.mouseX() + ", " + in.mouseY());

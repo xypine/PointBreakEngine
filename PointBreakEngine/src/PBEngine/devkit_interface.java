@@ -166,7 +166,7 @@ class BListener implements ActionListener{
                         break;
                     case "/GAList":
                         System.out.println();
-                        LinkedList<gameObject> ga = k.k.objectManager.getObjects();
+                        LinkedList<gameObject> ga = k.k.objectManager.getFlattenedObjects();
                         System.out.println(ga.size() + " gameobjects in the record of " + k.k.objectManager + ":");
                         System.out.println("---------------------");
                         for(gameObject iz : ga){

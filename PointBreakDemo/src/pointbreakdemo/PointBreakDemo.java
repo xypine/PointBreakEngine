@@ -4,6 +4,7 @@
  * and open the template in the editor.
  */
 package pointbreakdemo;
+import PBEngine.gameObjects.objectManager;
 import JFUtils.astar;
 import JFUtils.dVector;
 import PBEngine.*;

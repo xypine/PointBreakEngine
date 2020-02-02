@@ -23,6 +23,7 @@
  */
 package PBEngine.Editor2;
 
+import PBEngine.gameObjects.objectManager;
 import PBEngine.gameObjects.Player;
 import PBEngine.gameObjects.gameObject;
 import JFUtils.Input;
@@ -87,7 +88,7 @@ public class Cursor extends Player{
         /*if(in.ke == 'l' && !editor.saved){
         try {
         LevelLoader aol = new LevelLoader("null", masterParent.objectManager, masterParent);
-        aol.write(masterParent.objectManager.getObjects(), "newout.pblevel");
+        aol.write(masterParent.objectManager.getFlattenedObjects(), "newout.pblevel");
         } catch (UnsupportedEncodingException ex) {
         Logger.getLogger(PBEngine.LegacyEditor.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (IOException ex) {

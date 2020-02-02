@@ -24,6 +24,7 @@
 
 package PBEngine;
 
+import PBEngine.gameObjects.objectManager;
 import PBEngine.gameObjects.Player;
 import PBEngine.gameObjects.gameObject;
 import PBEngine.Rendering.legacy.LegacyRenderer;
@@ -217,7 +218,7 @@ public class LegacyEditor extends JFrame implements Runnable, ActionListener {
     }
     boolean saved = false;
     void tick(){
-//        System.out.println(oM.getObjects().size());
+//        System.out.println(oM.getFlattenedObjects().size());
         //UPDATE ARRAY
         gameObject z = oM.getObjectByTag("cursor");
         int zx = (int) round(z.getX());
@@ -255,7 +256,7 @@ public class LegacyEditor extends JFrame implements Runnable, ActionListener {
         }
 ;
         LinkedList<xyac> lis = new LinkedList<xyac>();
-        players = oM.getObjects();
+        players = oM.getFlattenedObjects();
         if(input.ke == 'l' && !saved){
             try {
                 aol.write(players, "out.pblevel");

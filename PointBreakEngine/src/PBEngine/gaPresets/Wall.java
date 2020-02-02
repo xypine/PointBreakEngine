@@ -26,7 +26,7 @@ package PBEngine.gaPresets;
 
 import PBEngine.gameObjects.gameObject;
 import PBEngine.Supervisor;
-import PBEngine.objectManager;
+import PBEngine.gameObjects.objectManager;
 import java.awt.Color;
 
 /**
