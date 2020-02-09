@@ -35,6 +35,7 @@ import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.image.BufferedImage;
+import java.util.Objects;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 
@@ -48,9 +49,9 @@ public class engineWindow extends JFrame{
     
     public Input input = null;
     public Renderer Vrenderer;
-    public final double h = 540D;
-    public final double w = 1080D;
-    public final double size = 1D;
+    public double h = 540D;
+    public double w = 1080D;
+    public double size = 1D;
     public Supervisor k;
     public BufferedImage actualImage;
     ImagePanel2 out;
@@ -89,7 +90,13 @@ public class engineWindow extends JFrame{
     public void clean(){
         clean(this.getContentPane().getSize());
     }
+    
+    public Dimension overrideSize = null;
+    
     public void clean(Dimension size){
+        if(Objects.nonNull(overrideSize)){
+           size = this.overrideSize;
+        }
         content.setSize(size);
         if (useVFX) {
             try {

@@ -27,10 +27,12 @@ import PBEngine.gameObjects.gameObject;
 import JFUtils.point.Point2D;
 import PBEngine.*;
 import PBEngine.Rendering.Renderer;
+import PBEngine.Rendering.extra.ImagePanel;
 import filedrop.FileDrop;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Component;
+import java.awt.FlowLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
@@ -115,13 +117,20 @@ public class Editor extends JFUtils.InputActivated{
         
         EditorWindow w = new EditorWindow();
         
-        Component editorPane = k.Logic.window.content;
-        w.container.requestFocusInWindow();
-        w.container.addKeyListener(k.Logic.window.input);
-        w.container.addMouseMotionListener(k.Logic.window.input);
+        JPanel editorPane = new JPanel(new FlowLayout());
+        //k.Logic.window.overrideSize = editorPane.getSize();
+        k.Logic.w = editorPane.getWidth();
+        k.Logic.h = editorPane.getHeight();
+        k.Logic.window.w = editorPane.getWidth();
+        k.Logic.window.h = editorPane.getHeight();
+        
+        editorPane.add(k.Logic.window.content);
+        editorPane.requestFocusInWindow();
+        editorPane.addKeyListener(k.Logic.window.input);
+        editorPane.addMouseMotionListener(k.Logic.window.input);
         
         w.container.add(editorPane, BorderLayout.CENTER);
-        w.container.add(k.kit.cont, BorderLayout.LINE_END);
+        w.container.add(((devkit)k.kit).cont, BorderLayout.LINE_END);
         JPanel grapherPanel = new JPanel();
         grapherPanel.setBackground(Color.black);
         grapherPanel.add(k.grapher.area);

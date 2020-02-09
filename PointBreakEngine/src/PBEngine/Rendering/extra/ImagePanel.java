@@ -39,12 +39,10 @@ public class ImagePanel extends JPanel{
     public BufferedImage image;
 
     public ImagePanel() {
-       try {                
-          image = ImageIO.read(new File("image name and path"));
-       } catch (IOException ex) {
-            // handle exception...
-            ex.printStackTrace();
-       }
+       
+    }
+    public ImagePanel(BufferedImage img){
+        this.image = img;
     }
 
     @Override

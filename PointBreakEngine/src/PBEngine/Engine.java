@@ -36,6 +36,7 @@ import JFUtils.Range;
 import JFUtils.point.Point2D;
 import JFUtils.quickTools;
 import PBEngine.gameObjects.GameObject_img;
+import PBEngine.gameObjects.objectContainer;
 import PBEngine.vfx.engineWindow;
 import java.awt.Color;
 import java.awt.Font;
@@ -163,8 +164,8 @@ public class Engine implements Runnable, ActionListener {
     }
     private AudioSource aM;
     VSRadManager rads;
-    public final double h = 540D;
-    public final double w = 1080D;
+    public  double h = 540D;
+    public  double w = 1080D;
     public final double size = 1D;
     
     public boolean noWindows = false;
@@ -195,7 +196,7 @@ public class Engine implements Runnable, ActionListener {
         w = 1080*size;
         h = 540*size;*/
         double aspect = w / h;
-        System.out.println(aspect);
+        System.out.println("Aspect: " + aspect);
         
         
 //        int xd = 50;
@@ -758,33 +759,45 @@ public class Engine implements Runnable, ActionListener {
         else if(!(levelmap[(int)newLevel.x][(int)newLevel.y]).equals("block")){
             //currentMap = newLevel;
             try{
-                oM.getObjectByTag("BG_" + newLevel.represent());
+                throw new Exception();
+                ////objectContainer objectByTag = (objectContainer) oM.getObjectByTag("BG_" + newLevel.represent());
+                //objectByTag.objects.forEach(l -> l.);
+                
             }catch(Exception e){
                 
-            }
-            if(!Objects.isNull(cachedLevels[(int)newLevel.x][(int)newLevel.y])){
-                try{
-                    cachedLevels[(int)currentMap.x][(int)currentMap.y] = oM.removeLevel();
-                    for(gameObject x : cachedLevels[(int)newLevel.x][(int)newLevel.y]){
-                        oM.addObject(x);
+            
+                if(!Objects.isNull(cachedLevels[(int)newLevel.x][(int)newLevel.y])){
+                    try{
+                        cachedLevels[(int)currentMap.x][(int)currentMap.y] = oM.removeLevel();
+                        for(gameObject x : cachedLevels[(int)newLevel.x][(int)newLevel.y]){
+                            oM.addObject(x);
+                        }
+                        currentMap = newLevel;
+                    }catch(Exception e2){
+
                     }
-                    currentMap = newLevel;
-                }catch(Exception e){
-                    
+                }
+                else{
+                    //createSnapshot(quickTools.vectorDirs4[direction]);
+                    try {
+                        LinkedList<gameObject> old = loadLevel(levelmap[(int)newLevel.x][(int)newLevel.y]+".pblevel");
+                        cachedLevels[(int)currentMap.x][(int)currentMap.y] = old;
+                        System.out.println("new coords: "+newLevel.represent());
+                        currentMap = newLevel;
+                    } catch (URISyntaxException ex) {
+                        System.out.println("Unable to load new level");return false;
+                    } catch (ArrayIndexOutOfBoundsException ea){
+                        return false;
+                    }
                 }
             }
-            else{
-                //createSnapshot(quickTools.vectorDirs4[direction]);
-                try {
-                    LinkedList<gameObject> old = loadLevel(levelmap[(int)newLevel.x][(int)newLevel.y]+".pblevel");
-                    cachedLevels[(int)currentMap.x][(int)currentMap.y] = old;
-                    System.out.println("new coords: "+newLevel.represent());
-                    currentMap = newLevel;
-                } catch (URISyntaxException ex) {
-                    System.out.println("Unable to load new level");return false;
-                } catch (ArrayIndexOutOfBoundsException ea){
-                    return false;
-                }
+            try{
+                //oM.getObjectByTag("BG_" + currentMap.represent());
+            }catch(Exception e){
+                //e.printStackTrace();
+                objectContainer cache = new objectContainer(new Point2D(0, 0), 1, 1, renderType.box, k, oM.getUsableID());
+                cache.objects = cachedLevels[(int)currentMap.x][(int)currentMap.y];
+                oM.addObject(cache);
             }
             if(k.bakedLights){
                 System.out.println("Loading baked level lights");

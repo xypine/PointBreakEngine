@@ -30,6 +30,7 @@ import JFUtils.point.Point2D;
 import PBEngine.Supervisor;
 import static java.lang.Math.round;
 import java.util.LinkedList;
+import java.util.Objects;
 
 /**
  *
@@ -160,7 +161,13 @@ public class objectManager {
             gameObject tmp = copy.get(i);
             if(objectContainer.class.isInstance(tmp)){
                 objectContainer tmz = (objectContainer) tmp;
-                tmz.objects.forEach(l -> tmpob.add(l));
+                if(!Objects.isNull(tmz.objects)){
+                    tmz.objects.forEach(l -> {
+                        if(!Objects.isNull(l)){
+                            tmpob.add(l);
+                        }
+                    });
+                }
             }
             else{
                 tmpob.add(tmp);
@@ -329,8 +336,12 @@ public class objectManager {
         for(gameObject ga : copy){
             if(!ga.tag.contains("delete_lc")){
             } else {
-                out.add(objects.get(objects.indexOf(ga)));
-                removeObject(ga);
+                try {
+                    out.add(getFlattenedObjects().get(getFlattenedObjects().indexOf(ga)));
+                    removeObject(ga);
+                } catch (Exception e) {
+                    System.out.println("Object " + ga + " DELETION WAS NOT SUCCESFUL");
+                }
             }
         }
         return out;

@@ -255,7 +255,7 @@ public class LevelLoader {
                     break;
                 case '.':
                     //                System.out.println(tmp);
-                    System.out.println("DOTCOUNT [" + dotC + "], value [" + tmp + "]");
+                    //System.out.println("DOTCOUNT [" + dotC + "], value [" + tmp + "]");
                     if(dotC == 0){
                         this.x = toInt(tmp);
                     }   if(dotC == 1){
