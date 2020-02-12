@@ -753,6 +753,7 @@ public class Engine implements Runnable, ActionListener {
         //System.out.println("current location: "+currentMap.represent()+ " possible new loc: "+newLevel.represent());
         //newLevel.x <= mapw && newLevel.y >= maph
         //System.out.println(newLevel.represent());
+        Point2D oldmap = currentMap.clone();
         if((int)newLevel.x >= mapw && (int)newLevel.y >= maph){
             return false;
         }
@@ -760,8 +761,9 @@ public class Engine implements Runnable, ActionListener {
             //currentMap = newLevel;
             try{
                 throw new Exception();
-                ////objectContainer objectByTag = (objectContainer) oM.getObjectByTag("BG_" + newLevel.represent());
-                //objectByTag.objects.forEach(l -> l.);
+                //objectContainer objectByTag = (objectContainer) oM.getObjectByTag("BG_" + newLevel.represent());
+                ////objectByTag.objects.forEach(l -> l.);
+                //objectByTag.setEnabled(true);
                 
             }catch(Exception e){
                 
@@ -795,9 +797,11 @@ public class Engine implements Runnable, ActionListener {
                 //oM.getObjectByTag("BG_" + currentMap.represent());
             }catch(Exception e){
                 //e.printStackTrace();
-                objectContainer cache = new objectContainer(new Point2D(0, 0), 1, 1, renderType.box, k, oM.getUsableID());
-                cache.objects = cachedLevels[(int)currentMap.x][(int)currentMap.y];
-                oM.addObject(cache);
+                //cachedLevels[(int)currentMap.x][(int)currentMap.y]
+                objectContainer cache = new objectContainer(oM.getOnlyNonFlatObjects(), new Point2D(0, 0), 1, 1, renderType.box, k, oM.getUsableID());
+                //cache.objects = cachedLevels[(int)currentMap.x][(int)currentMap.y];
+                cache.setEnabled(false);
+                //oM.addObject(cache);
             }
             if(k.bakedLights){
                 System.out.println("Loading baked level lights");
@@ -960,6 +964,7 @@ public class Engine implements Runnable, ActionListener {
             }
         }
         
+        
         for(double[] x : out){
             for(double y : x){
                 Color c = new Color(0,0,0);
@@ -1101,8 +1106,8 @@ public class Engine implements Runnable, ActionListener {
 //        Vrenderer.update(points2, colors2, images2, sizes2, 2F, 0);
         bakedRays = cont2;
         Vrenderer.update(cont1, 1, tickC);
-        if(LoadedRays != null && k.bakedLights){Vrenderer.update(LoadedRays,0,tickC);}
-        else{Vrenderer.update(cont2, 0,tickC);}
+        //if(LoadedRays != null && k.bakedLights){Vrenderer.update(LoadedRays,0,tickC);}
+        //else{Vrenderer.update(cont2, 0,tickC);}
     }
     
     public Color overrideRayBG = null;

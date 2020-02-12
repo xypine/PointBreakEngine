@@ -41,11 +41,11 @@ public class objectContainer extends gameObject{
         this.objects = objects;
         general();
     }
-    public objectContainer(Point2D location, int size, double mass, renderType shape, Supervisor master, int ID) {
-        super(location, size, mass, shape, master, ID);
-        this.objects = new LinkedList<>();
-        general();
-    }
+    //public objectContainer(Point2D location, int size, double mass, renderType shape, Supervisor master, int ID) {
+    //    super(location, size, mass, shape, master, ID);
+    //    this.objects = new LinkedList<>();
+    //    general();
+    //}
     private void general(){
         this.collisions = false;
         this.hidden = true;

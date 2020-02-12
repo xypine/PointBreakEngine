@@ -95,6 +95,13 @@ class BListener implements ActionListener{
             
             if(k.lum.getText().charAt(0) == '/'){
                 switch(arr[0]){
+                    case "/GAC":
+                        LinkedList<gameObject> ob = k.k.Logic.oM.getFlattenedObjects();
+                        int diff =  k.k.Logic.oM.getOnlyNonFlatObjects().size() - ob.size();
+                        String msg = ob.size() + " objects in store of " + k.k.Logic.oM + ", which of " + diff + " are containers.";
+                        System.out.println(msg);
+                        quickTools.alert(msg);
+                        break;
                     case "/fontS":
                         try {
                             int s = Integer.parseInt(arr[1]);
@@ -316,8 +323,8 @@ class BListener implements ActionListener{
                         break;
                     case "/togHide":
                         String valuesza = arr[1];
-                        LinkedList<gameObject> ob = k.k.objectManager.getObjectsByTag(valuesza);
-                        for(gameObject o : ob){
+                        LinkedList<gameObject> ob2 = k.k.objectManager.getObjectsByTag(valuesza);
+                        for(gameObject o : ob2){
                             o.setHidden(!o.isHidden());
                         }
                         break;

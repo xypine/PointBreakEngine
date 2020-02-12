@@ -175,6 +175,20 @@ public class objectManager {
         }
         return(tmpob);
     }
+    public LinkedList<gameObject> getOnlyNonFlatObjects(){
+        @SuppressWarnings("unchecked")
+        LinkedList<gameObject> copy = (LinkedList<gameObject>) objects.clone();
+        LinkedList<gameObject> tmpob = new LinkedList<gameObject>();
+        for(int i = 0;i<copy.size();i++){
+            gameObject tmp = copy.get(i);
+            if(objectContainer.class.isInstance(tmp)){
+            }
+            else{
+                tmpob.add(tmp);
+            }
+        }
+        return(tmpob);
+    }
     public boolean colliding(int x, int y, String ignore){
         @SuppressWarnings("unchecked")
         LinkedList<gameObject> copy = (LinkedList<gameObject>) getFlattenedObjects().clone();
